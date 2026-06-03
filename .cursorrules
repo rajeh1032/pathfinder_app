@@ -1,0 +1,9 @@
+Read and follow AGENTS.md before making changes.
+
+Important defaults:
+- Use Feature-First Clean Architecture.
+- Use Cubit with Equatable states.
+- Use Dio through ApiClient.
+- Use connectivity_plus ^6.1.5 for connectivity checks.
+- Never hardcode colors or user-facing strings.
+- Run flutter analyze before handoff.

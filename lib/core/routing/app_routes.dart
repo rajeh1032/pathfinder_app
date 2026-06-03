@@ -1,0 +1,28 @@
+class AppRoutes {
+  const AppRoutes._();
+
+  static const splash = '/';
+  static const onboarding = '/onboarding';
+  static const login = '/login';
+  static const register = '/register';
+  static const forgotPassword = '/forgot-password';
+  static const verifyEmail = '/verify-email';
+  static const root = '/root';
+  static const home = '/home';
+  static const search = '/search';
+  static const profile = '/profile';
+  static const settings = '/settings';
+  static const notifications = '/notifications';
+  static const cvUpload = '/cv-upload';
+  static const cvAnalysisResult = '/cv-analysis-result';
+  static const roadmapDetails = '/roadmap-details';
+  static const courseDetails = '/course-details';
+  static const jobs = '/jobs';
+  static const jobDetails = '/job-details';
+  static const coverLetterGenerator = '/cover-letter-generator';
+  static const coverLetterResult = '/cover-letter-result';
+  static const aiChat = '/ai-chat';
+  static const interviewStart = '/interview-start';
+  static const activeInterview = '/active-interview';
+  static const interviewResult = '/interview-result';
+}

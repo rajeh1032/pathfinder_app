@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "PathFinder AI"
+  },
+  "common": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "login": "تسجيل الدخول",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ ما",
+    "empty": "لا توجد بيانات بعد",
+    "retry": "إعادة المحاولة"
+  },
+  "routes": {
+    "splash": "البداية",
+    "onboarding": "التعريف",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "forgotPassword": "نسيت كلمة المرور",
+    "verifyEmail": "تأكيد البريد",
+    "root": "PathFinder",
+    "home": "الرئيسية",
+    "search": "البحث",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "cvUpload": "رفع السيرة الذاتية",
+    "cvAnalysisResult": "نتيجة تحليل السيرة",
+    "roadmapDetails": "تفاصيل الخطة",
+    "courseDetails": "تفاصيل الدورة",
+    "jobs": "الوظائف",
+    "jobDetails": "تفاصيل الوظيفة",
+    "coverLetterGenerator": "إنشاء خطاب التقديم",
+    "coverLetterResult": "نتيجة خطاب التقديم",
+    "aiChat": "المرشد الذكي",
+    "interviewStart": "بدء المقابلة",
+    "activeInterview": "المقابلة الحالية",
+    "interviewResult": "نتيجة المقابلة"
+  },
+  "root": {
+    "home": "الرئيسية",
+    "jobs": "الوظائف",
+    "roadmaps": "الخطط",
+    "aiMentor": "المرشد الذكي",
+    "profile": "الملف الشخصي"
+  },
+  "auth": {
+    "loginTitle": "مرحبًا بعودتك",
+    "loginSubtitle": "تابع مسارك المهني مع PathFinder AI.",
+    "loginSuccess": "تم تسجيل الدخول بنجاح"
+  }
+}

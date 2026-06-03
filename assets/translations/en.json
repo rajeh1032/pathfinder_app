@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "PathFinder AI"
+  },
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "login": "Log in",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "empty": "No data yet",
+    "retry": "Retry"
+  },
+  "routes": {
+    "splash": "Splash",
+    "onboarding": "Onboarding",
+    "login": "Login",
+    "register": "Register",
+    "forgotPassword": "Forgot password",
+    "verifyEmail": "Verify email",
+    "root": "PathFinder",
+    "home": "Home",
+    "search": "Search",
+    "profile": "Profile",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "cvUpload": "CV upload",
+    "cvAnalysisResult": "CV analysis result",
+    "roadmapDetails": "Roadmap details",
+    "courseDetails": "Course details",
+    "jobs": "Jobs",
+    "jobDetails": "Job details",
+    "coverLetterGenerator": "Cover letter generator",
+    "coverLetterResult": "Cover letter result",
+    "aiChat": "AI Mentor",
+    "interviewStart": "Interview start",
+    "activeInterview": "Active interview",
+    "interviewResult": "Interview result"
+  },
+  "root": {
+    "home": "Home",
+    "jobs": "Jobs",
+    "roadmaps": "Roadmaps",
+    "aiMentor": "AI Mentor",
+    "profile": "Profile"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Continue your career path with PathFinder AI.",
+    "loginSuccess": "Logged in successfully"
+  }
+}
