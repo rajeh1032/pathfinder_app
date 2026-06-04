@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
 
@@ -18,10 +19,11 @@ class AppRouter {
     return switch (routeName) {
       AppRoutes.root => const RootScreen(),
       AppRoutes.login => const PlaceholderScreen(titleKey: 'routes.login'),
-      AppRoutes.splash => const PlaceholderScreen(titleKey: 'routes.splash'),
+      AppRoutes.splash => const SplashScreen(),
       AppRoutes.onboarding =>
         const PlaceholderScreen(titleKey: 'routes.onboarding'),
-      AppRoutes.register => const PlaceholderScreen(titleKey: 'routes.register'),
+      AppRoutes.register =>
+        const PlaceholderScreen(titleKey: 'routes.register'),
       AppRoutes.forgotPassword =>
         const PlaceholderScreen(titleKey: 'routes.forgotPassword'),
       AppRoutes.verifyEmail =>
@@ -29,10 +31,12 @@ class AppRouter {
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
       AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
-      AppRoutes.settings => const PlaceholderScreen(titleKey: 'routes.settings'),
+      AppRoutes.settings =>
+        const PlaceholderScreen(titleKey: 'routes.settings'),
       AppRoutes.notifications =>
         const PlaceholderScreen(titleKey: 'routes.notifications'),
-      AppRoutes.cvUpload => const PlaceholderScreen(titleKey: 'routes.cvUpload'),
+      AppRoutes.cvUpload =>
+        const PlaceholderScreen(titleKey: 'routes.cvUpload'),
       AppRoutes.cvAnalysisResult =>
         const PlaceholderScreen(titleKey: 'routes.cvAnalysisResult'),
       AppRoutes.roadmapDetails =>
