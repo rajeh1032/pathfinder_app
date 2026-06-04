@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
 
@@ -20,8 +21,7 @@ class AppRouter {
       AppRoutes.root => const RootScreen(),
       AppRoutes.login => const PlaceholderScreen(titleKey: 'routes.login'),
       AppRoutes.splash => const SplashScreen(),
-      AppRoutes.onboarding =>
-        const PlaceholderScreen(titleKey: 'routes.onboarding'),
+      AppRoutes.onboarding => const OnboardingScreen(),
       AppRoutes.register =>
         const PlaceholderScreen(titleKey: 'routes.register'),
       AppRoutes.forgotPassword =>

@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/storage/cache_keys.dart';
+import '../../../../core/storage/local_storage.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/splash_content.dart';
 
@@ -65,8 +67,11 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 200));
     _progressController.forward();
     await Future.delayed(const Duration(milliseconds: 2400));
+    final hasSeenOnboarding = LocalStorage.getBool(CacheKeys.onboardingSeen);
+    final nextRoute = hasSeenOnboarding ? AppRoutes.root : AppRoutes.onboarding;
+
     if (mounted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
+      Navigator.pushReplacementNamed(context, nextRoute);
     }
   }
 
