@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -19,7 +20,7 @@ class AppRouter {
   static Widget _screenFor(String? routeName) {
     return switch (routeName) {
       AppRoutes.root => const RootScreen(),
-      AppRoutes.login => const PlaceholderScreen(titleKey: 'routes.login'),
+      AppRoutes.login => const LoginScreen(),
       AppRoutes.splash => const SplashScreen(),
       AppRoutes.onboarding => const OnboardingScreen(),
       AppRoutes.register =>

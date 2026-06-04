@@ -59,7 +59,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await _markOnboardingSeen();
     if (!mounted) return;
 
-    navigator.pushReplacementNamed(AppRoutes.root);
+    navigator.pushReplacementNamed(AppRoutes.login);
   }
 
   @override

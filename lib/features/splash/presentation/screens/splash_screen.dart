@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
     _progressController.forward();
     await Future.delayed(const Duration(milliseconds: 2400));
     final hasSeenOnboarding = LocalStorage.getBool(CacheKeys.onboardingSeen);
-    final nextRoute = hasSeenOnboarding ? AppRoutes.root : AppRoutes.onboarding;
+    final nextRoute = hasSeenOnboarding ? AppRoutes.login : AppRoutes.onboarding;
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, nextRoute);
