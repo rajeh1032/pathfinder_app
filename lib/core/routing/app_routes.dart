@@ -9,6 +9,8 @@ class AppRoutes {
   static const verifyEmail = '/verify-email';
   static const root = '/root';
   static const home = '/home';
+  static const courses = '/courses';
+  static const roadmaps = '/roadmaps';
   static const search = '/search';
   static const profile = '/profile';
   static const settings = '/settings';

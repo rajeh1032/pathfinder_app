@@ -57,3 +57,7 @@ macos/Runner/GoogleService-Info.plist
 
 # Keep injectable output tracked because app startup imports it.
 !lib/core/di/di.config.dart
+.codex
+.docs
+docs/mobile
+AGENTS.md

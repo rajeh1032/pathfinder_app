@@ -55,13 +55,38 @@ flutter pub run build_runner build
 
 ## Theme And Localization
 
-- Never hardcode colors in widgets. Use `AppColors` and theme tokens.
-- Never hardcode user-facing strings in UI. Use Easy Localization keys.
+- Never hardcode colors in widgets.
+- Feature UI must read colors from `Theme.of(context).colorScheme` so light and dark mode both work.
+- Use `AppColors` only inside theme/token files or when defining shared theme primitives, not directly in feature widgets.
+- Keep `AppBar` and `SliverAppBar` styling centralized in `lib/core/theme/app_theme.dart`.
+- `AppBar` background color must always match `scaffoldBackgroundColor`.
+- Define `AppBar` title font size, weight, icon colors, action icon colors, tint, and scroll behavior in `AppBarTheme`, not per screen.
+- Do not hardcode `AppBar` or `SliverAppBar` icon colors, title font sizes, or background colors inside feature widgets.
+- If a custom `AppBar` title or leading widget is needed across multiple screens, create or reuse a shared widget under `lib/core/widgets`.
+- Do not create local one-off gradient title widgets inside feature files when a shared app bar title widget already exists.
+- Keep the default app bar without a back button unless that screen actually needs back navigation.
+- Never hardcode user-facing strings in UI.
+- Any visible UI text, labels, prices, durations, stats, badges, and demo/sample content must use Easy Localization keys.
 - Translation files live in `assets/translations/en.json` and `assets/translations/ar.json`.
 - Support English, Arabic, RTL, and LTR.
 
+## Widget Composition And File Size
+
+- Screens should only compose layout and wire state/navigation.
+- Extract repeated or complex UI into feature-owned custom widgets under `presentation/widgets`.
+- Shared reusable widgets used by multiple features belong in `lib/core/widgets`.
+- Keep every Dart file at or below 250 lines.
+- If a screen or widget approaches 250 lines, split it before adding more code.
+- Use `SafeArea` for mobile screens and bottom action bars unless a deliberate full-bleed design requires otherwise.
+- If using a full-bleed hero/header, keep the unsafe area intentional and wrap the remaining content or controls in `SafeArea`.
+
 ## Git And Generated Files
 
+- Use `main` and `dev` branches only.
+- Do not push directly to `dev`; changes should go through a pull request.
+- Pull requests targeting `dev` should require 2 approving code reviews.
+- Do not update `main` unless explicitly acting as repository owner `rajeh1032`.
+- Repository ruleset JSON files live in `.github/rulesets`.
 - Do not commit build output, local IDE caches, `.env`, or Firebase secrets.
 - Keep `pubspec.lock` tracked for the app.
 - Keep `lib/core/di/di.config.dart` tracked because startup imports it.

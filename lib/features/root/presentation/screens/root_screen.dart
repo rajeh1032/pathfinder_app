@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
@@ -20,9 +22,9 @@ class RootScreen extends StatelessWidget {
               children: const [
                 _TabName(title: 'Home'),
                 _TabName(title: 'Jobs'),
-                _TabName(title: 'Roadmaps'),
+                RoadmapsScreen(),
                 _TabName(title: 'AI Mentor'),
-                _TabName(title: 'Profile'),
+                ProfileScreen(),
               ],
             ),
             bottomNavigationBar: AppBottomNavBar(
