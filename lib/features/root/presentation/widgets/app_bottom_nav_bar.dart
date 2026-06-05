@@ -6,10 +6,13 @@ class AppBottomNavBar extends StatelessWidget {
     required this.selectedIndex,
     required this.onChanged,
     super.key,
+
   });
 
   final int selectedIndex;
   final ValueChanged<int> onChanged;
+
+
 
   @override
   Widget build(BuildContext context) {

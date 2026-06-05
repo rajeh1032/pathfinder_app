@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
@@ -18,7 +19,7 @@ class RootScreen extends StatelessWidget {
             body: IndexedStack(
               index: state.selectedIndex,
               children: const [
-                _TabName(title: 'Home'),
+                HomeScreen(),
                 _TabName(title: 'Jobs'),
                 _TabName(title: 'Roadmaps'),
                 _TabName(title: 'AI Mentor'),
