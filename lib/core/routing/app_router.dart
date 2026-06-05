@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/notifications/presentation/screens/notification.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
+import '../../features/search/presentation/screens/search_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
 
@@ -27,11 +29,11 @@ class AppRouter {
       AppRoutes.verifyEmail =>
         const PlaceholderScreen(titleKey: 'routes.verifyEmail'),
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
-      AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
+      AppRoutes.search => const SearchScreen(),
       AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
       AppRoutes.settings => const PlaceholderScreen(titleKey: 'routes.settings'),
       AppRoutes.notifications =>
-        const PlaceholderScreen(titleKey: 'routes.notifications'),
+        const NotificationsScreen(),
       AppRoutes.cvUpload => const PlaceholderScreen(titleKey: 'routes.cvUpload'),
       AppRoutes.cvAnalysisResult =>
         const PlaceholderScreen(titleKey: 'routes.cvAnalysisResult'),
