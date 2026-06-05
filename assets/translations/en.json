@@ -44,9 +44,35 @@
     "aiMentor": "AI Mentor",
     "profile": "Profile"
   },
+  "splash": {
+    "welcome": "Guided Intelligence for Careers",
+    "tagline": "INITIALISING JOURNEY..."
+  },
+  "onboarding": {
+    "step1Title": "Your AI Career Guide",
+    "step1Desc": "Navigate your Future with precision. Get personlized roadmaps, tailored to your goals and skills.",
+    "step2Title": "Find Your Dream Job",
+    "step2Desc": "Discover thousands of opportunities matched to your skills. Let AI connect you with the perfect role.",
+    "step3Title": "Learn & Grow Faster",
+    "step3Desc": "Follow personalized roadmaps built for your career path. Master the skills that matter most.",
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "getStarted": "Get Started"
+  },
   "auth": {
     "loginTitle": "Welcome back",
-    "loginSubtitle": "Continue your career path with PathFinder AI.",
+    "loginSubtitle": "Continue your journey to mastery with AI guidance.",
+    "loginWithGoogle": "Continue with Google",
+    "or": "OR",
+    "emailPlaceholder": "Email Address",
+    "passwordPlaceholder": "Password",
+    "login": "Sign in",
+    "dontHaveAccount": "Don't have an account? ",
+    "createAccount": "Create Account",
+    "forgotPassword": "Forgot Password?",
+    "turstedTitle":"Trusted Intelligence",
+    "trusted":"PathFinder uses state-of-the-art encryption to protect your learning progress and personal data.",
     "loginSuccess": "Logged in successfully"
   }
 }

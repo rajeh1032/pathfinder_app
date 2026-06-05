@@ -3,7 +3,6 @@
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/storage/cache_keys.dart';
 import '../../../../core/storage/local_storage.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../widgets/splash_content.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -68,7 +67,8 @@ class _SplashScreenState extends State<SplashScreen>
     _progressController.forward();
     await Future.delayed(const Duration(milliseconds: 2400));
     final hasSeenOnboarding = LocalStorage.getBool(CacheKeys.onboardingSeen);
-    final nextRoute = hasSeenOnboarding ? AppRoutes.login : AppRoutes.onboarding;
+    final nextRoute =
+        hasSeenOnboarding ? AppRoutes.login : AppRoutes.onboarding;
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, nextRoute);
@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SplashContent(
         logoScale: _logoScale,
         logoOpacity: _logoOpacity,

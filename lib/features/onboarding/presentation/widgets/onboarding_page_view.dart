@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import 'onboarding_page_data.dart';
 
@@ -11,6 +10,8 @@ class OnboardingPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         // Illustration area
@@ -41,13 +42,13 @@ class OnboardingPageView extends StatelessWidget {
               Text(
                 data.title,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.headlineLarge(AppColors.lightText),
+                style: AppTextStyles.headlineLarge(colorScheme.onSurface),
               ),
               SizedBox(height: 16.h),
               Text(
                 data.description,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.bodyMedium(AppColors.lightTextMuted),
+                style: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -71,16 +72,18 @@ class _PlaceholderIllustration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.06),
+        color: colorScheme.primary.withAlpha(15),
         borderRadius: BorderRadius.circular(24.r),
       ),
       child: Center(
         child: Icon(
           _icons[index % _icons.length],
           size: 100.sp,
-          color: AppColors.primary.withOpacity(0.4),
+          color: colorScheme.primary.withAlpha(102),
         ),
       ),
     );

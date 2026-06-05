@@ -1,8 +1,7 @@
-import 'dart:math' as math;
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:pathfinder_app/core/constants/app_assets.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class GoogleSignInButton extends StatelessWidget {
@@ -17,33 +16,38 @@ class GoogleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: double.infinity,
       height: 52.h,
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          side: BorderSide(color: AppColors.neutral300, width: 1.2),
+          side: BorderSide(color: colorScheme.outline, width: 1.2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.r),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: colorScheme.surface,
         ),
         child: isLoading
             ? SizedBox(
                 width: 20.w,
                 height: 20.w,
-                child: const CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: colorScheme.primary,
+                ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Google "G" logo drawn with text (no svg dependency needed)
-                  Image.asset('assets/images/google.png', width: 20.w, height: 20.w),
+                  Image.asset(AppAssets.googleLogo, width: 20.w, height: 20.w),
                   SizedBox(width: 10.w),
                   Text(
-                    'Continue with Google',
-                    style: AppTextStyles.labelLarge(AppColors.lightText),
+                    'auth.loginWithGoogle'.tr(),
+                    style: AppTextStyles.labelLarge(colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -51,4 +55,3 @@ class GoogleSignInButton extends StatelessWidget {
     );
   }
 }
-

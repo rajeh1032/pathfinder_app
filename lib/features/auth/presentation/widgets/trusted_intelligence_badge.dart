@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class TrustedIntelligenceBadge extends StatelessWidget {
@@ -8,12 +8,14 @@ class TrustedIntelligenceBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: AppColors.secondary.withOpacity(0.1),
+        color: colorScheme.secondary.withAlpha(26),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,12 +24,12 @@ class TrustedIntelligenceBadge extends StatelessWidget {
             width: 38.w,
             height: 38.w,
             decoration: BoxDecoration(
-              color: AppColors.secondaryDark.withOpacity(0.1),
+              color: colorScheme.secondary.withAlpha(26),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(
               Icons.verified_user_rounded,
-              color: AppColors.secondaryDark,
+              color: colorScheme.secondary,
               size: 20.sp,
             ),
           ),
@@ -37,13 +39,13 @@ class TrustedIntelligenceBadge extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Trusted Intelligence',
-                  style: AppTextStyles.labelLarge(AppColors.secondaryDark),
+                  'auth.turstedTitle'.tr(),
+                  style: AppTextStyles.labelLarge(colorScheme.onSurface),
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'PathFinder uses state-of-the-art encryption to protect your learning progress and personal data.',
-                  style: AppTextStyles.bodySmall(AppColors.secondaryDark.withOpacity(0.8)),
+                  'auth.trusted'.tr(),
+                  style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant),
                 ),
               ],
             ),

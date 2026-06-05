@@ -1,8 +1,8 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/login_cubit.dart';
@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocProvider(
       create: (_) => LoginCubit(),
       child: BlocListener<LoginCubit, LoginState>(
@@ -45,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.errorMessage!),
-                backgroundColor: AppColors.error,
+                backgroundColor: colorScheme.error,
               ),
             );
           }
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: colorScheme.surface,
           body: SafeArea(
             child: CustomScrollView(
               slivers: [
@@ -65,16 +67,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         const LoginHeader(),
                         SizedBox(height: 28.h),
                         Text(
-                          'Welcome Back',
-                          style:
-                              AppTextStyles.headlineLarge(AppColors.lightText),
+                          'auth.loginTitle'.tr(),
+                          style: AppTextStyles.headlineLarge(
+                              colorScheme.onSurface),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Continue your journey to mastery with AI\nguidance.',
+                          'auth.loginSubtitle'.tr(),
                           style: AppTextStyles.bodyMedium(
-                              AppColors.lightTextMuted),
+                              colorScheme.onSurfaceVariant),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 28.h),
@@ -96,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 24.h),
                         BlocBuilder<LoginCubit, LoginState>(
                           builder: (context, state) => AppButton(
-                            label: 'Sign In →',
+                            label: 'auth.login'.tr(),
                             isLoading: state.isLoading,
                             onPressed: state.canSubmit
                                 ? () {
@@ -115,18 +117,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don't have an account? ",
+                              "auth.dontHaveAccount".tr(),
                               style: AppTextStyles.bodyMedium(
-                                  AppColors.lightTextMuted),
+                                  colorScheme.onSurfaceVariant),
                             ),
                             GestureDetector(
                               onTap: () => Navigator.pushNamed(
                                   context, AppRoutes.register),
                               child: Text(
-                                'Create Account',
-                                style:
-                                    AppTextStyles.bodyMedium(AppColors.primary)
-                                        .copyWith(fontWeight: FontWeight.w700),
+                                'auth.createAccount'.tr(),
+                                style: AppTextStyles.bodyMedium(
+                                        colorScheme.primary)
+                                    .copyWith(fontWeight: FontWeight.w700),
                               ),
                             ),
                           ],

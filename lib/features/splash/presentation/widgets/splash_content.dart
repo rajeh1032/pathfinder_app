@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import 'concentric_circles.dart';
 
@@ -21,6 +21,8 @@ class SplashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Stack(
       children: [
         const ConcentricCircles(),
@@ -38,11 +40,11 @@ class SplashContent extends StatelessWidget {
                       width: 80.w,
                       height: 80.w,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: colorScheme.surface,
                         borderRadius: BorderRadius.circular(24.r),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withAlpha(38),
+                            color: colorScheme.primary.withAlpha(38),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),
@@ -51,7 +53,7 @@ class SplashContent extends StatelessWidget {
                       child: Center(
                         child: Icon(
                           Icons.alt_route_rounded,
-                          color: AppColors.primary,
+                          color: colorScheme.primary,
                           size: 40.sp,
                         ),
                       ),
@@ -72,13 +74,13 @@ class SplashContent extends StatelessWidget {
                             TextSpan(
                               text: 'PathFinder ',
                               style: AppTextStyles.displayMedium(
-                                AppColors.primary,
+                                colorScheme.primary,
                               ),
                             ),
                             TextSpan(
                               text: 'AI',
                               style: AppTextStyles.displayMedium(
-                                AppColors.primary,
+                                colorScheme.primary,
                               ),
                             ),
                           ],
@@ -86,9 +88,9 @@ class SplashContent extends StatelessWidget {
                       ),
                       SizedBox(height: 8.h),
                       Text(
-                        'Guided Intelligence for Careers',
+                        'splash.welcome'.tr(),
                         style: AppTextStyles.bodyMedium(
-                          AppColors.neutral,
+                          colorScheme.onSurface,
                         ),
                       ),
                     ],
@@ -106,11 +108,11 @@ class SplashContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'INITIALISING JOURNEY',
+                'splash.tagline'.tr(),
                 style: TextStyle(
                   fontSize: 10.sp,
                   letterSpacing: 2,
-                  color: AppColors.neutral,
+                  color: colorScheme.onSurfaceVariant,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -118,7 +120,7 @@ class SplashContent extends StatelessWidget {
               Container(
                 height: 3.h,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withAlpha(38),
+                  color: colorScheme.primary.withAlpha(38),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: AnimatedBuilder(
@@ -128,7 +130,7 @@ class SplashContent extends StatelessWidget {
                     widthFactor: progressValue.value,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
+                        color: colorScheme.primary,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),

@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../cubit/login_cubit.dart';
 
@@ -19,6 +19,8 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         final cubit = context.read<LoginCubit>();
@@ -29,8 +31,8 @@ class LoginForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Email Address',
-                style: AppTextStyles.labelLarge(AppColors.lightText),
+                'auth.emailPlaceholder'.tr(),
+                style: AppTextStyles.labelLarge(colorScheme.onSurface),
               ),
               SizedBox(height: 8.h),
               LoginInputField(
@@ -54,14 +56,14 @@ class LoginForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Password',
-                    style: AppTextStyles.labelLarge(AppColors.lightText),
+                    'auth.passwordPlaceholder'.tr(),
+                    style: AppTextStyles.labelLarge(colorScheme.onSurface),
                   ),
                   GestureDetector(
                     onTap: () {},
                     child: Text(
-                      'Forgot Password?',
-                      style: AppTextStyles.bodySmall(AppColors.primary)
+                      'auth.forgotPassword'.tr(),
+                      style: AppTextStyles.bodySmall(colorScheme.primary)
                           .copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -79,7 +81,7 @@ class LoginForm extends StatelessWidget {
                     state.passwordVisible
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
-                    color: AppColors.lightTextMuted,
+                    color: colorScheme.onSurfaceVariant,
                     size: 20.sp,
                   ),
                   onPressed: cubit.togglePasswordVisibility,
@@ -126,41 +128,43 @@ class LoginInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,
-      style: AppTextStyles.bodyMedium(AppColors.lightText),
+      style: AppTextStyles.bodyMedium(colorScheme.onSurface),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: AppTextStyles.bodyMedium(AppColors.lightTextMuted),
+        hintStyle: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant),
         prefixIcon:
-            Icon(prefixIcon, color: AppColors.lightTextMuted, size: 20.sp),
+            Icon(prefixIcon, color: colorScheme.onSurfaceVariant, size: 20.sp),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: AppColors.neutral100,
+        fillColor: colorScheme.surfaceContainerHighest,
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.neutral200),
+          borderSide: BorderSide(color: colorScheme.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.neutral200),
+          borderSide: BorderSide(color: colorScheme.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: colorScheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: BorderSide(color: AppColors.error, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
         ),
       ),
     );

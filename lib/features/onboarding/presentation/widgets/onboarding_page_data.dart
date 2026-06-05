@@ -1,3 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:pathfinder_app/core/constants/app_assets.dart';
+
 class OnboardingPageData {
   final String title;
   final String description;
@@ -9,24 +12,24 @@ class OnboardingPageData {
     required this.illustrationAsset,
   });
 
-  static const List<OnboardingPageData> pages = [
+  static  List<OnboardingPageData> pages = [
     OnboardingPageData(
-      title: 'Your AI Career Guide',
+      title: 'onboarding.step1Title'.tr(),
       description:
-          'Navigate your future with precision. Get personalized roadmaps tailored to your unique goals.',
-      illustrationAsset: 'assets/images/onboarding_1.png',
+          'onboarding.step1Desc'.tr(),
+      illustrationAsset: AppAssets.onboarding1,
     ),
     OnboardingPageData(
-      title: 'Find Your Dream Job',
+      title: 'onboarding.step2Title'.tr(),
       description:
-          'Discover thousands of opportunities matched to your skills. Let AI connect you with the perfect role.',
-      illustrationAsset: 'assets/images/onboarding_2.png',
+          'onboarding.step2Desc'.tr(),
+      illustrationAsset: AppAssets.onboarding2,
     ),
     OnboardingPageData(
-      title: 'Learn & Grow Faster',
+      title: 'onboarding.step3Title'.tr(),
       description:
-          'Follow personalized roadmaps built for your career path. Master the skills that matter most.',
-      illustrationAsset: 'assets/images/onboarding_3.png',
+          'onboarding.step3Desc'.tr(),
+      illustrationAsset: AppAssets.onboarding3,
     ),
   ];
 }

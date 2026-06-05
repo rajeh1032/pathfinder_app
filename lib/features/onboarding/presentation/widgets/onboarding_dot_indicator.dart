@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class OnboardingDotIndicator extends StatelessWidget {
   final int count;
@@ -18,6 +17,8 @@ class OnboardingDotIndicator extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(count, (i) {
         final isActive = i == currentIndex;
+        final colorScheme = Theme.of(context).colorScheme;
+
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
@@ -25,8 +26,9 @@ class OnboardingDotIndicator extends StatelessWidget {
           width: isActive ? 24.w : 8.w,
           height: 8.h,
           decoration: BoxDecoration(
-            color:
-                isActive ? AppColors.primary : AppColors.primary.withAlpha(64),
+            color: isActive
+                ? colorScheme.primary
+                : colorScheme.primary.withAlpha(64),
             borderRadius: BorderRadius.circular(4.r),
           ),
         );

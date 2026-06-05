@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/storage/cache_keys.dart';
 import '../../../../core/storage/local_storage.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/onboarding_cubit.dart';
@@ -51,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await _markOnboardingSeen();
     if (!mounted) return;
 
-    navigator.pushReplacementNamed(AppRoutes.root);
+    navigator.pushReplacementNamed(AppRoutes.login);
   }
 
   Future<void> _getStarted(BuildContext context) async {
@@ -75,8 +75,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           final isFirst = cubit.isFirstPage;
           final isLast = cubit.isLastPage;
 
+          final colorScheme = Theme.of(context).colorScheme;
+
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: SafeArea(
               child: Column(
                 children: [
@@ -94,11 +96,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: TextButton(
                           onPressed: isLast ? null : () => _skip(context),
                           child: Text(
-                            'SKIP',
+                            'onboarding.skip'.tr(),
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.neutral700,
+                              color: colorScheme.onSurfaceVariant,
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -138,16 +140,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           TextButton(
                             onPressed: cubit.previousPage,
                             child: Text(
-                              'Back',
+                              'onboarding.back'.tr(),
                               style: AppTextStyles.bodyMedium(
-                                AppColors.primary,
+                                colorScheme.primary,
                               ),
                             ),
                           ),
                         if (!isFirst) const Spacer(),
                         Expanded(
                           child: AppButton(
-                            label: isLast ? 'Get Started' : 'Next',
+                            label: isLast
+                                ? 'onboarding.getStarted'.tr()
+                                : 'onboarding.next'.tr(),
                             onPressed: isLast
                                 ? () => _getStarted(context)
                                 : cubit.nextPage,
