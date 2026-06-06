@@ -87,14 +87,16 @@ class CourseTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  Row(
+                  Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.xs,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text(
                         course.priceKey.tr(),
                         style: AppTextStyles.titleMedium(colors.primary),
                       ),
-                      const Spacer(),
-                      if (onSaveTap != null) ...[
+                      if (onSaveTap != null)
                         InkWell(
                           onTap: onSaveTap,
                           borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -107,20 +109,7 @@ class CourseTile extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.xs),
-                      ],
-                      Icon(
-                        Icons.schedule_outlined,
-                        size: 14,
-                        color: colors.onSurfaceVariant,
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      Text(
-                        course.durationKey.tr(),
-                        style: AppTextStyles.labelMedium(
-                          colors.onSurfaceVariant,
-                        ),
-                      ),
+                      _CourseDuration(duration: course.durationKey.tr()),
                     ],
                   ),
                 ],
@@ -129,6 +118,33 @@ class CourseTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CourseDuration extends StatelessWidget {
+  const _CourseDuration({required this.duration});
+
+  final String duration;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.schedule_outlined,
+          size: 14,
+          color: colors.onSurfaceVariant,
+        ),
+        const SizedBox(width: AppSpacing.xs),
+        Text(
+          duration,
+          style: AppTextStyles.labelMedium(colors.onSurfaceVariant),
+        ),
+      ],
     );
   }
 }
