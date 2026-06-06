@@ -3,6 +3,7 @@ import 'package:pathfinder_app/features/auth/presentation/screens/change_passwor
 import 'package:pathfinder_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
@@ -31,6 +32,7 @@ class AppRouter {
       AppRoutes.forgotPassword => const ForgotPasswordScreen(),
       AppRoutes.verifyEmail => const VerifyEmailScreen(),
       AppRoutes.changePassword => const ChangePasswordScreen(),
+      AppRoutes.setupProfile => const SetupProfileScreen(),
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
       AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),

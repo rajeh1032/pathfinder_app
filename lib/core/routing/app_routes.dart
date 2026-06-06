@@ -8,6 +8,7 @@ class AppRoutes {
   static const forgotPassword = '/forgot-password';
   static const verifyEmail = '/verify-email';
   static const changePassword = '/change-password';
+  static const setupProfile = '/setup-profile';
   static const root = '/root';
   static const home = '/home';
   static const search = '/search';

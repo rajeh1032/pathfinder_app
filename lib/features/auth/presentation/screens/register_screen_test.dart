@@ -43,7 +43,7 @@ class _RegisterScreenTestState extends State<RegisterScreenTest> {
       child: BlocListener<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state.status == RegisterStatus.success) {
-            Navigator.pushReplacementNamed(context, AppRoutes.root);
+            Navigator.pushReplacementNamed(context, AppRoutes.setupProfile);
           }
           if (state.status == RegisterStatus.failure &&
               state.errorMessage != null) {
