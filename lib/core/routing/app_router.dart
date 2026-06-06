@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -24,7 +25,7 @@ class AppRouter {
       AppRoutes.splash => const SplashScreen(),
       AppRoutes.onboarding => const OnboardingScreen(),
       AppRoutes.register =>
-        const PlaceholderScreen(titleKey: 'routes.register'),
+        const RegisterScreenTest(),
       AppRoutes.forgotPassword =>
         const PlaceholderScreen(titleKey: 'routes.forgotPassword'),
       AppRoutes.verifyEmail =>

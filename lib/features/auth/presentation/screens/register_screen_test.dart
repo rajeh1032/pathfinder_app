@@ -1,33 +1,36 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pathfinder_app/features/auth/presentation/cubit/register_state.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../cubit/login_cubit.dart';
+import '../cubit/register_cubit.dart';
 import '../widgets/google_sign_in_button.dart';
-import '../widgets/login_form.dart';
-import '../widgets/login_header.dart';
+import '../widgets/register_form.dart';
+import '../widgets/register_header.dart';
 import '../widgets/login_or_divider.dart';
 import '../widgets/trusted_intelligence_badge.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreenTest extends StatefulWidget {
+  const RegisterScreenTest({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreenTest> createState() => _RegisterScreenTestState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenTestState extends State<RegisterScreenTest> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -36,13 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider(
-      create: (_) => LoginCubit(),
-      child: BlocListener<LoginCubit, LoginState>(
+      create: (_) => RegisterCubit(),
+      child: BlocListener<RegisterCubit, RegisterState>(
         listener: (context, state) {
-          if (state.status == LoginStatus.success) {
+          if (state.status == RegisterStatus.success) {
             Navigator.pushReplacementNamed(context, AppRoutes.root);
           }
-          if (state.status == LoginStatus.failure &&
+          if (state.status == RegisterStatus.failure &&
               state.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -64,49 +67,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(height: 8.h),
-                        const LoginHeader(),
+                        const RegisterHeader(),
                         SizedBox(height: 28.h),
                         Text(
-                          'auth.loginTitle'.tr(),
+                          'auth.registerTitle'.tr(),
                           style: AppTextStyles.headlineLarge(
                               colorScheme.onSurface),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'auth.loginSubtitle'.tr(),
+                          'auth.registerSubtitle'.tr(),
                           style: AppTextStyles.bodyMedium(
                               colorScheme.onSurfaceVariant),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 28.h),
-                        BlocBuilder<LoginCubit, LoginState>(
+                        BlocBuilder<RegisterCubit, RegisterState>(
                           builder: (context, state) => GoogleSignInButton(
                             isLoading: state.isLoading,
                             onPressed: () =>
-                                context.read<LoginCubit>().loginWithGoogle(),
+                                context.read<RegisterCubit>().registerWithGoogle(),
                           ),
                         ),
                         SizedBox(height: 20.h),
                         const LoginOrDivider(),
                         SizedBox(height: 20.h),
-                        LoginForm(
+                        RegisterForm(
                           formKey: _formKey,
                           emailController: _emailController,
                           passwordController: _passwordController,
+                          confirmPasswordController: _confirmPasswordController,
                         ),
                         SizedBox(height: 24.h),
-                        BlocBuilder<LoginCubit, LoginState>(
+                        BlocBuilder<RegisterCubit, RegisterState>(
                           builder: (context, state) => AppButton(
-                            label: 'auth.login'.tr(),
+                            label: 'auth.register'.tr(),
                             isLoading: state.isLoading,
                             onPressed: state.canSubmit
                                 ? () {
                                     if (_formKey.currentState?.validate() ??
                                         false) {
                                       context
-                                          .read<LoginCubit>()
-                                          .loginWithEmail();
+                                          .read<RegisterCubit>()
+                                          .register(email: '', password: '');
                                     }
                                   }
                                 : null,
@@ -117,15 +121,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "auth.dontHaveAccount".tr(),
+                              "auth.haveAccount".tr(),
                               style: AppTextStyles.bodyMedium(
                                   colorScheme.onSurfaceVariant),
                             ),
                             GestureDetector(
                               onTap: () => Navigator.pushReplacementNamed(
-                                  context, AppRoutes.register),
+                                  context, AppRoutes.login),
                               child: Text(
-                                'auth.createAccount'.tr(),
+                                'auth.login'.tr(),
                                 style: AppTextStyles.bodyMedium(
                                         colorScheme.primary)
                                     .copyWith(fontWeight: FontWeight.w700),
