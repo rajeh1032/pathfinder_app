@@ -17,4 +17,6 @@ class AppAssets {
       'assets/images/roadmaps/course_detail_hero.png';
   static const roadmapCourseThumbnail =
       'assets/images/roadmaps/roadmap_course_thumbnail.png';
+  static const profileAlexJenkins = 'assets/images/profile/alex_jenkins.png';
+  static const profileAlexRivera = 'assets/images/profile/alex_rivera.png';
 }

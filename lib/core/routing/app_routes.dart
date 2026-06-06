@@ -13,7 +13,16 @@ class AppRoutes {
   static const roadmaps = '/roadmaps';
   static const search = '/search';
   static const profile = '/profile';
+  static const editProfile = '/edit-profile';
+  static const profileResetPassword = '/profile-reset-password';
   static const settings = '/settings';
+  static const themeSettings = '/settings/theme';
+  static const languageSettings = '/settings/language';
+  static const mentorToneSettings = '/settings/mentor-tone';
+  static const careerGoalSettings = '/settings/career-goal';
+  static const helpCenter = '/settings/help-center';
+  static const privacyPolicy = '/settings/privacy-policy';
+  static const termsOfService = '/settings/terms-of-service';
   static const notifications = '/notifications';
   static const cvUpload = '/cv-upload';
   static const cvAnalysisResult = '/cv-analysis-result';

@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../features/courses/presentation/screens/course_details_screen.dart';
 import '../../features/courses/presentation/screens/courses_screen.dart';
+import '../../features/notifications/presentation/screens/notifications_screen.dart';
+import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/profile/presentation/screens/reset_password_screen.dart';
 import '../../features/roadmaps/presentation/screens/roadmap_details_screen.dart';
 import '../../features/roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
+import '../../features/settings/presentation/screens/language_settings_screen.dart';
+import '../../features/settings/presentation/screens/ai_personalization_settings_screens.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../../features/settings/presentation/screens/support_legal_screens.dart';
+import '../../features/settings/presentation/screens/theme_settings_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
 import 'route_arguments.dart';
@@ -40,10 +48,17 @@ class AppRouter {
       AppRoutes.roadmaps => const RoadmapsScreen(),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
       AppRoutes.profile => const ProfileScreen(),
-      AppRoutes.settings =>
-        const PlaceholderScreen(titleKey: 'routes.settings'),
-      AppRoutes.notifications =>
-        const PlaceholderScreen(titleKey: 'routes.notifications'),
+      AppRoutes.editProfile => const EditProfileScreen(),
+      AppRoutes.profileResetPassword => const ResetPasswordScreen(),
+      AppRoutes.settings => const SettingsScreen(),
+      AppRoutes.themeSettings => const ThemeSettingsScreen(),
+      AppRoutes.languageSettings => const LanguageSettingsScreen(),
+      AppRoutes.mentorToneSettings => const MentorToneSettingsScreen(),
+      AppRoutes.careerGoalSettings => const CareerGoalSettingsScreen(),
+      AppRoutes.helpCenter => const HelpCenterScreen(),
+      AppRoutes.privacyPolicy => const PrivacyPolicyScreen(),
+      AppRoutes.termsOfService => const TermsOfServiceScreen(),
+      AppRoutes.notifications => const NotificationsScreen(),
       AppRoutes.cvUpload =>
         const PlaceholderScreen(titleKey: 'routes.cvUpload'),
       AppRoutes.cvAnalysisResult =>

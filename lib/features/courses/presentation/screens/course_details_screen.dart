@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../data/repositories/demo_courses_repository.dart';
 import '../../domain/use_cases/get_course_details_use_case.dart';
@@ -86,26 +87,24 @@ class _CourseDetailsView extends StatelessWidget {
 
   void _toggleSaved(BuildContext context, String courseId) {
     final isSaved = context.read<CoursesCubit>().toggleSavedCourse(courseId);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text((isSaved ? 'courses.saved' : 'courses.unsaved').tr())),
+    CustomSnackbar.showInfoKey(
+      context: context,
+      messageKey: isSaved ? 'courses.saved' : 'courses.unsaved',
     );
   }
 
   void _enroll(BuildContext context, String courseId) {
     final enrolled = context.read<CoursesCubit>().enrollInCourse(courseId);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          (enrolled ? 'courses.enrolled' : 'courses.alreadyEnrolled').tr(),
-        ),
-      ),
+    CustomSnackbar.showInfoKey(
+      context: context,
+      messageKey: enrolled ? 'courses.enrolled' : 'courses.alreadyEnrolled',
     );
   }
 
   void _shareCourse(BuildContext context, String titleKey) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('courses.shareReady'.tr(args: [titleKey.tr()]))),
+    CustomSnackbar.showInfo(
+      context: context,
+      message: 'courses.shareReady'.tr(args: [titleKey.tr()]),
     );
   }
 }

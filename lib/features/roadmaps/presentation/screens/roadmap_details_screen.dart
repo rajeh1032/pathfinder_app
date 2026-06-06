@@ -6,6 +6,7 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
 import '../../../../core/widgets/app_gradient_title.dart';
 import '../../../../core/widgets/app_error_view.dart';
@@ -114,8 +115,9 @@ class _RoadmapDetailsView extends StatelessWidget {
       false => 'roadmaps.stepReopened',
       null => 'roadmaps.stepLocked',
     };
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(messageKey.tr())),
+    CustomSnackbar.showInfoKey(
+      context: context,
+      messageKey: messageKey,
     );
   }
 }

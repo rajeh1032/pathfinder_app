@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
+import 'app_gradients.dart';
 import 'app_text_styles.dart';
 
 class AppTheme {
@@ -86,7 +87,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: true,
-        titleTextStyle: AppTextStyles.titleLarge(colorScheme.onSurface),
+        titleTextStyle: _appBarTitleTextStyle(colorScheme),
         toolbarTextStyle: AppTextStyles.bodyMedium(colorScheme.onSurface),
         iconTheme: IconThemeData(color: colorScheme.primary, size: 22),
         actionsIconTheme: IconThemeData(
@@ -169,6 +170,22 @@ class AppTheme {
       labelLarge: AppTextStyles.labelLarge(onSurface),
       labelMedium: AppTextStyles.labelMedium(onSurfaceVariant),
       labelSmall: AppTextStyles.labelSmall(onSurfaceVariant),
+    );
+  }
+
+  static TextStyle _appBarTitleTextStyle(ColorScheme colorScheme) {
+    final baseStyle = AppTextStyles.titleLarge(colorScheme.primary);
+
+    return TextStyle(
+      fontFamily: baseStyle.fontFamily,
+      fontSize: baseStyle.fontSize,
+      fontWeight: baseStyle.fontWeight,
+      height: baseStyle.height,
+      letterSpacing: baseStyle.letterSpacing,
+      foreground: Paint()
+        ..shader = AppGradients.aiTertiary.createShader(
+          const Rect.fromLTWH(0, 0, 240, 32),
+        ),
     );
   }
 }

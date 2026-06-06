@@ -12,8 +12,7 @@ class AppGradientTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle =
-        theme.appBarTheme.titleTextStyle ?? theme.textTheme.titleLarge;
+    final titleStyle = theme.textTheme.titleLarge;
 
     return ShaderMask(
       blendMode: BlendMode.srcIn,

@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/translations/
     - assets/images/roadmaps/
+    - assets/images/profile/
   fonts:
     - family: Cairo
       fonts:

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/widgets/app_gradient_title.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../domain/entities/roadmap_course_recommendation.dart';
 import '../cubit/roadmaps_cubit.dart';
 import '../cubit/roadmaps_state.dart';
@@ -40,7 +40,7 @@ class RoadmapsBody extends StatelessWidget {
           pinned: true,
           automaticallyImplyLeading: false,
           backgroundColor: colors.surface,
-          title: const AppGradientTitle(),
+          title: Text('root.roadmaps'.tr()),
         ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(
@@ -76,12 +76,9 @@ class RoadmapsBody extends StatelessWidget {
 
   void _toggleSaved(BuildContext context, String courseId) {
     final isSaved = context.read<RoadmapsCubit>().toggleSavedCourse(courseId);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          (isSaved ? 'courses.saved' : 'courses.unsaved').tr(),
-        ),
-      ),
+    CustomSnackbar.showInfoKey(
+      context: context,
+      messageKey: isSaved ? 'courses.saved' : 'courses.unsaved',
     );
   }
 }

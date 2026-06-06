@@ -7,10 +7,10 @@ import '../../../../core/routing/app_routes.dart';
 import '../../../../core/routing/route_arguments.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
-import '../../../../core/widgets/app_search_filters.dart';
-import '../../../../core/widgets/app_gradient_title.dart';
 import '../../../../core/widgets/app_error_view.dart';
+import '../../../../core/widgets/app_search_filters.dart';
 import '../../data/repositories/demo_courses_repository.dart';
 import '../../domain/use_cases/get_course_details_use_case.dart';
 import '../../domain/use_cases/get_courses_use_case.dart';
@@ -46,7 +46,7 @@ class _CoursesView extends StatelessWidget {
       backgroundColor: colors.surface,
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: const AppGradientTitle(),
+        title: Text('courses.title'.tr()),
       ),
       body: BlocBuilder<CoursesCubit, CoursesState>(
         builder: (context, state) {
@@ -121,12 +121,9 @@ class _CoursesView extends StatelessWidget {
 
   void _toggleSaved(BuildContext context, String courseId) {
     final isSaved = context.read<CoursesCubit>().toggleSavedCourse(courseId);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          (isSaved ? 'courses.saved' : 'courses.unsaved').tr(),
-        ),
-      ),
+    CustomSnackbar.showInfoKey(
+      context: context,
+      messageKey: isSaved ? 'courses.saved' : 'courses.unsaved',
     );
   }
 }
