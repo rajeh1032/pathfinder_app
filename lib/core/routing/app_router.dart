@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 import 'package:pathfinder_app/features/notifications/presentation/screens/notification.dart';
 
+import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../../features/search/presentation/screens/search_screen.dart';
 import '../widgets/placeholder_screen.dart';
@@ -36,7 +38,7 @@ class AppRouter {
         const NotificationsScreen(),
       AppRoutes.cvUpload => const PlaceholderScreen(titleKey: 'routes.cvUpload'),
       AppRoutes.cvAnalysisResult =>
-        const PlaceholderScreen(titleKey: 'routes.cvAnalysisResult'),
+        const CvAnalysisResult(),
       AppRoutes.roadmapDetails =>
         const PlaceholderScreen(titleKey: 'routes.roadmapDetails'),
       AppRoutes.courseDetails =>
@@ -48,7 +50,7 @@ class AppRouter {
         const PlaceholderScreen(titleKey: 'routes.coverLetterGenerator'),
       AppRoutes.coverLetterResult =>
         const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
-      AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),
+      AppRoutes.aiChat => const ChatWithAiScreen(),
       AppRoutes.interviewStart =>
         const PlaceholderScreen(titleKey: 'routes.interviewStart'),
       AppRoutes.activeInterview =>

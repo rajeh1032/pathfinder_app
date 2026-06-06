@@ -1,6 +1,5 @@
 
 import 'dart:ui';
-
 enum SearchTab { all, jobs, courses, skills, careerPaths }
 class RecentSearchModel {
   final String query;

@@ -1,3 +1,4 @@
+enum HomeTab { analyzeCv, chatWithAi }
 class HomeUserModel {
   final String name;
   final int cvScore;

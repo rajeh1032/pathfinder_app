@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
 
 class HomeActionButtons extends StatelessWidget {
   const HomeActionButtons({super.key});
@@ -15,16 +16,16 @@ class HomeActionButtons extends StatelessWidget {
             label: 'Analyze CV',
             icon: Icons.description_outlined,
             isPrimary: true,
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/cv-analysis-result'),
           ),
         ),
-        SizedBox(width: 12.w),
+        SizedBox(width: AppSpacing.sm.w),
         Expanded(
           child: _ActionButton(
             label: 'Chat with AI',
             icon: Icons.smart_toy_outlined,
             isPrimary: false,
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/ai-chat'),
           ),
         ),
       ],
@@ -53,12 +54,15 @@ class _ActionButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+        padding: EdgeInsets.symmetric(
+          vertical: 12.h,
+          horizontal: AppSpacing.md.w,
+        ),
         decoration: BoxDecoration(
           color: isPrimary
               ? AppColors.primary
               : colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(14.r),
+          borderRadius: BorderRadius.circular(AppRadius.md.r),
           boxShadow: isPrimary
               ? [
             BoxShadow(
@@ -75,7 +79,9 @@ class _ActionButton extends StatelessWidget {
             Icon(
               icon,
               size: 18.sp,
-              color: isPrimary ? Colors.white : colorScheme.onSurfaceVariant,
+              color: isPrimary
+                  ? Colors.white
+                  : colorScheme.onSurfaceVariant,
             ),
             SizedBox(width: 6.w),
             Text(
@@ -83,7 +89,9 @@ class _ActionButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w700,
-                color: isPrimary ? Colors.white : colorScheme.onSurface,
+                color: isPrimary
+                    ? Colors.white
+                    : colorScheme.onSurface,
               ),
             ),
           ],
