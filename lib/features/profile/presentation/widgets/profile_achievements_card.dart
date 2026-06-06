@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/app_gradients.dart';
@@ -25,7 +26,7 @@ class ProfileAchievementsCard extends StatelessWidget {
           itemCount: achievements.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.45,
+            childAspectRatio: 1.2,
             mainAxisSpacing: AppSpacing.md,
             crossAxisSpacing: AppSpacing.md,
           ),
@@ -48,6 +49,7 @@ class _AchievementMetric extends StatelessWidget {
     final colors = context.colors;
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         DecoratedBox(
@@ -56,17 +58,20 @@ class _AchievementMetric extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: EdgeInsets.all(14.r),
             child: Icon(_iconFor(metric.iconName), color: colors.onPrimary),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
           metric.valueKey.tr(),
+          maxLines: 1,
           style: AppTextStyles.labelMedium(colors.onSurface),
         ),
         Text(
           metric.labelKey.tr(),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: AppTextStyles.bodySmall(colors.onSurfaceVariant),
           textAlign: TextAlign.center,
         ),
