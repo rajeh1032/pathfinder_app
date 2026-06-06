@@ -19,4 +19,6 @@ class AppAssets {
       'assets/images/roadmaps/roadmap_course_thumbnail.png';
   static const profileAlexJenkins = 'assets/images/profile/alex_jenkins.png';
   static const profileAlexRivera = 'assets/images/profile/alex_rivera.png';
+  static const profileGoogleLogo = 'assets/images/profile/Google logo.png';
+  static const profileMetaLogo = 'assets/images/profile/Meta logo.png';
 }

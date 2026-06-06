@@ -13,6 +13,7 @@ import 'profile_goal_card.dart';
 import 'profile_header.dart';
 import 'profile_info_card.dart';
 import 'profile_saved_courses_card.dart';
+import 'profile_saved_jobs_card.dart';
 import 'profile_skills_card.dart';
 
 class ProfileBody extends StatelessWidget {
@@ -53,6 +54,12 @@ class ProfileBody extends StatelessWidget {
           onToggleSaved: (id) => _toggleSavedCourse(context, id),
         ),
         const SizedBox(height: AppSpacing.md),
+        ProfileSavedJobsCard(
+          jobs: profile.savedJobs,
+          savedJobIds: state.savedJobIds,
+          onToggleSaved: (id) => _toggleSavedJob(context, id),
+        ),
+        const SizedBox(height: AppSpacing.md),
         ProfileEducationCard(items: profile.educationItems),
       ],
     );
@@ -61,6 +68,11 @@ class ProfileBody extends StatelessWidget {
   void _toggleSavedCourse(BuildContext context, String id) {
     final isSaved = context.read<ProfileCubit>().toggleSavedCourse(id);
     _showMessage(context, isSaved ? 'courses.saved' : 'courses.unsaved');
+  }
+
+  void _toggleSavedJob(BuildContext context, String id) {
+    final isSaved = context.read<ProfileCubit>().toggleSavedJob(id);
+    _showMessage(context, isSaved ? 'profile.jobSaved' : 'profile.jobUnsaved');
   }
 
   Future<void> _openEditProfile(BuildContext context) async {

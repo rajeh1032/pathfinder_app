@@ -21,23 +21,27 @@ class ProfileSuccess extends ProfileState {
   const ProfileSuccess({
     required this.profile,
     this.savedCourseIds = const {},
+    this.savedJobIds = const {},
   });
 
   final Profile profile;
   final Set<String> savedCourseIds;
+  final Set<String> savedJobIds;
 
   ProfileSuccess copyWith({
     Profile? profile,
     Set<String>? savedCourseIds,
+    Set<String>? savedJobIds,
   }) {
     return ProfileSuccess(
       profile: profile ?? this.profile,
       savedCourseIds: savedCourseIds ?? this.savedCourseIds,
+      savedJobIds: savedJobIds ?? this.savedJobIds,
     );
   }
 
   @override
-  List<Object?> get props => [profile, savedCourseIds];
+  List<Object?> get props => [profile, savedCourseIds, savedJobIds];
 }
 
 class ProfileEmpty extends ProfileState {

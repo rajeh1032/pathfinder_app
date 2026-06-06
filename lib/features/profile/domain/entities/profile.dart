@@ -171,15 +171,17 @@ class ProfileSavedJob extends Equatable {
     required this.titleKey,
     required this.companyKey,
     required this.modeKey,
+    required this.logoAsset,
   });
 
   final String id;
   final String titleKey;
   final String companyKey;
   final String modeKey;
+  final String logoAsset;
 
   @override
-  List<Object?> get props => [id, titleKey, companyKey, modeKey];
+  List<Object?> get props => [id, titleKey, companyKey, modeKey, logoAsset];
 }
 
 class ProfileEducationItem extends Equatable {

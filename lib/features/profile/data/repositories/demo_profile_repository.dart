@@ -128,12 +128,14 @@ const demoProfile = Profile(
       titleKey: 'profile.savedJobSeniorFrontend',
       companyKey: 'profile.savedJobGoogle',
       modeKey: 'profile.savedJobFullTime',
+      logoAsset: AppAssets.profileGoogleLogo,
     ),
     ProfileSavedJob(
       id: 'lead-ui-meta',
       titleKey: 'profile.savedJobLeadUi',
       companyKey: 'profile.savedJobMeta',
       modeKey: 'profile.savedJobRemote',
+      logoAsset: AppAssets.profileMetaLogo,
     ),
   ],
   educationItems: [

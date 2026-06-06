@@ -10,6 +10,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   final GetProfileUseCase _getProfileUseCase;
   final Set<String> _savedCourseIds = {};
+  final Set<String> _savedJobIds = {};
 
   Future<void> loadProfile() async {
     emit(const ProfileLoading());
@@ -25,9 +26,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         _savedCourseIds
           ..clear()
           ..addAll(profile.savedCourses.map((course) => course.id));
+        _savedJobIds
+          ..clear()
+          ..addAll(profile.savedJobs.map((job) => job.id));
         emit(ProfileSuccess(
           profile: profile,
           savedCourseIds: Set.unmodifiable(_savedCourseIds),
+          savedJobIds: Set.unmodifiable(_savedJobIds),
         ));
       },
     );
@@ -37,6 +42,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     _toggle(_savedCourseIds, id);
     _emitSavedState();
     return _savedCourseIds.contains(id);
+  }
+
+  bool toggleSavedJob(String id) {
+    _toggle(_savedJobIds, id);
+    _emitSavedState();
+    return _savedJobIds.contains(id);
   }
 
   void _toggle(Set<String> ids, String id) {
@@ -53,6 +64,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     emit(currentState.copyWith(
       savedCourseIds: Set.unmodifiable(_savedCourseIds),
+      savedJobIds: Set.unmodifiable(_savedJobIds),
     ));
   }
 }
