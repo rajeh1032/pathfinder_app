@@ -77,8 +77,23 @@
     "createAccount": "إنشاء حساب",
     "signIn": "تسجيل الدخول",
     "forgotPassword": "نسيت كلمة المرور؟",
-    "turstedTitle":"معلومات موثوقة",
-    "trusted":"ذكاء موثوق يستخدم PathFinder تشفيرًا متطورًا لحماية تقدمك التعليمي وبياناتك الشخصية.",
-    "loginSuccess": "تم تسجيل الدخول بنجاح"
+    "forgotPasswordSubtitle": "يرجى إدخال بريدك الإلكتروني لتلقي رمز التحقق",
+    "sendCode": "إرسال",
+    "backToLogin": "العودة إلى تسجيل الدخول",
+    "verificationCodeSent": "تم إرسال رمز التحقق",
+    "passwordChanged":"تم تغيير كلمة المرور",
+    "turstedTitle": "معلومات موثوقة",
+    "trusted": "ذكاء موثوق يستخدم PathFinder تشفيرًا متطورًا لحماية تقدمك التعليمي وبياناتك الشخصية.",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "verfiyEmail": "التحقق من بريدك الإلكترونى",
+    "verfiyEmailSubtitle": "من فضلك ادخل الكود المكون من 4 أرقام",
+    "resendCode": "إعادة ارسال الكود",
+    "codeVerified":"تم التحقق بنجاح",
+    "verfiyCode":"كود التحقق",
+    "verfiy": "تحقق",
+    "changePassword":"تغيير كلمة المرور",
+    "changePasswordSubtitle":"يجب ان تكون كملة المرور الجديدة مختلفه عن السابقة",
+    "newPassword":"كلمة المرور الجديدة",
+    "save":"حفظ"
   }
 }

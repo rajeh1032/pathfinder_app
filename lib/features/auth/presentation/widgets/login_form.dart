@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pathfinder_app/core/routing/app_routes.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../cubit/login_cubit.dart';
 
@@ -60,7 +61,10 @@ class LoginForm extends StatelessWidget {
                     style: AppTextStyles.labelLarge(colorScheme.onSurface),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRoutes.forgotPassword,
+                    ),
                     child: Text(
                       'auth.forgotPassword'.tr(),
                       style: AppTextStyles.bodySmall(colorScheme.primary)

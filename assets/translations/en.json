@@ -77,8 +77,23 @@
     "createAccount": "Create Account",
     "signIn": "Sign in",
     "forgotPassword": "Forgot Password?",
-    "turstedTitle":"Trusted Intelligence",
-    "trusted":"PathFinder uses state-of-the-art encryption to protect your learning progress and personal data.",
-    "loginSuccess": "Logged in successfully"
+    "forgotPasswordSubtitle": "Please enter your Email address to receive a verification code",
+    "sendCode": "Send",
+    "backToLogin": "Back to login",
+    "verificationCodeSent": "Verification code sent",
+    "passwordChanged": "Password Changed",
+    "turstedTitle": "Trusted Intelligence",
+    "trusted": "PathFinder uses state-of-the-art encryption to protect your learning progress and personal data.",
+    "loginSuccess": "Logged in successfully",
+    "verfiyEmail": "Verfiy Your Email",
+    "verfiyEmailSubtitle": "Please enter the 4 digits code",
+    "resendCode": "Resend code",
+    "codeVerified": "Code verified successfully",
+    "verfiyCode": "Verify Code",
+    "verfiy": "Verfiy",
+    "changePassword": "Change Your Password",
+    "changePasswordSubtitle": "Your new password must be different from previously used password",
+    "newPassword": "New Password",
+    "save": "Save"
   }
 }

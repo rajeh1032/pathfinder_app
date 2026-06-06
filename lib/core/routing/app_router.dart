@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/change_password_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -24,12 +27,10 @@ class AppRouter {
       AppRoutes.login => const LoginScreen(),
       AppRoutes.splash => const SplashScreen(),
       AppRoutes.onboarding => const OnboardingScreen(),
-      AppRoutes.register =>
-        const RegisterScreenTest(),
-      AppRoutes.forgotPassword =>
-        const PlaceholderScreen(titleKey: 'routes.forgotPassword'),
-      AppRoutes.verifyEmail =>
-        const PlaceholderScreen(titleKey: 'routes.verifyEmail'),
+      AppRoutes.register => const RegisterScreenTest(),
+      AppRoutes.forgotPassword => const ForgotPasswordScreen(),
+      AppRoutes.verifyEmail => const VerifyEmailScreen(),
+      AppRoutes.changePassword => const ChangePasswordScreen(),
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
       AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
