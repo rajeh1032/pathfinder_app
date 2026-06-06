@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
+import '../../../interview/presentation/screens/interview_start_screen.dart';
 
 class RootScreen extends StatelessWidget {
   const RootScreen({super.key});
@@ -21,7 +22,7 @@ class RootScreen extends StatelessWidget {
                 _TabName(title: 'Home'),
                 _TabName(title: 'Jobs'),
                 _TabName(title: 'Roadmaps'),
-                _TabName(title: 'AI Mentor'),
+                InterviewStartScreen(),
                 _TabName(title: 'Profile'),
               ],
             ),

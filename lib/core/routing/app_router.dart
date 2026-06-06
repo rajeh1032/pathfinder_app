@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../features/interview/presentation/screens/active_interview_screen.dart';
+import '../../features/interview/presentation/screens/interview_result_screen.dart';
+import '../../features/interview/presentation/screens/interview_start_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
@@ -47,12 +50,9 @@ class AppRouter {
       AppRoutes.coverLetterResult =>
         const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
       AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),
-      AppRoutes.interviewStart =>
-        const PlaceholderScreen(titleKey: 'routes.interviewStart'),
-      AppRoutes.activeInterview =>
-        const PlaceholderScreen(titleKey: 'routes.activeInterview'),
-      AppRoutes.interviewResult =>
-        const PlaceholderScreen(titleKey: 'routes.interviewResult'),
+      AppRoutes.interviewStart => const InterviewStartScreen(),
+      AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.interviewResult => const InterviewResultScreen(),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
   }
