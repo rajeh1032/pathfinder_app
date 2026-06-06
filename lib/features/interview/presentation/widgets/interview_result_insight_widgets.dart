@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
 
 class InterviewResultInsightCard extends StatelessWidget {
   const InterviewResultInsightCard({
@@ -21,33 +25,34 @@ class InterviewResultInsightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDark ? colorScheme.surfaceContainerHighest : color;
-    final headingColor = isDark ? colorScheme.onSurface : colorScheme.onSurface;
-    final bodyColor = isDark ? colorScheme.onSurfaceVariant : colorScheme.onSurfaceVariant;
+    final backgroundColor =
+        isDark ? colorScheme.surfaceContainerHighest : color;
+    final bodyColor =
+        isDark ? colorScheme.onSurfaceVariant : colorScheme.onSurfaceVariant;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(color: iconColor.withValues(alpha: 0.18)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, color: iconColor),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             titleKey.tr(),
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: headingColor,
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSpacing.xs),
           ...items.map(
             (item) => Padding(
-              padding: const EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: AppSpacing.xs),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -92,12 +97,12 @@ class InterviewResultCalloutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
             ? colorScheme.surfaceContainerHighest
             : colorScheme.primaryContainer.withValues(alpha: 0.7),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
       child: Column(
         children: [
@@ -109,7 +114,7 @@ class InterviewResultCalloutCard extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             descriptionKey.tr(),
             textAlign: TextAlign.center,
@@ -141,11 +146,11 @@ class InterviewResultNextStepCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      width: 184,
-      padding: const EdgeInsets.all(14),
+      width: 184.w,
+      padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppRadius.md),
         border: Border.all(color: colorScheme.outlineVariant),
         boxShadow: [
           BoxShadow(
@@ -158,15 +163,15 @@ class InterviewResultNextStepCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 42,
-            height: 42,
+            width: 42.w,
+            height: 42.w,
             decoration: BoxDecoration(
               color: colorScheme.primaryContainer.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.sm),
             ),
             child: Icon(icon, color: colorScheme.primary),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: AppSpacing.sm.w),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+
 class InterviewSkillBar extends StatelessWidget {
   const InterviewSkillBar({
     required this.title,
@@ -17,10 +20,10 @@ class InterviewSkillBar extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(AppSpacing.sm),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppRadius.md),
         border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Column(
@@ -49,13 +52,14 @@ class InterviewSkillBar extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           ClipRRect(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(AppRadius.pill),
             child: LinearProgressIndicator(
               minHeight: 5,
               value: value,
-              backgroundColor: colorScheme.primaryContainer.withValues(alpha: 0.4),
+              backgroundColor:
+                  colorScheme.primaryContainer.withValues(alpha: 0.4),
               valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
             ),
           ),

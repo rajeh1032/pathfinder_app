@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
 
 class InterviewScoreRing extends StatelessWidget {
   const InterviewScoreRing({
@@ -17,13 +21,13 @@ class InterviewScoreRing extends StatelessWidget {
     final improvement = score - previousScore;
 
     return SizedBox(
-      width: 220,
-      height: 220,
+      width: 220.w,
+      height: 220.w,
       child: Stack(
         alignment: Alignment.center,
         children: [
           SizedBox.square(
-            dimension: 180,
+            dimension: 180.w,
             child: CircularProgressIndicator(
               value: score / 100,
               strokeWidth: 12,
@@ -41,13 +45,15 @@ class InterviewScoreRing extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: AppSpacing.sm),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
                 decoration: BoxDecoration(
                   color: colorScheme.secondaryContainer.withValues(alpha: 0.55),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
                 ),
                 child: Column(
                   children: [

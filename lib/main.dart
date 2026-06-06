@@ -28,6 +28,7 @@ Future<void> main() async {
       supportedLocales: LocalizationService.supportedLocales,
       path: LocalizationService.translationsPath,
       fallbackLocale: LocalizationService.english,
+
       child: const PathFinderApp(),
     ),
   );

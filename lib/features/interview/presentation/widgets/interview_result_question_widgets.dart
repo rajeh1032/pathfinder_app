@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+
 class InterviewResultQuestionTile extends StatelessWidget {
   const InterviewResultQuestionTile({
     required this.titleKey,
@@ -28,7 +31,7 @@ class InterviewResultQuestionTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(color: colorScheme.outlineVariant),
         boxShadow: [
           BoxShadow(
@@ -47,7 +50,12 @@ class InterviewResultQuestionTile extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
         ),
-        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        childrenPadding: const EdgeInsets.fromLTRB(
+          AppSpacing.md,
+          0,
+          AppSpacing.md,
+          AppSpacing.md,
+        ),
         children: [
           if (score != null || statusKey != null)
             Row(
@@ -69,7 +77,7 @@ class InterviewResultQuestionTile extends StatelessWidget {
               ],
             ),
           if (feedbackKey != null) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               '${'interview.aiFeedbackLabel'.tr()} ${feedbackKey!.tr()}',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -79,7 +87,7 @@ class InterviewResultQuestionTile extends StatelessWidget {
             ),
           ],
           if (suggestionKey != null) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               '${'interview.suggestedLabel'.tr()} ${suggestionKey!.tr()}',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(

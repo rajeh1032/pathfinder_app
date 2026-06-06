@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_button.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../widgets/interview_section_header.dart';
 import '../widgets/interview_personalization_card.dart';
@@ -30,95 +34,112 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
             onPressed: () {},
             icon: const Icon(Icons.notifications_none_rounded),
           ),
+       
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InterviewPromoCard(colorScheme: colorScheme),
-              const SizedBox(height: 24),
-              InterviewSectionHeader(
-                titleKey: 'interview.targetCareerPath',
-                actionKey: 'interview.editPreferences',
-                onActionTap: () {},
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final contentWidth = constraints.maxWidth > 620 ? 620.0 : constraints.maxWidth;
+
+            return SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.md.w,
+                AppSpacing.sm.h,
+                AppSpacing.md.w,
+                AppSpacing.lg.h,
               ),
-              const SizedBox(height: 14),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    InterviewPathChoice(
-                      titleKey: 'interview.frontendDeveloper',
-                      icon: Icons.code_rounded,
-                      selected: _selectedPathIndex == 0,
-                      onTap: () => setState(() => _selectedPathIndex = 0),
-                    ),
-                    const SizedBox(width: 16),
-                    InterviewPathChoice(
-                      titleKey: 'interview.productDesigner',
-                      icon: Icons.design_services_rounded,
-                      selected: _selectedPathIndex == 1,
-                      onTap: () => setState(() => _selectedPathIndex = 1),
-                    ),
-                    const SizedBox(width: 16),
-                    InterviewPathChoice(
-                      titleKey: 'interview.dataAnalyst',
-                      icon: Icons.query_stats_rounded,
-                      selected: _selectedPathIndex == 2,
-                      onTap: () => setState(() => _selectedPathIndex = 2),
-                    ),
-                  ],
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: contentWidth),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InterviewPromoCard(colorScheme: colorScheme),
+                      SizedBox(height: AppSpacing.lg.h),
+                      InterviewSectionHeader(
+                        titleKey: 'interview.targetCareerPath',
+                        actionKey: 'interview.editPreferences',
+                        onActionTap: () {},
+                      ),
+                      SizedBox(height: AppSpacing.sm.h),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            InterviewPathChoice(
+                              titleKey: 'interview.frontendDeveloper',
+                              icon: Icons.code_rounded,
+                              selected: _selectedPathIndex == 0,
+                              onTap: () => setState(() => _selectedPathIndex = 0),
+                            ),
+                            SizedBox(width: AppSpacing.md.w),
+                            InterviewPathChoice(
+                              titleKey: 'interview.productDesigner',
+                              icon: Icons.design_services_rounded,
+                              selected: _selectedPathIndex == 1,
+                              onTap: () => setState(() => _selectedPathIndex = 1),
+                            ),
+                            SizedBox(width: AppSpacing.md.w),
+                            InterviewPathChoice(
+                              titleKey: 'interview.dataAnalyst',
+                              icon: Icons.query_stats_rounded,
+                              selected: _selectedPathIndex == 2,
+                              onTap: () => setState(() => _selectedPathIndex = 2),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: AppSpacing.xl.h),
+                      const InterviewSectionHeader(
+                        titleKey: 'interview.chooseInterviewFormat',
+                      ),
+                      SizedBox(height: AppSpacing.sm.h),
+                      InterviewFormatChoice(
+                        titleKey: 'interview.behavioral',
+                        descriptionKey: 'interview.behavioralDescription',
+                        icon: Icons.groups_rounded,
+                        color: colorScheme.secondary,
+                        selected: _selectedFormatIndex == 0,
+                        onTap: () => setState(() => _selectedFormatIndex = 0),
+                      ),
+                      SizedBox(height: AppSpacing.md.h),
+                      InterviewFormatChoice(
+                        titleKey: 'interview.technical',
+                        descriptionKey: 'interview.technicalDescription',
+                        icon: Icons.code_rounded,
+                        color: colorScheme.primary,
+                        selected: _selectedFormatIndex == 1,
+                        onTap: () => setState(() => _selectedFormatIndex = 1),
+                      ),
+                      SizedBox(height: AppSpacing.md.h),
+                      InterviewFormatChoice(
+                        titleKey: 'interview.mockHr',
+                        descriptionKey: 'interview.mockHrDescription',
+                        icon: Icons.badge_rounded,
+                        color: colorScheme.tertiary,
+                        selected: _selectedFormatIndex == 2,
+                        onTap: () => setState(() => _selectedFormatIndex = 2),
+                      ),
+                      SizedBox(height: AppSpacing.xl.h),
+                      InterviewPersonalizationCard(colorScheme: colorScheme),
+                      SizedBox(height: AppSpacing.xl.h),
+                      SizedBox(
+                        width: double.infinity,
+                        child: AppButton(
+                          label: 'interview.startInterview'.tr(),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.activeInterview);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 28),
-              const InterviewSectionHeader(
-                titleKey: 'interview.chooseInterviewFormat',
-              ),
-              const SizedBox(height: 14),
-              InterviewFormatChoice(
-                titleKey: 'interview.behavioral',
-                descriptionKey: 'interview.behavioralDescription',
-                icon: Icons.groups_rounded,
-                color: const Color(0xFF5E8F67),
-                selected: _selectedFormatIndex == 0,
-                onTap: () => setState(() => _selectedFormatIndex = 0),
-              ),
-              const SizedBox(height: 16),
-              InterviewFormatChoice(
-                titleKey: 'interview.technical',
-                descriptionKey: 'interview.technicalDescription',
-                icon: Icons.code_rounded,
-                color: colorScheme.primary,
-                selected: _selectedFormatIndex == 1,
-                onTap: () => setState(() => _selectedFormatIndex = 1),
-              ),
-              const SizedBox(height: 16),
-              InterviewFormatChoice(
-                titleKey: 'interview.mockHr',
-                descriptionKey: 'interview.mockHrDescription',
-                icon: Icons.badge_rounded,
-                color: const Color(0xFFF0B84B),
-                selected: _selectedFormatIndex == 2,
-                onTap: () => setState(() => _selectedFormatIndex = 2),
-              ),
-              const SizedBox(height: 28),
-              InterviewPersonalizationCard(colorScheme: colorScheme),
-              const SizedBox(height: 28),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(AppRoutes.activeInterview);
-                  },
-                  icon: const Icon(Icons.play_arrow_rounded),
-                  label: Text('interview.startInterview'.tr()),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

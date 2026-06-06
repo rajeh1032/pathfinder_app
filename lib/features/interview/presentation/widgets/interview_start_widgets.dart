@@ -1,5 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/theme/app_gradients.dart';
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 class InterviewPromoCard extends StatelessWidget {
   const InterviewPromoCard({required this.colorScheme, super.key});
@@ -10,19 +16,15 @@ class InterviewPromoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppSpacing.lg.w),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colorScheme.primary, colorScheme.tertiary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(22),
+        gradient: AppGradients.aiTertiary,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
             color: colorScheme.primary.withValues(alpha: 0.28),
-            blurRadius: 28,
-            offset: const Offset(0, 14),
+            blurRadius: 28.r,
+            offset: Offset(0, 14.h),
           ),
         ],
       ),
@@ -31,16 +33,16 @@ class InterviewPromoCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Container(
-              width: 82,
-              height: 82,
+              width: 82.w,
+              height: 82.w,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.14),
+                color: colorScheme.onPrimary.withValues(alpha: 0.14),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.settings_rounded,
-                color: Colors.white.withValues(alpha: 0.26),
-                size: 42,
+                color: colorScheme.onPrimary.withValues(alpha: 0.26),
+                size: 42.sp,
               ),
             ),
           ),
@@ -49,20 +51,16 @@ class InterviewPromoCard extends StatelessWidget {
             children: [
               Text(
                 'interview.refineYourPitchTitle'.tr(),
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                    ),
+                style: AppTextStyles.headlineSmall(colorScheme.onPrimary),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: AppSpacing.sm.h),
               SizedBox(
-                width: 240,
+                width: 240.w,
                 child: Text(
                   'interview.refineYourPitchDescription'.tr(),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.55,
-                      ),
+                  style: AppTextStyles.bodyMedium(
+                    colorScheme.onPrimary.withValues(alpha: 0.9),
+                  ).copyWith(height: 1.55),
                 ),
               ),
             ],
@@ -95,11 +93,14 @@ class InterviewPathChoice extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        width: 172,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        width: 172.w,
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.md.w,
+          vertical: AppSpacing.sm.h,
+        ),
         decoration: BoxDecoration(
           color: selected ? colorScheme.primaryContainer : colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           border: Border.all(
             color: selected ? colorScheme.primary : colorScheme.outlineVariant,
             width: selected ? 1.6 : 1,
@@ -115,14 +116,13 @@ class InterviewPathChoice extends StatelessWidget {
         child: Row(
           children: [
             Icon(icon, color: colorScheme.primary),
-            const SizedBox(width: 10),
+            SizedBox(width: AppSpacing.sm.w),
             Expanded(
               child: Text(
                 titleKey.tr(),
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: AppTextStyles.bodyLarge(colorScheme.onSurface).copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -161,10 +161,10 @@ class InterviewFormatChoice extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         width: double.infinity,
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(AppSpacing.md.w),
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
             color: selected ? colorScheme.primary : colorScheme.outlineVariant,
             width: selected ? 1.6 : 1,
@@ -181,33 +181,32 @@ class InterviewFormatChoice extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 40.w,
+              height: 40.w,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
-              child: Icon(icon, color: color, size: 22),
+              child: Icon(icon, color: color, size: 22.sp),
             ),
-            const SizedBox(width: 14),
+            SizedBox(width: AppSpacing.md.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     titleKey.tr(),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: colorScheme.onSurface,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: AppTextStyles.titleMedium(colorScheme.onSurface)
+                        .copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: AppSpacing.xs.h),
                   Text(
                     descriptionKey.tr(),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                          height: 1.45,
-                        ),
+                    style: AppTextStyles.bodyMedium(
+                      colorScheme.onSurfaceVariant,
+                    ).copyWith(height: 1.45),
                   ),
                 ],
               ),
