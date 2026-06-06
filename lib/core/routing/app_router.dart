@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
+import '../../features/jobs/presentation/screens/job_details_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
@@ -21,7 +23,8 @@ class AppRouter {
       AppRoutes.splash => const PlaceholderScreen(titleKey: 'routes.splash'),
       AppRoutes.onboarding =>
         const PlaceholderScreen(titleKey: 'routes.onboarding'),
-      AppRoutes.register => const PlaceholderScreen(titleKey: 'routes.register'),
+      AppRoutes.register =>
+        const PlaceholderScreen(titleKey: 'routes.register'),
       AppRoutes.forgotPassword =>
         const PlaceholderScreen(titleKey: 'routes.forgotPassword'),
       AppRoutes.verifyEmail =>
@@ -29,10 +32,12 @@ class AppRouter {
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
       AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
-      AppRoutes.settings => const PlaceholderScreen(titleKey: 'routes.settings'),
+      AppRoutes.settings =>
+        const PlaceholderScreen(titleKey: 'routes.settings'),
       AppRoutes.notifications =>
         const PlaceholderScreen(titleKey: 'routes.notifications'),
-      AppRoutes.cvUpload => const PlaceholderScreen(titleKey: 'routes.cvUpload'),
+      AppRoutes.cvUpload =>
+        const PlaceholderScreen(titleKey: 'routes.cvUpload'),
       AppRoutes.cvAnalysisResult =>
         const PlaceholderScreen(titleKey: 'routes.cvAnalysisResult'),
       AppRoutes.roadmapDetails =>
@@ -40,10 +45,8 @@ class AppRouter {
       AppRoutes.courseDetails =>
         const PlaceholderScreen(titleKey: 'routes.courseDetails'),
       AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
-      AppRoutes.jobDetails =>
-        const PlaceholderScreen(titleKey: 'routes.jobDetails'),
-      AppRoutes.coverLetterGenerator =>
-        const PlaceholderScreen(titleKey: 'routes.coverLetterGenerator'),
+      AppRoutes.jobDetails => const JobDetailsScreen(),
+      AppRoutes.coverLetterGenerator => const CoverLetterGeneratorScreen(),
       AppRoutes.coverLetterResult =>
         const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
       AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),

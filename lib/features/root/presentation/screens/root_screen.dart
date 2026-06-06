@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../jobs/presentation/screens/job_matching_screen.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
@@ -19,7 +20,7 @@ class RootScreen extends StatelessWidget {
               index: state.selectedIndex,
               children: const [
                 _TabName(title: 'Home'),
-                _TabName(title: 'Jobs'),
+                JobMatchingScreen(),
                 _TabName(title: 'Roadmaps'),
                 _TabName(title: 'AI Mentor'),
                 _TabName(title: 'Profile'),
