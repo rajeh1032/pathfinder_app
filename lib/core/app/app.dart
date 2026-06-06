@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,12 +27,14 @@ class PathFinderApp extends StatelessWidget {
             return MaterialApp(
               title: AppConfig.appName,
               debugShowCheckedModeBanner: false,
+              useInheritedMediaQuery: true,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
               themeMode: themeMode,
-              locale: context.locale,
+              locale: DevicePreview.locale(context) ?? context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
+              builder: DevicePreview.appBuilder,
               initialRoute: AppRoutes.root,
               onGenerateRoute: AppRouter.onGenerateRoute,
             );

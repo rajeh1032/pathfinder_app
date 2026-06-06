@@ -15,8 +15,10 @@ class ActiveInterviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
         title: Text('routes.activeInterview'.tr()),
@@ -26,45 +28,49 @@ class ActiveInterviewScreen extends StatelessWidget {
           builder: (context, constraints) {
             final contentWidth = constraints.maxWidth > 620 ? 620.0 : constraints.maxWidth;
 
-            return SingleChildScrollView(
+            return ListView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.md.w,
                 AppSpacing.sm.h,
                 AppSpacing.md.w,
-                AppSpacing.lg.h,
+                AppSpacing.lg.h + bottomInset + AppSpacing.md.h,
               ),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: contentWidth),
-                  child: Column(
-                    children: [
-                      _ProgressHeader(colorScheme: colorScheme),
-                      SizedBox(height: AppSpacing.lg.h),
-                      _AvatarBadge(colorScheme: colorScheme),
-                      SizedBox(height: AppSpacing.lg.h),
-                      _QuestionCard(colorScheme: colorScheme),
-                      SizedBox(height: AppSpacing.lg.h),
-                      _AnswerCard(colorScheme: colorScheme),
-                      SizedBox(height: AppSpacing.lg.h),
-                      SizedBox(
-                        width: double.infinity,
-                        child: AppButton(
-                          label: 'interview.submitAnswer'.tr(),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(AppRoutes.interviewResult);
-                          },
+              children: [
+                Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: contentWidth),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _ProgressHeader(colorScheme: colorScheme),
+                        SizedBox(height: AppSpacing.lg.h),
+                        _AvatarBadge(colorScheme: colorScheme),
+                        SizedBox(height: AppSpacing.lg.h),
+                        _QuestionCard(colorScheme: colorScheme),
+                        SizedBox(height: AppSpacing.lg.h),
+                        _AnswerCard(colorScheme: colorScheme),
+                        SizedBox(height: AppSpacing.xxl.h),
+                        SizedBox(
+                          width: double.infinity,
+                          child: AppButton(
+                            label: 'interview.submitAnswer'.tr(),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(AppRoutes.interviewResult);
+                            },
+                          ),
                         ),
-                      ),
-                      SizedBox(height: AppSpacing.sm.h),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text('interview.skipQuestion'.tr()),
-                      ),
-                    ],
+                        SizedBox(height: AppSpacing.sm.h),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text('interview.skipQuestion'.tr()),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             );
           },
         ),
