@@ -1,21 +1,21 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pathfinder_app/core/theme/app_text_styles.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-import '../widgets/notification_card.dart';
+import '../../../../core/theme/app_colors.dart';
 import 'dummy_data_model.dart';
 
-
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+/// Legacy notifications screen kept for reference.
+/// The production screen is [NotificationsScreen] in notifications_screen.dart.
+class LegacyNotificationsScreen extends StatefulWidget {
+  const LegacyNotificationsScreen({super.key});
 
   @override
-  State<NotificationsScreen> createState() => _NotificationsScreenState();
+  State<LegacyNotificationsScreen> createState() =>
+      _LegacyNotificationsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
+class _LegacyNotificationsScreenState extends State<LegacyNotificationsScreen> {
   NotificationTab _selectedTab = NotificationTab.all;
 
   @override
@@ -49,7 +49,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               style: AppTextStyles.header600Blue28(colorScheme.onSurface),
             ),
           ),
-          // Tabs
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
@@ -85,24 +84,24 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ),
           ),
           SizedBox(height: 16.h),
-          // Notifications list
           Expanded(
             child: notifications.isEmpty
                 ? Center(
-              child: Text(
-                'No notifications',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-              ),
-            )
+                    child: Text(
+                      'No notifications',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  )
                 : ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              itemCount: notifications.length,
-              itemBuilder: (_, i) =>
-                  NotificationCard(notification: notifications[i]),
-            ),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    itemCount: notifications.length,
+                    itemBuilder: (_, i) => _LegacyNotificationTile(
+                      notification: notifications[i],
+                    ),
+                  ),
           ),
         ],
       ),
@@ -118,5 +117,20 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       case NotificationTab.learning:
         return 'Learning';
     }
+  }
+}
+
+class _LegacyNotificationTile extends StatelessWidget {
+  const _LegacyNotificationTile({required this.notification});
+
+  final NotificationModel notification;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(notification.title),
+      subtitle: Text(notification.body),
+      trailing: Text(notification.time),
+    );
   }
 }

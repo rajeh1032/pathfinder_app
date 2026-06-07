@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,7 +7,7 @@ import '../dummy_data_model.dart';
 
 class RecentSearchItem extends StatelessWidget {
   final RecentSearchModel item;
-  const RecentSearchItem({required this.item});
+  const RecentSearchItem({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
