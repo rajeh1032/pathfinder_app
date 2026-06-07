@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
+import 'app_gradients.dart';
 import 'app_text_styles.dart';
 
 class AppTheme {
@@ -35,7 +36,6 @@ class AppTheme {
           onInverseSurface: AppColors.neutral50,
           inversePrimary: AppColors.primarySoft,
         ),
-        background: AppColors.lightBackground,
       );
 
   static ThemeData get dark => _theme(
@@ -67,25 +67,33 @@ class AppTheme {
           onInverseSurface: AppColors.neutral900,
           inversePrimary: AppColors.primarySoft,
         ),
-        background: AppColors.darkBackground,
       );
 
-  static ThemeData _theme({
-    required ColorScheme colorScheme,
-    required Color background,
-  }) {
+  static ThemeData _theme({required ColorScheme colorScheme}) {
+    final scaffoldColor = colorScheme.surface;
+
     return ThemeData(
       useMaterial3: true,
       brightness: colorScheme.brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: background,
+      scaffoldBackgroundColor: scaffoldColor,
       fontFamily: AppTextStyles.fontFamily,
       textTheme: _textTheme(colorScheme),
       appBarTheme: AppBarTheme(
-        backgroundColor: background,
+        backgroundColor: scaffoldColor,
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
         centerTitle: true,
+        titleTextStyle: _appBarTitleTextStyle(colorScheme),
+        toolbarTextStyle: AppTextStyles.bodyMedium(colorScheme.onSurface),
+        iconTheme: IconThemeData(color: colorScheme.primary, size: 22),
+        actionsIconTheme: IconThemeData(
+          color: colorScheme.primary,
+          size: 22,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -120,7 +128,8 @@ class AppTheme {
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return TextStyle(
-            color: selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
+            color:
+                selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
             fontSize: 12,
             fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
           );
@@ -128,7 +137,8 @@ class AppTheme {
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
           return IconThemeData(
-            color: selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
+            color:
+                selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
           );
         }),
       ),
@@ -160,6 +170,22 @@ class AppTheme {
       labelLarge: AppTextStyles.labelLarge(onSurface),
       labelMedium: AppTextStyles.labelMedium(onSurfaceVariant),
       labelSmall: AppTextStyles.labelSmall(onSurfaceVariant),
+    );
+  }
+
+  static TextStyle _appBarTitleTextStyle(ColorScheme colorScheme) {
+    final baseStyle = AppTextStyles.titleLarge(colorScheme.primary);
+
+    return TextStyle(
+      fontFamily: baseStyle.fontFamily,
+      fontSize: baseStyle.fontSize,
+      fontWeight: baseStyle.fontWeight,
+      height: baseStyle.height,
+      letterSpacing: baseStyle.letterSpacing,
+      foreground: Paint()
+        ..shader = AppGradients.aiTertiary.createShader(
+          const Rect.fromLTWH(0, 0, 240, 32),
+        ),
     );
   }
 }
