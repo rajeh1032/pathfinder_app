@@ -6,6 +6,9 @@ import 'package:pathfinder_app/features/auth/presentation/screens/register_scree
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 
+import '../../features/interview/presentation/screens/active_interview_screen.dart';
+import '../../features/interview/presentation/screens/interview_result_screen.dart';
+import '../../features/interview/presentation/screens/interview_start_screen.dart';
 import '../../features/courses/presentation/screens/course_details_screen.dart';
 import '../../features/courses/presentation/screens/courses_screen.dart';
 import '../../features/notifications/presentation/screens/notifications_screen.dart';
@@ -94,12 +97,9 @@ class AppRouter {
       AppRoutes.coverLetterResult =>
         const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
       AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),
-      AppRoutes.interviewStart =>
-        const PlaceholderScreen(titleKey: 'routes.interviewStart'),
-      AppRoutes.activeInterview =>
-        const PlaceholderScreen(titleKey: 'routes.activeInterview'),
-      AppRoutes.interviewResult =>
-        const PlaceholderScreen(titleKey: 'routes.interviewResult'),
+      AppRoutes.interviewStart => const InterviewStartScreen(),
+      AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.interviewResult => const InterviewResultScreen(),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
   }

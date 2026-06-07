@@ -7,6 +7,7 @@ import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
+import '../../../interview/presentation/screens/interview_start_screen.dart';
 
 class RootScreen extends StatelessWidget {
   const RootScreen({super.key});

@@ -28,6 +28,7 @@ class PathFinderApp extends StatelessWidget {
             return MaterialApp(
               title: AppConfig.appName,
               debugShowCheckedModeBanner: false,
+              useInheritedMediaQuery: true,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
               themeMode: themeMode,
