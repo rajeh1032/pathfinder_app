@@ -48,5 +48,57 @@
     "loginTitle": "مرحبًا بعودتك",
     "loginSubtitle": "تابع مسارك المهني مع PathFinder AI.",
     "loginSuccess": "تم تسجيل الدخول بنجاح"
+  },
+  "home": {
+    "hello": "مرحباً",
+    "readyToLevelUp": "هل أنتِ مستعدة للارتقاء بمسيرتك؟",
+    "analyzeCv": "تحليل السيرة الذاتية",
+    "chatWithAi": "التحدث مع الذكاء الاصطناعي",
+    "topRecommendation": "أفضل توصية",
+    "basedOnYourStack": "بناءً على مهاراتك",
+    "uiScore": "نقاط السيرة",
+    "aiCareerInsight": "رؤية مهنية ذكية",
+    "roadmap": "خطة التعلم",
+    "skillGapAnalysis": "تحليل فجوة المهارات",
+    "jobsForYou": "وظائف مناسبة لك",
+    "viewAll": "عرض الكل"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "all": "الكل",
+    "jobs": "الوظائف",
+    "learning": "التعلم",
+    "jobMatch": "تطابق وظيفي",
+    "upcoming": "قادم",
+    "aiInsight": "رؤية ذكية",
+    "learningProgress": "تقدم التعلم"
+  },
+  "cvAnalysis": {
+    "title": "تحليل السيرة الذاتية",
+    "matchScore": "نسبة التطابق",
+    "aiInsights": "رؤى الذكاء الاصطناعي",
+    "strengths": "نقاط القوة",
+    "weaknesses": "نقاط الضعف",
+    "missingSkills": "المهارات الناقصة",
+    "improvementChecklist": "قائمة التحسين",
+    "aiRecommendations": "توصيات الذكاء الاصطناعي",
+    "uploadNewCv": "رفع سيرة ذاتية جديدة"
+  },
+  "chat": {
+    "title": "المرشد المهني الذكي",
+    "subtitle": "مساعدة مهنية فورية. اسأل أي شيء، انمُ أسرع.",
+    "inputHint": "اسأل مرشدك المهني...",
+    "mentor": "المرشد الذكي"
+  },
+  "search": {
+    "hint": "ابحث عن وظائف، دورات، مهارات...",
+    "recentSearches": "عمليات البحث الأخيرة",
+    "suggestedForYou": "مقترح لك",
+    "trending": "رائج",
+    "all": "الكل",
+    "jobs": "الوظائف",
+    "courses": "الدورات",
+    "skills": "المهارات",
+    "careerPaths": "المسارات المهنية"
   }
 }

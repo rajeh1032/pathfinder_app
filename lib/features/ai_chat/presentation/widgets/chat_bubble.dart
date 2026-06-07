@@ -5,7 +5,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../screens/chat_with_ai.dart';
 import 'chat_message.dart';
 
 class ChatBubble extends StatelessWidget {
