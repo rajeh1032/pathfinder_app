@@ -157,6 +157,7 @@
       "regenerate": "Regenerate",
       "pdf": "PDF"
     }
+  },
   "splash": {
     "welcome": "Guided Intelligence for Careers",
     "tagline": "INITIALISING JOURNEY..."
@@ -209,39 +210,37 @@
     "newPassword": "New Password",
     "save": "Save"
   },
-  "profileSetup":{
+  "profileSetup": {
     "basicInfo": "Basic Info",
     "education": "Education",
     "careerGaol": "Career Goal",
-    "step1Title":"About You",
-    "step1Subtitle":"Tell us a little about yourself.",
-    "step2Title":"Your Education",
-    "step2Subtitle":"Education background shapes your career trajectory",
-    "step3Title":"Your Career Goal",
-    "step3Subtitle":"Tell us where you want to go",
-    "name":"Full Name",
-    "location":"Location",
-    "experience":"Years of Experience",
-    "degree":"Degree Level",
-    "university":"University / Institution",
-    "major":"Major / Field of Study",
-    "targetJob":"Target Job Title",
-    "currentStatus":"Current Status",
-    "activelyLooking":"Actively looking",
-    "openToOffer":"Open to offers",
-    "planningShift":"Planning shift",
-    "student":"Student / Fresh graduate",
-    "buildMyPath":"Build My Path",
-    "continue":"Continue",
-    "namePlaceholder":"Enter your full name",
-    "locationPlaceholder":"Enter your location",
-    "experiencePlaceholder":"Enter your years of experience",
-    "degreePlaceholder":"Select your degree level",
-    "universityPlaceholder":"Enter your university or institution",
-    "majorPlaceholder":"Enter your major or field of study",
-    "targetJobPlaceholder":"Enter your target job title"
-    "loginSubtitle": "Continue your career path with PathFinder AI.",
-    "loginSuccess": "Logged in successfully"
+    "step1Title": "About You",
+    "step1Subtitle": "Tell us a little about yourself.",
+    "step2Title": "Your Education",
+    "step2Subtitle": "Education background shapes your career trajectory",
+    "step3Title": "Your Career Goal",
+    "step3Subtitle": "Tell us where you want to go",
+    "name": "Full Name",
+    "location": "Location",
+    "experience": "Years of Experience",
+    "degree": "Degree Level",
+    "university": "University / Institution",
+    "major": "Major / Field of Study",
+    "targetJob": "Target Job Title",
+    "currentStatus": "Current Status",
+    "activelyLooking": "Actively looking",
+    "openToOffer": "Open to offers",
+    "planningShift": "Planning shift",
+    "student": "Student / Fresh graduate",
+    "buildMyPath": "Build My Path",
+    "continue": "Continue",
+    "namePlaceholder": "Enter your full name",
+    "locationPlaceholder": "Enter your location",
+    "experiencePlaceholder": "Enter your years of experience",
+    "degreePlaceholder": "Select your degree level",
+    "universityPlaceholder": "Enter your university or institution",
+    "majorPlaceholder": "Enter your major or field of study",
+    "targetJobPlaceholder": "Enter your target job title"
   },
   "home": {
     "hello": "Hello",
@@ -256,16 +255,6 @@
     "skillGapAnalysis": "Skill Gap Analysis",
     "jobsForYou": "Jobs for You",
     "viewAll": "View All"
-  },
-  "notifications": {
-    "title": "Notifications",
-    "all": "All",
-    "jobs": "Jobs",
-    "learning": "Learning",
-    "jobMatch": "Job Match",
-    "upcoming": "Upcoming",
-    "aiInsight": "AI Career Insight",
-    "learningProgress": "Learning Progress"
   },
   "cvAnalysis": {
     "title": "CV Analysis",
@@ -294,6 +283,7 @@
     "courses": "Courses",
     "skills": "Skills",
     "careerPaths": "Career Paths"
+  },
   "interview": {
     "refineYourPitchTitle": "Refine Your Pitch",
     "refineYourPitchDescription": "Simulate high-stakes interviews with PathFinder AI's adaptive engine.",
@@ -356,6 +346,7 @@
     "systemDesign": "System Design",
     "improvementLabel": "+{value}% improvement",
     "previousScoreLabel": "(Previous: {value})"
+  },
   "profile": {
     "title": "Profile",
     "preferencesTitle": "Preferences",

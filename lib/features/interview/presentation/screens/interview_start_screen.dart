@@ -29,13 +29,8 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('routes.interviewStart'.tr()),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_rounded),
-          ),
-        ],
       ),
       body: SafeArea(
         child: LayoutBuilder(

@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../../interview/presentation/screens/interview_start_screen.dart';
 import '../../../jobs/presentation/screens/job_matching_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
@@ -23,11 +23,10 @@ class RootScreen extends StatelessWidget {
             body: IndexedStack(
               index: state.selectedIndex,
               children: const [
-                JobMatchingScreen(),
                 HomeScreen(),
-                _TabName(titleKey: 'root.jobs'),
+                JobMatchingScreen(),
                 RoadmapsScreen(),
-                _TabName(titleKey: 'root.aiMentor'),
+                InterviewStartScreen(),
                 ProfileScreen(),
               ],
             ),
@@ -37,25 +36,6 @@ class RootScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _TabName extends StatelessWidget {
-  const _TabName({required this.titleKey});
-
-  final String titleKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        titleKey.tr(),
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: Theme.of(context).colorScheme.primary,
-            ),
       ),
     );
   }
