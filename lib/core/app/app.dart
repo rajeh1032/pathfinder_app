@@ -22,7 +22,8 @@ class PathFinderApp extends StatelessWidget {
         designSize: const Size(390, 844),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (screenContext, child) => BlocBuilder<AppThemeCubit, ThemeMode>(
+        builder: (screenContext, child) =>
+            BlocBuilder<AppThemeCubit, ThemeMode>(
           builder: (context, themeMode) {
             return MaterialApp(
               title: AppConfig.appName,
@@ -34,6 +35,7 @@ class PathFinderApp extends StatelessWidget {
               locale: DevicePreview.locale(context) ?? context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
+              initialRoute: AppRoutes.splash,
               builder: DevicePreview.appBuilder,
               initialRoute: AppRoutes.root,
               onGenerateRoute: AppRouter.onGenerateRoute,

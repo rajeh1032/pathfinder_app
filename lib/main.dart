@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -28,15 +29,8 @@ Future<void> main() async {
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
-      defaultDevice: Devices.ios.iPhone13,
-      devices: [
-        Devices.ios.iPhoneSE,
-        Devices.ios.iPhone13,
-        Devices.ios.iPadAir4,
-        Devices.android.googlePixel9,
-        Devices.android.samsungGalaxyS25,
-      ],
-      builder: (context) => EasyLocalization(
+      availableLocales: LocalizationService.supportedLocales,
+      builder: (_) => EasyLocalization(
         supportedLocales: LocalizationService.supportedLocales,
         path: LocalizationService.translationsPath,
         fallbackLocale: LocalizationService.english,
