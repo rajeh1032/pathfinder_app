@@ -34,6 +34,11 @@ class AppTextStyles {
         fontSize: 24,
         fontWeight: FontWeight.w700,
       );
+  static TextStyle header600Blue28(Color color) => _style(
+    color: color,
+    fontSize: 28,
+    fontWeight: FontWeight.w600,
+  );
 
   static TextStyle headlineSmall(Color color) => _style(
         color: color,

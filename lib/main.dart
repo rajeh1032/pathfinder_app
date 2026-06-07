@@ -1,4 +1,7 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,11 +27,15 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: LocalizationService.supportedLocales,
-      path: LocalizationService.translationsPath,
-      fallbackLocale: LocalizationService.english,
-      child: const PathFinderApp(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      availableLocales: LocalizationService.supportedLocales,
+      builder: (_) => EasyLocalization(
+        supportedLocales: LocalizationService.supportedLocales,
+        path: LocalizationService.translationsPath,
+        fallbackLocale: LocalizationService.english,
+        child: const PathFinderApp(),
+      ),
     ),
   );
 }
