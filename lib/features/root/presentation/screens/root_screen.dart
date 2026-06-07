@@ -23,7 +23,6 @@ class RootScreen extends StatelessWidget {
             body: IndexedStack(
               index: state.selectedIndex,
               children: const [
-                _TabName(title: 'Home'),
                 JobMatchingScreen(),
                 HomeScreen(),
                 _TabName(titleKey: 'root.jobs'),
