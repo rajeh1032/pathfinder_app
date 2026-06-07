@@ -1,5 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import 'interview_personalization_bullet_item.dart';
 
 class InterviewPersonalizationCard extends StatelessWidget {
   const InterviewPersonalizationCard({required this.colorScheme, super.key});
@@ -10,10 +16,10 @@ class InterviewPersonalizationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppSpacing.lg.w),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer.withValues(alpha: 0.35),
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(color: colorScheme.primary.withValues(alpha: 0.14)),
       ),
       child: Column(
@@ -22,65 +28,35 @@ class InterviewPersonalizationCard extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: CircleAvatar(
-              radius: 28,
+              radius: 28.r,
               backgroundColor: colorScheme.primary,
               child: Icon(
                 Icons.psychology_alt_rounded,
                 color: colorScheme.onPrimary,
-                size: 28,
+                size: 28.sp,
               ),
             ),
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: AppSpacing.md.h),
           Text(
             'interview.aiPersonalizationActive'.tr(),
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                ),
+            style: AppTextStyles.titleLarge(colorScheme.primary),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: AppSpacing.sm.h),
           Text(
             'interview.aiPersonalizationDescription'.tr(),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  height: 1.55,
-                ),
+            style: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant)
+                .copyWith(height: 1.55),
           ),
-          const SizedBox(height: 10),
-          const _BulletItem('interview.personalizationBulletOne'),
-          const _BulletItem('interview.personalizationBulletTwo'),
-          const _BulletItem('interview.personalizationBulletThree'),
-        ],
-      ),
-    );
-  }
-}
-
-class _BulletItem extends StatelessWidget {
-  const _BulletItem(this.titleKey);
-
-  final String titleKey;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.circle, size: 6, color: colorScheme.onSurfaceVariant),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              titleKey.tr(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    height: 1.5,
-                  ),
-            ),
+          SizedBox(height: AppSpacing.sm.h),
+          const InterviewPersonalizationBulletItem(
+            'interview.personalizationBulletOne',
+          ),
+          const InterviewPersonalizationBulletItem(
+            'interview.personalizationBulletTwo',
+          ),
+          const InterviewPersonalizationBulletItem(
+            'interview.personalizationBulletThree',
           ),
         ],
       ),

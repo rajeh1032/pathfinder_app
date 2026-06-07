@@ -5,9 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../widgets/interview_result_insight_widgets.dart';
-import '../widgets/interview_result_overview_widgets.dart';
-import '../widgets/interview_result_question_widgets.dart';
+import '../widgets/interview_result_callout_card.dart';
+import '../widgets/interview_result_insight_card.dart';
+import '../widgets/interview_result_next_step_card.dart';
+import '../widgets/interview_result_question_tile.dart';
+import '../widgets/interview_result_summary_card.dart';
+import '../widgets/interview_result_title_header.dart';
+import '../widgets/interview_skills_grid.dart';
 import '../widgets/interview_section_header.dart';
 
 class InterviewResultScreen extends StatelessWidget {

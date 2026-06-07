@@ -7,8 +7,10 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../widgets/interview_section_header.dart';
+import '../widgets/interview_format_choice.dart';
+import '../widgets/interview_path_choice.dart';
 import '../widgets/interview_personalization_card.dart';
-import '../widgets/interview_start_widgets.dart';
+import '../widgets/interview_promo_card.dart';
 
 class InterviewStartScreen extends StatefulWidget {
   const InterviewStartScreen({super.key});
