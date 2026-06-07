@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,10 +7,11 @@ import '../../../../core/theme/app_spacing.dart';
 import '../dummy_data_model.dart';
 
 class SearchTabs extends StatelessWidget {
-   final SearchTab selected;
+  final SearchTab selected;
   final ValueChanged<SearchTab> onChanged;
 
-  const SearchTabs({required this.selected, required this.onChanged});
+  const SearchTabs(
+      {super.key, required this.selected, required this.onChanged});
 
   String _label(SearchTab tab) {
     switch (tab) {
@@ -56,9 +56,8 @@ class SearchTabs extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
-                  color: isSelected
-                      ? Colors.white
-                      : colorScheme.onSurfaceVariant,
+                  color:
+                      isSelected ? Colors.white : colorScheme.onSurfaceVariant,
                 ),
               ),
             ),

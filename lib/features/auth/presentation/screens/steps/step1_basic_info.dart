@@ -42,7 +42,6 @@ class _Step1BasicInfoState extends State<Step1BasicInfo> {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SetupProfileCubit>();
-    final colorScheme = Theme.of(context).colorScheme;
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg.w),
@@ -50,7 +49,7 @@ class _Step1BasicInfoState extends State<Step1BasicInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: AppSpacing.xl.h),
-           OnboardingStepHeader(
+          OnboardingStepHeader(
             title: 'profileSetup.step1Title'.tr(),
             subtitle: 'profileSetup.step1Subtitle'.tr(),
           ),

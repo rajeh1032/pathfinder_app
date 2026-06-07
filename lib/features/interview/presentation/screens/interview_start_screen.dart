@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/routing/app_routes.dart';
@@ -36,13 +35,13 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
             onPressed: () {},
             icon: const Icon(Icons.notifications_none_rounded),
           ),
-       
         ],
       ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final contentWidth = constraints.maxWidth > 620 ? 620.0 : constraints.maxWidth;
+            final contentWidth =
+                constraints.maxWidth > 620 ? 620.0 : constraints.maxWidth;
 
             return SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
@@ -73,21 +72,24 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
                               titleKey: 'interview.frontendDeveloper',
                               icon: Icons.code_rounded,
                               selected: _selectedPathIndex == 0,
-                              onTap: () => setState(() => _selectedPathIndex = 0),
+                              onTap: () =>
+                                  setState(() => _selectedPathIndex = 0),
                             ),
                             SizedBox(width: AppSpacing.md.w),
                             InterviewPathChoice(
                               titleKey: 'interview.productDesigner',
                               icon: Icons.design_services_rounded,
                               selected: _selectedPathIndex == 1,
-                              onTap: () => setState(() => _selectedPathIndex = 1),
+                              onTap: () =>
+                                  setState(() => _selectedPathIndex = 1),
                             ),
                             SizedBox(width: AppSpacing.md.w),
                             InterviewPathChoice(
                               titleKey: 'interview.dataAnalyst',
                               icon: Icons.query_stats_rounded,
                               selected: _selectedPathIndex == 2,
-                              onTap: () => setState(() => _selectedPathIndex = 2),
+                              onTap: () =>
+                                  setState(() => _selectedPathIndex = 2),
                             ),
                           ],
                         ),

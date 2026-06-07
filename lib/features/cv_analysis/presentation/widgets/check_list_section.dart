@@ -38,7 +38,7 @@ class _ChecklistSectionState extends State<ChecklistSection> {
           decoration: BoxDecoration(
             color: colorScheme.surface,
             borderRadius: BorderRadius.circular(AppRadius.lg.r),
-            border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+            border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
           ),
           child: Column(
             children: _items.asMap().entries.map((entry) {
@@ -62,7 +62,7 @@ class _ChecklistSectionState extends State<ChecklistSection> {
                         ? null
                         : Border(
                       bottom: BorderSide(
-                        color: colorScheme.outline.withOpacity(0.3),
+                        color: colorScheme.outline.withValues(alpha: 0.3),
                       ),
                     ),
                   ),

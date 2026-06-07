@@ -51,7 +51,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(24.w),
                 decoration: BoxDecoration(
-                  color: colorScheme.surfaceVariant,
+                  color: colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(28.r),
                 ),
                 child: Column(
@@ -97,7 +97,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Code is required';
                         }
-                       
+
                         return null;
                       },
                     ),

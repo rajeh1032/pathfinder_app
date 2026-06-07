@@ -39,10 +39,10 @@ class _CvScoreCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.05),
+            color: colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -115,13 +115,13 @@ class _AiInsightCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withOpacity(0.08),
-            AppColors.tertiary.withOpacity(0.08),
+            AppColors.primary.withValues(alpha: 0.08),
+            AppColors.tertiary.withValues(alpha: 0.08),
           ],
         ),
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: AppColors.primary.withOpacity(0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -133,7 +133,7 @@ class _AiInsightCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(6.w),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Icon(

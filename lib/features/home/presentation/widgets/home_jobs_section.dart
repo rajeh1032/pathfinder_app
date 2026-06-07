@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../home-dummy-data.dart';
+import '../home_dummy_data.dart';
 
 class HomeJobsSection extends StatelessWidget {
   const HomeJobsSection({super.key});
@@ -65,10 +65,10 @@ class _JobCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.05),
+            color: colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -81,7 +81,7 @@ class _JobCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
@@ -135,7 +135,7 @@ class _JobCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.1),
+                color: AppColors.secondary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(999.r),
               ),
               child: Text(

@@ -8,7 +8,7 @@ import '../dummy_data_model.dart';
 
 class SuggestionCard extends StatelessWidget {
   final SuggestedResultModel item;
-  const SuggestionCard({required this.item});
+  const SuggestionCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,10 @@ class SuggestionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg.r),
-        border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.05),
+            color: colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -36,7 +36,7 @@ class SuggestionCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: (item.avatarColor ?? AppColors.primary).withOpacity(0.15),
+              color: (item.avatarColor ?? AppColors.primary).withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(AppRadius.md.r),
             ),
             child: Center(
@@ -78,7 +78,7 @@ class SuggestionCard extends StatelessWidget {
                 vertical: 4.h,
               ),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppRadius.pill.r),
               ),
               child: Text(
@@ -97,7 +97,7 @@ class SuggestionCard extends StatelessWidget {
                 vertical: 4.h,
               ),
               decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
+                color: AppColors.warning.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppRadius.pill.r),
               ),
               child: Text(

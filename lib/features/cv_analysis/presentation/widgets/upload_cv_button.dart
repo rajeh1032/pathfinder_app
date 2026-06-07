@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,6 +5,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 
 class UploadCvButton extends StatelessWidget {
+  const UploadCvButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -5,10 +5,11 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
-class chatInputBar extends StatelessWidget {
-   final TextEditingController controller;
-   final VoidCallback onSend;
-   const chatInputBar({super.key, required this.controller, required this.onSend});
+class ChatInputBar extends StatelessWidget {
+  final TextEditingController controller;
+  final VoidCallback onSend;
+  const ChatInputBar(
+      {super.key, required this.controller, required this.onSend});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class chatInputBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border(
-          top: BorderSide(color: colorScheme.outline.withOpacity(0.3)),
+          top: BorderSide(color: colorScheme.outline.withValues(alpha: 0.3)),
         ),
       ),
       child: Row(
@@ -34,9 +35,9 @@ class chatInputBar extends StatelessWidget {
               height: 44.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 border: Border.all(
-                  color: AppColors.primary.withOpacity(0.3),
+                  color: AppColors.primary.withValues(alpha: 0.3),
                 ),
               ),
               child: Icon(
@@ -69,9 +70,8 @@ class chatInputBar extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                   isDense: true,
                   contentPadding:
-                  EdgeInsets.symmetric(vertical: AppSpacing.sm.h),
+                      EdgeInsets.symmetric(vertical: AppSpacing.sm.h),
                 ),
-
                 onSubmitted: (_) => onSend(),
               ),
             ),

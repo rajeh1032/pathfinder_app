@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../cv_anaylsis_dummy_model.dart';
@@ -13,7 +11,7 @@ import '../widgets/recommendation_section.dart';
 import '../widgets/score_section.dart';
 import '../widgets/upload_cv_button.dart';
 
-  class CvAnalysisResult extends StatelessWidget {
+class CvAnalysisResult extends StatelessWidget {
   const CvAnalysisResult({super.key});
 
   @override
@@ -86,8 +84,3 @@ import '../widgets/upload_cv_button.dart';
     );
   }
 }
-
-
-
-
-

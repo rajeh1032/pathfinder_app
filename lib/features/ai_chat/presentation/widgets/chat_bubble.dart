@@ -75,7 +75,7 @@ class ChatBubble extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10.sp,
                       color: isUser
-                          ? Colors.white.withOpacity(0.7)
+                          ? Colors.white.withValues(alpha: 0.7)
                           : colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -90,7 +90,7 @@ class ChatBubble extends StatelessWidget {
               height: 28.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.secondary.withOpacity(0.2),
+                color: AppColors.secondary.withValues(alpha: 0.2),
               ),
               child: Icon(Icons.person_rounded,
                   size: 16.sp, color: AppColors.secondary),

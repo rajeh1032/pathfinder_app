@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBarWidget extends StatelessWidget {
   final TextEditingController controller;
-  const SearchBar({required this.controller});
+  const SearchBarWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class SearchBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(AppRadius.md.r),
-        border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [

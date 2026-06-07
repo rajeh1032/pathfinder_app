@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../home-dummy-data.dart';
+import '../home_dummy_data.dart';
 
 class HomeHeader extends StatelessWidget {
   final HomeUserModel user;
@@ -63,7 +63,7 @@ class _CvScoreCircle extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.35),
+            color: AppColors.primary.withValues(alpha: 0.35),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
