@@ -44,6 +44,108 @@
     "aiMentor": "المرشد الذكي",
     "profile": "الملف الشخصي"
   },
+  "jobs": {
+    "common": {
+      "seniorUxDesigner": "مصمم تجربة مستخدم أول",
+      "applyNow": "قدّم الآن",
+      "aiMatchPercent": "تطابق AI بنسبة 92%",
+      "aiMatchLabel": "تطابق AI: 92%",
+      "requiredSkills": "المهارات المطلوبة",
+      "missingSkills": "المهارات الناقصة",
+      "requiredSkillsUpper": "المهارات المطلوبة",
+      "missingSkillsUpper": "المهارات الناقصة"
+    },
+    "skills": {
+      "systemDesign": "تصميم الأنظمة",
+      "figma": "Figma",
+      "react": "React",
+      "graphql": "GraphQL"
+    },
+    "matching": {
+      "searchHint": "ابحث عن وظائف مناسبة بالذكاء الاصطناعي...",
+      "filters": "فلترة",
+      "remote": "عن بعد",
+      "design": "تصميم",
+      "salary": "140 ألف - 185 ألف دولار / سنة",
+      "companyLocation": "Stripe - عن بعد",
+      "insight": "\"ملف أعمالك يوضح نفس مستوى النمذجة عالية الدقة والتفكير المتمحور حول المستخدم المطلوب لتطوير لوحة تحكم تجار Stripe.\"",
+      "newUpdate": "تحديث جديد",
+      "boostTitle": "ارفع درجة تطابقك\nبنسبة 12%",
+      "boostDescription": "أكمل مسار 'Advanced API Orchestration' لفتح فرص أعلى في Figma وUber.",
+      "startLearningPath": "ابدأ مسار التعلم"
+    },
+    "details": {
+      "title": "تفاصيل الوظيفة",
+      "aiRecommended": "موصى بها بالذكاء الاصطناعي",
+      "webDevelopment": "تطوير الويب",
+      "advanced": "متقدم",
+      "certificate": "شهادة Meta المهنية",
+      "aiReason": "موصى بها لأنها تطور المهارات الناقصة لديك في React Hooks وتحسين الأداء وبناء المكونات ضمن مسار Senior Frontend Developer.",
+      "overview": "نظرة عامة",
+      "aboutTitle": "عن هذه الوظيفة",
+      "aboutBody": "أتقن مفاهيم React المتقدمة وأنماط التصميم الحديثة. تعلم بناء تطبيقات قابلة للتوسع وعالية الأداء وسهلة الصيانة تستخدمها شركات تقنية كبرى.",
+      "needsTitle": "ماذا نحتاج؟",
+      "needArchitecture": "تنفيذ بنية مكونات قوية",
+      "needPerformance": "تحسين أداء العرض باستخدام useMemo وuseCallback",
+      "needHooks": "إتقان Custom Hooks وContext API لإدارة الحالة"
+    }
+  },
+  "coverLetter": {
+    "title": "منشئ خطاب\nالتقديم",
+    "subtitle": "أنشئ خطاب تقديم مخصص يناسب الدور المستهدف وخبرتك.",
+    "selectedRole": {
+      "title": "مهندس واجهات\nأمامية أول",
+      "companyLocation": "Vercel - سياتل، واشنطن"
+    },
+    "personalize": {
+      "title": "خصص خطابك",
+      "subtitle": "ساعد الذكاء الاصطناعي على إنشاء خطاب أقوى وأكثر ارتباطًا بالوظيفة.",
+      "toneOfVoice": "نبرة الخطاب",
+      "focusKeywords": "الكلمات المفتاحية (3/5)",
+      "companyInterest": "لماذا أنت مهتم بهذه الشركة؟",
+      "companyInterestHint": "مثال: أتابع عمل Vercel على Next.js منذ فترة...",
+      "achievement": "ما الإنجاز الذي تريد إبرازه؟",
+      "achievementHint": "مثال: قدت عملية الانتقال إلى بنية React جديدة..."
+    },
+    "tone": {
+      "professional": "احترافي",
+      "enthusiastic": "متحمس",
+      "concise": "مختصر"
+    },
+    "keywords": {
+      "leadership": "القيادة",
+      "reactNative": "React Native",
+      "uiDesign": "تصميم الواجهة",
+      "addSkill": "+ أضف مهارة"
+    },
+    "goal": {
+      "label": "الهدف المستهدف",
+      "title": "معماري واجهات\nأمامية أول",
+      "complete": "65%\nمكتمل",
+      "advancedPatterns": "أنماط React\nمتقدمة",
+      "systemDesign": "تصميم الأنظمة\nوالأنظمة الموزعة"
+    },
+    "generate": "إنشاء خطاب التقديم",
+    "match": {
+      "strong": "تطابق قوي",
+      "description": "خطاب التقديم متوافق بقوة مع هذه الوظيفة."
+    },
+    "insights": {
+      "title": "ملاحظات مراجعة AI",
+      "alignment": "توافق قوي مع متطلبات الوظيفة",
+      "leadership": "استخدام جيد لخبرات القيادة",
+      "achievements": "أضف إنجازات قابلة للقياس",
+      "reactNative": "اذكر خبرتك في React Native"
+    },
+    "draft": {
+      "title": "المسودة الناتجة",
+      "wordCount": "240 كلمة",
+      "body": "إلى فريق التوظيف في Vercel،\n\nأكتب إليكم للتعبير عن اهتمامي القوي بوظيفة Senior Frontend Engineer. أمتلك خبرة قوية في تطوير تطبيقات ويب قابلة للتوسع، وشغفًا واضحًا بتحسين تجربة المطورين، وأتطلع للمساهمة في رسالة Vercel لجعل الويب أسرع وأكثر سهولة في الوصول.\n\nفي دوري الأخير كقائد تطوير، قدت عملية انتقال إلى بنية React حديثة حسّنت الأداء وقابلية الصيانة وسرعة إنجاز الفريق.",
+      "copy": "نسخ",
+      "edit": "تعديل",
+      "regenerate": "إعادة الإنشاء",
+      "pdf": "PDF"
+    }
   "splash": {
     "welcome": "الذكاء الموجه للمسارات المهنية",
     "tagline": "تهيئة الرحلة..."

@@ -1,0 +1,78 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../widgets/job_details/about_section.dart';
+import '../widgets/job_details/ai_recommendation_card.dart';
+import '../widgets/job_details/apply_bottom_bar.dart';
+import '../widgets/job_details/details_app_bar.dart';
+import '../widgets/job_details/hero_preview.dart';
+import '../widgets/job_details/job_tags.dart';
+import '../widgets/job_details/job_title_block.dart';
+import '../widgets/job_details/needs_section.dart';
+import '../widgets/job_details/overview_tab.dart';
+import '../widgets/job_details/skill_section.dart';
+
+class JobDetailsScreen extends StatelessWidget {
+  const JobDetailsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.lightBackground,
+      body: SafeArea(
+        bottom: false,
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(child: DetailsAppBar()),
+            const SliverToBoxAdapter(child: JobHeroPreview()),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.md.w,
+                AppSpacing.md.h,
+                AppSpacing.md.w,
+                112.h,
+              ),
+              sliver: SliverList.list(
+                children: [
+                  const JobTags(),
+                  SizedBox(height: AppSpacing.md.h),
+                  const JobTitleBlock(),
+                  SizedBox(height: AppSpacing.lg.h),
+                  const AiRecommendationCard(),
+                  SizedBox(height: AppSpacing.xxl.h),
+                  const OverviewTab(),
+                  SizedBox(height: AppSpacing.lg.h),
+                  const AboutSection(),
+                  SizedBox(height: AppSpacing.lg.h),
+                  const NeedsSection(),
+                  SizedBox(height: AppSpacing.lg.h),
+                  DetailsSkillSection(
+                    title: 'jobs.common.requiredSkills'.tr(),
+                    skills: [
+                      'jobs.skills.systemDesign'.tr(),
+                      'jobs.skills.figma'.tr(),
+                      'jobs.skills.react'.tr(),
+                    ],
+                    color: AppColors.secondarySoft,
+                    textColor: AppColors.secondaryDark,
+                  ),
+                  SizedBox(height: AppSpacing.lg.h),
+                  DetailsSkillSection(
+                    title: 'jobs.common.missingSkills'.tr(),
+                    skills: ['jobs.skills.graphql'.tr()],
+                    color: const Color(0xFFFFE4E6),
+                    textColor: AppColors.error,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const ApplyBottomBar(),
+    );
+  }
+}

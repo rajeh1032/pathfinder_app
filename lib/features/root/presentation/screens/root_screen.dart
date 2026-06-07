@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../../jobs/presentation/screens/job_matching_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
@@ -23,6 +24,8 @@ class RootScreen extends StatelessWidget {
             body: IndexedStack(
               index: state.selectedIndex,
               children: const [
+                _TabName(title: 'Home'),
+                JobMatchingScreen(),
                 HomeScreen(),
                 _TabName(title: 'Jobs'),
                 _TabName(title: 'Roadmaps'),
