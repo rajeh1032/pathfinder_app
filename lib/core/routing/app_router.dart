@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/change_password_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 
 import '../../features/courses/presentation/screens/course_details_screen.dart';
 import '../../features/courses/presentation/screens/courses_screen.dart';
@@ -9,6 +15,8 @@ import '../../features/profile/presentation/screens/reset_password_screen.dart';
 import '../../features/roadmaps/presentation/screens/roadmap_details_screen.dart';
 import '../../features/roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/settings/presentation/screens/language_settings_screen.dart';
 import '../../features/settings/presentation/screens/ai_personalization_settings_screens.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
@@ -33,6 +41,14 @@ class AppRouter {
 
     return switch (settings.name) {
       AppRoutes.root => const RootScreen(),
+      AppRoutes.login => const LoginScreen(),
+      AppRoutes.splash => const SplashScreen(),
+      AppRoutes.onboarding => const OnboardingScreen(),
+      AppRoutes.register => const RegisterScreenTest(),
+      AppRoutes.forgotPassword => const ForgotPasswordScreen(),
+      AppRoutes.verifyEmail => const VerifyEmailScreen(),
+      AppRoutes.changePassword => const ChangePasswordScreen(),
+      AppRoutes.setupProfile => const SetupProfileScreen(),
       AppRoutes.login => const PlaceholderScreen(titleKey: 'routes.login'),
       AppRoutes.splash => const PlaceholderScreen(titleKey: 'routes.splash'),
       AppRoutes.onboarding =>
@@ -47,6 +63,11 @@ class AppRouter {
       AppRoutes.courses => const CoursesScreen(),
       AppRoutes.roadmaps => const RoadmapsScreen(),
       AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
+      AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
+      AppRoutes.settings =>
+        const PlaceholderScreen(titleKey: 'routes.settings'),
+      AppRoutes.notifications =>
+        const PlaceholderScreen(titleKey: 'routes.notifications'),
       AppRoutes.profile => const ProfileScreen(),
       AppRoutes.editProfile => const EditProfileScreen(),
       AppRoutes.profileResetPassword => const ResetPasswordScreen(),

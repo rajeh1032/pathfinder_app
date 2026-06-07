@@ -71,6 +71,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/translations/
+    - assets/images/
     - assets/images/roadmaps/
     - assets/images/profile/
   fonts:
