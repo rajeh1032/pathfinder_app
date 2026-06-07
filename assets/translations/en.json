@@ -141,6 +141,57 @@
     "loginSubtitle": "Continue your career path with PathFinder AI.",
     "loginSuccess": "Logged in successfully"
   },
+  "home": {
+    "hello": "Hello",
+    "readyToLevelUp": "Ready to level up your career?",
+    "analyzeCv": "Analyze CV",
+    "chatWithAi": "Chat with AI",
+    "topRecommendation": "Top Recommendation",
+    "basedOnYourStack": "Based on your stack",
+    "uiScore": "UI Score",
+    "aiCareerInsight": "AI Career Insight",
+    "roadmap": "Roadmap",
+    "skillGapAnalysis": "Skill Gap Analysis",
+    "jobsForYou": "Jobs for You",
+    "viewAll": "View All"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "all": "All",
+    "jobs": "Jobs",
+    "learning": "Learning",
+    "jobMatch": "Job Match",
+    "upcoming": "Upcoming",
+    "aiInsight": "AI Career Insight",
+    "learningProgress": "Learning Progress"
+  },
+  "cvAnalysis": {
+    "title": "CV Analysis",
+    "matchScore": "Match Score",
+    "aiInsights": "AI Insights",
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "missingSkills": "Missing Skills",
+    "improvementChecklist": "Improvement Checklist",
+    "aiRecommendations": "AI Recommendations",
+    "uploadNewCv": "Upload New CV"
+  },
+  "chat": {
+    "title": "AI Career Mentor",
+    "subtitle": "Career Help, Instantly. Ask anything, grow faster.",
+    "inputHint": "Ask your career mentor...",
+    "mentor": "AI Mentor"
+  },
+  "search": {
+    "hint": "Search jobs, courses, skills, career paths...",
+    "recentSearches": "Recent Searches",
+    "suggestedForYou": "Suggested For You",
+    "trending": "Trending",
+    "all": "All",
+    "jobs": "Jobs",
+    "courses": "Courses",
+    "skills": "Skills",
+    "careerPaths": "Career Paths"
   "interview": {
     "refineYourPitchTitle": "Refine Your Pitch",
     "refineYourPitchDescription": "Simulate high-stakes interviews with PathFinder AI's adaptive engine.",

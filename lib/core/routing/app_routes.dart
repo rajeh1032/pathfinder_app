@@ -1,3 +1,5 @@
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
+
 class AppRoutes {
   const AppRoutes._();
 

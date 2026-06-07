@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
@@ -22,6 +23,11 @@ class RootScreen extends StatelessWidget {
             body: IndexedStack(
               index: state.selectedIndex,
               children: const [
+                HomeScreen(),
+                _TabName(title: 'Jobs'),
+                _TabName(title: 'Roadmaps'),
+                _TabName(title: 'AI Mentor'),
+                _TabName(title: 'Profile'),
                 _TabName(titleKey: 'root.home'),
                 _TabName(titleKey: 'root.jobs'),
                 RoadmapsScreen(),
