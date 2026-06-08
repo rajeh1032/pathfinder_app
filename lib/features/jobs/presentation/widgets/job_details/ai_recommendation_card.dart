@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -13,16 +12,23 @@ class AiRecommendationCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFF5EEFF), Color(0xFFFFFFFF)],
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context)
+                .colorScheme
+                .tertiaryContainer
+                .withValues(alpha: .35),
+            Theme.of(context).colorScheme.surface,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(AppRadius.md.r),
-        border: Border.all(color: AppColors.tertiarySoft),
-        boxShadow: const [
+        border:
+            Border.all(color: Theme.of(context).colorScheme.tertiaryContainer),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x148B5CF6),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: .08),
             blurRadius: 18,
             offset: Offset(0, 10),
           ),
@@ -35,10 +41,11 @@ class AiRecommendationCard extends StatelessWidget {
             width: 42.w,
             height: 42.h,
             decoration: BoxDecoration(
-              color: AppColors.tertiary,
+              color: Theme.of(context).colorScheme.tertiary,
               borderRadius: BorderRadius.circular(AppRadius.sm.r),
             ),
-            child: const Icon(Icons.psychology_outlined, color: Colors.white),
+            child: Icon(Icons.psychology_outlined,
+                color: Theme.of(context).colorScheme.onTertiary),
           ),
           SizedBox(width: AppSpacing.md.w),
           Expanded(
@@ -48,7 +55,7 @@ class AiRecommendationCard extends StatelessWidget {
                 Text(
                   'jobs.common.aiMatchLabel'.tr(),
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: AppColors.tertiaryDark,
+                        color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w900,
                       ),
                 ),
@@ -56,7 +63,7 @@ class AiRecommendationCard extends StatelessWidget {
                 Text(
                   'jobs.details.aiReason'.tr(),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral700,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         height: 1.45,
                         fontWeight: FontWeight.w500,
                       ),

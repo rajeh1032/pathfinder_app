@@ -53,7 +53,8 @@
     "jobs": "Jobs",
     "roadmaps": "Roadmaps",
     "aiMentor": "AI Mentor",
-    "profile": "Profile"
+    "profile": "Profile",
+    "profileShort": "Profile"
   },
   "jobs": {
     "common": {

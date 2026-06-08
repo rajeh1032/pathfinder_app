@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -17,7 +16,7 @@ class JobCardHeader extends StatelessWidget {
           width: 58.w,
           height: 58.h,
           decoration: BoxDecoration(
-            color: AppColors.lightSurfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(AppRadius.md.r),
           ),
           child: Center(
@@ -25,8 +24,11 @@ class JobCardHeader extends StatelessWidget {
               width: 40.w,
               height: 40.h,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF0F172A), Color(0xFF334155)],
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.inverseSurface,
+                    Theme.of(context).colorScheme.primary,
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -34,7 +36,7 @@ class JobCardHeader extends StatelessWidget {
               ),
               child: Icon(
                 Icons.design_services_outlined,
-                color: AppColors.secondarySoft,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 size: 20.sp,
               ),
             ),
@@ -48,7 +50,7 @@ class JobCardHeader extends StatelessWidget {
               Text(
                 'jobs.common.seniorUxDesigner'.tr(),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.neutral900,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.w900,
                     ),
               ),
@@ -56,7 +58,7 @@ class JobCardHeader extends StatelessWidget {
               Text(
                 'jobs.matching.companyLocation'.tr(),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral600,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.w600,
                     ),
               ),

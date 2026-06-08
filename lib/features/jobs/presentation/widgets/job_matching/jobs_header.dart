@@ -1,7 +1,7 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobsHeader extends StatelessWidget {
@@ -22,22 +22,55 @@ class JobsHeader extends StatelessWidget {
             child: Text(
               'app.name'.tr(),
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: AppColors.primaryDark,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w900,
                   ),
             ),
           ),
-          Container(
-            width: 44.w,
-            height: 44.h,
-            decoration: const BoxDecoration(
-              color: AppColors.tertiarySoft,
+          DecoratedBox(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: .22),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
-            child: Icon(
-              Icons.notifications,
-              color: AppColors.tertiary,
-              size: 22.sp,
+            child: Material(
+              color: Colors.transparent,
+              shape: const CircleBorder(),
+              child: Ink(
+                width: 54.w,
+                height: 54.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Theme.of(context).colorScheme.tertiary,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: IconButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.notifications),
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withValues(alpha: .58),
+                    size: 25.sp,
+                  ),
+                ),
+              ),
             ),
           ),
         ],

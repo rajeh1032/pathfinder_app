@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -13,11 +12,11 @@ class JobSearchField extends StatelessWidget {
     return Container(
       height: 56.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.md.r),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x0F111827),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: .06),
             blurRadius: 22,
             offset: Offset(0, 12),
           ),
@@ -26,13 +25,15 @@ class JobSearchField extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: AppSpacing.md.w),
-          Icon(Icons.search, color: AppColors.neutral500, size: 22.sp),
+          Icon(Icons.search,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              size: 22.sp),
           SizedBox(width: AppSpacing.sm.w),
           Expanded(
             child: Text(
               'jobs.matching.searchHint'.tr(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.neutral500,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
             ),

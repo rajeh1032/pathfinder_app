@@ -1,7 +1,6 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import 'input_block.dart';
 import 'keyword_wrap.dart';
@@ -20,7 +19,7 @@ class PersonalizeCard extends StatelessWidget {
           Text(
             'coverLetter.personalize.title'.tr(),
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: AppColors.neutral900,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w900,
                 ),
           ),
@@ -28,7 +27,7 @@ class PersonalizeCard extends StatelessWidget {
           Text(
             'coverLetter.personalize.subtitle'.tr(),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.neutral600,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.35,
                   fontWeight: FontWeight.w500,
                 ),

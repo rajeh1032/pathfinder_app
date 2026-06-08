@@ -1,7 +1,6 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 
 class OverviewTab extends StatelessWidget {
@@ -15,7 +14,7 @@ class OverviewTab extends StatelessWidget {
         Text(
           'jobs.details.overview'.tr(),
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: AppColors.primaryDark,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w900,
               ),
         ),
@@ -24,7 +23,7 @@ class OverviewTab extends StatelessWidget {
           width: 72.w,
           height: 3.h,
           decoration: BoxDecoration(
-            color: AppColors.primaryDark,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(AppRadius.pill.r),
           ),
         ),

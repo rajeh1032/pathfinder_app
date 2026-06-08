@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class DetailsAppBar extends StatelessWidget {
@@ -11,33 +10,34 @@ class DetailsAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 56.h,
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.sm.w),
       child: Row(
         children: [
           IconButton(
             onPressed: () => Navigator.of(context).maybePop(),
-            icon: const Icon(Icons.arrow_back, color: AppColors.primaryDark),
+            icon: Icon(Icons.arrow_back,
+                color: Theme.of(context).colorScheme.primary),
           ),
           Expanded(
             child: Text(
               'jobs.details.title'.tr(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.neutral900,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.w900,
                   ),
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon:
-                const Icon(Icons.share_outlined, color: AppColors.primaryDark),
+            icon: Icon(Icons.share_outlined,
+                color: Theme.of(context).colorScheme.primary),
           ),
           IconButton(
             onPressed: () {},
-            icon:
-                const Icon(Icons.bookmark_border, color: AppColors.primaryDark),
+            icon: Icon(Icons.bookmark_border,
+                color: Theme.of(context).colorScheme.primary),
           ),
         ],
       ),

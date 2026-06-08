@@ -53,7 +53,8 @@
     "jobs": "الوظائف",
     "roadmaps": "الخطط",
     "aiMentor": "المرشد الذكي",
-    "profile": "الملف الشخصي"
+    "profile": "الملف الشخصي",
+    "profileShort": "الملف"
   },
   "jobs": {
     "common": {
