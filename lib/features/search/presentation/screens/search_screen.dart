@@ -9,6 +9,8 @@ import '../widgets/search_bar.dart';
 import '../widgets/search_tabs.dart';
 import '../widgets/section_title.dart';
 import '../widgets/suggestion_card.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -73,14 +75,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   SizedBox(height: AppSpacing.md.h),
                   // Recent Searches
-                  SectionTitle(title: 'Recent Searches'),
+                  SectionTitle(title: 'search.recentSearches'.tr()),
                   SizedBox(height: AppSpacing.sm.h),
                   ...SearchDummyData.recentSearches.map(
                     (r) => RecentSearchItem(item: r),
                   ),
                   SizedBox(height: AppSpacing.lg.h),
                   // Suggested For You
-                  SectionTitle(title: 'Suggested For You'),
+                  SectionTitle(title: 'search.suggestedForYou'.tr()),
                   SizedBox(height: AppSpacing.sm.h),
                   ...SearchDummyData.suggestions.map(
                     (s) => SuggestionCard(item: s),

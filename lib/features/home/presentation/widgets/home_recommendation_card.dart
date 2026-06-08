@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../home_dummy_data.dart';
+import 'match_badge.dart';
 
 class HomeRecommendationCard extends StatelessWidget {
   final HomeRecommendationModel recommendation;
@@ -54,7 +55,7 @@ class HomeRecommendationCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.w),
-              _MatchBadge(label: recommendation.badge),
+              MatchBadge(label: recommendation.badge),
             ],
           ),
           SizedBox(height: 8.h),
@@ -82,27 +83,3 @@ class HomeRecommendationCard extends StatelessWidget {
   }
 }
 
-class _MatchBadge extends StatelessWidget {
-  final String label;
-
-  const _MatchBadge({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999.r),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 11.sp,
-          fontWeight: FontWeight.w700,
-          color: AppColors.primary,
-        ),
-      ),
-    );
-  }
-}
