@@ -52,25 +52,25 @@ class HomeScreen extends StatelessWidget {
               const HomeActionButtons(),
               SizedBox(height: 20.h),
 
-              // ⭐ Top Recommendation card
+              // Top Recommendation card
               HomeRecommendationCard(
                 recommendation: HomeDummyData.recommendation,
               ),
               SizedBox(height: 16.h),
 
-              // 📊 CV Score + AI Career Insight
+              // CV Score + AI Career Insight
               HomeScoreInsightRow(cvScore: HomeDummyData.user.cvScore),
               SizedBox(height: 20.h),
 
-              // 🗺️ Roadmap Progress
+              //  Roadmap Progress
               HomeRoadmapCard(roadmap: HomeDummyData.roadmap),
               SizedBox(height: 20.h),
 
-              // 🧠 Skill Gap Analysis
+              // Skill Gap Analysis
               HomeSkillGapSection(skills: HomeDummyData.skillGaps),
               SizedBox(height: 20.h),
 
-              // 💼 Jobs For You
+              // Jobs For You
               const HomeJobsSection(),
               SizedBox(height: 20.h),
             ],

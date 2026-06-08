@@ -1,6 +1,8 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pathfinder_app/features/home/presentation/widgets/skill_chip.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../home_dummy_data.dart';
 
@@ -21,7 +23,7 @@ class HomeSkillGapSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Skill Gap Analysis',
+              'home.skillGapAnalysis'.tr(),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
@@ -31,7 +33,7 @@ class HomeSkillGapSection extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: Text(
-                'View All',
+                'home.viewAll'.tr(),
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
@@ -46,49 +48,10 @@ class HomeSkillGapSection extends StatelessWidget {
         Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
-          children: skills.map((s) => _SkillChip(skill: s)).toList(),
+          children: skills.map((s) => SkillChip(skill: s)).toList(),
         ),
       ],
     );
   }
 }
 
-class _SkillChip extends StatelessWidget {
-  final HomeSkillGapModel skill;
-
-  const _SkillChip({required this.skill});
-
-  // Assign color per level (maps to priority visually)
-  Color _chipColor() {
-    switch (skill.level) {
-      case SkillLevel.tailwind:
-        return AppColors.primary;
-      case SkillLevel.nextJs:
-        return AppColors.secondary;
-      case SkillLevel.testing:
-        return AppColors.warning;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final color = _chipColor();
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(999.r),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Text(
-        skill.skill,
-        style: TextStyle(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w600,
-          color: color,
-        ),
-      ),
-    );
-  }
-}

@@ -246,6 +246,8 @@
     "hello": "Hello",
     "readyToLevelUp": "Ready to level up your career?",
     "analyzeCv": "Analyze CV",
+    "complete": "Complete",
+    "aiInsightBody": "Your React skills are trending! Users with similar profiles saw a 20% salary increase after mastering TypeScript.",
     "chatWithAi": "Chat with AI",
     "topRecommendation": "Top Recommendation",
     "basedOnYourStack": "Based on your stack",

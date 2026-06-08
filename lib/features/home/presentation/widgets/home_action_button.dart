@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -13,7 +14,7 @@ class HomeActionButtons extends StatelessWidget {
       children: [
         Expanded(
           child: _ActionButton(
-            label: 'Analyze CV',
+            label: 'home.analyzeCv'.tr(),
             icon: Icons.description_outlined,
             isPrimary: true,
             onTap: () => Navigator.pushNamed(context, '/cv-analysis-result'),
@@ -22,7 +23,7 @@ class HomeActionButtons extends StatelessWidget {
         SizedBox(width: AppSpacing.sm.w),
         Expanded(
           child: _ActionButton(
-            label: 'Chat with AI',
+            label: 'home.chatWithAi'.tr(),
             icon: Icons.smart_toy_outlined,
             isPrimary: false,
             onTap: () => Navigator.pushNamed(context, '/ai-chat'),
@@ -84,14 +85,18 @@ class _ActionButton extends StatelessWidget {
                   : colorScheme.onSurfaceVariant,
             ),
             SizedBox(width: 6.w),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w700,
-                color: isPrimary
-                    ? Colors.white
-                    : colorScheme.onSurface,
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
+                  color: isPrimary
+                      ? Colors.white
+                      : colorScheme.onSurface,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
