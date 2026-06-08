@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../home-dummy-data.dart';
-import '../widgets/home-action-button.dart';
+import '../home_dummy_data.dart';
+import '../widgets/home_action_button.dart';
 import '../widgets/home_dashboard.dart';
 import '../widgets/home_jobs_section.dart';
 import '../widgets/home_recommendation_card.dart';

@@ -7,6 +7,8 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../cv_anaylsis_dummy_model.dart';
 
 class ScoreSection extends StatelessWidget {
+  const ScoreSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;

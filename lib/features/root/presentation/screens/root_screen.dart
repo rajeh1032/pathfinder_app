@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../../interview/presentation/screens/interview_start_screen.dart';
+import '../../../jobs/presentation/screens/job_matching_screen.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
@@ -20,10 +24,10 @@ class RootScreen extends StatelessWidget {
               index: state.selectedIndex,
               children: const [
                 HomeScreen(),
-                _TabName(title: 'Jobs'),
-                _TabName(title: 'Roadmaps'),
-                _TabName(title: 'AI Mentor'),
-                _TabName(title: 'Profile'),
+                JobMatchingScreen(),
+                RoadmapsScreen(),
+                InterviewStartScreen(),
+                ProfileScreen(),
               ],
             ),
             bottomNavigationBar: AppBottomNavBar(
@@ -32,25 +36,6 @@ class RootScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _TabName extends StatelessWidget {
-  const _TabName({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: Theme.of(context).colorScheme.primary,
-            ),
       ),
     );
   }

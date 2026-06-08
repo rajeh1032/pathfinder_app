@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../ai_mentor_dummymodel.dart';
@@ -16,6 +15,7 @@ class ChatWithAiScreen extends StatefulWidget {
   @override
   State<ChatWithAiScreen> createState() => _ChatWithAiScreenState();
 }
+
 class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
   final List<ChatMessage> _messages = List.from(dummyMessages);
   final _controller = TextEditingController();
@@ -53,8 +53,6 @@ class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -63,13 +61,13 @@ class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
         ),
         title: Text(
           'PathFinder AI',
-          style: AppTextStyles.header600Blue28(AppColors.blueNotificationIcons),),
+          style: AppTextStyles.header600Blue28(AppColors.blueNotificationIcons),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.history_outlined,
-                size: 28.sp,
-                color: AppColors.primary.withOpacity(0.5)),
+                size: 28.sp, color: AppColors.primary.withValues(alpha: 0.5)),
             onPressed: () {},
           ),
         ],
@@ -91,7 +89,7 @@ class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
             ),
           ),
           // Input bar
-          chatInputBar(
+          ChatInputBar(
             controller: _controller,
             onSend: _sendMessage,
           ),
@@ -100,5 +98,3 @@ class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
     );
   }
 }
-
-

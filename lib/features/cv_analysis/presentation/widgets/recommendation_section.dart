@@ -30,7 +30,7 @@ class RecommendationsSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(AppRadius.lg.r),
-              border: Border.all(color: colorScheme.outline.withOpacity(0.4)),
+              border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
             ),
             child: Row(
               children: [
@@ -38,7 +38,7 @@ class RecommendationsSection extends StatelessWidget {
                   width: 44.w,
                   height: 44.w,
                   decoration: BoxDecoration(
-                    color: rec.avatarColor.withOpacity(0.15),
+                    color: rec.avatarColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(AppRadius.md.r),
                   ),
                   child: Center(

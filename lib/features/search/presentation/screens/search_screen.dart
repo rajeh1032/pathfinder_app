@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -6,6 +5,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../dummy_data_model.dart';
 import '../widgets/recent_search.dart';
+import '../widgets/search_bar.dart';
 import '../widgets/search_tabs.dart';
 import '../widgets/section_title.dart';
 import '../widgets/suggestion_card.dart';
@@ -29,8 +29,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -57,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchBar(controller: _controller),
+                SearchBarWidget(controller: _controller),
                 SizedBox(height: AppSpacing.md.h),
                 // Tabs
                 SearchTabs(
@@ -78,14 +76,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   SectionTitle(title: 'Recent Searches'),
                   SizedBox(height: AppSpacing.sm.h),
                   ...SearchDummyData.recentSearches.map(
-                        (r) => RecentSearchItem(item: r),
+                    (r) => RecentSearchItem(item: r),
                   ),
                   SizedBox(height: AppSpacing.lg.h),
                   // Suggested For You
                   SectionTitle(title: 'Suggested For You'),
                   SizedBox(height: AppSpacing.sm.h),
                   ...SearchDummyData.suggestions.map(
-                        (s) => SuggestionCard(item: s),
+                    (s) => SuggestionCard(item: s),
                   ),
                   SizedBox(height: AppSpacing.lg.h),
                 ],
@@ -97,8 +95,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-
-
-
-
-
