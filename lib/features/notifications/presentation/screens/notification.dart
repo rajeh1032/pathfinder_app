@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pathfinder_app/core/theme/app_text_styles.dart';
@@ -45,7 +46,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
             child: Text(
-              'Notifications',
+              'notifications.title'.tr(),
               style: AppTextStyles.header600Blue28(colorScheme.onSurface),
             ),
           ),
@@ -112,11 +113,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   String _tabLabel(NotificationTab tab) {
     switch (tab) {
       case NotificationTab.all:
-        return 'All';
+        return 'notifications.all'.tr();
       case NotificationTab.jobs:
-        return 'Jobs';
+        return 'notifications.jobs'.tr();
       case NotificationTab.learning:
-        return 'Learning';
+        return 'notifications.learning'.tr();
     }
   }
 }

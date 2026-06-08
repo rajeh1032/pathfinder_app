@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,13 +47,13 @@ class AiMentorHeader extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.sm.h),
           Text(
-            'AI Career Mentor',
+            'chat.title'.tr(),
             style: AppTextStyles.titleSmall(colorScheme.onSurface)
                 .copyWith(fontSize: 16.sp),
           ),
           SizedBox(height: 4.h),
           Text(
-            'Career Help, Instantly. Ask anything, grow faster.',
+            'chat.inputHint'.tr(),
             style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
                 .copyWith(fontSize: 12.sp),
             textAlign: TextAlign.center,

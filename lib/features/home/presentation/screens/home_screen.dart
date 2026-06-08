@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 👋 Hello, Ayat + CV Score circle
+              //  Hello, Ayat + CV Score circle
               HomeHeader(user: HomeDummyData.user),
               SizedBox(height: 16.h),
 

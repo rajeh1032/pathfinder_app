@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +30,9 @@ Future<void> main() async {
       supportedLocales: LocalizationService.supportedLocales,
       path: LocalizationService.translationsPath,
       fallbackLocale: LocalizationService.english,
-      child: const PathFinderApp(),
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => const PathFinderApp(),),
     ),
   );
 }

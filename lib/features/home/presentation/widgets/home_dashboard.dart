@@ -1,5 +1,6 @@
 // lib/features/home/presentation/widgets/home_header.dart
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,12 +25,12 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello, ${user.name} 👋',
+                '${'home.hello'.tr()}, ${user.name} 👋',
                 style: theme.textTheme.headlineMedium,
               ),
               SizedBox(height: 4.h),
               Text(
-                'Ready to level up your career?',
+                'home.readyToLevelUp'.tr(),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
