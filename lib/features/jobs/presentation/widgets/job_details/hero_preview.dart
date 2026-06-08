@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -16,9 +15,12 @@ class JobHeroPreview extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF240917), Color(0xFF0B2438)],
+                colors: [
+                  Theme.of(context).colorScheme.inverseSurface,
+                  Theme.of(context).colorScheme.surfaceContainerHighest,
+                ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -31,23 +33,36 @@ class JobHeroPreview extends StatelessWidget {
             child: Container(
               height: 116.h,
               decoration: BoxDecoration(
-                color: AppColors.neutral900,
+                color: Theme.of(context).colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(AppRadius.sm.r),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Color(0x99000000),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .shadow
+                        .withValues(alpha: .55),
                     blurRadius: 22,
                     offset: Offset(0, 14),
                   ),
                 ],
               ),
               child: Column(
-                children: const [
-                  CodeLine(widthFactor: .72, color: AppColors.secondary),
-                  CodeLine(widthFactor: .88, color: AppColors.primarySoft),
-                  CodeLine(widthFactor: .56, color: AppColors.warning),
-                  CodeLine(widthFactor: .8, color: AppColors.tertiary),
-                  CodeLine(widthFactor: .62, color: AppColors.neutral300),
+                children: [
+                  CodeLine(
+                      widthFactor: .72,
+                      color: Theme.of(context).colorScheme.secondary),
+                  CodeLine(
+                      widthFactor: .88,
+                      color: Theme.of(context).colorScheme.primaryContainer),
+                  CodeLine(
+                      widthFactor: .56,
+                      color: Theme.of(context).colorScheme.tertiary),
+                  CodeLine(
+                      widthFactor: .8,
+                      color: Theme.of(context).colorScheme.tertiary),
+                  CodeLine(
+                      widthFactor: .62,
+                      color: Theme.of(context).colorScheme.outlineVariant),
                 ],
               ),
             ),
@@ -56,20 +71,31 @@ class JobHeroPreview extends StatelessWidget {
             left: AppSpacing.md.w,
             top: AppSpacing.sm.h,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: _pillTint(
+                  context,
+                  Theme.of(context).colorScheme.tertiary,
+                  alpha: .12,
+                ),
                 borderRadius: BorderRadius.circular(AppRadius.pill.r),
+                border: Border.all(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .tertiary
+                      .withValues(alpha: .42),
+                ),
               ),
               child: Row(
                 children: [
                   Icon(Icons.auto_awesome,
-                      size: 13.sp, color: AppColors.tertiary),
+                      size: 13.sp,
+                      color: Theme.of(context).colorScheme.tertiary),
                   SizedBox(width: 4.w),
                   Text(
                     'jobs.details.aiRecommended'.tr(),
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.tertiaryDark,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontWeight: FontWeight.w900,
                         ),
                   ),
@@ -81,6 +107,13 @@ class JobHeroPreview extends StatelessWidget {
       ),
     );
   }
+}
+
+Color _pillTint(BuildContext context, Color tint, {required double alpha}) {
+  return Color.alphaBlend(
+    tint.withValues(alpha: alpha),
+    Theme.of(context).colorScheme.surface,
+  );
 }
 
 class CodeLine extends StatelessWidget {

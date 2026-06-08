@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
@@ -11,6 +10,8 @@ class TargetGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SurfaceCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +26,7 @@ class TargetGoalCard extends StatelessWidget {
                     Text(
                       'coverLetter.goal.label'.tr(),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.primaryDark,
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.w900,
                             letterSpacing: .8,
                           ),
@@ -34,7 +35,7 @@ class TargetGoalCard extends StatelessWidget {
                     Text(
                       'coverLetter.goal.title'.tr(),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: AppColors.neutral900,
+                            color: colorScheme.onSurface,
                             fontWeight: FontWeight.w900,
                             height: 1.1,
                           ),
@@ -47,14 +48,17 @@ class TargetGoalCard extends StatelessWidget {
                 height: 62.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: AppColors.secondarySoft,
+                  color: _pillTint(context, colorScheme.secondary, alpha: .15),
                   borderRadius: BorderRadius.circular(AppRadius.pill.r),
+                  border: Border.all(
+                    color: colorScheme.secondary.withValues(alpha: .40),
+                  ),
                 ),
                 child: Text(
                   'coverLetter.goal.complete'.tr(),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.secondaryDark,
+                        color: colorScheme.secondary,
                         fontWeight: FontWeight.w900,
                         height: 1.05,
                       ),
@@ -70,7 +74,7 @@ class TargetGoalCard extends StatelessWidget {
             child: Text(
               '65%',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.primaryDark,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.w800,
                   ),
             ),
@@ -94,6 +98,13 @@ class TargetGoalCard extends StatelessWidget {
   }
 }
 
+Color _pillTint(BuildContext context, Color tint, {required double alpha}) {
+  return Color.alphaBlend(
+    tint.withValues(alpha: alpha),
+    Theme.of(context).colorScheme.surface,
+  );
+}
+
 class ProgressTrack extends StatelessWidget {
   const ProgressTrack({super.key, required this.value});
 
@@ -107,8 +118,8 @@ class ProgressTrack extends StatelessWidget {
         height: 8.h,
         child: LinearProgressIndicator(
           value: value,
-          color: AppColors.primaryDark,
-          backgroundColor: AppColors.primarySoft,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
       ),
     );
@@ -130,7 +141,9 @@ class MiniSkillStatus extends StatelessWidget {
         children: [
           Icon(
             active ? Icons.check_circle : Icons.radio_button_unchecked,
-            color: active ? AppColors.success : AppColors.neutral400,
+            color: active
+                ? Theme.of(context).colorScheme.secondary
+                : Theme.of(context).colorScheme.outlineVariant,
             size: 14.sp,
           ),
           SizedBox(width: 4.w),
@@ -138,7 +151,7 @@ class MiniSkillStatus extends StatelessWidget {
             child: Text(
               labelKey.tr(),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.neutral600,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     height: 1.15,
                     fontWeight: FontWeight.w700,
                   ),

@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_gradient_back_button.dart';
 import '../widgets/cover_letter/cover_header.dart';
 import '../widgets/cover_letter/generate_button.dart';
 import '../widgets/cover_letter/generated_draft_card.dart';
@@ -18,7 +19,11 @@ class CoverLetterGeneratorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        leading: const AppGradientBackButton(),
+        title: Text('routes.coverLetterGenerator'.tr()),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [

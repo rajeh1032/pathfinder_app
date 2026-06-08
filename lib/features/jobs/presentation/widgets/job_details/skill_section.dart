@@ -28,17 +28,20 @@ class DetailsSkillSection extends StatelessWidget {
         children: skills
             .map(
               (skill) => Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 9.h),
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(AppRadius.pill.r),
+                  border: Border.all(
+                    color: textColor.withValues(alpha: .38),
+                  ),
                 ),
                 child: Text(
                   skill,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.w900,
-                        letterSpacing: .5,
+                        letterSpacing: .2,
                       ),
                 ),
               ),

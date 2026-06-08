@@ -1,8 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_gradients.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
@@ -23,7 +21,7 @@ class MatchScoreCard extends StatelessWidget {
           Text(
             'coverLetter.match.strong'.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppColors.neutral900,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w900,
                 ),
           ),
@@ -32,7 +30,7 @@ class MatchScoreCard extends StatelessWidget {
             'coverLetter.match.description'.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.neutral600,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.35,
                   fontWeight: FontWeight.w500,
                 ),
@@ -50,13 +48,20 @@ class ScoreRing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return CustomPaint(
-      painter: ScoreRingPainter(value: score / 100),
+      painter: ScoreRingPainter(
+        value: score / 100,
+        backgroundColor: colorScheme.primaryContainer,
+        foregroundStart: colorScheme.primary,
+        foregroundEnd: colorScheme.tertiary,
+      ),
       child: Center(
         child: Text(
           '$score%',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.neutral900,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w900,
               ),
         ),
@@ -66,9 +71,17 @@ class ScoreRing extends StatelessWidget {
 }
 
 class ScoreRingPainter extends CustomPainter {
-  const ScoreRingPainter({required this.value});
+  const ScoreRingPainter({
+    required this.value,
+    required this.backgroundColor,
+    required this.foregroundStart,
+    required this.foregroundEnd,
+  });
 
   final double value;
+  final Color backgroundColor;
+  final Color foregroundStart;
+  final Color foregroundEnd;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -77,12 +90,16 @@ class ScoreRingPainter extends CustomPainter {
     final inset = stroke / 2;
     final arcRect = rect.deflate(inset);
     final background = Paint()
-      ..color = AppColors.primarySoft
+      ..color = backgroundColor
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = stroke;
     final foreground = Paint()
-      ..shader = AppGradients.aiTertiary.createShader(rect)
+      ..shader = LinearGradient(
+        colors: [foregroundStart, foregroundEnd],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ).createShader(rect)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = stroke;
@@ -93,6 +110,9 @@ class ScoreRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant ScoreRingPainter oldDelegate) {
-    return oldDelegate.value != value;
+    return oldDelegate.value != value ||
+        oldDelegate.backgroundColor != backgroundColor ||
+        oldDelegate.foregroundStart != foregroundStart ||
+        oldDelegate.foregroundEnd != foregroundEnd;
   }
 }

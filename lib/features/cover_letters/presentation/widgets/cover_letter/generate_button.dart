@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_gradients.dart';
 import '../../../../../core/theme/app_radius.dart';
 
 class GenerateCoverLetterButton extends StatelessWidget {
@@ -11,11 +10,18 @@ class GenerateCoverLetterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        gradient: AppGradients.aiTertiary,
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.tertiary,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(AppRadius.md.r),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x336366F1),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: .2),
             blurRadius: 18,
             offset: Offset(0, 10),
           ),
@@ -25,11 +31,12 @@ class GenerateCoverLetterButton extends StatelessWidget {
         height: 52.h,
         child: TextButton.icon(
           onPressed: () {},
-          icon: Icon(Icons.auto_awesome, color: Colors.white, size: 18.sp),
+          icon: Icon(Icons.auto_awesome,
+              color: Theme.of(context).colorScheme.onPrimary, size: 18.sp),
           label: Text(
             'coverLetter.generate'.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontWeight: FontWeight.w900,
                 ),
           ),
