@@ -36,11 +36,14 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
       automaticallyImplyLeading: false,
         title: Text('routes.interviewStart'.tr()),
         actions: [
+         
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_rounded),
+            tooltip: 'routes.interviewHistory'.tr(),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.interviewHistory);
+            },
+            icon: const Icon(Icons.history_rounded),
           ),
-       
         ],
       ),
       body: SafeArea(
