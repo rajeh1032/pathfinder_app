@@ -40,7 +40,7 @@ class AppBottomNavBar extends StatelessWidget {
         NavigationDestination(
           icon: const Icon(Icons.person_outline),
           selectedIcon: const Icon(Icons.person),
-          label: 'root.profile'.tr(),
+          label: 'root.profileShort'.tr(),
         ),
       ],
     );

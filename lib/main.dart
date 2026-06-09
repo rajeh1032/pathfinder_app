@@ -28,15 +28,8 @@ Future<void> main() async {
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
-      defaultDevice: Devices.ios.iPhone13,
-      devices: [
-        Devices.ios.iPhoneSE,
-        Devices.ios.iPhone13,
-        Devices.ios.iPadAir4,
-        Devices.android.googlePixel9,
-        Devices.android.samsungGalaxyS25,
-      ],
-      builder: (context) => EasyLocalization(
+      availableLocales: LocalizationService.supportedLocales,
+      builder: (_) => EasyLocalization(
         supportedLocales: LocalizationService.supportedLocales,
         path: LocalizationService.translationsPath,
         fallbackLocale: LocalizationService.english,
