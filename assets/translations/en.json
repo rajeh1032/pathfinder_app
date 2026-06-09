@@ -469,6 +469,20 @@
     "improvementLabel": "+{value}% improvement",
     "previousScoreLabel": "(Previous: {value})"
   },
+  "cvLoading": {
+    "title": "Optimizing your future",
+    "subtitle": "Our AI is mapping your skills to industry standards",
+    "uploading": "Uploading CV",
+    "uploadingSubtitle": "Securely uploading your document",
+    "parsing": "Parsing document...",
+    "parsingSubtitle": "Extracting your skills and experience",
+    "analyzing": "Analyzing skills",
+    "analyzingSubtitle": "Matching with industry benchmarks",
+    "generating": "Generating insights",
+    "generatingSubtitle": "Producing your career insights",
+    "proTipTitle": "Pro Tip",
+    "proTipBody": "PathFinder AI compares your CV against 50,000+ real-world job descriptions to find your perfect fit."
+  },
   "profile": {
     "title": "Profile",
     "preferencesTitle": "Preferences",
@@ -822,5 +836,16 @@
     "enrolled": "Enrollment saved locally.",
     "alreadyEnrolled": "You are already enrolled.",
     "shareReady": "{} is ready to share when provider links are connected."
+  },
+  "cvUpload": {
+    "title": "Optimize Your Future",
+    "subtitle": "Upload your professional details to get an AI-powered analysis of your career trajectory.",
+    "uploadTitle": "Upload Your CV",
+    "formats": "PDF, DOC, DOCX supported",
+    "maxSize": "Max file size: 5MB",
+    "analyzeButton": "Analyze CV",
+    "selectPrompt": "Please select a file to continue",
+    "aiRecommendTitle": "AI Recommendation",
+    "aiRecommendBody": "Our neural network identifies 50+ key skills and industry matches from your document instantly."
   }
 }

@@ -17,7 +17,7 @@ class HomeActionButtons extends StatelessWidget {
             label: 'home.analyzeCv'.tr(),
             icon: Icons.description_outlined,
             isPrimary: true,
-            onTap: () => Navigator.pushNamed(context, '/cv-analysis-result'),
+            onTap: () => Navigator.pushNamed(context, '/cv-upload'),
           ),
         ),
         SizedBox(width: AppSpacing.sm.w),

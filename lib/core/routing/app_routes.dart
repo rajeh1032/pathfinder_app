@@ -35,7 +35,9 @@ class AppRoutes {
   static const coverLetterGenerator = '/cover-letter-generator';
   static const coverLetterResult = '/cover-letter-result';
   static const aiChat = '/ai-chat';
+  static const cvUploadLoading = '/cv-upload-loading';
   static const interviewStart = '/interview-start';
   static const activeInterview = '/active-interview';
   static const interviewResult = '/interview-result';
+
 }
