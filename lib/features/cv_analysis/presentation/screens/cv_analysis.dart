@@ -1,5 +1,3 @@
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -13,7 +11,7 @@ import '../widgets/recommendation_section.dart';
 import '../widgets/score_section.dart';
 import '../widgets/upload_cv_button.dart';
 
-  class CvAnalysisResult extends StatelessWidget {
+class CvAnalysisResult extends StatelessWidget {
   const CvAnalysisResult({super.key});
 
   @override
@@ -49,7 +47,7 @@ import '../widgets/upload_cv_button.dart';
             SizedBox(height: AppSpacing.lg.h),
             // Strengths
             ChipsSection(
-              title: 'cvAnalysis.strengths'.tr(),
+              title: 'Strengths',
               icon: Icons.check_circle_outline_rounded,
               iconColor: AppColors.success,
               chips: CvAnalysisDummyData.strengths,
@@ -57,7 +55,7 @@ import '../widgets/upload_cv_button.dart';
             SizedBox(height: AppSpacing.lg.h),
             // Weaknesses
             ChipsSection(
-              title: 'cvAnalysis.weaknesses'.tr(),
+              title: 'Weaknesses',
               icon: Icons.warning_amber_rounded,
               iconColor: AppColors.warning,
               chips: CvAnalysisDummyData.weaknesses,
@@ -65,7 +63,7 @@ import '../widgets/upload_cv_button.dart';
             SizedBox(height: AppSpacing.lg.h),
             // Missing Skills
             ChipsSection(
-              title: 'cvAnalysis.missingSkills'.tr(),
+              title: 'Missing Skills',
               icon: Icons.highlight_off_rounded,
               iconColor: AppColors.error,
               chips: CvAnalysisDummyData.missingSkills,
@@ -86,8 +84,3 @@ import '../widgets/upload_cv_button.dart';
     );
   }
 }
-
-
-
-
-

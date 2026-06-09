@@ -1,7 +1,6 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import 'section.dart';
 
@@ -40,13 +39,13 @@ class NeedItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.check_circle_outline,
-              size: 18.sp, color: AppColors.primaryDark),
+              size: 18.sp, color: Theme.of(context).colorScheme.primary),
           SizedBox(width: AppSpacing.sm.w),
           Expanded(
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral700,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     height: 1.35,
                     fontWeight: FontWeight.w500,
                   ),

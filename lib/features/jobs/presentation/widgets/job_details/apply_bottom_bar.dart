@@ -1,9 +1,7 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_gradients.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -19,11 +17,11 @@ class ApplyBottomBar extends StatelessWidget {
         AppSpacing.md.w,
         MediaQuery.paddingOf(context).bottom + AppSpacing.sm.h,
       ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Color(0x14111827),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: .08),
             blurRadius: 22,
             offset: Offset(0, -8),
           ),
@@ -35,22 +33,33 @@ class ApplyBottomBar extends StatelessWidget {
             width: 48.w,
             height: 48.h,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(AppRadius.md.r),
-              border: Border.all(color: AppColors.primaryContainer),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer),
             ),
-            child:
-                const Icon(Icons.bookmark_border, color: AppColors.primaryDark),
+            child: Icon(Icons.bookmark_border,
+                color: Theme.of(context).colorScheme.primary),
           ),
           SizedBox(width: AppSpacing.md.w),
           Expanded(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: AppGradients.aiTertiary,
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.tertiary,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(AppRadius.md.r),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Color(0x336366F1),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .shadow
+                        .withValues(alpha: .2),
                     blurRadius: 14,
                     offset: Offset(0, 8),
                   ),
@@ -64,7 +73,7 @@ class ApplyBottomBar extends StatelessWidget {
                   child: Text(
                     'jobs.common.applyNow'.tr(),
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontWeight: FontWeight.w900,
                         ),
                   ),

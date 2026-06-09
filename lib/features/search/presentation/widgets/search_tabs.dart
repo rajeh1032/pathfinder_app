@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,15 +16,15 @@ class SearchTabs extends StatelessWidget {
   String _label(SearchTab tab) {
     switch (tab) {
       case SearchTab.all:
-        return 'search.all'.tr();
+        return 'All';
       case SearchTab.jobs:
-        return 'search.jobs'.tr();
+        return 'Jobs';
       case SearchTab.courses:
-        return 'search.courses'.tr();
+        return 'Courses';
       case SearchTab.skills:
-        return 'search.skills'.tr();
+        return 'Skills';
       case SearchTab.careerPaths:
-        return 'search.careerPaths'.tr();
+        return 'Career Paths';
     }
   }
 

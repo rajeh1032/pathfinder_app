@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -20,12 +19,12 @@ class SurfaceCard extends StatelessWidget {
       width: double.infinity,
       padding: padding ?? EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.md.r),
-        border: Border.all(color: AppColors.lightBorder),
-        boxShadow: const [
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x0F111827),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: .06),
             blurRadius: 18,
             offset: Offset(0, 8),
           ),
@@ -46,7 +45,7 @@ class FieldLabel extends StatelessWidget {
     return Text(
       text,
       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: AppColors.neutral800,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w900,
             letterSpacing: .4,
           ),
@@ -64,7 +63,7 @@ class CardTitle extends StatelessWidget {
     return Text(
       text,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppColors.neutral900,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w900,
           ),
     );

@@ -26,13 +26,15 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: LocalizationService.supportedLocales,
-      path: LocalizationService.translationsPath,
-      fallbackLocale: LocalizationService.english,
-      child: DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => const PathFinderApp(),),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      availableLocales: LocalizationService.supportedLocales,
+      builder: (_) => EasyLocalization(
+        supportedLocales: LocalizationService.supportedLocales,
+        path: LocalizationService.translationsPath,
+        fallbackLocale: LocalizationService.english,
+        child: const PathFinderApp(),
+      ),
     ),
   );
 }

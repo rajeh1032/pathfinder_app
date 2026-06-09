@@ -1,8 +1,7 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -44,16 +43,24 @@ class JobFilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor =
-        isSelected ? AppColors.primaryDark : AppColors.primarySoft;
-    final foregroundColor = isSelected ? Colors.white : AppColors.neutral700;
+    final colorScheme = Theme.of(context).colorScheme;
+    final foregroundColor =
+        isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant;
+    final backgroundColor = _pillTint(
+      context,
+      foregroundColor,
+      alpha: isSelected ? .16 : .07,
+    );
 
     return Container(
       margin: EdgeInsetsDirectional.only(end: AppSpacing.sm.w),
-      padding: EdgeInsets.symmetric(horizontal: 14.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(AppRadius.pill.r),
+        border: Border.all(
+          color: foregroundColor.withValues(alpha: isSelected ? .48 : .28),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -74,4 +81,11 @@ class JobFilterChip extends StatelessWidget {
       ),
     );
   }
+}
+
+Color _pillTint(BuildContext context, Color tint, {required double alpha}) {
+  return Color.alphaBlend(
+    tint.withValues(alpha: alpha),
+    Theme.of(context).colorScheme.surface,
+  );
 }

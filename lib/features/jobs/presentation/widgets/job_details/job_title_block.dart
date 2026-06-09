@@ -1,7 +1,6 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobTitleBlock extends StatelessWidget {
@@ -15,7 +14,7 @@ class JobTitleBlock extends StatelessWidget {
         Text(
           'jobs.common.seniorUxDesigner'.tr(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.neutral900,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w900,
               ),
         ),
@@ -23,12 +22,13 @@ class JobTitleBlock extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.verified_outlined,
-                size: 16.sp, color: AppColors.neutral600),
+                size: 16.sp,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
             SizedBox(width: 5.w),
             Text(
               'jobs.details.certificate'.tr(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.neutral600,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w600,
                   ),
             ),
@@ -57,12 +57,13 @@ class JobMetric extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 15.sp, color: AppColors.neutral600),
+        Icon(icon,
+            size: 15.sp, color: Theme.of(context).colorScheme.onSurfaceVariant),
         SizedBox(width: 5.w),
         Text(
           label,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: AppColors.neutral600,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w700,
               ),
         ),

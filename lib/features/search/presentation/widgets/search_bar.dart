@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +36,7 @@ class SearchBarWidget extends StatelessWidget {
                 color: colorScheme.onSurface,
               ),
               decoration: InputDecoration(
-                hintText: 'search.hint'.tr(),
+                hintText: 'Search jobs, courses, skills, career paths...',
                 hintStyle: TextStyle(
                   fontSize: 12.sp,
                   color: colorScheme.onSurfaceVariant,

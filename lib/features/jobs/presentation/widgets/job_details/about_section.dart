@@ -1,6 +1,5 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/theme/app_colors.dart';
 import 'section.dart';
 
 class AboutSection extends StatelessWidget {
@@ -13,7 +12,7 @@ class AboutSection extends StatelessWidget {
       child: Text(
         'jobs.details.aboutBody'.tr(),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral700,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               height: 1.65,
               fontWeight: FontWeight.w500,
             ),

@@ -6,13 +6,10 @@ class AppBottomNavBar extends StatelessWidget {
     required this.selectedIndex,
     required this.onChanged,
     super.key,
-
   });
 
   final int selectedIndex;
   final ValueChanged<int> onChanged;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +40,7 @@ class AppBottomNavBar extends StatelessWidget {
         NavigationDestination(
           icon: const Icon(Icons.person_outline),
           selectedIcon: const Icon(Icons.person),
-          label: 'root.profile'.tr(),
+          label: 'root.profileShort'.tr(),
         ),
       ],
     );

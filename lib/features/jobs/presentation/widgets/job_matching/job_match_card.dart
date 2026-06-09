@@ -1,9 +1,7 @@
-﻿import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_gradients.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import 'ai_match_pill.dart';
@@ -16,15 +14,29 @@ class JobMatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final requiredSkillColor = _softTint(
+      context,
+      colorScheme.secondary,
+      lightAlpha: .22,
+      darkAlpha: .34,
+    );
+    final missingSkillColor = _softTint(
+      context,
+      colorScheme.error,
+      lightAlpha: .14,
+      darkAlpha: .30,
+    );
+
     return Container(
       padding: EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg.r),
-        border: Border.all(color: AppColors.lightBorder),
-        boxShadow: const [
+        border: Border.all(color: colorScheme.outline),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x14111827),
+            color: colorScheme.shadow.withValues(alpha: .08),
             blurRadius: 26,
             offset: Offset(0, 14),
           ),
@@ -40,7 +52,7 @@ class JobMatchCard extends StatelessWidget {
           Text(
             'jobs.matching.salary'.tr(),
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: AppColors.primaryDark,
+                  color: colorScheme.primary,
                   fontWeight: FontWeight.w900,
                 ),
           ),
@@ -52,15 +64,15 @@ class JobMatchCard extends StatelessWidget {
               'jobs.skills.figma'.tr(),
               'jobs.skills.react'.tr(),
             ],
-            color: AppColors.secondarySoft,
-            textColor: AppColors.secondaryDark,
+            color: requiredSkillColor,
+            textColor: colorScheme.secondary,
           ),
           SizedBox(height: AppSpacing.md.h),
           MatchingSkillSection(
             title: 'jobs.common.missingSkillsUpper'.tr(),
             skills: ['jobs.skills.graphql'.tr()],
-            color: Color(0xFFFFE4E6),
-            textColor: AppColors.error,
+            color: missingSkillColor,
+            textColor: colorScheme.error,
           ),
           SizedBox(height: AppSpacing.lg.h),
           const JobInsightBox(),
@@ -70,11 +82,21 @@ class JobMatchCard extends StatelessWidget {
             height: 56.h,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: AppGradients.aiTertiary,
+                gradient: LinearGradient(
+                  colors: [
+                    colorScheme.primary,
+                    colorScheme.tertiary,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(AppRadius.md.r),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Color(0x4D6366F1),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .shadow
+                        .withValues(alpha: .25),
                     blurRadius: 18,
                     offset: Offset(0, 10),
                   ),
@@ -85,11 +107,14 @@ class JobMatchCard extends StatelessWidget {
                   AppRoutes.jobDetails,
                 ),
                 iconAlignment: IconAlignment.end,
-                icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: colorScheme.onPrimary,
+                ),
                 label: Text(
                   'jobs.common.applyNow'.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
+                        color: colorScheme.onPrimary,
                         fontWeight: FontWeight.w900,
                       ),
                 ),
@@ -100,4 +125,19 @@ class JobMatchCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Color _softTint(
+  BuildContext context,
+  Color tint, {
+  required double lightAlpha,
+  required double darkAlpha,
+}) {
+  final colorScheme = Theme.of(context).colorScheme;
+  final isDark = colorScheme.brightness == Brightness.dark;
+
+  return Color.alphaBlend(
+    tint.withValues(alpha: isDark ? darkAlpha : lightAlpha),
+    colorScheme.surface,
+  );
 }
