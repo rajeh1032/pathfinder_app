@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 
 class GenerateCoverLetterButton extends StatelessWidget {
@@ -30,7 +31,8 @@ class GenerateCoverLetterButton extends StatelessWidget {
       child: SizedBox(
         height: 52.h,
         child: TextButton.icon(
-          onPressed: () {},
+          onPressed: () =>
+              Navigator.of(context).pushNamed(AppRoutes.coverLetterResult),
           icon: Icon(Icons.auto_awesome,
               color: Theme.of(context).colorScheme.onPrimary, size: 18.sp),
           label: Text(

@@ -13,6 +13,7 @@ import '../widgets/job_details/job_title_block.dart';
 import '../widgets/job_details/needs_section.dart';
 import '../widgets/job_details/overview_tab.dart';
 import '../widgets/job_details/skill_section.dart';
+import '../widgets/saved_jobs/saved_jobs_state.dart';
 
 class JobDetailsScreen extends StatelessWidget {
   const JobDetailsScreen({super.key});
@@ -40,12 +41,26 @@ class JobDetailsScreen extends StatelessWidget {
         title: Text('routes.jobDetails'.tr()),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('common.actionReady'.tr())),
+              );
+            },
             icon: const Icon(Icons.share_outlined),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.bookmark_border),
+          ValueListenableBuilder<Set<String>>(
+            valueListenable: SavedJobsState.savedIds,
+            builder: (context, savedIds, _) {
+              final isSaved = savedIds.contains(SavedJobsState.primaryJobId);
+
+              return IconButton(
+                onPressed: () =>
+                    SavedJobsState.toggle(SavedJobsState.primaryJobId),
+                icon: Icon(
+                  isSaved ? Icons.bookmark : Icons.bookmark_border,
+                ),
+              );
+            },
           ),
         ],
       ),
