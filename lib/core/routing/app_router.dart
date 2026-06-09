@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/interview/presentation/screens/active_interview_screen.dart';
+import '../../features/interview/presentation/screens/interview_history_screen.dart';
 import '../../features/interview/presentation/screens/interview_result_screen.dart';
 import '../../features/interview/presentation/screens/interview_start_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
@@ -52,6 +53,7 @@ class AppRouter {
       AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),
       AppRoutes.interviewStart => const InterviewStartScreen(),
       AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.interviewHistory => const InterviewHistoryScreen(),
       AppRoutes.interviewResult => const InterviewResultScreen(),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
