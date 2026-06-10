@@ -847,5 +847,13 @@
     "selectPrompt": "Please select a file to continue",
     "aiRecommendTitle": "AI Recommendation",
     "aiRecommendBody": "Our neural network identifies 50+ key skills and industry matches from your document instantly."
+  },
+  "chatHistory": {
+    "title": "Chat History",
+    "empty": "No chat sessions yet. Start a conversation with AI Mentor.",
+    "newChat": "New Chat",
+    "messages": "messages",
+    "searchHint": "Search sessions...",
+    "clearHint": "Clear old sessions to keep things tidy."
   }
 }

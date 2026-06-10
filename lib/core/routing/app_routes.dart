@@ -39,5 +39,6 @@ class AppRoutes {
   static const interviewStart = '/interview-start';
   static const activeInterview = '/active-interview';
   static const interviewResult = '/interview-result';
+  static const chatAiHistory = '/chat-ai-history';
 
 }

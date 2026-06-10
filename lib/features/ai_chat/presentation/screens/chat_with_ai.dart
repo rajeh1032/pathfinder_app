@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -68,7 +69,8 @@ class _ChatWithAiScreenState extends State<ChatWithAiScreen> {
           IconButton(
             icon: Icon(Icons.history_outlined,
                 size: 28.sp, color: AppColors.primary.withValues(alpha: 0.5)),
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(
+                context, AppRoutes.chatAiHistory),
           ),
         ],
       ),
