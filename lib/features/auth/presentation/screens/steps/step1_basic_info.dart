@@ -7,6 +7,7 @@ import '../../../../../core/theme/app_spacing.dart';
 
 import '../../cubit/setup_profile_cubit.dart';
 
+import '../../widgets/setup_profile_dropdown_field.dart';
 import '../../widgets/setup_profile_text_field.dart';
 import '../../widgets/setup_profile_step_header.dart';
 
@@ -20,7 +21,6 @@ class Step1BasicInfo extends StatefulWidget {
 class _Step1BasicInfoState extends State<Step1BasicInfo> {
   late final TextEditingController _nameController;
   late final TextEditingController _locationController;
-  late final TextEditingController _yearsController;
 
   @override
   void initState() {
@@ -28,14 +28,12 @@ class _Step1BasicInfoState extends State<Step1BasicInfo> {
     final state = context.read<SetupProfileCubit>().state;
     _nameController = TextEditingController(text: state.fullName);
     _locationController = TextEditingController(text: state.location);
-    _yearsController = TextEditingController(text: state.yearsOfExperience);
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _locationController.dispose();
-    _yearsController.dispose();
     super.dispose();
   }
 
@@ -70,12 +68,32 @@ class _Step1BasicInfoState extends State<Step1BasicInfo> {
             prefixIcon: Icons.location_on_outlined,
           ),
           SizedBox(height: AppSpacing.md.h),
-          OnboardingTextField(
+          OnboardingDropdownField<String>(
             label: 'profileSetup.experience'.tr(),
-            placeholder: 'profileSetup.experiencePlaceholder'.tr(),
-            controller: _yearsController,
-            onChanged: cubit.updateYearsOfExperience,
+            hintText: 'profileSetup.experiencePlaceholder'.tr(),
+            value: cubit.state.yearsOfExperience.isEmpty
+                ? null
+                : cubit.state.yearsOfExperience,
             prefixIcon: Icons.work_outline_rounded,
+            items: [
+              'profileSetup.experienceOption0_1'.tr(),
+              'profileSetup.experienceOption1_2'.tr(),
+              'profileSetup.experienceOption2_4'.tr(),
+              'profileSetup.experienceOption4_7'.tr(),
+              'profileSetup.experienceOption7_plus'.tr(),
+            ]
+                .map(
+                  (option) => DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                cubit.updateYearsOfExperience(value);
+              }
+            },
           ),
         ],
       ),
