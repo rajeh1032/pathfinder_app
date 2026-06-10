@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/routing/app_routes.dart';
 import '../widgets/interview_answer_card.dart';
 import '../widgets/interview_avatar_badge.dart';
 import '../widgets/interview_progress_header.dart';

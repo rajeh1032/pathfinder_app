@@ -11,6 +11,7 @@ import '../../features/cover_letters/presentation/screens/cover_letter_generator
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
 import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
 import '../../features/interview/presentation/screens/active_interview_screen.dart';
+import '../../features/interview/presentation/screens/interview_history_screen.dart';
 import '../../features/interview/presentation/screens/interview_result_screen.dart';
 import '../../features/interview/presentation/screens/interview_start_screen.dart';
 import '../../features/courses/presentation/screens/course_details_screen.dart';
@@ -108,6 +109,7 @@ class AppRouter {
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
       AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.interviewHistory => const InterviewHistoryScreen(),
       AppRoutes.interviewResult => const InterviewResultScreen(),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };

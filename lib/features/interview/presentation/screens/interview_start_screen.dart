@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/localization/localization_service.dart';
+import '../../../../core/theme/app_theme_cubit.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../widgets/interview_section_header.dart';
@@ -29,8 +32,19 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+
+      automaticallyImplyLeading: false,
         title: Text('routes.interviewStart'.tr()),
+        actions: [
+         
+          IconButton(
+            tooltip: 'routes.interviewHistory'.tr(),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.interviewHistory);
+            },
+            icon: const Icon(Icons.history_rounded),
+          ),
+        ],
       ),
       body: SafeArea(
         child: LayoutBuilder(
