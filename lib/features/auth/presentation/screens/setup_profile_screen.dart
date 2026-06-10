@@ -26,7 +26,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
     with SingleTickerProviderStateMixin {
   final _pageController = PageController();
 
-  static final _stepLabels = ['profileSetup.basicInfo'.tr(), 'profileSetup.education'.tr(), 'profileSetup.careerGoal'.tr()];
+  static final _stepLabels = ['profileSetup.basicInfo'.tr(), 'profileSetup.education'.tr(), 'profileSetup.careerGaol'.tr()];
 
   @override
   void dispose() {
