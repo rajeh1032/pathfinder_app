@@ -11,7 +11,8 @@
     "empty": "No data yet",
     "retry": "Retry",
     "cancel": "Cancel",
-    "update": "Update"
+    "update": "Update",
+    "actionReady": "This action will be connected later."
   },
   "routes": {
     "splash": "Splash",
@@ -41,8 +42,11 @@
     "courseDetails": "Course details",
     "jobs": "Jobs",
     "jobDetails": "Job details",
+    "savedJobs": "Saved jobs",
+    "appliedJobs": "Applied jobs history",
     "coverLetterGenerator": "Cover letter generator",
     "coverLetterResult": "Cover letter result",
+    "coverLetterHistory": "Cover letter history",
     "aiChat": "AI Mentor",
     "interviewStart": "Interview",
     "activeInterview": "Active interview",
@@ -101,6 +105,23 @@
       "needArchitecture": "Implement robust component architectures",
       "needPerformance": "Optimize rendering performance with useMemo and useCallback",
       "needHooks": "Master Custom Hooks and Context API for state management"
+    },
+    "saved": {
+      "subtitle": "Keep your strongest AI-matched roles ready for review.",
+      "savedAt": "Saved 2 days ago",
+      "match": "92% match",
+      "primaryAction": "View details",
+      "secondaryAction": "Apply"
+    },
+    "applied": {
+      "subtitle": "Track applications, cover letters, and next steps.",
+      "statusReview": "In review",
+      "statusInterview": "Interview scheduled",
+      "submitted": "Submitted May 28",
+      "updated": "Updated yesterday",
+      "nextStep": "Next step",
+      "followUp": "Follow up",
+      "viewLetter": "View letter"
     }
   },
   "coverLetter": {
@@ -158,6 +179,33 @@
       "edit": "Edit",
       "regenerate": "Regenerate",
       "pdf": "PDF"
+    },
+    "result": {
+      "subtitle": "Review, edit, and export your generated cover letter.",
+      "scoreLabel": "Cover score",
+      "scoreValue": "87%",
+      "editMode": "Edit mode",
+      "previewMode": "Preview",
+      "saveDraft": "Save draft",
+      "exportPdf": "Export PDF",
+      "improvement": "Improvement notes",
+      "noteImpact": "Add one measurable business impact.",
+      "noteCompany": "Mention why Vercel is the right target.",
+      "letterTitle": "Senior Frontend Engineer letter",
+      "saved": "Draft saved locally.",
+      "copied": "Cover letter copied.",
+      "regenerated": "Draft regenerated.",
+      "exportReady": "PDF export will connect with the backend later."
+    },
+    "history": {
+      "subtitle": "Reuse, compare, and improve previous AI cover letters.",
+      "thisWeek": "This week",
+      "earlier": "Earlier",
+      "strong": "Strong match",
+      "edited": "Edited",
+      "downloaded": "Downloaded",
+      "open": "Open",
+      "duplicate": "Duplicate"
     }
   },
   "splash": {

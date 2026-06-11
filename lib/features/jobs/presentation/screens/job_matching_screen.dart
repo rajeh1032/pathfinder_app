@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../widgets/job_matching/boost_match_card.dart';
 import '../widgets/job_matching/filter_chips.dart';
+import '../widgets/job_matching/job_library_shortcuts.dart';
 import '../widgets/job_matching/job_match_card.dart';
 import '../widgets/job_matching/jobs_header.dart';
 import '../widgets/job_matching/search_field.dart';
@@ -27,6 +28,8 @@ class JobMatchingScreen extends StatelessWidget {
                   const JobSearchField(),
                   SizedBox(height: AppSpacing.md.h),
                   const JobFilterChips(),
+                  SizedBox(height: AppSpacing.md.h),
+                  const JobLibraryShortcuts(),
                   SizedBox(height: AppSpacing.md.h),
                   const JobMatchCard(),
                   SizedBox(height: AppSpacing.lg.h),

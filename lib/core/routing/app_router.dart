@@ -8,7 +8,11 @@ import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_s
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
+import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
+import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
+import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
+import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';
 import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
 import '../../features/interview/presentation/screens/active_interview_screen.dart';
 import '../../features/interview/presentation/screens/interview_history_screen.dart';
@@ -97,11 +101,13 @@ class AppRouter {
       // Jobs
       AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
       AppRoutes.jobDetails => const JobDetailsScreen(),
+      AppRoutes.savedJobs => const SavedJobsScreen(),
+      AppRoutes.appliedJobs => const AppliedJobsScreen(),
 
       // Cover Letter
       AppRoutes.coverLetterGenerator => const CoverLetterGeneratorScreen(),
-      AppRoutes.coverLetterResult =>
-        const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
+      AppRoutes.coverLetterResult => const CoverLetterResultScreen(),
+      AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
       AppRoutes.aiChat => const ChatWithAiScreen(),
