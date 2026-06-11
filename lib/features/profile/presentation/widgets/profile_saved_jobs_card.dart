@@ -25,7 +25,7 @@ class ProfileSavedJobsCard extends StatelessWidget {
       icon: Icons.bookmark_border,
       titleKey: 'profile.savedJobs',
       trailing: TextButton(
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.jobs),
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.savedJobs),
         child: Text('profile.viewAll'.tr()),
       ),
       children: [

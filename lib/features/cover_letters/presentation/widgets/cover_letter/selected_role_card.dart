@@ -60,7 +60,11 @@ class SelectedRoleCard extends StatelessWidget {
           ),
           SizedBox(width: AppSpacing.xs.w),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('common.actionReady'.tr())),
+              );
+            },
             constraints: BoxConstraints.tight(Size(36.w, 36.h)),
             padding: EdgeInsets.zero,
             icon: Icon(

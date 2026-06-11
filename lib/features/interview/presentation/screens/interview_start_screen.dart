@@ -31,6 +31,15 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('routes.interviewStart'.tr()),
+        actions: [
+          IconButton(
+            tooltip: 'routes.interviewHistory'.tr(),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.interviewHistory);
+            },
+            icon: const Icon(Icons.history_rounded),
+          ),
+        ],
       ),
       body: SafeArea(
         child: LayoutBuilder(

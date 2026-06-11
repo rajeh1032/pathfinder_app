@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_spacing.dart';
 import '../../cubit/setup_profile_cubit.dart';
+import '../../widgets/setup_profile_dropdown_field.dart';
 import '../../widgets/setup_profile_text_field.dart';
 import '../../widgets/setup_profile_step_header.dart';
 
@@ -47,17 +48,38 @@ class _Step2EducationState extends State<Step2Education> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: AppSpacing.xl.h),
-           OnboardingStepHeader(
+          OnboardingStepHeader(
             title: 'profileSetup.step2Title'.tr(),
             subtitle: 'profileSetup.step2Subtitle'.tr(),
           ),
           SizedBox(height: AppSpacing.xl.h),
-          OnboardingTextField(
+          OnboardingDropdownField<String>(
             label: 'profileSetup.degree'.tr(),
-            placeholder: 'profileSetup.degreePlaceholder'.tr(),
-            controller: _degreeController,
-            onChanged: cubit.updateDegreeLevel,
+            hintText: 'profileSetup.degreePlaceholder'.tr(),
+            value: cubit.state.degreeLevel.isEmpty
+                ? null
+                : cubit.state.degreeLevel,
             prefixIcon: Icons.school_outlined,
+            items: [
+              'profileSetup.degreeHighSchool'.tr(),
+              'profileSetup.degreeAssociate'.tr(),
+              'profileSetup.degreeBachelor'.tr(),
+              'profileSetup.degreeMaster'.tr(),
+              'profileSetup.degreePhd'.tr(),
+              'profileSetup.degreeBootcamp'.tr(),
+            ]
+                .map(
+                  (option) => DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                cubit.updateDegreeLevel(value);
+              }
+            },
           ),
           SizedBox(height: AppSpacing.md.h),
           OnboardingTextField(
