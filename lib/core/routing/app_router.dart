@@ -7,6 +7,7 @@ import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 
+import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
@@ -94,9 +95,10 @@ class AppRouter {
       AppRoutes.courseDetails => CourseDetailsScreen(courseId: routeId),
 
       // CV
-      AppRoutes.cvUpload =>
-        const PlaceholderScreen(titleKey: 'routes.cvUpload'),
+
       AppRoutes.cvAnalysisResult => const CvAnalysisResult(),
+      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
+      AppRoutes.cvUpload => const CvUploadScreen(),
 
       // Jobs
       AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
@@ -111,6 +113,8 @@ class AppRouter {
 
       // AI Chat
       AppRoutes.aiChat => const ChatWithAiScreen(),
+      AppRoutes.chatAiHistory => const ChatSessionsScreen(),
+
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),

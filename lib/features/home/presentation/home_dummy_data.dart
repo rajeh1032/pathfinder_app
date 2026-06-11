@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum HomeTab { analyzeCv, chatWithAi }
 class HomeUserModel {
   final String name;
@@ -70,11 +72,11 @@ class HomeDummyData {
     targetRole: 'Frontend Developer',
   );
 
-  static const recommendation = HomeRecommendationModel(
+  static final recommendation = HomeRecommendationModel(
     title: 'Frontend Developer',
     badge: 'Match',
     badgeColor: '#6366F1',
-    reason: 'Based on your stack',
+    reason: 'home.basedOnYourStack'.tr(),
   );
 
   static const roadmap = HomeRoadmapModel(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -62,15 +63,15 @@ class HomeRoadmapCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(999.r),
                   ),
                   child: Text(
-                    '45% Complete',
+                    '${(roadmap.progress * 100).toInt()}%  ${'home.complete'.tr()}',
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w700,
                       color: AppColors.success,
                     ),
                   ),
-                ),
               ),
+                )
             ],
           ),
           SizedBox(height: 12.h),

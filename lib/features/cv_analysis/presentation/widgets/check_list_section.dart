@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,7 +30,7 @@ class _ChecklistSectionState extends State<ChecklistSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Improvement Checklist',
+          'cvAnalysis.improvementChecklist'.tr(),
           style: AppTextStyles.titleSmall(colorScheme.onSurface)
               .copyWith(fontSize: 15.sp),
         ),

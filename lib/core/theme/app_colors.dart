@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as session;
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -49,5 +50,18 @@ class AppColors {
   static const success = Color(0xFF10B981);
   static const warning = Color(0xFFF59E0B);
   static const error = Color(0xFFEF4444);
+
+
   static const info = secondary;
+  static List<Color> avatarGradient(String id) {
+    final gradients = [
+      [primary, tertiary],
+      [secondary, primary],
+      [tertiary, const Color(0xFFEC4899)],
+      [success, secondary],
+      [warning, error],
+    ];
+    final index = int.tryParse(id) ?? 0;
+    return gradients[index % gradients.length];
+  }
 }

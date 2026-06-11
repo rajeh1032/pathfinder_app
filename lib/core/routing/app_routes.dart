@@ -38,8 +38,11 @@ class AppRoutes {
   static const coverLetterResult = '/cover-letter-result';
   static const coverLetterHistory = '/cover-letter-history';
   static const aiChat = '/ai-chat';
+  static const cvUploadLoading = '/cv-upload-loading';
   static const interviewStart = '/interview-start';
   static const activeInterview = '/active-interview';
   static const interviewHistory = '/interview-history';
   static const interviewResult = '/interview-result';
+  static const chatAiHistory = '/chat-ai-history';
+
 }
