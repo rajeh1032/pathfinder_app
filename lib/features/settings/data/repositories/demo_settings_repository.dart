@@ -2,11 +2,14 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../../domain/entities/settings_preferences.dart';
 import '../../domain/repositories/settings_repository.dart';
 
 class DemoSettingsRepository implements SettingsRepository {
-  DemoSettingsRepository();
+  const DemoSettingsRepository(this._tokenStorage);
+
+  final TokenStorage _tokenStorage;
 
   static SettingsPreferences _preferences = const SettingsPreferences(
     displayNameKey: 'settings.accountName',
@@ -61,11 +64,17 @@ class DemoSettingsRepository implements SettingsRepository {
 
   @override
   Future<Either<Failure, Unit>> signOut() async {
-    return const Right(unit);
+    try {
+      await _tokenStorage.clearTokens();
+      return const Right(unit);
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
   }
 
   @override
   Future<Either<Failure, Unit>> deleteAccount() async {
+    await _tokenStorage.clearTokens();
     return const Right(unit);
   }
 }

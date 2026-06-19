@@ -1,7 +1,7 @@
 class ApiEndpoints {
   const ApiEndpoints._();
 
-  static const login = '/auth/login';
+  static const login = '/api/v1/auth/login';
   static const register = '/auth/register';
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
