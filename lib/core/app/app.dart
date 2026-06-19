@@ -34,7 +34,7 @@ class PathFinderApp extends StatelessWidget {
               locale: DevicePreview.locale(context) ?? context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
-              initialRoute: AppRoutes.root,
+              initialRoute: AppRoutes.splash,
               builder: DevicePreview.appBuilder,
               onGenerateRoute: AppRouter.onGenerateRoute,
             );
