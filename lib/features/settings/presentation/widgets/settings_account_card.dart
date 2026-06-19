@@ -47,11 +47,11 @@ class SettingsAccountCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    preferences.displayNameKey.tr(),
+                    context.tr(preferences.displayNameKey),
                     style: AppTextStyles.bodyLarge(colors.onSurface),
                   ),
                   Text(
-                    preferences.headlineKey.tr(),
+                    context.tr(preferences.headlineKey),
                     style: AppTextStyles.bodyMedium(colors.onSurfaceVariant),
                   ),
                 ],

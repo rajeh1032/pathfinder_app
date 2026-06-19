@@ -33,7 +33,7 @@ class EditProfileField extends StatelessWidget {
         minLines: minLines,
         maxLines: maxLines,
         decoration: InputDecoration(
-          labelText: labelKey.tr(),
+          labelText: context.tr(labelKey),
           fillColor: colors.onPrimary,
         ),
       ),
@@ -60,7 +60,7 @@ class EditProfilePhotoAction extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       title: Text(
-        labelKey.tr(),
+        context.tr(labelKey),
         style: AppTextStyles.bodyLarge(colors.onSurface),
       ),
       shape: RoundedRectangleBorder(

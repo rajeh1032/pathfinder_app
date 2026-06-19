@@ -16,17 +16,17 @@ Future<bool> showSettingsConfirmationDialog({
       final colors = Theme.of(dialogContext).colorScheme;
 
       return AlertDialog(
-        title: Text(titleKey.tr()),
-        content: Text(messageKey.tr()),
+        title: Text(dialogContext.tr(titleKey)),
+        content: Text(dialogContext.tr(messageKey)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text('common.cancel'.tr()),
+            child: Text(dialogContext.tr('common.cancel')),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: Text(
-              confirmKey.tr(),
+              dialogContext.tr(confirmKey),
               style:
                   destructive ? AppTextStyles.labelLarge(colors.error) : null,
             ),

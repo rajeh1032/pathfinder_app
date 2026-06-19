@@ -71,16 +71,16 @@ class _EducationTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.titleKey.tr(),
+                    context.tr(item.titleKey),
                     style: AppTextStyles.titleSmall(colors.onSurface),
                   ),
                   Text(
-                    item.subtitleKey.tr(),
+                    context.tr(item.subtitleKey),
                     style: AppTextStyles.bodyMedium(colors.onSurfaceVariant),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    item.metaKey.tr(),
+                    context.tr(item.metaKey),
                     style: AppTextStyles.labelSmall(
                       item.highlighted
                           ? colors.primary

@@ -26,7 +26,11 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
     with SingleTickerProviderStateMixin {
   final _pageController = PageController();
 
-  static final _stepLabels = ['profileSetup.basicInfo'.tr(), 'profileSetup.education'.tr(), 'profileSetup.careerGaol'.tr()];
+  static const _stepLabelKeys = [
+    'profileSetup.basicInfo',
+    'profileSetup.education',
+    'profileSetup.careerGaol',
+  ];
 
   @override
   void dispose() {
@@ -85,7 +89,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
                     SizedBox(height: AppSpacing.lg.h),
                     StepIndicator(
                       currentStep: state.currentStep,
-                      labels: _stepLabels,
+                      labels: _stepLabelKeys.map((key) => key.tr()).toList(),
                     ),
 
                     // ── Page content ─────────────────────────────────────

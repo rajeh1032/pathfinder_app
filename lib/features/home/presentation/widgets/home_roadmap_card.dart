@@ -33,31 +33,37 @@ class HomeRoadmapCard extends StatelessWidget {
         children: [
           // Title row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.route_outlined,
-                    size: 16.sp,
-                    color: AppColors.primary,
-                  ),
-                  SizedBox(width: 6.w),
-                  Text(
-                    'Roadmap: ${roadmap.title}',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface,
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.route_outlined,
+                      size: 16.sp,
+                      color: AppColors.primary,
                     ),
-                  ),
-                ],
+                    SizedBox(width: 6.w),
+                    Expanded(
+                      child: Text(
+                        'Roadmap: ${roadmap.title}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              // Continue badge
+              SizedBox(width: 8.w),
               GestureDetector(
                 onTap: () {},
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: AppColors.success.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(999.r),
@@ -70,8 +76,8 @@ class HomeRoadmapCard extends StatelessWidget {
                       color: AppColors.success,
                     ),
                   ),
+                ),
               ),
-                )
             ],
           ),
           SizedBox(height: 12.h),
