@@ -11,7 +11,8 @@
     "empty": "لا توجد بيانات بعد",
     "retry": "إعادة المحاولة",
     "cancel": "إلغاء",
-    "update": "تحديث"
+    "update": "تحديث",
+    "actionReady": "سيتم ربط هذا الإجراء لاحقاً."
   },
   "routes": {
     "splash": "البداية",
@@ -32,8 +33,11 @@
     "courseDetails": "تفاصيل الدورة",
     "jobs": "الوظائف",
     "jobDetails": "تفاصيل الوظيفة",
+    "savedJobs": "الوظائف المحفوظة",
+    "appliedJobs": "سجل التقديمات",
     "coverLetterGenerator": "إنشاء خطاب التقديم",
     "coverLetterResult": "نتيجة خطاب التقديم",
+    "coverLetterHistory": "سجل خطابات التقديم",
     "aiChat": "المرشد الذكي",
     "interviewStart": "المقابلة",
     "activeInterview": "المقابلة الحالية",
@@ -56,6 +60,169 @@
     "aiMentor": "المرشد الذكي",
     "profile": "الملف الشخصي",
     "profileShort": "الملف"
+  },
+  "jobs": {
+    "common": {
+      "seniorUxDesigner": "مصمم تجربة مستخدم أول",
+      "applyNow": "قدّم الآن",
+      "aiMatchPercent": "تطابق AI بنسبة 92%",
+      "aiMatchLabel": "تطابق AI: 92%",
+      "requiredSkills": "المهارات المطلوبة",
+      "missingSkills": "المهارات الناقصة",
+      "requiredSkillsUpper": "المهارات المطلوبة",
+      "missingSkillsUpper": "المهارات الناقصة"
+    },
+    "skills": {
+      "systemDesign": "تصميم الأنظمة",
+      "figma": "Figma",
+      "react": "React",
+      "graphql": "GraphQL"
+    },
+    "matching": {
+      "searchHint": "ابحث عن وظائف مناسبة بالذكاء الاصطناعي...",
+      "filters": "فلترة",
+      "remote": "عن بعد",
+      "design": "تصميم",
+      "salary": "140 ألف - 185 ألف دولار / سنة",
+      "companyLocation": "Stripe - عن بعد",
+      "insight": "\"ملف أعمالك يوضح نفس مستوى النمذجة عالية الدقة والتفكير المتمحور حول المستخدم المطلوب لتطوير لوحة تحكم تجار Stripe.\"",
+      "newUpdate": "تحديث جديد",
+      "boostTitle": "ارفع درجة تطابقك\nبنسبة 12%",
+      "boostDescription": "أكمل مسار 'Advanced API Orchestration' لفتح فرص أعلى في Figma وUber.",
+      "startLearningPath": "ابدأ مسار التعلم"
+    },
+    "details": {
+      "title": "تفاصيل الوظيفة",
+      "aiRecommended": "موصى بها بالذكاء الاصطناعي",
+      "webDevelopment": "تطوير الويب",
+      "advanced": "متقدم",
+      "certificate": "شهادة Meta المهنية",
+      "aiReason": "موصى بها لأنها تطور المهارات الناقصة لديك في React Hooks وتحسين الأداء وبناء المكونات ضمن مسار Senior Frontend Developer.",
+      "overview": "نظرة عامة",
+      "aboutTitle": "عن هذه الوظيفة",
+      "aboutBody": "أتقن مفاهيم React المتقدمة وأنماط التصميم الحديثة. تعلم بناء تطبيقات قابلة للتوسع وعالية الأداء وسهلة الصيانة تستخدمها شركات تقنية كبرى.",
+      "needsTitle": "ماذا نحتاج؟",
+      "needArchitecture": "تنفيذ بنية مكونات قوية",
+      "needPerformance": "تحسين أداء العرض باستخدام useMemo وuseCallback",
+      "needHooks": "إتقان Custom Hooks وContext API لإدارة الحالة"
+    },
+    "saved": {
+      "subtitle": "احتفظ بأقوى الوظائف المتوافقة معك للمراجعة لاحقاً.",
+      "savedAt": "تم الحفظ منذ يومين",
+      "match": "تطابق 92%",
+      "primaryAction": "عرض التفاصيل",
+      "secondaryAction": "قدّم الآن"
+    },
+    "applied": {
+      "subtitle": "تابع طلباتك وخطابات التقديم والخطوات القادمة.",
+      "statusReview": "قيد المراجعة",
+      "statusInterview": "مقابلة مجدولة",
+      "submitted": "تم التقديم 28 مايو",
+      "updated": "تم التحديث أمس",
+      "nextStep": "الخطوة التالية",
+      "followUp": "متابعة",
+      "viewLetter": "عرض الخطاب"
+    }
+  },
+  "coverLetter": {
+    "title": "منشئ خطاب\nالتقديم",
+    "subtitle": "أنشئ خطاب تقديم مخصص يناسب الدور المستهدف وخبرتك.",
+    "selectedRole": {
+      "title": "مهندس واجهات\nأمامية أول",
+      "companyLocation": "Vercel - سياتل، واشنطن"
+    },
+    "personalize": {
+      "title": "خصص خطابك",
+      "subtitle": "ساعد الذكاء الاصطناعي على إنشاء خطاب أقوى وأكثر ارتباطًا بالوظيفة.",
+      "toneOfVoice": "نبرة الخطاب",
+      "focusKeywords": "الكلمات المفتاحية (3/5)",
+      "companyInterest": "لماذا أنت مهتم بهذه الشركة؟",
+      "companyInterestHint": "مثال: أتابع عمل Vercel على Next.js منذ فترة...",
+      "achievement": "ما الإنجاز الذي تريد إبرازه؟",
+      "achievementHint": "مثال: قدت عملية الانتقال إلى بنية React جديدة..."
+    },
+    "tone": {
+      "professional": "احترافي",
+      "enthusiastic": "متحمس",
+      "concise": "مختصر"
+    },
+    "keywords": {
+      "leadership": "القيادة",
+      "reactNative": "React Native",
+      "uiDesign": "تصميم الواجهة",
+      "addSkill": "+ أضف مهارة"
+    },
+    "goal": {
+      "label": "الهدف المستهدف",
+      "title": "معماري واجهات\nأمامية أول",
+      "complete": "65%\nمكتمل",
+      "advancedPatterns": "أنماط React\nمتقدمة",
+      "systemDesign": "تصميم الأنظمة\nوالأنظمة الموزعة"
+    },
+    "generate": "إنشاء خطاب التقديم",
+    "match": {
+      "strong": "تطابق قوي",
+      "description": "خطاب التقديم متوافق بقوة مع هذه الوظيفة."
+    },
+    "insights": {
+      "title": "ملاحظات مراجعة AI",
+      "alignment": "توافق قوي مع متطلبات الوظيفة",
+      "leadership": "استخدام جيد لخبرات القيادة",
+      "achievements": "أضف إنجازات قابلة للقياس",
+      "reactNative": "اذكر خبرتك في React Native"
+    },
+    "draft": {
+      "title": "المسودة الناتجة",
+      "wordCount": "240 كلمة",
+      "body": "إلى فريق التوظيف في Vercel،\n\nأكتب إليكم للتعبير عن اهتمامي القوي بوظيفة Senior Frontend Engineer. أمتلك خبرة قوية في تطوير تطبيقات ويب قابلة للتوسع، وشغفًا واضحًا بتحسين تجربة المطورين، وأتطلع للمساهمة في رسالة Vercel لجعل الويب أسرع وأكثر سهولة في الوصول.\n\nفي دوري الأخير كقائد تطوير، قدت عملية انتقال إلى بنية React حديثة حسّنت الأداء وقابلية الصيانة وسرعة إنجاز الفريق.",
+      "copy": "نسخ",
+      "edit": "تعديل",
+      "regenerate": "إعادة الإنشاء",
+      "pdf": "PDF"
+    },
+    "result": {
+      "subtitle": "راجع وعدّل وصدّر خطاب التقديم الناتج.",
+      "scoreLabel": "درجة الخطاب",
+      "scoreValue": "87%",
+      "editMode": "وضع التعديل",
+      "previewMode": "معاينة",
+      "saveDraft": "حفظ المسودة",
+      "exportPdf": "تصدير PDF",
+      "improvement": "ملاحظات التحسين",
+      "noteImpact": "أضف تأثيراً عملياً قابلاً للقياس.",
+      "noteCompany": "اذكر لماذا Vercel هي الشركة المناسبة.",
+      "letterTitle": "خطاب Senior Frontend Engineer",
+      "saved": "تم حفظ المسودة محلياً.",
+      "copied": "تم نسخ خطاب التقديم.",
+      "regenerated": "تمت إعادة إنشاء المسودة.",
+      "exportReady": "تصدير PDF سيتم ربطه بالباك اند لاحقاً."
+    },
+    "history": {
+      "subtitle": "أعد استخدام وقارن وطور خطاباتك السابقة.",
+      "thisWeek": "هذا الأسبوع",
+      "earlier": "سابقاً",
+      "strong": "تطابق قوي",
+      "edited": "تم التعديل",
+      "downloaded": "تم التحميل",
+      "open": "فتح",
+      "duplicate": "نسخ"
+    }
+  },
+  "splash": {
+    "welcome": "الذكاء الموجه للمسارات المهنية",
+    "tagline": "تهيئة الرحلة..."
+  },
+  "onboarding": {
+    "step1Title": "مرشدك المهني الذكي",
+    "step1Desc": "توجه نحو مستقبلك بدقة. احصل على خطط مخصصة، مصممة لأهدافك ومهاراتك.",
+    "step2Title": "اعثر على وظيفة أحلامك",
+    "step2Desc": "اكتشف آلاف الفرص المتوافقة مع مهاراتك. دع الذكاء يوصلك بالدور المثالي.",
+    "step3Title": "تعلم وتنمو أسرع",
+    "step3Desc": "اتبع خططًا شخصية مصممة لمسار حياتك المهنية. اتقن المهارات الأكثر أهمية.",
+    "skip": "تخطي",
+    "next": "التالي",
+    "back": "السابق",
+    "getStarted": "ابدأ الآن"
   },
   "jobs": {
     "common": {
@@ -216,9 +383,11 @@
     "hello": "مرحباً",
     "readyToLevelUp": "هل أنتِ مستعدة للارتقاء بمسيرتك؟",
     "analyzeCv": "تحليل السيرة الذاتية",
+    "complete": "مكتمل",
     "chatWithAi": "التحدث مع الذكاء الاصطناعي",
     "topRecommendation": "أفضل توصية",
     "basedOnYourStack": "بناءً على مهاراتك",
+    "aiInsightBody": "مهاراتك في React رائجة! المستخدمون ذوو الملفات المشابهة حققوا زيادة 20% في الراتب بعد إتقان TypeScript.",
     "uiScore": "نقاط السيرة",
     "aiCareerInsight": "رؤية مهنية ذكية",
     "roadmap": "خطة التعلم",
@@ -742,5 +911,38 @@
     "termsContentBody": "حافظ على دقة ملفك وتفاصيل سيرتك والمحتوى الناتج، ولا ترفع إلا المعلومات التي لديك إذن باستخدامها.",
     "termsAccountTitle": "إجراءات الحساب",
     "termsAccountBody": "تأكيدات تسجيل الخروج وحذف الحساب متاحة في الإعدادات والخصوصية، ويتم الحذف النهائي بعد ربط واجهات الحساب الخلفية."
+  },
+  "cvLoading": {
+    "title": "نحسّن مستقبلك",
+    "subtitle": "يقوم الذكاء الاصطناعي بتحليل مهاراتك وفق معايير الصناعة",
+    "uploading": "رفع السيرة الذاتية",
+    "uploadingSubtitle": "جارٍ رفع المستند بشكل آمن",
+    "parsing": "تحليل المستند...",
+    "parsingSubtitle": "استخراج مهاراتك وخبراتك",
+    "analyzing": "تحليل المهارات",
+    "analyzingSubtitle": "المقارنة مع معايير الصناعة",
+    "generating": "توليد الرؤى",
+    "generatingSubtitle": "إنشاء رؤاك المهنية",
+    "proTipTitle": "نصيحة مهنية",
+    "proTipBody": "يقارن PathFinder AI سيرتك الذاتية بأكثر من 50,000 وصف وظيفي حقيقي للعثور على أفضل فرصة لك."
+  },
+  "cvUpload": {
+    "title": "حسّن مستقبلك",
+    "subtitle": "ارفع سيرتك الذاتية للحصول على تحليل مدعوم بالذكاء الاصطناعي لمسارك المهني.",
+    "uploadTitle": "ارفع سيرتك الذاتية",
+    "formats": "يدعم PDF و DOC و DOCX",
+    "maxSize": "الحد الأقصى لحجم الملف: 5 ميجابايت",
+    "analyzeButton": "تحليل السيرة الذاتية",
+    "selectPrompt": "يرجى اختيار ملف للمتابعة",
+    "aiRecommendTitle": "توصية الذكاء الاصطناعي",
+    "aiRecommendBody": "يحدد الذكاء الاصطناعي أكثر من 50 مهارة ومطابقة صناعية من مستندك فوراً."
+  },
+  "chatHistory": {
+    "title": "سجل المحادثات",
+    "empty": "لا توجد محادثات بعد. ابدأ محادثة مع المرشد الذكي.",
+    "newChat": "محادثة جديدة",
+    "messages": "رسائل",
+    "searchHint": "ابحث في المحادثات...",
+    "clearHint": "امسح المحادثات القديمة للحفاظ على الترتيب."
   }
 }

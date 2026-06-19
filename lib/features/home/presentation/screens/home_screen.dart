@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 👋 Hello, Ayat + CV Score circle
+              //  Hello, Ayat + CV Score circle
               HomeHeader(user: HomeDummyData.user),
               SizedBox(height: 16.h),
 
@@ -51,25 +52,25 @@ class HomeScreen extends StatelessWidget {
               const HomeActionButtons(),
               SizedBox(height: 20.h),
 
-              // ⭐ Top Recommendation card
+              // Top Recommendation card
               HomeRecommendationCard(
                 recommendation: HomeDummyData.recommendation,
               ),
               SizedBox(height: 16.h),
 
-              // 📊 CV Score + AI Career Insight
+              // CV Score + AI Career Insight
               HomeScoreInsightRow(cvScore: HomeDummyData.user.cvScore),
               SizedBox(height: 20.h),
 
-              // 🗺️ Roadmap Progress
+              //  Roadmap Progress
               HomeRoadmapCard(roadmap: HomeDummyData.roadmap),
               SizedBox(height: 20.h),
 
-              // 🧠 Skill Gap Analysis
+              // Skill Gap Analysis
               HomeSkillGapSection(skills: HomeDummyData.skillGaps),
               SizedBox(height: 20.h),
 
-              // 💼 Jobs For You
+              // Jobs For You
               const HomeJobsSection(),
               SizedBox(height: 20.h),
             ],

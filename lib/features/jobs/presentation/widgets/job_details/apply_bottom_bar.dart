@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../saved_jobs/saved_jobs_state.dart';
 
 class ApplyBottomBar extends StatelessWidget {
   const ApplyBottomBar({super.key});
@@ -29,17 +30,34 @@ class ApplyBottomBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 48.w,
-            height: 48.h,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(AppRadius.md.r),
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.primaryContainer),
-            ),
-            child: Icon(Icons.bookmark_border,
-                color: Theme.of(context).colorScheme.primary),
+          ValueListenableBuilder<Set<String>>(
+            valueListenable: SavedJobsState.savedIds,
+            builder: (context, savedIds, _) {
+              final colors = Theme.of(context).colorScheme;
+              final isSaved = savedIds.contains(SavedJobsState.primaryJobId);
+
+              return InkWell(
+                onTap: () => SavedJobsState.toggle(SavedJobsState.primaryJobId),
+                onLongPress: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.savedJobs),
+                borderRadius: BorderRadius.circular(AppRadius.md.r),
+                child: Container(
+                  width: 48.w,
+                  height: 48.h,
+                  decoration: BoxDecoration(
+                    color: isSaved ? colors.primary : colors.surface,
+                    borderRadius: BorderRadius.circular(AppRadius.md.r),
+                    border: Border.all(
+                      color: isSaved ? colors.primary : colors.primaryContainer,
+                    ),
+                  ),
+                  child: Icon(
+                    isSaved ? Icons.bookmark : Icons.bookmark_border,
+                    color: isSaved ? colors.onPrimary : colors.primary,
+                  ),
+                ),
+              );
+            },
           ),
           SizedBox(width: AppSpacing.md.w),
           Expanded(

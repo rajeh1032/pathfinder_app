@@ -95,15 +95,26 @@ class GeneratedDraftCard extends StatelessWidget {
 }
 
 class DraftAction extends StatelessWidget {
-  const DraftAction({super.key, required this.icon, required this.labelKey});
+  const DraftAction({
+    super.key,
+    required this.icon,
+    required this.labelKey,
+    this.onPressed,
+  });
 
   final IconData icon;
   final String labelKey;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: () {},
+      onPressed: onPressed ??
+          () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('common.actionReady'.tr())),
+            );
+          },
       style: TextButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 4.w),
         visualDensity: VisualDensity.compact,

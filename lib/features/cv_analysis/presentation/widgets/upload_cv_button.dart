@@ -13,7 +13,7 @@ class UploadCvButton extends StatelessWidget {
       width: double.infinity,
       height: 52.h,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, '/cv-upload'),
         icon: Icon(Icons.upload_file_rounded, size: 20.sp),
         label: Text(
           'Upload New CV',

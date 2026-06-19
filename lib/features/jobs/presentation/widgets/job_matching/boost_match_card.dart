@@ -107,7 +107,11 @@ class BoostMatchCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppRadius.md.r),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('common.actionReady'.tr())),
+                );
+              },
               child: Text(
                 'jobs.matching.startLearningPath'.tr(),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
