@@ -6,6 +6,7 @@ class RegisterState extends Equatable {
   final RegisterStatus status;
   final String email;
   final String password;
+  final String confirmPassword;
   final bool passwordVisible;
   final String? errorMessage;
 
@@ -13,6 +14,7 @@ class RegisterState extends Equatable {
     this.status = RegisterStatus.initial,
     this.email = '',
     this.password = '',
+    this.confirmPassword = '',
     this.passwordVisible = false,
     this.errorMessage,
   });
@@ -21,6 +23,7 @@ class RegisterState extends Equatable {
     RegisterStatus? status,
     String? email,
     String? password,
+    String? confirmPassword,
     bool? passwordVisible,
     String? errorMessage,
   }) {
@@ -28,6 +31,7 @@ class RegisterState extends Equatable {
       status: status ?? this.status,
       email: email ?? this.email,
       password: password ?? this.password,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
       passwordVisible: passwordVisible ?? this.passwordVisible,
       errorMessage: errorMessage,
     );
@@ -36,9 +40,11 @@ class RegisterState extends Equatable {
   bool get isLoading => status == RegisterStatus.loading;
   bool get isSuccess => status == RegisterStatus.success;
   bool get isFailure => status == RegisterStatus.failure;
-  bool get canSubmit => email.isNotEmpty && password.length >= 6;
+
+  bool get canSubmit =>
+      email.isNotEmpty && password.length >= 6 && password == confirmPassword;
 
   @override
   List<Object?> get props =>
-      [status, email, password, passwordVisible, errorMessage];
+      [status, email, password, confirmPassword, passwordVisible, errorMessage];
 }

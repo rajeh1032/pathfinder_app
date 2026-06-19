@@ -6,6 +6,8 @@ import 'package:pathfinder_app/features/auth/presentation/screens/register_scree
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
@@ -63,7 +65,7 @@ class AppRouter {
       AppRoutes.forgotPassword => const ForgotPasswordScreen(),
       AppRoutes.verifyEmail => const VerifyEmailScreen(),
       AppRoutes.changePassword => const ChangePasswordScreen(),
-      AppRoutes.setupProfile => const SetupProfileScreen(),
+      AppRoutes.setupProfile => _setupProfileScreen(settings.arguments),
 
       // Home / Search
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
@@ -130,5 +132,22 @@ class AppRouter {
       final String id => id,
       _ => null,
     };
+  }
+
+  static Widget _setupProfileScreen(Object? arguments) {
+    if (arguments is SetupProfileArgs) {
+      return SetupProfileScreen(
+        email: arguments.email,
+        password: arguments.password,
+        confirmPassword: arguments.confirmPassword,
+      );
+    }
+    // Fallback with empty credentials — guards against direct/deep-link
+    // navigation outside the normal register flow.
+    return const SetupProfileScreen(
+      email: '',
+      password: '',
+      confirmPassword: '',
+    );
   }
 }

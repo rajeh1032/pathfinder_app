@@ -224,125 +224,6 @@
     "back": "Back",
     "getStarted": "Get Started"
   },
-  "jobs": {
-    "common": {
-      "seniorUxDesigner": "Senior UX Designer",
-      "applyNow": "Apply Now",
-      "aiMatchPercent": "92% AI Match",
-      "aiMatchLabel": "AI MATCH: 92%",
-      "requiredSkills": "Required skills",
-      "missingSkills": "Missing skills",
-      "requiredSkillsUpper": "REQUIRED SKILLS",
-      "missingSkillsUpper": "MISSING SKILLS"
-    },
-    "skills": {
-      "systemDesign": "System Design",
-      "figma": "Figma",
-      "react": "React",
-      "graphql": "GraphQL"
-    },
-    "matching": {
-      "searchHint": "Search AI-matched roles...",
-      "filters": "Filters",
-      "remote": "Remote",
-      "design": "Design",
-      "salary": "$140k - $185k / year",
-      "companyLocation": "Stripe - Remote",
-      "insight": "\"Your portfolio demonstrates the exact high-fidelity prototyping and user-centric logic required for Stripe's merchant dashboard overhaul.\"",
-      "newUpdate": "New Update",
-      "boostTitle": "Boost your match score\nby 12%",
-      "boostDescription": "Complete the 'Advanced API Orchestration' path to unlock higher-tier roles at Figma and Uber.",
-      "startLearningPath": "Start Learning Path"
-    },
-    "details": {
-      "title": "Job Details",
-      "aiRecommended": "AI RECOMMENDED",
-      "webDevelopment": "Web Development",
-      "advanced": "Advanced",
-      "certificate": "Meta Professional Certificate",
-      "aiReason": "Recommended because it improves your missing skills in React Hooks, Performance Optimization, and Component Architecture for your Senior Frontend Developer roadmap.",
-      "overview": "Overview",
-      "aboutTitle": "About this job",
-      "aboutBody": "Master advanced React concepts and modern design patterns. Learn how to build highly scalable, performant, and maintainable applications used by top tech companies.",
-      "needsTitle": "What we need?",
-      "needArchitecture": "Implement robust component architectures",
-      "needPerformance": "Optimize rendering performance with useMemo and useCallback",
-      "needHooks": "Master Custom Hooks and Context API for state management"
-    }
-  },
-  "coverLetter": {
-    "title": "Cover Letter\nGenerator",
-    "subtitle": "Create a personalized cover letter tailored to your target role and experience.",
-    "selectedRole": {
-      "title": "Senior Frontend\nEngineer",
-      "companyLocation": "Vercel - Seattle, WA"
-    },
-    "personalize": {
-      "title": "Personalize Your Letter",
-      "subtitle": "Help the AI generate a stronger and more relevant cover letter.",
-      "toneOfVoice": "Tone of Voice",
-      "focusKeywords": "Focus Keywords (3/5)",
-      "companyInterest": "WHY ARE YOU INTERESTED IN THIS COMPANY?",
-      "companyInterestHint": "E.g., I have been following Vercel's work on Next.js...",
-      "achievement": "WHAT ACHIEVEMENT WOULD YOU LIKE TO HIGHLIGHT?",
-      "achievementHint": "E.g., Led the migration to a new React architecture..."
-    },
-    "tone": {
-      "professional": "Professional",
-      "enthusiastic": "Enthusiastic",
-      "concise": "Concise"
-    },
-    "keywords": {
-      "leadership": "Leadership",
-      "reactNative": "React Native",
-      "uiDesign": "UI Design",
-      "addSkill": "+ Add Skill"
-    },
-    "goal": {
-      "label": "TARGET GOAL",
-      "title": "Senior Frontend\nArchitect",
-      "complete": "65%\nComplete",
-      "advancedPatterns": "Advanced\nReact Design\nPatterns",
-      "systemDesign": "System Design\nDistributed\nSystems"
-    },
-    "generate": "Generate Cover Letter",
-    "match": {
-      "strong": "Strong Match",
-      "description": "Your cover letter strongly aligns with this position."
-    },
-    "insights": {
-      "title": "AI Review Insights",
-      "alignment": "Strong alignment with job requirements",
-      "leadership": "Good use of leadership experience",
-      "achievements": "Add measurable achievements",
-      "reactNative": "Mention React Native expertise"
-    },
-    "draft": {
-      "title": "Generated Draft",
-      "wordCount": "240 Words",
-      "body": "Dear Hiring Team at Vercel,\n\nI am writing to express my strong interest in the Senior Frontend Engineer position. With a robust background in developing scalable web applications and a deep passion for improving developer experience, I am excited about the opportunity to contribute to Vercel's mission of making the web faster and more accessible.\n\nIn my recent role as Lead Developer, I spearheaded a migration to a modern React architecture that improved performance, maintainability, and team delivery speed.",
-      "copy": "Copy",
-      "edit": "Edit",
-      "regenerate": "Regenerate",
-      "pdf": "PDF"
-    }
-  },
-  "splash": {
-    "welcome": "Guided Intelligence for Careers",
-    "tagline": "INITIALISING JOURNEY..."
-  },
-  "onboarding": {
-    "step1Title": "Your AI Career Guide",
-    "step1Desc": "Navigate your Future with precision. Get personlized roadmaps, tailored to your goals and skills.",
-    "step2Title": "Find Your Dream Job",
-    "step2Desc": "Discover thousands of opportunities matched to your skills. Let AI connect you with the perfect role.",
-    "step3Title": "Learn & Grow Faster",
-    "step3Desc": "Follow personalized roadmaps built for your career path. Master the skills that matter most.",
-    "skip": "Skip",
-    "next": "Next",
-    "back": "Back",
-    "getStarted": "Get Started"
-  },
   "auth": {
     "loginTitle": "Welcome back",
     "registerTitle": "Welcome",
@@ -351,8 +232,14 @@
     "loginWithGoogle": "Continue with Google",
     "or": "OR",
     "emailPlaceholder": "Email Address",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Enter a valid email",
     "passwordPlaceholder": "Password",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "At least 6 characters",
     "confirmPasswordPlaceholder": "Confirm Password",
+    "confirmPasswordRequired": "Confirm password is required",
+    "passwordsDoNotMatch": "Passwords do not match",
     "login": "Sign In",
     "register": "Sign Up",
     "dontHaveAccount": "Don't have an account? ",
@@ -382,7 +269,7 @@
   "profileSetup": {
     "basicInfo": "Basic Info",
     "education": "Education",
-    "careerGaol": "Career Goal",
+    "careerGoal": "Career Goal",
     "step1Title": "About You",
     "step1Subtitle": "Tell us a little about yourself.",
     "step2Title": "Your Education",

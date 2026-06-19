@@ -32,17 +32,17 @@ import 'package:pathfinder_app/features/auth/data/data_sources/local/auth_local_
 import 'package:pathfinder_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart'
     as _i310;
 import 'package:pathfinder_app/features/auth/data/repositories/auth_repository_impl.dart'
-    as _i571;
+    as _i570;
 import 'package:pathfinder_app/features/auth/domain/repositories/auth_repository.dart'
     as _i405;
 import 'package:pathfinder_app/features/auth/domain/use_cases/login_use_case.dart'
-    as _i901;
+    as _i203;
+import 'package:pathfinder_app/features/auth/domain/use_cases/register_use_case.dart'
+    as _i338;
 import 'package:pathfinder_app/features/auth/presentation/cubit/login_cubit.dart'
     as _i753;
 import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
     as _i73;
-import 'package:pathfinder_app/features/auth/presentation/cubit/setup_profile_cubit.dart'
-    as _i570;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -64,8 +64,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => storageModule.sharedPreferences,
       preResolve: true,
     );
-    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
-    gh.factory<_i570.SetupProfileCubit>(() => _i570.SetupProfileCubit());
     gh.lazySingleton<_i895.Connectivity>(() => coreModule.connectivity);
     gh.lazySingleton<_i892.FirebaseMessaging>(
         () => firebaseModule.firebaseMessaging);
@@ -74,6 +72,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => storageModule.secureStorage);
     gh.lazySingleton<_i337.AppThemeCubit>(() => _i337.AppThemeCubit());
+    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
     gh.lazySingleton<_i213.SecureStorage>(
         () => _i213.SecureStorage(gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i874.NetworkInfo>(
@@ -89,15 +88,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i310.AuthRemoteDataSource>(
         () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
-    gh.lazySingleton<_i405.AuthRepository>(() => _i571.AuthRepositoryImpl(
+    gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
           gh<_i310.AuthRemoteDataSource>(),
           gh<_i120.AuthLocalDataSource>(),
           gh<_i874.NetworkInfo>(),
         ));
-    gh.lazySingleton<_i901.LoginUseCase>(
-        () => _i901.LoginUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i203.LoginUseCase>(
+        () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i338.RegisterUseCase>(
+        () => _i338.RegisterUseCase(gh<_i405.AuthRepository>()));
     gh.factory<_i753.LoginCubit>(
-        () => _i753.LoginCubit(gh<_i901.LoginUseCase>()));
+        () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
     return this;
   }
 }
