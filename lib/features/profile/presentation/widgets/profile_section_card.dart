@@ -43,7 +43,7 @@ class ProfileSectionCard extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    titleKey.tr(),
+                    context.tr(titleKey),
                     style: AppTextStyles.titleSmall(colors.primary),
                   ),
                 ),

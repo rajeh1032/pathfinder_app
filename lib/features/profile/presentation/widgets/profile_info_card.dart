@@ -25,7 +25,7 @@ class ProfileInfoCard extends StatelessWidget {
         _InfoRow(icon: Icons.place_outlined, textKey: profile.locationKey),
         const SizedBox(height: AppSpacing.md),
         Text(
-          profile.bioKey.tr(),
+          context.tr(profile.bioKey),
           style: AppTextStyles.bodyMedium(colors.onSurfaceVariant).copyWith(
             fontStyle: FontStyle.italic,
           ),
@@ -51,7 +51,7 @@ class _InfoRow extends StatelessWidget {
         const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
-            textKey.tr(),
+            context.tr(textKey),
             style: AppTextStyles.bodyMedium(colors.onSurface),
           ),
         ),

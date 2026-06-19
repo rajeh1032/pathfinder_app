@@ -28,7 +28,7 @@ class ProfileSkillsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    group.titleKey.tr().toUpperCase(),
+                    context.tr(group.titleKey).toUpperCase(),
                     style: AppTextStyles.labelSmall(colors.onSurfaceVariant),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -67,7 +67,7 @@ class _SkillChip extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         child: Text(
-          skillKey.tr(),
+          context.tr(skillKey),
           style: AppTextStyles.labelSmall(colors.primary),
         ),
       ),

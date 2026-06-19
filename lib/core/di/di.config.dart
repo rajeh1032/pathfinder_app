@@ -32,11 +32,11 @@ import 'package:pathfinder_app/features/auth/data/data_sources/local/auth_local_
 import 'package:pathfinder_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart'
     as _i310;
 import 'package:pathfinder_app/features/auth/data/repositories/auth_repository_impl.dart'
-    as _i571;
+    as _i570;
 import 'package:pathfinder_app/features/auth/domain/repositories/auth_repository.dart'
     as _i405;
 import 'package:pathfinder_app/features/auth/domain/use_cases/login_use_case.dart'
-    as _i901;
+    as _i203;
 import 'package:pathfinder_app/features/auth/presentation/cubit/login_cubit.dart'
     as _i753;
 import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
@@ -89,15 +89,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i310.AuthRemoteDataSource>(
         () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
-    gh.lazySingleton<_i405.AuthRepository>(() => _i571.AuthRepositoryImpl(
+    gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
           gh<_i310.AuthRemoteDataSource>(),
           gh<_i120.AuthLocalDataSource>(),
           gh<_i874.NetworkInfo>(),
         ));
-    gh.lazySingleton<_i901.LoginUseCase>(
-        () => _i901.LoginUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i203.LoginUseCase>(
+        () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
     gh.factory<_i753.LoginCubit>(
-        () => _i753.LoginCubit(gh<_i901.LoginUseCase>()));
+        () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
     return this;
   }
 }

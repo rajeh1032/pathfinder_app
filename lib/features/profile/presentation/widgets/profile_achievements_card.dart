@@ -64,12 +64,12 @@ class _AchievementMetric extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          metric.valueKey.tr(),
+          context.tr(metric.valueKey),
           maxLines: 1,
           style: AppTextStyles.labelMedium(colors.onSurface),
         ),
         Text(
-          metric.labelKey.tr(),
+          context.tr(metric.labelKey),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.bodySmall(colors.onSurfaceVariant),

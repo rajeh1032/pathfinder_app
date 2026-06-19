@@ -11,7 +11,6 @@ import '../../../../../core/theme/app_text_styles.dart';
 import '../../cubit/setup_profile_cubit.dart';
 import '../../cubit/setup_profile_state.dart';
 
-
 class Step3CareerGoal extends StatefulWidget {
   const Step3CareerGoal({super.key});
 
@@ -22,11 +21,11 @@ class Step3CareerGoal extends StatefulWidget {
 class _Step3CareerGoalState extends State<Step3CareerGoal> {
   late final TextEditingController _jobTitleController;
 
-  static final _statusOptions = [
-    'profileSetup.activelyLooking'.tr(),
-    'profileSetup.openToOffer'.tr(),
-    'profileSetup.planningShift'.tr(),
-    'profileSetup.student'.tr(),
+  static const _statusOptionKeys = [
+    'profileSetup.activelyLooking',
+    'profileSetup.openToOffer',
+    'profileSetup.planningShift',
+    'profileSetup.student',
   ];
 
   @override
@@ -56,7 +55,7 @@ class _Step3CareerGoalState extends State<Step3CareerGoal> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: AppSpacing.xl.h),
-               OnboardingStepHeader(
+              OnboardingStepHeader(
                 title: 'profileSetup.step3Title'.tr(),
                 subtitle: 'profileSetup.step3Subtitle'.tr(),
               ),
@@ -78,10 +77,10 @@ class _Step3CareerGoalState extends State<Step3CareerGoal> {
               Wrap(
                 spacing: AppSpacing.sm.w,
                 runSpacing: AppSpacing.sm.h,
-                children: _statusOptions.map((option) {
-                  final isSelected = state.currentStatus == option;
+                children: _statusOptionKeys.map((optionKey) {
+                  final isSelected = state.currentStatus == optionKey;
                   return GestureDetector(
-                    onTap: () => cubit.updateCurrentStatus(option),
+                    onTap: () => cubit.updateCurrentStatus(optionKey),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       padding: EdgeInsets.symmetric(
@@ -101,7 +100,7 @@ class _Step3CareerGoalState extends State<Step3CareerGoal> {
                         borderRadius: BorderRadius.circular(AppRadius.md),
                       ),
                       child: Text(
-                        option,
+                        optionKey.tr(),
                         style: AppTextStyles.labelMedium(
                           isSelected
                               ? colorScheme.onPrimary

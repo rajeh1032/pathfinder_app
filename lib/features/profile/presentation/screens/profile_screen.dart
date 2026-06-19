@@ -35,7 +35,7 @@ class _ProfileView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('root.profile'.tr()),
+        title: Text(context.tr('root.profile')),
         actions: [
           IconButton(
             onPressed: () => Navigator.pushNamed(
@@ -59,14 +59,14 @@ class _ProfileView extends StatelessWidget {
 
             if (state is ProfileEmpty) {
               return AppErrorView(
-                message: 'profile.empty'.tr(),
+                message: context.tr('profile.empty'),
                 onRetry: context.read<ProfileCubit>().loadProfile,
               );
             }
 
             if (state is ProfileError) {
               return AppErrorView(
-                message: state.messageKey.tr(),
+                message: context.tr(state.messageKey),
                 onRetry: context.read<ProfileCubit>().loadProfile,
               );
             }

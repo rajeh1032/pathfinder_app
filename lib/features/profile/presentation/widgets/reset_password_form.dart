@@ -126,7 +126,7 @@ class _PasswordField extends StatelessWidget {
         controller: controller,
         obscureText: true,
         decoration: InputDecoration(
-          labelText: labelKey.tr(),
+          labelText: context.tr(labelKey),
           fillColor: colors.onPrimary,
         ),
       ),

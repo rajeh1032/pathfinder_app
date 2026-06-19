@@ -34,11 +34,11 @@ class ProfileGoalCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'profile.targetGoal'.tr().toUpperCase(),
+                        context.tr('profile.targetGoal').toUpperCase(),
                         style: AppTextStyles.labelSmall(colors.primary),
                       ),
                       Text(
-                        goal.titleKey.tr(),
+                        context.tr(goal.titleKey),
                         style: AppTextStyles.titleLarge(colors.onSurface),
                       ),
                     ],
@@ -55,7 +55,7 @@ class ProfileGoalCard extends StatelessWidget {
                       vertical: AppSpacing.sm,
                     ),
                     child: Text(
-                      goal.progressLabelKey.tr(),
+                      context.tr(goal.progressLabelKey),
                       style: AppTextStyles.labelMedium(colors.primary),
                     ),
                   ),
@@ -93,7 +93,7 @@ class ProfileGoalCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(goal.progressLabelKey.tr(),
+                Text(context.tr(goal.progressLabelKey),
                     style: AppTextStyles.labelMedium(colors.primary)),
               ],
             ),
@@ -148,7 +148,7 @@ class _SkillList extends StatelessWidget {
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
                     child: Text(
-                      key.tr(),
+                      context.tr(key),
                       style: AppTextStyles.bodySmall(context.colors.onSurface),
                     ),
                   ),

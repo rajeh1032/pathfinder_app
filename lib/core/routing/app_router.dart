@@ -6,6 +6,9 @@ import 'package:pathfinder_app/features/auth/presentation/screens/register_scree
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
+
 import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
@@ -113,7 +116,6 @@ class AppRouter {
       // AI Chat
       AppRoutes.aiChat => const ChatWithAiScreen(),
       AppRoutes.chatAiHistory => const ChatSessionsScreen(),
-
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
