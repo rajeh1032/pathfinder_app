@@ -66,7 +66,7 @@ class _EditProfileViewState extends State<_EditProfileView> {
         child: Scaffold(
           appBar: AppBar(
             leading: AppGradientBackButton(onPressed: _close),
-            title: Text('profile.editProfile'.tr()),
+            title: Text(context.tr('profile.editProfile')),
           ),
           body: SafeArea(
             child: BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -80,7 +80,7 @@ class _EditProfileViewState extends State<_EditProfileView> {
 
                 if (state is EditProfileError) {
                   return AppErrorView(
-                    message: state.messageKey.tr(),
+                    message: context.tr(state.messageKey),
                     onRetry: context.read<EditProfileCubit>().loadProfile,
                   );
                 }

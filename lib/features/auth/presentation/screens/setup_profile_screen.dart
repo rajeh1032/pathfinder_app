@@ -120,7 +120,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
                     SizedBox(height: AppSpacing.lg.h),
                     StepIndicator(
                       currentStep: state.currentStep,
-                      labels: _stepLabels,
+                      labels: _stepLabelKeys.map((key) => key.tr()).toList(),
                     ),
                     Expanded(
                       child: PageView(

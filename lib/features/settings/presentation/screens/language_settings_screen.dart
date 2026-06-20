@@ -17,7 +17,7 @@ class LanguageSettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text('settings.language'.tr()),
+        title: Text(context.tr('settings.language')),
       ),
       body: SafeArea(
         child: ListView(

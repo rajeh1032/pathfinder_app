@@ -1,6 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
-
 enum HomeTab { analyzeCv, chatWithAi }
+
 class HomeUserModel {
   final String name;
   final int cvScore;
@@ -17,13 +16,13 @@ class HomeRecommendationModel {
   final String title;
   final String badge;
   final String badgeColor; // hex string for reference
-  final String reason;
+  final String reasonKey;
 
   const HomeRecommendationModel({
     required this.title,
     required this.badge,
     required this.badgeColor,
-    required this.reason,
+    required this.reasonKey,
   });
 }
 
@@ -65,6 +64,7 @@ class HomeRoadmapModel {
     required this.status,
   });
 }
+
 class HomeDummyData {
   static const user = HomeUserModel(
     name: 'Ayat',
@@ -72,11 +72,11 @@ class HomeDummyData {
     targetRole: 'Frontend Developer',
   );
 
-  static final recommendation = HomeRecommendationModel(
+  static const recommendation = HomeRecommendationModel(
     title: 'Frontend Developer',
     badge: 'Match',
     badgeColor: '#6366F1',
-    reason: 'home.basedOnYourStack'.tr(),
+    reasonKey: 'home.basedOnYourStack',
   );
 
   static const roadmap = HomeRoadmapModel(

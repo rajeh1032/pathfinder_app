@@ -47,7 +47,7 @@ class _SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text('settings.title'.tr()),
+        title: Text(context.tr('settings.title')),
       ),
       body: SafeArea(
         child: BlocBuilder<SettingsCubit, SettingsState>(
@@ -61,7 +61,7 @@ class _SettingsView extends StatelessWidget {
 
             if (state is SettingsError) {
               return AppErrorView(
-                message: state.messageKey.tr(),
+                message: context.tr(state.messageKey),
                 onRetry: context.read<SettingsCubit>().loadSettings,
               );
             }

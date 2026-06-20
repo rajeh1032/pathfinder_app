@@ -28,7 +28,7 @@ class ProfileSavedCoursesCard extends StatelessWidget {
       titleKey: 'profile.savedCourses',
       trailing: TextButton(
         onPressed: () => Navigator.pushNamed(context, AppRoutes.courses),
-        child: Text('profile.viewAll'.tr()),
+        child: Text(context.tr('profile.viewAll')),
       ),
       children: [
         SizedBox(
@@ -90,13 +90,13 @@ class _SavedCourseTile extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                course.titleKey.tr(),
+                context.tr(course.titleKey),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.labelMedium(colors.onSurface),
               ),
               Text(
-                course.providerKey.tr(),
+                context.tr(course.providerKey),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.bodySmall(colors.onSurfaceVariant),

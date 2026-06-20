@@ -13,25 +13,31 @@ class ApiEndpoints {
   static const uploadCv = '/cv/upload';
   static const analyzeCv = '/cv/analyze';
   static const cvAnalyses = '/cv/analyses';
-  static const cvAnalysisDetails = '/cv/analyses/:id';
+  static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static const roadmaps = '/roadmaps';
-  static const roadmapDetails = '/roadmaps/:id';
-  static const roadmapSteps = '/roadmaps/:id/steps';
+  static String roadmapDetails(String id) => '$roadmaps/${_segment(id)}';
+  static String roadmapSteps(String id) => '${roadmapDetails(id)}/steps';
   static const courses = '/courses';
-  static const courseDetails = '/courses/:id';
+  static String courseDetails(String id) => '$courses/${_segment(id)}';
   static const jobs = '/jobs';
-  static const jobDetails = '/jobs/:id';
+  static String jobDetails(String id) => '$jobs/${_segment(id)}';
   static const jobMatches = '/jobs/matches';
   static const savedJobs = '/jobs/saved';
   static const coverLetters = '/cover-letters';
   static const generateCoverLetter = '/cover-letters/generate';
   static const chatSessions = '/chat/sessions';
-  static const chatMessages = '/chat/sessions/:id/messages';
+  static String chatMessages(String id) =>
+      '$chatSessions/${_segment(id)}/messages';
   static const sendMessage = '/chat/messages';
   static const interviewSessions = '/interviews';
   static const startInterview = '/interviews/start';
-  static const submitInterviewAnswer = '/interviews/:id/answers';
-  static const interviewResult = '/interviews/:id/result';
+  static String submitInterviewAnswer(String id) =>
+      '$interviewSessions/${_segment(id)}/answers';
+  static String interviewResult(String id) =>
+      '$interviewSessions/${_segment(id)}/result';
   static const notifications = '/notifications';
-  static const markNotificationAsRead = '/notifications/:id/read';
+  static String markNotificationAsRead(String id) =>
+      '$notifications/${_segment(id)}/read';
+
+  static String _segment(String value) => Uri.encodeComponent(value);
 }

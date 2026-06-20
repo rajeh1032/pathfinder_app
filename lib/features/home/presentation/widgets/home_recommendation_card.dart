@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +69,7 @@ class HomeRecommendationCard extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
               Text(
-                recommendation.reason,
+                recommendation.reasonKey.tr(),
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: colorScheme.onSurfaceVariant,
@@ -83,4 +82,3 @@ class HomeRecommendationCard extends StatelessWidget {
     );
   }
 }
-
