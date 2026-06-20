@@ -307,7 +307,11 @@
     "degreePlaceholder": "Select your degree level",
     "universityPlaceholder": "Enter your university or institution",
     "majorPlaceholder": "Enter your major or field of study",
-    "targetJobPlaceholder": "Enter your target job title"
+    "targetJobPlaceholder": "Enter your target job title",
+    "validationRequired": "{field} is required",
+    "validationMinLength": "{field} must be at least {min} characters",
+    "validationMaxLength": "{field} must be at most {max} characters",
+    "validationSelectRequired": "Please select {field}"
   },
   "home": {
     "hello": "Hello",

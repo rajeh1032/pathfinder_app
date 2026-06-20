@@ -15,7 +15,6 @@ import '../cubit/setup_profile_state.dart';
 import 'steps/step1_basic_info.dart';
 import 'steps/step2_education.dart';
 import 'steps/step3_career_goal.dart';
-
 class SetupProfileScreen extends StatefulWidget {
   /// Credentials collected on the register screen. They are forwarded to
   /// [SetupProfileCubit] so the final API call has everything it needs.
@@ -37,6 +36,9 @@ class SetupProfileScreen extends StatefulWidget {
 class _SetupProfileScreenState extends State<SetupProfileScreen>
     with SingleTickerProviderStateMixin {
   final _pageController = PageController();
+  final _step1Key = GlobalKey<Step1BasicInfoState>();
+  final _step2Key = GlobalKey<Step2EducationState>();
+  final _step3Key = GlobalKey<Step3CareerGoalState>();
 
   List<String> get _stepLabels => [
         'profileSetup.basicInfo'.tr(),
@@ -60,10 +62,24 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
     }
   }
 
+  /// Validates the current step before allowing navigation forward.
+  /// Returns true when the cubit should advance, false if validation failed.
+  bool _validateCurrentStep(int currentStep) {
+    if (currentStep == 0) {
+      return _step1Key.currentState?.validate() ?? false;
+    }
+    if (currentStep == 1) {
+      return _step2Key.currentState?.validate() ?? false;
+    }
+    if (currentStep == 2) {
+      return _step3Key.currentState?.validate() ?? false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SetupProfileCubit>(
-      // Construct directly with runtime credentials; getIt supplies the use case.
       create: (_) => SetupProfileCubit(
         getIt<RegisterUseCase>(),
         email: widget.email,
@@ -110,14 +126,25 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
                       child: PageView(
                         controller: _pageController,
                         physics: const NeverScrollableScrollPhysics(),
-                        children: const [
-                          Step1BasicInfo(),
-                          Step2Education(),
-                          Step3CareerGoal(),
+                        children: [
+                          Step1BasicInfo(key: _step1Key),
+                          Step2Education(key: _step2Key),
+                          Step3CareerGoal(key: _step3Key),
                         ],
                       ),
                     ),
-                    SetupProfileBottomNav(state: state),
+                    SetupProfileBottomNav(
+                      state: state,
+                      onNext: () {
+                        if (_validateCurrentStep(state.currentStep)) {
+                          if (state.isLastStep) {
+                            context.read<SetupProfileCubit>().submit();
+                          } else {
+                            context.read<SetupProfileCubit>().nextStep();
+                          }
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

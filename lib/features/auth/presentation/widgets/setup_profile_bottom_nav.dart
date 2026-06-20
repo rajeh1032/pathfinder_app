@@ -11,7 +11,16 @@ import '../cubit/setup_profile_state.dart';
 
 class SetupProfileBottomNav extends StatelessWidget {
   final SetupProfileState state;
-  const SetupProfileBottomNav({super.key, required this.state});
+
+  /// Called when the user taps the forward / submit button. The parent screen
+  /// is responsible for running per-step validation before advancing.
+  final VoidCallback? onNext;
+
+  const SetupProfileBottomNav({
+    super.key,
+    required this.state,
+    this.onNext,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +54,7 @@ class SetupProfileBottomNav extends StatelessWidget {
           Expanded(
             flex: state.isFirstStep ? 1 : 2,
             child: ElevatedButton.icon(
-              onPressed: state.isLoading
-                  ? null
-                  : () {
-                      if (state.isLastStep) {
-                        cubit.submit();
-                      } else {
-                        cubit.nextStep();
-                      }
-                    },
+              onPressed: state.isLoading ? null : onNext,
               icon: state.isLoading
                   ? SizedBox(
                       width: 18.w,

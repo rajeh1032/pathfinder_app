@@ -10,6 +10,7 @@ class OnboardingDropdownField<T> extends StatelessWidget {
   final List<DropdownMenuItem<T>> items;
   final ValueChanged<T?>? onChanged;
   final IconData prefixIcon;
+  final String? Function(T?)? validator;
 
   const OnboardingDropdownField({
     super.key,
@@ -19,6 +20,7 @@ class OnboardingDropdownField<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     required this.prefixIcon,
+    this.validator,
   });
 
   @override
@@ -46,6 +48,7 @@ class OnboardingDropdownField<T> extends StatelessWidget {
           ),
           items: items,
           onChanged: onChanged,
+          validator: validator,
         ),
       ],
     );

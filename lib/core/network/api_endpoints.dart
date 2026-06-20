@@ -3,6 +3,7 @@ class ApiEndpoints {
 
   static const login = '/api/v1/auth/login';
   static const register = '/api/v1/auth/register';
+  static const careerPaths = '/api/v1/profiles/me/careerPahts';
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
   static const resetPassword = '/auth/reset-password';

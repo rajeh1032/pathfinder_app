@@ -43,6 +43,16 @@ import 'package:pathfinder_app/features/auth/presentation/cubit/login_cubit.dart
     as _i753;
 import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
     as _i73;
+import 'package:pathfinder_app/features/career_paths/data/data_sources/remote/career_paths_remote_data_source.dart'
+    as _i621;
+import 'package:pathfinder_app/features/career_paths/data/repositories/career_paths_repository_impl.dart'
+    as _i622;
+import 'package:pathfinder_app/features/career_paths/domain/repositories/career_paths_repository.dart'
+    as _i623;
+import 'package:pathfinder_app/features/career_paths/domain/use_cases/get_career_paths_use_case.dart'
+    as _i624;
+import 'package:pathfinder_app/features/career_paths/presentation/cubit/career_paths_cubit.dart'
+    as _i625;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -97,6 +107,17 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
     gh.lazySingleton<_i338.RegisterUseCase>(
         () => _i338.RegisterUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i621.CareerPathsRemoteDataSource>(
+        () => _i621.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i623.CareerPathsRepository>(
+        () => _i622.CareerPathsRepositoryImpl(
+              gh<_i621.CareerPathsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i624.GetCareerPathsUseCase>(
+        () => _i624.GetCareerPathsUseCase(gh<_i623.CareerPathsRepository>()));
+    gh.factory<_i625.CareerPathsCubit>(
+        () => _i625.CareerPathsCubit(gh<_i624.GetCareerPathsUseCase>()));
     gh.factory<_i753.LoginCubit>(
         () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
     return this;
