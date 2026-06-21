@@ -6,25 +6,52 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../cv_anaylsis_dummy_model.dart';
+
+/// Simple checklist line item. `isDone` is local UI state — the backend
+/// only provides the suggestion text; ticking it off is a client-side
+/// "I did this" toggle and is not persisted.
+class CvChecklistItem {
+  final String text;
+  final bool isDone;
+
+  const CvChecklistItem({required this.text, this.isDone = false});
+}
 
 class ChecklistSection extends StatefulWidget {
-  const ChecklistSection({super.key});
+  /// Plain suggestion strings coming from the real analysis result
+  /// (e.g. result.analysis.suggestions).
+  final List<String> items;
+
+  const ChecklistSection({super.key, required this.items});
 
   @override
   State<ChecklistSection> createState() => _ChecklistSectionState();
 }
 
 class _ChecklistSectionState extends State<ChecklistSection> {
-  final List<CvChecklistItem> _items = List.from(
-    CvAnalysisDummyData.checklist.map(
-          (e) => CvChecklistItem(text: e.text, isDone: e.isDone),
-    ),
-  );
+  late List<CvChecklistItem> _items;
+
+  @override
+  void initState() {
+    super.initState();
+    _items = widget.items
+        .map((text) => CvChecklistItem(text: text))
+        .toList();
+  }
+
+  @override
+  void didUpdateWidget(covariant ChecklistSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.items != widget.items) {
+      _items = widget.items.map((text) => CvChecklistItem(text: text)).toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    if (_items.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
