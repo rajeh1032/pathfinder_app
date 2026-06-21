@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/di/di.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../ai_chat/presentation/cubit/chat_cubit.dart';
 
 class HomeActionButtons extends StatelessWidget {
   const HomeActionButtons({super.key});
@@ -26,7 +28,10 @@ class HomeActionButtons extends StatelessWidget {
             label: 'home.chatWithAi'.tr(),
             icon: Icons.smart_toy_outlined,
             isPrimary: false,
-            onTap: () => Navigator.pushNamed(context, '/ai-chat'),
+              onTap: () async {
+                final session = await getIt<ChatCubit>().createSession();
+                Navigator.pushNamed(context, '/ai-chat', arguments: session?.id);
+              },
           ),
         ),
       ],

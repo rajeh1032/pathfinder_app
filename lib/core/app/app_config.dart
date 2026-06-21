@@ -4,7 +4,7 @@ class AppConfig {
   static const appName = 'PathFinder AI';
   static const baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'https://pathfinder-backend-mwlr.onrender.com/',
+    defaultValue: 'https://pathfinder-backend-mwlr.onrender.com',
 
   );
 
