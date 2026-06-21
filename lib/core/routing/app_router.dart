@@ -116,7 +116,7 @@ class AppRouter {
       AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
-      AppRoutes.aiChat => const ChatWithAiScreen(sessionId: '',),
+      AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
       AppRoutes.chatAiHistory => const ChatSessionsScreen(),
 
       // Interview
