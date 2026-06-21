@@ -11,8 +11,8 @@ import '../../../../career_paths/presentation/cubit/career_paths_cubit.dart';
 import '../../../../career_paths/presentation/cubit/career_paths_state.dart';
 import '../../cubit/setup_profile_cubit.dart';
 import '../../cubit/setup_profile_state.dart';
+import '../../widgets/setup_profile_dropdown_field.dart';
 import '../../widgets/setup_profile_step_header.dart';
-import '../../widgets/setup_profile_text_field.dart';
 
 class Step3CareerGoal extends StatefulWidget {
   const Step3CareerGoal({super.key});
@@ -24,13 +24,7 @@ class Step3CareerGoal extends StatefulWidget {
 // Public so SetupProfileScreen can call validate() via a GlobalKey.
 class Step3CareerGoalState extends State<Step3CareerGoal> {
   final formKey = GlobalKey<FormState>();
-
-  static const _statusOptionKeys = [
-    'profileSetup.activelyLooking',
-    'profileSetup.openToOffer',
-    'profileSetup.planningShift',
-    'profileSetup.student',
-  ];
+  bool _showStatusError = false;
 
   static List<String> get _statusOptions => [
         'profileSetup.activelyLooking'.tr(),
@@ -42,8 +36,8 @@ class Step3CareerGoalState extends State<Step3CareerGoal> {
   /// Called by [SetupProfileScreen] before submitting.
   bool validate() {
     final formValid = formKey.currentState?.validate() ?? false;
-    final cubit = context.read<SetupProfileCubit>();
-    final statusSelected = cubit.state.currentStatus.isNotEmpty;
+    final statusSelected =
+        context.read<SetupProfileCubit>().state.currentStatus.isNotEmpty;
 
     if (!statusSelected) {
       setState(() => _showStatusError = true);
@@ -89,44 +83,74 @@ class _Step3Body extends StatelessWidget {
 
     return BlocBuilder<SetupProfileCubit, SetupProfileState>(
       buildWhen: (p, c) => p.currentStatus != c.currentStatus,
-      builder: (context, state) {
-        return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: AppSpacing.xl.h),
-              OnboardingStepHeader(
-                title: 'profileSetup.step3Title'.tr(),
-                subtitle: 'profileSetup.step3Subtitle'.tr(),
-              ),
-              SizedBox(height: AppSpacing.xl.h),
-              OnboardingTextField(
-                label: 'profileSetup.targetJob'.tr(),
-                placeholder: 'profileSetup.targetJobPlaceholder'.tr(),
-                controller: _jobTitleController,
-                onChanged: cubit.updateTargetJobTitle,
-                prefixIcon: Icons.flag_outlined,
-              ),
-              SizedBox(height: AppSpacing.lg.h),
-              Text(
-                'profileSetup.currentStatus'.tr(),
-                style: AppTextStyles.labelMedium(colorScheme.onSurfaceVariant)
-                    .copyWith(fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: AppSpacing.sm.h),
-              Wrap(
-                spacing: AppSpacing.sm.w,
-                runSpacing: AppSpacing.sm.h,
-                children: _statusOptionKeys.map((optionKey) {
-                  final isSelected = state.currentStatus == optionKey;
-                  return GestureDetector(
-                    onTap: () => cubit.updateCurrentStatus(optionKey),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.md.w,
-                        vertical: AppSpacing.sm.h,
+      builder: (context, setupState) {
+        return Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: AppSpacing.xl.h),
+                OnboardingStepHeader(
+                  title: 'profileSetup.step3Title'.tr(),
+                  subtitle: 'profileSetup.step3Subtitle'.tr(),
+                ),
+                SizedBox(height: AppSpacing.xl.h),
+
+                // ── Target Career Path (dropdown from API) ─────────────────
+                BlocBuilder<CareerPathsCubit, CareerPathsState>(
+                  builder: (context, pathsState) {
+                    final items = pathsState.careerPaths
+                        .map(
+                          (p) => DropdownMenuItem<String>(
+                            value: p.title,
+                            child: Text(p.title),
+                          ),
+                        )
+                        .toList();
+
+                    return OnboardingDropdownField<String>(
+                      label: 'profileSetup.targetJob'.tr(),
+                      hintText: pathsState.isLoading
+                          ? 'common.loading'.tr()
+                          : 'profileSetup.targetJobPlaceholder'.tr(),
+                      value: setupCubit.state.targetJobTitle.isEmpty
+                          ? null
+                          : setupCubit.state.targetJobTitle,
+                      prefixIcon: Icons.flag_outlined,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'profileSetup.validationSelectRequired'.tr(
+                            namedArgs: {
+                              'field': 'profileSetup.targetJob'.tr(),
+                            },
+                          );
+                        }
+                        return null;
+                      },
+                      items: items,
+                      onChanged: (value) {
+                        if (value != null) {
+                          setupCubit.updateTargetJobTitle(value);
+                        }
+                      },
+                    );
+                  },
+                ),
+
+                // Retry button shown when the API call fails
+                BlocBuilder<CareerPathsCubit, CareerPathsState>(
+                  buildWhen: (p, c) => p.status != c.status,
+                  builder: (context, pathsState) {
+                    if (!pathsState.isFailure) return const SizedBox.shrink();
+                    return Padding(
+                      padding: EdgeInsets.only(top: AppSpacing.xs.h),
+                      child: TextButton.icon(
+                        onPressed: () =>
+                            context.read<CareerPathsCubit>().load(),
+                        icon: const Icon(Icons.refresh_rounded, size: 16),
+                        label: Text('common.retry'.tr()),
                       ),
                     );
                   },
@@ -174,22 +198,12 @@ class _Step3Body extends StatelessWidget {
                                 : colorScheme.onSurface,
                           ).copyWith(fontWeight: FontWeight.w600),
                         ),
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                      ),
-                      child: Text(
-                        optionKey.tr(),
-                        style: AppTextStyles.labelMedium(
-                          isSelected
-                              ? colorScheme.onPrimary
-                              : colorScheme.onSurface,
-                        ).copyWith(fontWeight: FontWeight.w600),
                       ),
                     );
                   }).toList(),
                 ),
 
-                // Inline error shown when the user tries to submit
-                // without selecting a status chip.
+                // Inline error when user tries to submit without a status
                 if (showStatusError) ...[
                   SizedBox(height: AppSpacing.xs.h),
                   Text(
