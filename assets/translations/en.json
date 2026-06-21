@@ -928,6 +928,10 @@
     "analyzeButton": "Analyze CV",
     "selectPrompt": "Please select a file to continue",
     "aiRecommendTitle": "AI Recommendation",
+    "dropHint": "Tap to select your CV",
+    "fileConstraints": "PDF only, max 20MB",
+    "chooseFileButton": "Choose File",
+    "uploadButton": "Upload",
     "aiRecommendBody": "Our neural network identifies 50+ key skills and industry matches from your document instantly."
   },
   "chatHistory": {
@@ -937,5 +941,14 @@
     "messages": "messages",
     "searchHint": "Search sessions...",
     "clearHint": "Clear old sessions to keep things tidy."
+  },
+  "ragUpload": {
+    "title": "Upload RAG Document",
+    "titleLabel": "Document Title",
+    "titleHint": "e.g. CV Analysis Guidelines",
+    "typeLabel": "Document Type",
+    "dropHint": "Tap to select PDF",
+    "uploadButton": "Upload Document",
+    "success": "Document uploaded successfully"
   }
 }
