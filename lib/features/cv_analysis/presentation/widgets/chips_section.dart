@@ -5,7 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../cv_anaylsis_dummy_model.dart';
+import '../../domain/entities/cv_analysis_ui_models.dart';
 
 class ChipsSection extends StatelessWidget {
   final String title;
@@ -13,7 +13,8 @@ class ChipsSection extends StatelessWidget {
   final Color iconColor;
   final List<CvSkillChip> chips;
 
-  const ChipsSection({super.key,
+  const ChipsSection({
+    super.key,
     required this.title,
     required this.icon,
     required this.iconColor,
@@ -34,6 +35,8 @@ class ChipsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    if (chips.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

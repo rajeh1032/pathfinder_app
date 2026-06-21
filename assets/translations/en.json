@@ -941,5 +941,17 @@
     "dropHint": "Tap to select PDF",
     "uploadButton": "Upload Document",
     "success": "Document uploaded successfully"
+  },
+  "cvResult": {
+    "title": "CV Analysis",
+    "processing": "Analyzing your CV...",
+    "processingHint": "This may take a few seconds",
+    "noAnalysis": "No analysis available",
+    "summary": "Summary",
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "suggestions": "Suggestions",
+    "score": "Score",
+    "chatAboutCv": "Chat about my CV"
   }
 }
