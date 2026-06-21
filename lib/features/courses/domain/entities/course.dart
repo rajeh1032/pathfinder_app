@@ -1,57 +1,113 @@
 import 'package:equatable/equatable.dart';
 
+import 'course_enrollment.dart';
+import 'course_skill.dart';
+
 class Course extends Equatable {
   const Course({
     required this.id,
-    required this.titleKey,
-    required this.providerKey,
-    required this.levelKey,
-    required this.studentsKey,
-    required this.imageAsset,
-    required this.priceKey,
-    required this.durationKey,
+    required this.title,
+    required this.provider,
+    required this.learningOutcomes,
+    required this.isFree,
+    required this.reviewsCount,
+    required this.enrollmentCount,
+    required this.popularityScore,
+    required this.skills,
+    required this.isSaved,
+    this.description,
+    this.url,
+    this.thumbnailUrl,
+    this.videoUrl,
+    this.level,
+    this.duration,
+    this.category,
+    this.language,
+    this.price,
+    this.currency,
+    this.rating,
+    this.enrollment,
+    this.createdAt,
+    this.updatedAt,
   });
 
   final String id;
-  final String titleKey;
-  final String providerKey;
-  final String levelKey;
-  final String studentsKey;
-  final String imageAsset;
-  final String priceKey;
-  final String durationKey;
+  final String title;
+  final String? description;
+  final String provider;
+  final String? url;
+  final String? thumbnailUrl;
+  final String? videoUrl;
+  final String? level;
+  final String? duration;
+  final String? category;
+  final List<String> learningOutcomes;
+  final String? language;
+  final double? price;
+  final String? currency;
+  final bool isFree;
+  final double? rating;
+  final int reviewsCount;
+  final int enrollmentCount;
+  final int popularityScore;
+  final List<CourseSkill> skills;
+  final bool isSaved;
+  final CourseEnrollment? enrollment;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
-  Course copyWith({
-    String? id,
-    String? titleKey,
-    String? providerKey,
-    String? levelKey,
-    String? studentsKey,
-    String? imageAsset,
-    String? priceKey,
-    String? durationKey,
-  }) {
-    return Course(
-      id: id ?? this.id,
-      titleKey: titleKey ?? this.titleKey,
-      providerKey: providerKey ?? this.providerKey,
-      levelKey: levelKey ?? this.levelKey,
-      studentsKey: studentsKey ?? this.studentsKey,
-      imageAsset: imageAsset ?? this.imageAsset,
-      priceKey: priceKey ?? this.priceKey,
-      durationKey: durationKey ?? this.durationKey,
-    );
-  }
+  Course copyWith({bool? isSaved, CourseEnrollment? enrollment}) => Course(
+        id: id,
+        title: title,
+        description: description,
+        provider: provider,
+        url: url,
+        thumbnailUrl: thumbnailUrl,
+        videoUrl: videoUrl,
+        level: level,
+        duration: duration,
+        category: category,
+        learningOutcomes: learningOutcomes,
+        language: language,
+        price: price,
+        currency: currency,
+        isFree: isFree,
+        rating: rating,
+        reviewsCount: reviewsCount,
+        enrollmentCount: enrollmentCount,
+        popularityScore: popularityScore,
+        skills: skills,
+        isSaved: isSaved ?? this.isSaved,
+        enrollment: enrollment ?? this.enrollment,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 
   @override
   List<Object?> get props => [
         id,
-        titleKey,
-        providerKey,
-        levelKey,
-        studentsKey,
-        imageAsset,
-        priceKey,
-        durationKey,
+        title,
+        description,
+        provider,
+        url,
+        thumbnailUrl,
+        videoUrl,
+        level,
+        duration,
+        category,
+        learningOutcomes,
+        language,
+        price,
+        currency,
+        isFree,
+        rating,
+        reviewsCount,
+        enrollmentCount,
+        popularityScore,
+        skills,
+        isSaved,
+        enrollment,
+        createdAt,
+        updatedAt,
       ];
 }
