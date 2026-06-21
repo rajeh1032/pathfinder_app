@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -40,13 +41,13 @@ class OnboardingPageView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                data.title,
+                data.titleKey.tr(),
                 textAlign: TextAlign.center,
                 style: AppTextStyles.headlineLarge(colorScheme.onSurface),
               ),
               SizedBox(height: 16.h),
               Text(
-                data.description,
+                data.descriptionKey.tr(),
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant),
               ),

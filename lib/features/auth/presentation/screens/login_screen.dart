@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/di/di.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/login_cubit.dart';
 import '../widgets/google_sign_in_button.dart';
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider(
-      create: (_) => LoginCubit(),
+      create: (_) => getIt<LoginCubit>(),
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.success) {
@@ -44,11 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if (state.status == LoginStatus.failure &&
               state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage!),
-                backgroundColor: colorScheme.error,
-              ),
+            CustomSnackbar.showError(
+              context: context,
+              message: state.errorMessage!,
             );
           }
         },

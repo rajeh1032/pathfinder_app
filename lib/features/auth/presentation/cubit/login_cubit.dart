@@ -1,10 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../domain/use_cases/login_use_case.dart';
 
 part 'login_state.dart';
 
+@injectable
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(const LoginState());
+  LoginCubit(this._loginUseCase) : super(const LoginState());
+
+  final LoginUseCase _loginUseCase;
 
   void emailChanged(String value) =>
       emit(state.copyWith(email: value, status: LoginStatus.initial));
@@ -19,17 +25,25 @@ class LoginCubit extends Cubit<LoginState> {
     if (!state.canSubmit) return;
     emit(state.copyWith(status: LoginStatus.loading));
 
-    // TODO: wire up to auth use case / repository
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await _loginUseCase(
+      email: state.email.trim(),
+      password: state.password,
+    );
 
-    // Simulate success — replace with real result handling
-    emit(state.copyWith(status: LoginStatus.success));
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          status: LoginStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (_) => emit(state.copyWith(status: LoginStatus.success)),
+    );
   }
 
   Future<void> loginWithGoogle() async {
     emit(state.copyWith(status: LoginStatus.loading));
 
-    // TODO: wire up to Google sign-in use case
     await Future.delayed(const Duration(seconds: 1));
 
     emit(state.copyWith(status: LoginStatus.success));

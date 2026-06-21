@@ -16,7 +16,7 @@ class ThemeSettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text('settings.theme'.tr()),
+        title: Text(context.tr('settings.theme')),
       ),
       body: SafeArea(
         child: BlocBuilder<AppThemeCubit, ThemeMode>(

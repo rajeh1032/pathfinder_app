@@ -10,6 +10,7 @@ class OnboardingTextField extends StatelessWidget {
   final void Function(String) onChanged;
   final IconData prefixIcon;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
 
   const OnboardingTextField({
     super.key,
@@ -19,6 +20,7 @@ class OnboardingTextField extends StatelessWidget {
     required this.onChanged,
     required this.prefixIcon,
     this.keyboardType = TextInputType.text,
+    this.validator,
   });
 
   @override
@@ -34,10 +36,11 @@ class OnboardingTextField extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 6.h),
-        TextField(
+        TextFormField(
           controller: controller,
           onChanged: onChanged,
           keyboardType: keyboardType,
+          validator: validator,
           style: AppTextStyles.bodyMedium(colorScheme.onSurface),
           decoration: InputDecoration(
             hintText: placeholder,

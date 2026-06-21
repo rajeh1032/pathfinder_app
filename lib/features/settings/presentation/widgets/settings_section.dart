@@ -34,7 +34,7 @@ class SettingsSection extends StatelessWidget {
             Icon(icon, color: colors.primary, size: 20),
             const SizedBox(width: AppSpacing.sm),
             Text(
-              titleKey.tr(),
+              context.tr(titleKey),
               style: AppTextStyles.titleSmall(colors.onSurface),
             ),
           ],
@@ -101,13 +101,13 @@ class SettingsTile extends StatelessWidget {
                     : CrossAxisAlignment.start,
                 children: [
                   Text(
-                    titleKey.tr(),
+                    context.tr(titleKey),
                     style: AppTextStyles.bodyLarge(colors.onSurface),
                     textAlign: centered ? TextAlign.center : TextAlign.start,
                   ),
                   if (subtitleKey != null)
                     Text(
-                      subtitleKey!.tr(),
+                      context.tr(subtitleKey!),
                       style: AppTextStyles.bodySmall(colors.onSurfaceVariant),
                       textAlign: centered ? TextAlign.center : TextAlign.start,
                     ),

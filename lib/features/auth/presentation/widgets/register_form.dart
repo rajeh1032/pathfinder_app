@@ -46,10 +46,11 @@ class RegisterForm extends StatelessWidget {
                 onChanged: cubit.emailChanged,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Email is required';
+                    return 'auth.emailRequired'.tr();
                   }
-                  if (!value.contains('@')) {
-                    return 'Enter a valid email';
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      .hasMatch(value)) {
+                    return 'auth.invalidEmail'.tr();
                   }
                   return null;
                 },
@@ -78,10 +79,10 @@ class RegisterForm extends StatelessWidget {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Password is required';
+                    return 'auth.passwordRequired'.tr();
                   }
                   if (value.length < 6) {
-                    return 'At least 6 characters';
+                    return 'auth.passwordTooShort'.tr();
                   }
                   return null;
                 },
@@ -97,7 +98,7 @@ class RegisterForm extends StatelessWidget {
                 hint: '••••••••',
                 prefixIcon: Icons.lock_outline_rounded,
                 obscureText: !state.passwordVisible,
-                onChanged: cubit.passwordChanged,
+                onChanged: cubit.confirmPasswordChanged,
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.passwordVisible
@@ -110,10 +111,10 @@ class RegisterForm extends StatelessWidget {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Password is required';
+                    return 'auth.confirmPasswordRequired'.tr();
                   }
-                  if (value.length < 6) {
-                    return 'At least 6 characters';
+                  if (value != passwordController.text) {
+                    return 'auth.passwordsDoNotMatch'.tr();
                   }
                   return null;
                 },
