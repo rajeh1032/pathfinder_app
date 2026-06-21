@@ -22,107 +22,59 @@ class RoadmapTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _MarkersColumn(steps: roadmap.steps),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              children: [
-                for (final step in roadmap.steps) ...[
-                  _MilestoneSection(
-                    step: step,
-                    isUpdating: updatingStepId == step.id,
-                    onTap: () => onStepTap(step.id),
-                  ),
-                  if (step != roadmap.steps.last)
-                    const SizedBox(height: AppSpacing.xl),
-                ],
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MarkersColumn extends StatelessWidget {
-  const _MarkersColumn({required this.steps});
-
-  final List<RoadmapStep> steps;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
     return Column(
       children: [
-        for (final step in steps) ...[
-          _Marker(
-            icon:
-                step.status == RoadmapStepStatus.completed ? Icons.check : null,
-            color: step.status == RoadmapStepStatus.upcoming
-                ? colors.outlineVariant
-                : colors.primary,
+        for (final section in roadmap.sections) ...[
+          _Section(
+            section: section,
+            updatingStepId: updatingStepId,
+            onStepTap: onStepTap,
           ),
-          if (step != steps.last)
-            Expanded(child: VerticalDivider(color: colors.outlineVariant)),
+          if (section != roadmap.sections.last)
+            const SizedBox(height: AppSpacing.xl),
         ],
       ],
     );
   }
 }
 
-class _MilestoneSection extends StatelessWidget {
-  const _MilestoneSection({
-    required this.step,
-    required this.isUpdating,
-    required this.onTap,
+class _Section extends StatelessWidget {
+  const _Section({
+    required this.section,
+    required this.updatingStepId,
+    required this.onStepTap,
   });
 
-  final RoadmapStep step;
-  final bool isUpdating;
-  final VoidCallback onTap;
+  final RoadmapSection section;
+  final String? updatingStepId;
+  final ValueChanged<String> onStepTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-
-    return Opacity(
-      opacity: step.status == RoadmapStepStatus.upcoming ? .65 : 1,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(step.titleKey.tr(),
-              style: AppTextStyles.titleLarge(colors.onSurface)),
-          Text(
-            _statusLabelKey(step.status).tr(),
-            style: AppTextStyles.labelSmall(colors.primary),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          if (step.hasRecommendedCourse) ...[
-            const RecommendedCourseCard(),
-            const SizedBox(height: AppSpacing.md),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          section.title,
+          style: AppTextStyles.titleLarge(colors.onSurface),
+        ),
+        Text(
+          section.subtitle,
+          style: AppTextStyles.bodySmall(colors.onSurfaceVariant),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        for (final step in section.items) ...[
           _StepCard(
             step: step,
-            isUpdating: isUpdating,
-            onTap: onTap,
+            isUpdating: updatingStepId == step.id,
+            onTap: () => onStepTap(step.id),
           ),
+          if (step != section.items.last)
+            const SizedBox(height: AppSpacing.md),
         ],
-      ),
+      ],
     );
-  }
-
-  String _statusLabelKey(RoadmapStepStatus status) {
-    return switch (status) {
-      RoadmapStepStatus.completed => 'roadmaps.statusCompleted',
-      RoadmapStepStatus.inProgress => 'roadmaps.statusInProgress',
-      RoadmapStepStatus.upcoming => 'roadmaps.statusUpcoming',
-    };
   }
 }
 
@@ -140,92 +92,123 @@ class _StepCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-
-    return InkWell(
-      onTap: isUpdating ? null : onTap,
-      borderRadius: BorderRadius.circular(AppRadius.lg),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: colors.primaryContainer,
-                child: Icon(_leadingIcon, color: colors.primary),
+    final locked = step.status == RoadmapStepStatus.upcoming;
+    final actionKey = step.isCompleted
+        ? 'roadmaps.reopenStep'
+        : locked
+            ? 'roadmaps.stepLocked'
+            : 'roadmaps.markComplete';
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: colors.primaryContainer,
+                  child: Icon(_icon(step.status), color: colors.primary),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(step.title,
+                          style: AppTextStyles.titleSmall(colors.onSurface)),
+                      Text(
+                        step.description,
+                        style:
+                            AppTextStyles.bodySmall(colors.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.xs,
+              children: [
+                _Tag(label: _statusKey(step.status).tr()),
+                _Tag(label: '${step.progress}%'),
+                _Tag(label: step.duration),
+                _Tag(label: step.level),
+              ],
+            ),
+            if (step.recommendedCourses.isNotEmpty) ...[
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'roadmaps.recommendedCourses'.tr(),
+                style: AppTextStyles.labelLarge(colors.onSurface),
               ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      step.titleKey.tr(),
-                      style: AppTextStyles.titleSmall(colors.onSurface),
-                    ),
-                    Text(
-                      step.bodyKey.tr(),
-                      style: AppTextStyles.bodySmall(colors.onSurfaceVariant),
-                    ),
-                  ],
+              const SizedBox(height: AppSpacing.sm),
+              for (final course in step.recommendedCourses) ...[
+                RecommendedCourseCard(course: course),
+                if (course != step.recommendedCourses.last)
+                  const SizedBox(height: AppSpacing.sm),
+              ],
+            ],
+            const SizedBox(height: AppSpacing.md),
+            Semantics(
+              button: true,
+              label: 'roadmaps.stepActionSemantic'.tr(args: [
+                actionKey.tr(),
+                step.title,
+              ]),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: isUpdating ? null : onTap,
+                  icon: isUpdating
+                      ? const SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Icon(locked ? Icons.lock_outline : Icons.check_circle),
+                  label: Text(actionKey.tr()),
                 ),
               ),
-              if (isUpdating)
-                const SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              else
-                Icon(_trailingIcon, color: colors.primary),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  IconData get _leadingIcon {
-    return switch (step.status) {
-      RoadmapStepStatus.completed => Icons.web_asset_outlined,
-      RoadmapStepStatus.inProgress => Icons.speed_outlined,
-      RoadmapStepStatus.upcoming => Icons.security_outlined,
-    };
-  }
+  IconData _icon(RoadmapStepStatus status) => switch (status) {
+        RoadmapStepStatus.completed => Icons.check,
+        RoadmapStepStatus.inProgress => Icons.play_arrow,
+        RoadmapStepStatus.upcoming => Icons.lock_outline,
+      };
 
-  IconData get _trailingIcon {
-    return switch (step.status) {
-      RoadmapStepStatus.completed => Icons.check_circle_outline,
-      RoadmapStepStatus.inProgress => Icons.play_circle_outline,
-      RoadmapStepStatus.upcoming => Icons.lock_outline,
-    };
-  }
+  String _statusKey(RoadmapStepStatus status) => switch (status) {
+        RoadmapStepStatus.completed => 'roadmaps.statusCompleted',
+        RoadmapStepStatus.inProgress => 'roadmaps.statusInProgress',
+        RoadmapStepStatus.upcoming => 'roadmaps.statusUpcoming',
+      };
 }
 
-class _Marker extends StatelessWidget {
-  const _Marker({required this.color, this.icon});
+class _Tag extends StatelessWidget {
+  const _Tag({required this.label});
 
-  final Color color;
-  final IconData? icon;
+  final String label;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      child: SizedBox.square(
-        dimension: 24,
-        child: icon == null
-            ? Center(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colors.surface,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const SizedBox.square(dimension: 8),
-                ),
-              )
-            : Icon(icon, size: 12, color: colors.surface),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.colors.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(AppRadius.pill),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.xs,
+          ),
+          child: Text(label),
+        ),
+      );
 }

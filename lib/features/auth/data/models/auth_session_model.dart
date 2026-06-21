@@ -11,10 +11,7 @@ class AuthSessionModel {
 
   factory AuthSessionModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'];
-    final user = data is Map<String, dynamic> ? data['user'] : null;
-    final source = user is Map<String, dynamic>
-        ? user
-        : (data is Map<String, dynamic> ? data : json);
+    final source = data is Map<String, dynamic> ? data : json;
 
     final accessToken = _readString(source, [
       'accessToken',

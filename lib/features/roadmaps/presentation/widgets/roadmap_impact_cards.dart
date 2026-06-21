@@ -1,39 +1,37 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/roadmap.dart';
 
 class RoadmapImpactCards extends StatelessWidget {
-  const RoadmapImpactCards({super.key});
+  const RoadmapImpactCards({required this.insights, super.key});
+
+  final RoadmapInsights insights;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return Row(
+    final formatter = NumberFormat.decimalPattern(context.locale.languageCode);
+    return Wrap(
+      spacing: AppSpacing.md,
+      runSpacing: AppSpacing.md,
       children: [
-        Expanded(
-          child: _ImpactCard(
+        if (insights.projectedSalaryIncrease > 0)
+          _ImpactCard(
             icon: Icons.trending_up,
-            valueKey: 'roadmaps.salaryIncreaseValue',
-            labelKey: 'roadmaps.salaryIncrease',
-            backgroundColor: colors.secondaryContainer,
-            foregroundColor: colors.secondary,
+            value: 'roadmaps.percentageValue'.tr(
+              args: [formatter.format(insights.projectedSalaryIncrease)],
+            ),
+            label: 'roadmaps.salaryIncrease'.tr(),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _ImpactCard(
+        if (insights.matchingSeniorRoles > 0)
+          _ImpactCard(
             icon: Icons.business_center_outlined,
-            valueKey: 'roadmaps.matchingRolesValue',
-            labelKey: 'roadmaps.matchingRoles',
-            backgroundColor: colors.tertiaryContainer,
-            foregroundColor: colors.tertiary,
+            value: formatter.format(insights.matchingSeniorRoles),
+            label: 'roadmaps.matchingRoles'.tr(),
           ),
-        ),
       ],
     );
   }
@@ -42,39 +40,38 @@ class RoadmapImpactCards extends StatelessWidget {
 class _ImpactCard extends StatelessWidget {
   const _ImpactCard({
     required this.icon,
-    required this.valueKey,
-    required this.labelKey,
-    required this.backgroundColor,
-    required this.foregroundColor,
+    required this.value,
+    required this.label,
   });
 
   final IconData icon;
-  final String valueKey;
-  final String labelKey;
-  final Color backgroundColor;
-  final Color foregroundColor;
+  final String value;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: foregroundColor),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              valueKey.tr(),
-              style: AppTextStyles.titleMedium(foregroundColor),
-            ),
-            Text(labelKey.tr(),
-                style: AppTextStyles.bodySmall(foregroundColor)),
-          ],
+    final colors = context.colors;
+    return SizedBox(
+      width: 150,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.primaryContainer,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: colors.primary),
+              const SizedBox(height: AppSpacing.sm),
+              Text(value, style: AppTextStyles.titleMedium(colors.primary)),
+              Text(
+                label,
+                style: AppTextStyles.bodySmall(colors.onPrimaryContainer),
+              ),
+            ],
+          ),
         ),
       ),
     );
