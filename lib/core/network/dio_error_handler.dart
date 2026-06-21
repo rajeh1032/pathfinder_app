@@ -11,7 +11,13 @@ class DioErrorHandler {
     if (statusCode == 401) {
       return const UnauthorizedFailure(ErrorMessages.unauthorized);
     }
-    if (error.type == DioExceptionType.connectionError) {
+    if (statusCode == 400 || statusCode == 422) {
+      return const ValidationFailure('courses.validationError');
+    }
+    if (error.type == DioExceptionType.connectionError ||
+        error.type == DioExceptionType.connectionTimeout ||
+        error.type == DioExceptionType.receiveTimeout ||
+        error.type == DioExceptionType.sendTimeout) {
       return const NetworkFailure(ErrorMessages.network);
     }
     return ServerFailure(error.message ?? ErrorMessages.server);

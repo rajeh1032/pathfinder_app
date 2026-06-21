@@ -9,6 +9,18 @@ class AppCachedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(imageUrl: url, fit: fit);
+    final colors = Theme.of(context).colorScheme;
+    return CachedNetworkImage(
+      imageUrl: url,
+      fit: fit,
+      placeholder: (_, __) => ColoredBox(
+        color: colors.surfaceContainerHighest,
+        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      ),
+      errorWidget: (_, __, ___) => ColoredBox(
+        color: colors.surfaceContainerHighest,
+        child: Icon(Icons.broken_image_outlined, color: colors.onSurfaceVariant),
+      ),
+    );
   }
 }

@@ -1,83 +1,83 @@
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/roadmap.dart';
-import '../../domain/entities/roadmap_course_recommendation.dart';
+import '../../domain/entities/roadmap_status.dart';
 
-enum RoadmapsFilter { price, duration, level, all }
-
-sealed class RoadmapsState extends Equatable {
-  const RoadmapsState();
-
-  @override
-  List<Object?> get props => [];
+enum RoadmapsStatus {
+  initial,
+  loading,
+  uploadCvRequired,
+  generationRequired,
+  generating,
+  regenerating,
+  active,
+  detailLoading,
+  detailLoaded,
+  empty,
+  networkError,
+  unauthorized,
+  error,
 }
 
-class RoadmapsInitial extends RoadmapsState {
-  const RoadmapsInitial();
-}
-
-class RoadmapsLoading extends RoadmapsState {
-  const RoadmapsLoading();
-}
-
-class RoadmapsSuccess extends RoadmapsState {
-  const RoadmapsSuccess({
-    required this.recommendations,
-    this.query = '',
-    this.selectedFilter = RoadmapsFilter.all,
-    this.selectedCategoryKey,
-    this.savedCourseIds = const {},
+class RoadmapsState extends Equatable {
+  const RoadmapsState({
+    this.status = RoadmapsStatus.initial,
+    this.roadmap,
+    this.requiredAction,
+    this.updatingStepId,
+    this.errorKey,
+    this.feedbackKey,
+    this.feedbackSerial = 0,
   });
 
-  final List<RoadmapCourseRecommendation> recommendations;
-  final String query;
-  final RoadmapsFilter selectedFilter;
-  final String? selectedCategoryKey;
-  final Set<String> savedCourseIds;
+  final RoadmapsStatus status;
+  final Roadmap? roadmap;
+  final RequiredRoadmapAction? requiredAction;
+  final String? updatingStepId;
+  final String? errorKey;
+  final String? feedbackKey;
+  final int feedbackSerial;
+
+  bool get isGenerating =>
+      status == RoadmapsStatus.generating ||
+      status == RoadmapsStatus.regenerating;
+
+  RoadmapsState copyWith({
+    RoadmapsStatus? status,
+    Roadmap? roadmap,
+    bool clearRoadmap = false,
+    RequiredRoadmapAction? requiredAction,
+    bool clearRequiredAction = false,
+    String? updatingStepId,
+    bool clearUpdatingStep = false,
+    String? errorKey,
+    bool clearError = false,
+    String? feedbackKey,
+    bool clearFeedback = false,
+    int? feedbackSerial,
+  }) {
+    return RoadmapsState(
+      status: status ?? this.status,
+      roadmap: clearRoadmap ? null : roadmap ?? this.roadmap,
+      requiredAction: clearRequiredAction
+          ? null
+          : requiredAction ?? this.requiredAction,
+      updatingStepId:
+          clearUpdatingStep ? null : updatingStepId ?? this.updatingStepId,
+      errorKey: clearError ? null : errorKey ?? this.errorKey,
+      feedbackKey: clearFeedback ? null : feedbackKey ?? this.feedbackKey,
+      feedbackSerial: feedbackSerial ?? this.feedbackSerial,
+    );
+  }
 
   @override
   List<Object?> get props => [
-        recommendations,
-        query,
-        selectedFilter,
-        selectedCategoryKey,
-        savedCourseIds,
+        status,
+        roadmap,
+        requiredAction,
+        updatingStepId,
+        errorKey,
+        feedbackKey,
+        feedbackSerial,
       ];
-}
-
-class RoadmapsEmpty extends RoadmapsState {
-  const RoadmapsEmpty({
-    this.query = '',
-    this.selectedFilter = RoadmapsFilter.all,
-    this.selectedCategoryKey,
-  });
-
-  final String query;
-  final RoadmapsFilter selectedFilter;
-  final String? selectedCategoryKey;
-
-  @override
-  List<Object?> get props => [query, selectedFilter, selectedCategoryKey];
-}
-
-class RoadmapsError extends RoadmapsState {
-  const RoadmapsError({this.messageKey = 'common.error'});
-
-  final String messageKey;
-
-  @override
-  List<Object?> get props => [messageKey];
-}
-
-class RoadmapDetailsSuccess extends RoadmapsState {
-  const RoadmapDetailsSuccess({
-    required this.roadmap,
-    this.updatingStepId,
-  });
-
-  final Roadmap roadmap;
-  final String? updatingStepId;
-
-  @override
-  List<Object?> get props => [roadmap, updatingStepId];
 }

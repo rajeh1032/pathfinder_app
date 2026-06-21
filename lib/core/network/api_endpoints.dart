@@ -14,11 +14,22 @@ class ApiEndpoints {
   static const analyzeCv = '/cv/analyze';
   static const cvAnalyses = '/cv/analyses';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
-  static const roadmaps = '/roadmaps';
-  static String roadmapDetails(String id) => '$roadmaps/${_segment(id)}';
-  static String roadmapSteps(String id) => '${roadmapDetails(id)}/steps';
-  static const courses = '/courses';
+  static const roadmapsBase = '/api/v1/roadmaps';
+  static const myRoadmap = '$roadmapsBase/me';
+  static const generateRoadmap = '$roadmapsBase/generate';
+  static String roadmapDetails(String roadmapId) =>
+      '$roadmapsBase/${_segment(roadmapId)}';
+  static String roadmapStepProgress(String roadmapId, String stepId) =>
+      '${roadmapDetails(roadmapId)}/steps/${_segment(stepId)}/progress';
+  static const courses = '/api/v1/courses';
+  static const recommendedCourses = '$courses/recommended';
+  static const savedCourses = '$courses/saved';
+  static const courseEnrollments = '$courses/enrollments';
   static String courseDetails(String id) => '$courses/${_segment(id)}';
+  static String courseSave(String id) => '${courseDetails(id)}/save';
+  static String courseEnroll(String id) => '${courseDetails(id)}/enroll';
+  static String courseEnrollment(String id) =>
+      '${courseDetails(id)}/enrollment';
   static const jobs = '/jobs';
   static String jobDetails(String id) => '$jobs/${_segment(id)}';
   static const jobMatches = '/jobs/matches';

@@ -2,38 +2,26 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/di.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/routing/route_arguments.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/custom_snackbar.dart';
-import '../../../../core/widgets/app_gradient_back_button.dart';
+import '../../../../core/widgets/app_empty_view.dart';
 import '../../../../core/widgets/app_error_view.dart';
-import '../../../../core/widgets/app_search_filters.dart';
-import '../../data/repositories/demo_courses_repository.dart';
-import '../../domain/use_cases/get_course_details_use_case.dart';
-import '../../domain/use_cases/get_courses_use_case.dart';
-import '../cubit/courses_cubit.dart';
-import '../cubit/courses_state.dart';
-import '../widgets/course_tile.dart';
+import '../cubit/courses_catalog_cubit.dart';
+import '../cubit/courses_catalog_state.dart';
+import '../widgets/courses_catalog_content.dart';
+import '../widgets/courses_catalog_header.dart';
 
 class CoursesScreen extends StatelessWidget {
   const CoursesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        const repository = DemoCoursesRepository();
-        return CoursesCubit(
-          getCoursesUseCase: const GetCoursesUseCase(repository),
-          getCourseDetailsUseCase: const GetCourseDetailsUseCase(repository),
-        )..loadCourses();
-      },
-      child: const _CoursesView(),
-    );
-  }
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) => getIt<CoursesCatalogCubit>()..loadInitial(),
+        child: const _CoursesView(),
+      );
 }
 
 class _CoursesView extends StatelessWidget {
@@ -41,134 +29,91 @@ class _CoursesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Scaffold(
-      backgroundColor: colors.surface,
-      appBar: AppBar(
-        leading: const AppGradientBackButton(),
-        title: Text('courses.title'.tr()),
-      ),
-      body: BlocBuilder<CoursesCubit, CoursesState>(
-        builder: (context, state) {
-          if (state is CoursesSuccess) {
-            return SafeArea(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                itemCount: state.courses.length + 2,
-                separatorBuilder: (_, __) => const SizedBox(
-                  height: AppSpacing.md,
+    return BlocListener<CoursesCatalogCubit, CoursesCatalogState>(
+      listenWhen: (previous, current) =>
+          previous.feedbackSerial != current.feedbackSerial,
+      listener: (context, state) {
+        final key = state.feedbackKey;
+        if (key == null) return;
+        if (key == 'courses.saveFailed') {
+          CustomSnackbar.showErrorKey(context: context, messageKey: key);
+        } else {
+          CustomSnackbar.showInfoKey(context: context, messageKey: key);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.colors.surface,
+        appBar: AppBar(title: Text('courses.title'.tr())),
+        body: SafeArea(
+          top: false,
+          child: BlocBuilder<CoursesCatalogCubit, CoursesCatalogState>(
+            builder: (context, state) => Column(
+              children: [
+                CoursesCatalogHeader(
+                  state: state,
+                  onTabSelected: context.read<CoursesCatalogCubit>().selectTab,
+                  onSearch: context.read<CoursesCatalogCubit>().search,
+                  onFilters: context.read<CoursesCatalogCubit>().applyFilters,
                 ),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return _SearchAndFilters(
-                      query: state.query,
-                      selectedFilter: state.selectedFilter,
-                    );
-                  }
-                  if (index == 1) {
-                    return Text(
-                      'courses.title'.tr(),
-                      style: AppTextStyles.headlineLarge(colors.onSurface),
-                    );
-                  }
-                  final course = state.courses[index - 2];
-                  return CourseTile(
-                    course: course,
-                    isSaved: state.savedCourseIds.contains(course.id),
-                    onSaveTap: () => _toggleSaved(context, course.id),
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      AppRoutes.courseDetails,
-                      arguments: RouteArguments(id: course.id),
-                    ),
-                  );
-                },
-              ),
-            );
-          }
-
-          if (state is CoursesEmpty) {
-            return SafeArea(
-              child: ListView(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                children: [
-                  _SearchAndFilters(
-                    query: state.query,
-                    selectedFilter: state.selectedFilter,
-                  ),
-                  const SizedBox(height: AppSpacing.xl),
-                  AppErrorView(
-                    message: 'courses.empty'.tr(),
-                    onRetry: () => context.read<CoursesCubit>().loadCourses(),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          if (state is CoursesError) {
-            return AppErrorView(
-              message: state.messageKey.tr(),
-              onRetry: () => context.read<CoursesCubit>().loadCourses(),
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
+                const SizedBox(height: 12),
+                Expanded(child: _content(context, state)),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  void _toggleSaved(BuildContext context, String courseId) {
-    final isSaved = context.read<CoursesCubit>().toggleSavedCourse(courseId);
-    CustomSnackbar.showInfoKey(
-      context: context,
-      messageKey: isSaved ? 'courses.saved' : 'courses.unsaved',
+  Widget _content(BuildContext context, CoursesCatalogState state) {
+    if (state.status == CoursesCatalogStatus.loading ||
+        state.status == CoursesCatalogStatus.initial) {
+      return Semantics(
+        label: 'courses.loading'.tr(),
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (_isError(state.status)) {
+      return AppErrorView(
+        message: (state.errorKey ?? 'courses.serverError').tr(),
+        onRetry: context.read<CoursesCatalogCubit>().loadInitial,
+      );
+    }
+    if (state.requiredAction == 'upload_cv') {
+      return CoursesUploadCvView(
+        onPressed: () => Navigator.pushNamed(context, AppRoutes.cvUpload),
+      );
+    }
+    if (state.status == CoursesCatalogStatus.empty) {
+      return AppEmptyView(message: _emptyKey(state.tab).tr());
+    }
+    return CoursesCatalogContent(
+      state: state,
+      onRefresh: context.read<CoursesCatalogCubit>().refresh,
+      onLoadMore: context.read<CoursesCatalogCubit>().loadMore,
+      onSave: context.read<CoursesCatalogCubit>().toggleSave,
+      onOpen: (course) async {
+        final changed = await Navigator.pushNamed<Object?>(
+          context,
+          AppRoutes.courseDetails,
+          arguments: RouteArguments(id: course.id),
+        );
+        if (changed == true && context.mounted) {
+          await context.read<CoursesCatalogCubit>().refresh();
+        }
+      },
     );
   }
-}
 
-class _SearchAndFilters extends StatelessWidget {
-  const _SearchAndFilters({
-    required this.query,
-    required this.selectedFilter,
-  });
+  bool _isError(CoursesCatalogStatus status) =>
+      status == CoursesCatalogStatus.networkError ||
+      status == CoursesCatalogStatus.unauthorized ||
+      status == CoursesCatalogStatus.error;
 
-  final String query;
-  final CourseFilter? selectedFilter;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppSearchFilters(
-      key: ValueKey(query),
-      searchHintText: 'roadmaps.searchHint'.tr(),
-      onSearchChanged: context.read<CoursesCubit>().searchCourses,
-      filterChips: [
-        AppFilterChip(
-          icon: Icons.payments_outlined,
-          label: 'roadmaps.priceFilter'.tr(),
-          selected: selectedFilter == CourseFilter.price,
-          onTap: () => context.read<CoursesCubit>().toggleFilter(
-                CourseFilter.price,
-              ),
-        ),
-        AppFilterChip(
-          icon: Icons.schedule_outlined,
-          label: 'roadmaps.durationFilter'.tr(),
-          selected: selectedFilter == CourseFilter.duration,
-          onTap: () => context.read<CoursesCubit>().toggleFilter(
-                CourseFilter.duration,
-              ),
-        ),
-        AppFilterChip(
-          icon: Icons.bar_chart,
-          label: 'roadmaps.levelFilter'.tr(),
-          selected: selectedFilter == CourseFilter.level,
-          onTap: () => context.read<CoursesCubit>().toggleFilter(
-                CourseFilter.level,
-              ),
-        ),
-      ],
-    );
-  }
+  String _emptyKey(CoursesCatalogTab tab) => switch (tab) {
+        CoursesCatalogTab.discover => 'courses.empty.discover',
+        CoursesCatalogTab.recommended => 'courses.empty.recommended',
+        CoursesCatalogTab.saved => 'courses.empty.saved',
+        CoursesCatalogTab.learning => 'courses.empty.learning',
+      };
 }

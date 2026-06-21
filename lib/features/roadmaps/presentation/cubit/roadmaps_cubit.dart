@@ -1,184 +1,196 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+import '../../../../core/errors/failures.dart';
 import '../../domain/entities/roadmap.dart';
-import '../../domain/entities/roadmap_course_recommendation.dart';
+import '../../domain/entities/roadmap_status.dart';
+import '../../domain/use_cases/generate_roadmap_use_case.dart';
+import '../../domain/use_cases/get_my_roadmap_use_case.dart';
 import '../../domain/use_cases/get_roadmap_details_use_case.dart';
-import '../../domain/use_cases/get_roadmaps_use_case.dart';
-import '../../domain/use_cases/update_roadmap_step_use_case.dart';
+import '../../domain/use_cases/update_roadmap_step_progress_use_case.dart';
 import 'roadmaps_state.dart';
 
+@injectable
 class RoadmapsCubit extends Cubit<RoadmapsState> {
-  RoadmapsCubit({
-    required GetRoadmapsUseCase getRoadmapsUseCase,
-    required GetRoadmapDetailsUseCase getRoadmapDetailsUseCase,
-    required UpdateRoadmapStepUseCase updateRoadmapStepUseCase,
-  })  : _getRoadmapsUseCase = getRoadmapsUseCase,
-        _getRoadmapDetailsUseCase = getRoadmapDetailsUseCase,
-        _updateRoadmapStepUseCase = updateRoadmapStepUseCase,
-        super(const RoadmapsInitial());
+  RoadmapsCubit(
+    this._getMyRoadmap,
+    this._generateRoadmap,
+    this._getRoadmapDetails,
+    this._updateStepProgress,
+  ) : super(const RoadmapsState());
 
-  final GetRoadmapsUseCase _getRoadmapsUseCase;
-  final GetRoadmapDetailsUseCase _getRoadmapDetailsUseCase;
-  final UpdateRoadmapStepUseCase _updateRoadmapStepUseCase;
-  final Set<String> _savedCourseIds = {};
+  final GetMyRoadmapUseCase _getMyRoadmap;
+  final GenerateRoadmapUseCase _generateRoadmap;
+  final GetRoadmapDetailsUseCase _getRoadmapDetails;
+  final UpdateRoadmapStepProgressUseCase _updateStepProgress;
 
-  List<RoadmapCourseRecommendation> _allRecommendations = const [];
-  String _query = '';
-  RoadmapsFilter _selectedFilter = RoadmapsFilter.all;
-  String? _selectedCategoryKey;
+  String? _lastRoadmapId;
 
-  Future<void> loadRoadmaps() async {
-    emit(const RoadmapsLoading());
-    _query = '';
-    _selectedFilter = RoadmapsFilter.all;
-    _selectedCategoryKey = null;
-    final result = await _getRoadmapsUseCase();
-
-    result.fold(
-      (failure) => emit(RoadmapsError(messageKey: failure.message)),
-      (recommendations) {
-        _allRecommendations = recommendations;
-        _emitFilteredRoadmaps();
-      },
-    );
+  Future<void> loadMyRoadmap() async {
+    if (state.status == RoadmapsStatus.loading) return;
+    emit(const RoadmapsState(status: RoadmapsStatus.loading));
+    final result = await _getMyRoadmap();
+    result.fold(_emitFailure, _emitOverview);
   }
 
-  Future<void> loadRoadmapDetails(String id) async {
-    emit(const RoadmapsLoading());
-    final result = await _getRoadmapDetailsUseCase(id);
+  Future<void> generateRoadmap() => _generate(forceRegenerate: false);
 
-    result.fold(
-      (failure) => emit(RoadmapsError(messageKey: failure.message)),
-      (roadmap) => emit(RoadmapDetailsSuccess(roadmap: roadmap)),
-    );
-  }
+  Future<void> regenerateRoadmap() => _generate(forceRegenerate: true);
 
-  void searchRoadmaps(String query) {
-    _query = query.trim();
-    _emitFilteredRoadmaps();
-  }
-
-  void toggleFilter(RoadmapsFilter filter) {
-    _selectedFilter = _selectedFilter == filter ? RoadmapsFilter.all : filter;
-    _emitFilteredRoadmaps();
-  }
-
-  void selectCategory(String categoryKey) {
-    _selectedCategoryKey =
-        _selectedCategoryKey == categoryKey ? null : categoryKey;
-    _emitFilteredRoadmaps();
-  }
-
-  bool toggleSavedCourse(String id) {
-    if (_savedCourseIds.contains(id)) {
-      _savedCourseIds.remove(id);
-    } else {
-      _savedCourseIds.add(id);
-    }
-    _emitFilteredRoadmaps();
-    return _savedCourseIds.contains(id);
-  }
-
-  Future<bool?> toggleStepStatus(String stepId) async {
-    final currentState = state;
-    if (currentState is! RoadmapDetailsSuccess) return null;
-
-    final step = currentState.roadmap.steps.firstWhere(
-      (item) => item.id == stepId,
-    );
-    if (step.status == RoadmapStepStatus.upcoming) return null;
-
-    final nextStatus = step.status == RoadmapStepStatus.completed
-        ? RoadmapStepStatus.inProgress
-        : RoadmapStepStatus.completed;
-
-    emit(RoadmapDetailsSuccess(
-      roadmap: currentState.roadmap,
-      updatingStepId: stepId,
+  Future<void> _generate({required bool forceRegenerate}) async {
+    if (state.isGenerating) return;
+    final previousRoadmap = state.roadmap;
+    final previousStatus = state.status;
+    emit(state.copyWith(
+      status: forceRegenerate
+          ? RoadmapsStatus.regenerating
+          : RoadmapsStatus.generating,
+      clearError: true,
+      clearFeedback: true,
     ));
-    final result = await _updateRoadmapStepUseCase(
-      roadmapId: currentState.roadmap.id,
-      stepId: stepId,
-      status: nextStatus,
+    final result = await _generateRoadmap(
+      forceRegenerate: forceRegenerate,
     );
-
-    return result.fold(
+    result.fold(
       (failure) {
-        emit(RoadmapsError(messageKey: failure.message));
-        return null;
+        if (forceRegenerate && previousRoadmap != null) {
+          emit(state.copyWith(
+            status: previousStatus == RoadmapsStatus.detailLoaded
+                ? RoadmapsStatus.detailLoaded
+                : RoadmapsStatus.active,
+            roadmap: previousRoadmap,
+            feedbackKey: 'roadmaps.regenerationFailed',
+            feedbackSerial: state.feedbackSerial + 1,
+          ));
+        } else {
+          _emitFailure(failure);
+        }
       },
-      (roadmap) {
-        emit(RoadmapDetailsSuccess(roadmap: roadmap));
-        return nextStatus == RoadmapStepStatus.completed;
+      (generated) {
+        if (generated.roadmap != null) {
+          emit(RoadmapsState(
+            status: generated.roadmap!.sections.isEmpty
+                ? RoadmapsStatus.empty
+                : RoadmapsStatus.active,
+            roadmap: generated.roadmap,
+            feedbackKey: forceRegenerate
+                ? 'roadmaps.regenerationSuccess'
+                : 'roadmaps.generationSuccess',
+            feedbackSerial: state.feedbackSerial + 1,
+          ));
+          return;
+        }
+        _emitRequiredAction(generated.requiredAction);
       },
     );
   }
 
-  void _emitFilteredRoadmaps() {
-    final filtered = _filteredRecommendations();
-    if (filtered.isEmpty) {
-      emit(RoadmapsEmpty(
-        query: _query,
-        selectedFilter: _selectedFilter,
-        selectedCategoryKey: _selectedCategoryKey,
+  Future<void> loadRoadmapDetails(String? roadmapId) async {
+    final id = roadmapId?.trim() ?? '';
+    _lastRoadmapId = id;
+    emit(const RoadmapsState(status: RoadmapsStatus.detailLoading));
+    final result = await _getRoadmapDetails(id);
+    result.fold(
+      _emitFailure,
+      (roadmap) => emit(RoadmapsState(
+        status: roadmap.sections.isEmpty
+            ? RoadmapsStatus.empty
+            : RoadmapsStatus.detailLoaded,
+        roadmap: roadmap,
+      )),
+    );
+  }
+
+  Future<void> toggleStepCompletion(String stepId) async {
+    final roadmap = state.roadmap;
+    if (state.status != RoadmapsStatus.detailLoaded ||
+        roadmap == null ||
+        state.updatingStepId != null) {
+      return;
+    }
+    final step = roadmap.steps.cast<RoadmapStep?>().firstWhere(
+          (item) => item?.id == stepId,
+          orElse: () => null,
+        );
+    if (step == null || step.status == RoadmapStepStatus.upcoming) {
+      _feedback('roadmaps.stepLocked');
+      return;
+    }
+    final completing = !step.isCompleted;
+    emit(state.copyWith(
+      updatingStepId: stepId,
+      clearFeedback: true,
+    ));
+    final result = await _updateStepProgress(
+      UpdateRoadmapStepProgressParams(
+        roadmapId: roadmap.id,
+        stepId: stepId,
+        progress: completing ? 100 : 0,
+        isCompleted: completing,
+      ),
+    );
+    result.fold(
+      (_) => emit(state.copyWith(
+        status: RoadmapsStatus.detailLoaded,
+        roadmap: roadmap,
+        clearUpdatingStep: true,
+        feedbackKey: 'roadmaps.updateFailed',
+        feedbackSerial: state.feedbackSerial + 1,
+      )),
+      (updated) => emit(state.copyWith(
+        status: RoadmapsStatus.detailLoaded,
+        roadmap: updated,
+        clearUpdatingStep: true,
+        feedbackKey:
+            completing ? 'roadmaps.stepCompleted' : 'roadmaps.stepReopened',
+        feedbackSerial: state.feedbackSerial + 1,
+      )),
+    );
+  }
+
+  Future<void> retry() => _lastRoadmapId == null
+      ? loadMyRoadmap()
+      : loadRoadmapDetails(_lastRoadmapId);
+
+  void _emitOverview(RoadmapStatus overview) {
+    if (overview.roadmap != null) {
+      emit(RoadmapsState(
+        status: overview.roadmap!.sections.isEmpty
+            ? RoadmapsStatus.empty
+            : RoadmapsStatus.active,
+        roadmap: overview.roadmap,
       ));
       return;
     }
-
-    emit(
-      RoadmapsSuccess(
-        recommendations: filtered,
-        query: _query,
-        selectedFilter: _selectedFilter,
-        selectedCategoryKey: _selectedCategoryKey,
-        savedCourseIds: Set.unmodifiable(_savedCourseIds),
-      ),
-    );
+    _emitRequiredAction(overview.requiredAction);
   }
 
-  List<RoadmapCourseRecommendation> _filteredRecommendations() {
-    final query = _query.toLowerCase();
-    final queried = query.isEmpty
-        ? _allRecommendations
-        : _allRecommendations.where((item) => _matchesQuery(item, query));
-    final categorized = queried.where(_matchesCategory);
-    final filtered = categorized.where(_matchesFilter).toList();
-
-    filtered.sort((first, second) => switch (_selectedFilter) {
-          RoadmapsFilter.duration =>
-            first.durationKey.compareTo(second.durationKey),
-          RoadmapsFilter.level => first.matchLabel.compareTo(second.matchLabel),
-          RoadmapsFilter.price => first.ratingKey.compareTo(second.ratingKey),
-          RoadmapsFilter.all => first.titleKey.compareTo(second.titleKey),
-        });
-
-    return filtered;
+  void _emitRequiredAction(RequiredRoadmapAction? action) {
+    emit(RoadmapsState(
+      status: action == RequiredRoadmapAction.uploadCv
+          ? RoadmapsStatus.uploadCvRequired
+          : RoadmapsStatus.generationRequired,
+      requiredAction: action,
+    ));
   }
 
-  bool _matchesQuery(RoadmapCourseRecommendation item, String query) {
-    return [item.id, item.titleKey, item.providerKey, item.durationKey]
-        .any((value) => value.toLowerCase().contains(query));
-  }
-
-  bool _matchesCategory(RoadmapCourseRecommendation item) {
-    return switch (_selectedCategoryKey) {
-      'roadmaps.categoryDevelopment' => item.id.contains('react') ||
-          item.titleKey.toLowerCase().contains('systems'),
-      'roadmaps.categoryDataScience' => item.id.contains('machine'),
-      null => true,
-      _ => true,
+  void _emitFailure(Failure failure) {
+    final status = switch (failure) {
+      NetworkFailure() => RoadmapsStatus.networkError,
+      UnauthorizedFailure() => RoadmapsStatus.unauthorized,
+      _ => RoadmapsStatus.error,
     };
+    final key = switch (failure) {
+      ValidationFailure() => failure.message,
+      NetworkFailure() => 'roadmaps.networkError',
+      UnauthorizedFailure() => 'roadmaps.unauthorized',
+      _ => 'roadmaps.genericError',
+    };
+    emit(RoadmapsState(status: status, errorKey: key));
   }
 
-  bool _matchesFilter(RoadmapCourseRecommendation item) {
-    return switch (_selectedFilter) {
-      RoadmapsFilter.price =>
-        item.ratingKey.contains('49') || item.ratingKey.contains('48'),
-      RoadmapsFilter.duration =>
-        item.durationKey.contains('12') || item.durationKey.contains('10'),
-      RoadmapsFilter.level =>
-        item.matchLabel.contains('94') || item.matchLabel.contains('98'),
-      RoadmapsFilter.all => true,
-    };
-  }
+  void _feedback(String key) => emit(state.copyWith(
+        feedbackKey: key,
+        feedbackSerial: state.feedbackSerial + 1,
+      ));
 }
