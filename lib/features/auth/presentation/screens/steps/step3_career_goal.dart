@@ -11,6 +11,8 @@ import '../../../../career_paths/presentation/cubit/career_paths_cubit.dart';
 import '../../../../career_paths/presentation/cubit/career_paths_state.dart';
 import '../../cubit/setup_profile_cubit.dart';
 import '../../cubit/setup_profile_state.dart';
+import '../../widgets/setup_profile_step_header.dart';
+import '../../widgets/setup_profile_text_field.dart';
 
 class Step3CareerGoal extends StatefulWidget {
   const Step3CareerGoal({super.key});
