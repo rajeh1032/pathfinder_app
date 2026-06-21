@@ -1,8 +1,10 @@
+import 'package:injectable/injectable.dart';
+
 import '../../domain/entities/chat_message_entity.dart';
 import '../../domain/entities/chat_session_entity.dart';
 import '../../domain/repositories/chat_repo.dart';
 import '../data_sources/remote/chat_remote_data_source.dart';
-
+@LazySingleton(as: ChatRepository)
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource remoteDataSource;
 

@@ -27,6 +27,20 @@ import 'package:pathfinder_app/core/network/network_info.dart' as _i874;
 import 'package:pathfinder_app/core/storage/secure_storage.dart' as _i213;
 import 'package:pathfinder_app/core/storage/token_storage.dart' as _i203;
 import 'package:pathfinder_app/core/theme/app_theme_cubit.dart' as _i337;
+import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_data_source.dart'
+    as _i570;
+import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_impl.dart'
+    as _i479;
+import 'package:pathfinder_app/features/ai_chat/data/repositories/chat_repository_impl.dart'
+    as _i943;
+import 'package:pathfinder_app/features/ai_chat/domain/repositories/chat_repo.dart'
+    as _i262;
+import 'package:pathfinder_app/features/ai_chat/presentation/cubit/chat_cubit.dart'
+    as _i356;
+import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
+    as _i73;
+import 'package:pathfinder_app/features/auth/presentation/cubit/setup_profile_cubit.dart'
+    as _i570;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -48,6 +62,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => storageModule.sharedPreferences,
       preResolve: true,
     );
+    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
+    gh.factory<_i570.SetupProfileCubit>(() => _i570.SetupProfileCubit());
     gh.lazySingleton<_i895.Connectivity>(() => coreModule.connectivity);
     gh.lazySingleton<_i892.FirebaseMessaging>(
         () => firebaseModule.firebaseMessaging);
@@ -66,7 +82,13 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i834.ApiInterceptor(gh<_i203.TokenStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
+    gh.lazySingleton<_i570.ChatRemoteDataSource>(
+        () => _i479.ChatRemoteDataSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
+    gh.lazySingleton<_i262.ChatRepository>(
+        () => _i943.ChatRepositoryImpl(gh<_i570.ChatRemoteDataSource>()));
+    gh.factory<_i356.ChatCubit>(
+        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
     return this;
   }
 }
