@@ -123,6 +123,7 @@ class ChatWithAiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('🔴 sessionId received: "$sessionId"');
     return BlocProvider(
       create: (_) => getIt<ChatCubit>()..loadMessages(sessionId),
       child: _ChatWithAiView(sessionId: sessionId),
