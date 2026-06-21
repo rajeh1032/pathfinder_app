@@ -41,7 +41,7 @@ class ChatInputBar extends StatelessWidget {
                 ),
               ),
               child: Icon(
-                Icons.mic_rounded,
+                Icons.upload_file_rounded,
                 size: 20.sp,
                 color: AppColors.primary,
               ),

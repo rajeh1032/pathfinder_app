@@ -118,6 +118,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => storageModule.sharedPreferences,
       preResolve: true,
     );
+    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
+    gh.factory<_i570.SetupProfileCubit>(() => _i570.SetupProfileCubit());
     gh.lazySingleton<_i895.Connectivity>(() => coreModule.connectivity);
     gh.lazySingleton<_i892.FirebaseMessaging>(
         () => firebaseModule.firebaseMessaging);
@@ -139,7 +141,13 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i120.AuthLocalDataSourceImpl(gh<_i203.TokenStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
+    gh.lazySingleton<_i570.ChatRemoteDataSource>(
+        () => _i479.ChatRemoteDataSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
+    gh.lazySingleton<_i262.ChatRepository>(
+        () => _i943.ChatRepositoryImpl(gh<_i570.ChatRemoteDataSource>()));
+    gh.factory<_i356.ChatCubit>(
+        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
     gh.lazySingleton<_i310.AuthRemoteDataSource>(
         () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i501.CoursesRemoteDataSource>(

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -10,54 +10,44 @@ class AiMentorHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSpacing.md.h,
-        horizontal: AppSpacing.md.w,
-      ),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(color: colorScheme.outline.withValues(alpha: 0.3)),
+    return Row(
+      children: [
+        Container(
+          width: 36.w,
+          height: 36.w,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.primary, AppColors.tertiary],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(Icons.smart_toy_rounded,
+              size: 18.sp, color: Colors.white),
         ),
-      ),
-      child: Column(
-        children: [
-          // Avatar
-          Container(
-            width: 64.w,
-            height: 64.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.tertiary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+        SizedBox(width: AppSpacing.sm.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'aiChat.mentorName'.tr(),
+              style: AppTextStyles.bodyMedium(cs.onSurface).copyWith(
+                fontWeight: FontWeight.w700,
+                fontSize: 14.sp,
               ),
             ),
-            child: Icon(
-              Icons.psychology_rounded,
-              size: 32.sp,
-              color: Colors.white,
+            Text(
+              'aiChat.mentorSubtitle'.tr(),
+              style: AppTextStyles.labelSmall(
+                cs.onSurface.withOpacity(0.5),
+              ).copyWith(fontSize: 10.sp),
             ),
-          ),
-          SizedBox(height: AppSpacing.sm.h),
-          Text(
-            'AI Career Mentor',
-            style: AppTextStyles.titleSmall(colorScheme.onSurface)
-                .copyWith(fontSize: 16.sp),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            'Career Help, Instantly. Ask anything, grow faster.',
-            style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                .copyWith(fontSize: 12.sp),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }

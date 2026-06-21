@@ -13,6 +13,8 @@ import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
+import '../../features/cv_analysis/presentation/screens/cv_upload_loading.dart';
+import '../../features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
 import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';
@@ -114,7 +116,7 @@ class AppRouter {
       AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
-      AppRoutes.aiChat => const ChatWithAiScreen(),
+      AppRoutes.aiChat => const ChatWithAiScreen(sessionId: '',),
       AppRoutes.chatAiHistory => const ChatSessionsScreen(),
 
       // Interview
