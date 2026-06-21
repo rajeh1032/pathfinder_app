@@ -11,14 +11,14 @@ abstract class DioModule {
   Dio dio(ApiInterceptor apiInterceptor) {
     final dio = Dio(
       BaseOptions(
-        baseUrl: AppConfig.baseUrl,
+        baseUrl: '${AppConfig.baseUrl}/api',
         connectTimeout: AppConfig.connectTimeout,
         receiveTimeout: AppConfig.receiveTimeout,
       ),
     );
     dio.interceptors.addAll([
       apiInterceptor,
-      PrettyDioLogger(requestHeader: true, requestBody: true),
+      PrettyDioLogger(requestHeader: false, requestBody: true),
     ]);
     return dio;
   }

@@ -56,12 +56,12 @@ class ProfileHeader extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         Text(
-          profile.fullNameKey.tr(),
+          context.tr(profile.fullNameKey),
           style: AppTextStyles.headlineLarge(colors.onSurface),
           textAlign: TextAlign.center,
         ),
         Text(
-          profile.headlineKey.tr(),
+          context.tr(profile.headlineKey),
           style: AppTextStyles.titleSmall(colors.primary),
           textAlign: TextAlign.center,
         ),

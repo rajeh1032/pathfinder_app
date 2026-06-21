@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/chat_message_entity.dart';
 import '../../domain/entities/chat_session_entity.dart';
 import '../../domain/repositories/chat_repo.dart';
 import 'chat_state.dart';
-
+@injectable
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository _repository;
 

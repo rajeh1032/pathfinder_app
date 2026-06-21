@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../../data/repositories/demo_settings_repository.dart';
 import '../../domain/use_cases/delete_account_use_case.dart';
 import '../../domain/use_cases/get_settings_preferences_use_case.dart';
@@ -80,7 +82,7 @@ class CareerGoalSettingsScreen extends StatelessWidget {
 }
 
 SettingsCubit _createSettingsCubit() {
-  final repository = DemoSettingsRepository();
+  final repository = DemoSettingsRepository(getIt<TokenStorage>());
   return SettingsCubit(
     getPreferencesUseCase: GetSettingsPreferencesUseCase(repository),
     updatePreferenceUseCase: UpdateSettingsPreferenceUseCase(repository),

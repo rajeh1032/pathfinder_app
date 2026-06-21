@@ -54,7 +54,7 @@ class _SettingsOptionsViewState extends State<SettingsOptionsView> {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text(widget.titleKey.tr()),
+        title: Text(context.tr(widget.titleKey)),
       ),
       bottomNavigationBar: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
@@ -100,7 +100,7 @@ class _SettingsOptionsViewState extends State<SettingsOptionsView> {
 
             if (state is SettingsError) {
               return AppErrorView(
-                message: state.messageKey.tr(),
+                message: context.tr(state.messageKey),
                 onRetry: context.read<SettingsCubit>().loadSettings,
               );
             }

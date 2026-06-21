@@ -16,17 +16,17 @@ class ProfilePreferencesSection extends StatelessWidget {
       children: [
         ProfilePreferenceCard(
           icon: Icons.language_outlined,
-          title: 'profile.languageTitle'.tr(),
+          title: context.tr('profile.languageTitle'),
           value: _languageLabel(context),
-          buttonLabel: 'profile.changeLanguage'.tr(),
+          buttonLabel: context.tr('profile.changeLanguage'),
           onPressed: () => _showLanguageSheet(context),
         ),
         const SizedBox(height: AppSpacing.md),
         ProfilePreferenceCard(
           icon: Icons.palette_outlined,
-          title: 'profile.themeTitle'.tr(),
-          value: _themeLabel(context.watch<AppThemeCubit>().state),
-          buttonLabel: 'profile.changeTheme'.tr(),
+          title: context.tr('profile.themeTitle'),
+          value: _themeLabel(context, context.watch<AppThemeCubit>().state),
+          buttonLabel: context.tr('profile.changeTheme'),
           onPressed: () => _showThemeSheet(context),
         ),
       ],
@@ -36,17 +36,17 @@ class ProfilePreferencesSection extends StatelessWidget {
   String _languageLabel(BuildContext context) {
     if (context.locale.languageCode ==
         LocalizationService.arabic.languageCode) {
-      return 'profile.languageArabic'.tr();
+      return context.tr('profile.languageArabic');
     }
 
-    return 'profile.languageEnglish'.tr();
+    return context.tr('profile.languageEnglish');
   }
 
-  String _themeLabel(ThemeMode mode) {
+  String _themeLabel(BuildContext context, ThemeMode mode) {
     return switch (mode) {
-      ThemeMode.light => 'profile.themeLight'.tr(),
-      ThemeMode.dark => 'profile.themeDark'.tr(),
-      ThemeMode.system => 'profile.themeSystem'.tr(),
+      ThemeMode.light => context.tr('profile.themeLight'),
+      ThemeMode.dark => context.tr('profile.themeDark'),
+      ThemeMode.system => context.tr('profile.themeSystem'),
     };
   }
 
@@ -55,11 +55,11 @@ class ProfilePreferencesSection extends StatelessWidget {
       context: context,
       builder: (sheetContext) {
         return _OptionsSheet(
-          title: 'profile.changeLanguage'.tr(),
+          title: context.tr('profile.changeLanguage'),
           children: [
             _OptionTile(
               icon: Icons.translate,
-              title: 'profile.languageEnglish'.tr(),
+              title: context.tr('profile.languageEnglish'),
               selected: context.locale.languageCode ==
                   LocalizationService.english.languageCode,
               onTap: () async {
@@ -72,7 +72,7 @@ class ProfilePreferencesSection extends StatelessWidget {
             ),
             _OptionTile(
               icon: Icons.translate,
-              title: 'profile.languageArabic'.tr(),
+              title: context.tr('profile.languageArabic'),
               selected: context.locale.languageCode ==
                   LocalizationService.arabic.languageCode,
               onTap: () async {
@@ -96,11 +96,11 @@ class ProfilePreferencesSection extends StatelessWidget {
       context: context,
       builder: (sheetContext) {
         return _OptionsSheet(
-          title: 'profile.changeTheme'.tr(),
+          title: context.tr('profile.changeTheme'),
           children: [
             _OptionTile(
               icon: Icons.brightness_auto_outlined,
-              title: 'profile.themeSystem'.tr(),
+              title: context.tr('profile.themeSystem'),
               selected: cubit.state == ThemeMode.system,
               onTap: () {
                 cubit.setThemeMode(ThemeMode.system);
@@ -109,7 +109,7 @@ class ProfilePreferencesSection extends StatelessWidget {
             ),
             _OptionTile(
               icon: Icons.light_mode_outlined,
-              title: 'profile.themeLight'.tr(),
+              title: context.tr('profile.themeLight'),
               selected: cubit.state == ThemeMode.light,
               onTap: () {
                 cubit.setThemeMode(ThemeMode.light);
@@ -118,7 +118,7 @@ class ProfilePreferencesSection extends StatelessWidget {
             ),
             _OptionTile(
               icon: Icons.dark_mode_outlined,
-              title: 'profile.themeDark'.tr(),
+              title: context.tr('profile.themeDark'),
               selected: cubit.state == ThemeMode.dark,
               onTap: () {
                 cubit.setThemeMode(ThemeMode.dark);

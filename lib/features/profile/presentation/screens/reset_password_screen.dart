@@ -50,7 +50,7 @@ class _ResetPasswordView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: const AppGradientBackButton(),
-          title: Text('profile.resetPassword'.tr()),
+          title: Text(context.tr('profile.resetPassword')),
         ),
         body: const SafeArea(child: ResetPasswordForm()),
       ),

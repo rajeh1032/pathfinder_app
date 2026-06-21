@@ -1,34 +1,30 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:pathfinder_app/core/constants/app_assets.dart';
 
 class OnboardingPageData {
-  final String title;
-  final String description;
+  final String titleKey;
+  final String descriptionKey;
   final String illustrationAsset;
 
   const OnboardingPageData({
-    required this.title,
-    required this.description,
+    required this.titleKey,
+    required this.descriptionKey,
     required this.illustrationAsset,
   });
 
-  static  List<OnboardingPageData> pages = [
+  static const List<OnboardingPageData> pages = [
     OnboardingPageData(
-      title: 'onboarding.step1Title'.tr(),
-      description:
-          'onboarding.step1Desc'.tr(),
+      titleKey: 'onboarding.step1Title',
+      descriptionKey: 'onboarding.step1Desc',
       illustrationAsset: AppAssets.onboarding1,
     ),
     OnboardingPageData(
-      title: 'onboarding.step2Title'.tr(),
-      description:
-          'onboarding.step2Desc'.tr(),
+      titleKey: 'onboarding.step2Title',
+      descriptionKey: 'onboarding.step2Desc',
       illustrationAsset: AppAssets.onboarding2,
     ),
     OnboardingPageData(
-      title: 'onboarding.step3Title'.tr(),
-      description:
-          'onboarding.step3Desc'.tr(),
+      titleKey: 'onboarding.step3Title',
+      descriptionKey: 'onboarding.step3Desc',
       illustrationAsset: AppAssets.onboarding3,
     ),
   ];

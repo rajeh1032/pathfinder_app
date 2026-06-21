@@ -2,9 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pathfinder_app/core/di/di.dart';
 import 'package:pathfinder_app/features/auth/presentation/cubit/register_state.dart';
 import '../../../../core/routing/app_routes.dart';
+import '../../../../core/routing/route_arguments.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/register_cubit.dart';
 import '../widgets/google_sign_in_button.dart';
@@ -38,20 +41,28 @@ class _RegisterScreenTestState extends State<RegisterScreenTest> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    // A new RegisterCubit (factory) is created per BlocProvider so each visit
+    // to this screen starts with clean state.
     return BlocProvider(
-      create: (_) => RegisterCubit(),
+      create: (_) => getIt<RegisterCubit>(),
       child: BlocListener<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state.status == RegisterStatus.success) {
-            Navigator.pushReplacementNamed(context, AppRoutes.setupProfile);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.setupProfile,
+              arguments: SetupProfileArgs(
+                email: _emailController.text.trim(),
+                password: _passwordController.text,
+                confirmPassword: _confirmPasswordController.text,
+              ),
+            );
           }
           if (state.status == RegisterStatus.failure &&
               state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage!),
-                backgroundColor: colorScheme.error,
-              ),
+            CustomSnackbar.showError(
+              context: context,
+              message: state.errorMessage!,
             );
           }
         },
@@ -86,8 +97,9 @@ class _RegisterScreenTestState extends State<RegisterScreenTest> {
                         BlocBuilder<RegisterCubit, RegisterState>(
                           builder: (context, state) => GoogleSignInButton(
                             isLoading: state.isLoading,
-                            onPressed: () =>
-                                context.read<RegisterCubit>().registerWithGoogle(),
+                            onPressed: () => context
+                                .read<RegisterCubit>()
+                                .registerWithGoogle(),
                           ),
                         ),
                         SizedBox(height: 20.h),
@@ -108,9 +120,12 @@ class _RegisterScreenTestState extends State<RegisterScreenTest> {
                                 ? () {
                                     if (_formKey.currentState?.validate() ??
                                         false) {
-                                      context
-                                          .read<RegisterCubit>()
-                                          .register(email: '', password: '');
+                                      context.read<RegisterCubit>().register(
+                                            email: _emailController.text.trim(),
+                                            password: _passwordController.text,
+                                            confirmPassword:
+                                                _confirmPasswordController.text,
+                                          );
                                     }
                                   }
                                 : null,
@@ -121,7 +136,7 @@ class _RegisterScreenTestState extends State<RegisterScreenTest> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "auth.haveAccount".tr(),
+                              'auth.haveAccount'.tr(),
                               style: AppTextStyles.bodyMedium(
                                   colorScheme.onSurfaceVariant),
                             ),

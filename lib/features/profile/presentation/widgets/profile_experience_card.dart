@@ -64,11 +64,11 @@ class _ExperienceDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          experience.roleKey.tr(),
+          context.tr(experience.roleKey),
           style: AppTextStyles.titleSmall(colors.onSurface),
         ),
         Text(
-          experience.companyKey.tr(),
+          context.tr(experience.companyKey),
           style: AppTextStyles.bodyMedium(colors.tertiary),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -83,7 +83,7 @@ class _ExperienceDetails extends StatelessWidget {
               vertical: AppSpacing.xs,
             ),
             child: Text(
-              experience.periodKey.tr(),
+              context.tr(experience.periodKey),
               style: AppTextStyles.labelSmall(colors.onSurfaceVariant),
             ),
           ),
@@ -93,7 +93,7 @@ class _ExperienceDetails extends StatelessWidget {
           (key) => Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: Text(
-              key.tr(),
+              context.tr(key),
               style: AppTextStyles.bodyMedium(colors.onSurfaceVariant),
             ),
           ),

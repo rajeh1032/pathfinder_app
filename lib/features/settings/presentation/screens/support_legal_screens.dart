@@ -109,7 +109,7 @@ class _SettingsArticleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text(titleKey.tr()),
+        title: Text(context.tr(titleKey)),
       ),
       body: SafeArea(
         child: ListView(
@@ -133,12 +133,12 @@ class _SettingsArticleScreen extends StatelessWidget {
                     Icon(icon, size: 34, color: colors.primary),
                     const SizedBox(height: AppSpacing.md),
                     Text(
-                      titleKey.tr(),
+                      context.tr(titleKey),
                       style: AppTextStyles.headlineSmall(colors.onSurface),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      introKey.tr(),
+                      context.tr(introKey),
                       style: AppTextStyles.bodyMedium(
                         colors.onSurfaceVariant,
                       ),
@@ -182,12 +182,12 @@ class _ArticleSectionCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                section.titleKey.tr(),
+                context.tr(section.titleKey),
                 style: AppTextStyles.titleSmall(colors.onSurface),
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                section.bodyKey.tr(),
+                context.tr(section.bodyKey),
                 style: AppTextStyles.bodyMedium(colors.onSurfaceVariant),
               ),
             ],
