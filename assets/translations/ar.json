@@ -598,7 +598,11 @@
     "degreePlaceholder": "اختر مستوى شهادتك",
     "universityPlaceholder": "أدخل جامعتك أو مؤسستك",
     "majorPlaceholder": "أدخل تخصصك أو مجال دراستك",
-    "targetJobPlaceholder": "أدخل عنوان الوظيفة المستهدفة"
+    "targetJobPlaceholder": "أدخل عنوان الوظيفة المستهدفة",
+    "validationRequired": "{field} مطلوب",
+    "validationMinLength": "يجب أن يكون {field} {min} أحرف على الأقل",
+    "validationMaxLength": "يجب أن لا يتجاوز {field} {max} حرفًا",
+    "validationSelectRequired": "يرجى اختيار {field}"
   },
   "profile": {
     "title": "الملف الشخصي",

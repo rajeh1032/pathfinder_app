@@ -66,7 +66,7 @@ class AppRouter {
       AppRoutes.forgotPassword => const ForgotPasswordScreen(),
       AppRoutes.verifyEmail => const VerifyEmailScreen(),
       AppRoutes.changePassword => const ChangePasswordScreen(),
-      AppRoutes.setupProfile => const SetupProfileScreen(),
+      AppRoutes.setupProfile => _setupProfileScreen(settings.arguments),
 
       // Home / Search
       AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
@@ -132,5 +132,22 @@ class AppRouter {
       final String id => id,
       _ => null,
     };
+  }
+
+  static Widget _setupProfileScreen(Object? arguments) {
+    if (arguments is SetupProfileArgs) {
+      return SetupProfileScreen(
+        email: arguments.email,
+        password: arguments.password,
+        confirmPassword: arguments.confirmPassword,
+      );
+    }
+    // Fallback with empty credentials — guards against direct/deep-link
+    // navigation outside the normal register flow.
+    return const SetupProfileScreen(
+      email: '',
+      password: '',
+      confirmPassword: '',
+    );
   }
 }

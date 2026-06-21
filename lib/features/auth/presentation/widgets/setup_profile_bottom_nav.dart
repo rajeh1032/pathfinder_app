@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pathfinder_app/core/routing/app_routes.dart';
 
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -12,7 +11,16 @@ import '../cubit/setup_profile_state.dart';
 
 class SetupProfileBottomNav extends StatelessWidget {
   final SetupProfileState state;
-  const SetupProfileBottomNav({super.key, required this.state});
+
+  /// Called when the user taps the forward / submit button. The parent screen
+  /// is responsible for running per-step validation before advancing.
+  final VoidCallback? onNext;
+
+  const SetupProfileBottomNav({
+    super.key,
+    required this.state,
+    this.onNext,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +37,9 @@ class SetupProfileBottomNav extends StatelessWidget {
           if (!state.isFirstStep)
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: cubit.previousStep,
+                onPressed: state.isLoading ? null : cubit.previousStep,
                 icon: Icon(Icons.arrow_back_rounded, size: 18.sp),
-                label:  Text('onboarding.back').tr(),
+                label: const Text('onboarding.back').tr(),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: colorScheme.onSurface,
                   side: BorderSide(color: colorScheme.outline),
@@ -46,16 +54,7 @@ class SetupProfileBottomNav extends StatelessWidget {
           Expanded(
             flex: state.isFirstStep ? 1 : 2,
             child: ElevatedButton.icon(
-              onPressed: state.isLoading
-                  ? null
-                  : () {
-                      if (state.isLastStep) {
-                        cubit.submit();
-                        Navigator.pushReplacementNamed(context, AppRoutes.root);
-                      } else {
-                        cubit.nextStep();
-                      }
-                    },
+              onPressed: state.isLoading ? null : onNext,
               icon: state.isLoading
                   ? SizedBox(
                       width: 18.w,
@@ -68,7 +67,9 @@ class SetupProfileBottomNav extends StatelessWidget {
                   : Icon(Icons.arrow_forward_rounded, size: 18.sp),
               iconAlignment: IconAlignment.end,
               label: Text(
-                state.isLastStep ? 'profileSetup.buildMyPath'.tr() : 'profileSetup.continue'.tr(),
+                state.isLastStep
+                    ? 'profileSetup.buildMyPath'.tr()
+                    : 'profileSetup.continue'.tr(),
                 style: AppTextStyles.labelLarge(colorScheme.onPrimary)
                     .copyWith(fontWeight: FontWeight.w700),
               ),

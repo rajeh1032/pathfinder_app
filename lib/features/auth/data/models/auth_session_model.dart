@@ -21,7 +21,7 @@ class AuthSessionModel {
     ]);
 
     if (accessToken == null || accessToken.isEmpty) {
-      throw const FormatException('Missing access token in login response');
+      throw const FormatException('Missing access token in response');
     }
 
     return AuthSessionModel(
@@ -29,6 +29,7 @@ class AuthSessionModel {
       refreshToken: _readString(source, ['refreshToken', 'refresh_token']),
     );
   }
+  
   AuthSession toEntity() {
     return AuthSession(accessToken: accessToken, refreshToken: refreshToken);
   }
