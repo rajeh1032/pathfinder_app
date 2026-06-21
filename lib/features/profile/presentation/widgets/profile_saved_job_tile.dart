@@ -76,7 +76,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  job.titleKey.tr(),
+                                  context.tr(job.titleKey),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTextStyles.titleSmall(
@@ -85,7 +85,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  job.companyKey.tr(),
+                                  context.tr(job.companyKey),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: AppTextStyles.bodyMedium(
@@ -101,7 +101,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            job.modeKey.tr(),
+                            context.tr(job.modeKey),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.labelMedium(accentColor),
@@ -148,7 +148,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              job.titleKey.tr(),
+                              context.tr(job.titleKey),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.titleSmall(
@@ -157,7 +157,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              job.companyKey.tr(),
+                              context.tr(job.companyKey),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.bodyMedium(
@@ -166,7 +166,7 @@ class ProfileSavedJobTile extends StatelessWidget {
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              job.modeKey.tr(),
+                              context.tr(job.modeKey),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.labelMedium(accentColor),

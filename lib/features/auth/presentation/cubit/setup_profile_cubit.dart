@@ -1,11 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
-
+import '../../domain/use_cases/register_use_case.dart';
+import '../../domain/entities/register_data.dart';
 import 'setup_profile_state.dart';
 
-@injectable
 class SetupProfileCubit extends Cubit<SetupProfileState> {
-  SetupProfileCubit() : super(const SetupProfileState());
+  final RegisterUseCase _registerUseCase;
+
+  // Credentials captured from the register screen and passed in at creation
+  // time so this cubit has no dependency on RegisterCubit.
+  final String _email;
+  final String _password;
+  final String _confirmPassword;
+
+  SetupProfileCubit(
+    this._registerUseCase, {
+    required String email,
+    required String password,
+    required String confirmPassword,
+  })  : _email = email,
+        _password = password,
+        _confirmPassword = confirmPassword,
+        super(const SetupProfileState());
 
   // ─── Step 1 field updates ─────────────────────────────────────────────────
 
@@ -63,9 +78,33 @@ class SetupProfileCubit extends Cubit<SetupProfileState> {
 
     emit(state.copyWith(status: SetupProfileStatus.loading));
 
-    await Future.delayed(const Duration(seconds: 2));
+    final registrationData = RegisterRegistrationData(
+      email: _email,
+      password: _password,
+      confirmPassword: _confirmPassword,
+      name: state.fullName,
+      university: state.university,
+      major: state.major,
+      location: state.location,
+      educationLevel: state.degreeLevel,
+      experienceYear: state.yearsOfExperience,
+      currentStatus: state.currentStatus,
+      targetCareer: state.targetJobTitle,
+    );
 
-    emit(state.copyWith(status: SetupProfileStatus.success));
+    final result = await _registerUseCase(registrationData: registrationData);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(
+          status: SetupProfileStatus.failure,
+          errorMessage: failure.message,
+        ));
+      },
+      (_) {
+        emit(state.copyWith(status: SetupProfileStatus.success));
+      },
+    );
   }
 
   void resetError() => emit(state.copyWith(status: SetupProfileStatus.initial));

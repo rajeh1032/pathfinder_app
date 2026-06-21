@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
 import '../../data/repositories/demo_settings_repository.dart';
@@ -22,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final repository = DemoSettingsRepository();
+        final repository = DemoSettingsRepository(getIt<TokenStorage>());
         return SettingsCubit(
           getPreferencesUseCase: GetSettingsPreferencesUseCase(repository),
           updatePreferenceUseCase: UpdateSettingsPreferenceUseCase(repository),
@@ -45,7 +47,7 @@ class _SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AppGradientBackButton(),
-        title: Text('settings.title'.tr()),
+        title: Text(context.tr('settings.title')),
       ),
       body: SafeArea(
         child: BlocBuilder<SettingsCubit, SettingsState>(
@@ -59,7 +61,7 @@ class _SettingsView extends StatelessWidget {
 
             if (state is SettingsError) {
               return AppErrorView(
-                message: state.messageKey.tr(),
+                message: context.tr(state.messageKey),
                 onRetry: context.read<SettingsCubit>().loadSettings,
               );
             }

@@ -27,20 +27,32 @@ import 'package:pathfinder_app/core/network/network_info.dart' as _i874;
 import 'package:pathfinder_app/core/storage/secure_storage.dart' as _i213;
 import 'package:pathfinder_app/core/storage/token_storage.dart' as _i203;
 import 'package:pathfinder_app/core/theme/app_theme_cubit.dart' as _i337;
-import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_data_source.dart'
+import 'package:pathfinder_app/features/auth/data/data_sources/local/auth_local_data_source.dart'
+    as _i120;
+import 'package:pathfinder_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart'
+    as _i310;
+import 'package:pathfinder_app/features/auth/data/repositories/auth_repository_impl.dart'
     as _i570;
-import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_impl.dart'
-    as _i479;
-import 'package:pathfinder_app/features/ai_chat/data/repositories/chat_repository_impl.dart'
-    as _i943;
-import 'package:pathfinder_app/features/ai_chat/domain/repositories/chat_repo.dart'
-    as _i262;
-import 'package:pathfinder_app/features/ai_chat/presentation/cubit/chat_cubit.dart'
-    as _i356;
+import 'package:pathfinder_app/features/auth/domain/repositories/auth_repository.dart'
+    as _i405;
+import 'package:pathfinder_app/features/auth/domain/use_cases/login_use_case.dart'
+    as _i203;
+import 'package:pathfinder_app/features/auth/domain/use_cases/register_use_case.dart'
+    as _i338;
+import 'package:pathfinder_app/features/auth/presentation/cubit/login_cubit.dart'
+    as _i753;
 import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
     as _i73;
-import 'package:pathfinder_app/features/auth/presentation/cubit/setup_profile_cubit.dart'
-    as _i570;
+import 'package:pathfinder_app/features/career_paths/data/data_sources/remote/career_paths_remote_data_source.dart'
+    as _i621;
+import 'package:pathfinder_app/features/career_paths/data/repositories/career_paths_repository_impl.dart'
+    as _i622;
+import 'package:pathfinder_app/features/career_paths/domain/repositories/career_paths_repository.dart'
+    as _i623;
+import 'package:pathfinder_app/features/career_paths/domain/use_cases/get_career_paths_use_case.dart'
+    as _i624;
+import 'package:pathfinder_app/features/career_paths/presentation/cubit/career_paths_cubit.dart'
+    as _i625;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -62,8 +74,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => storageModule.sharedPreferences,
       preResolve: true,
     );
-    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
-    gh.factory<_i570.SetupProfileCubit>(() => _i570.SetupProfileCubit());
     gh.lazySingleton<_i895.Connectivity>(() => coreModule.connectivity);
     gh.lazySingleton<_i892.FirebaseMessaging>(
         () => firebaseModule.firebaseMessaging);
@@ -72,6 +82,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => storageModule.secureStorage);
     gh.lazySingleton<_i337.AppThemeCubit>(() => _i337.AppThemeCubit());
+    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
     gh.lazySingleton<_i213.SecureStorage>(
         () => _i213.SecureStorage(gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i874.NetworkInfo>(
@@ -80,15 +91,35 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i203.TokenStorage(gh<_i213.SecureStorage>()));
     gh.lazySingleton<_i834.ApiInterceptor>(
         () => _i834.ApiInterceptor(gh<_i203.TokenStorage>()));
+    gh.lazySingleton<_i120.AuthLocalDataSource>(
+        () => _i120.AuthLocalDataSourceImpl(gh<_i203.TokenStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
-    gh.lazySingleton<_i570.ChatRemoteDataSource>(
-        () => _i479.ChatRemoteDataSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
-    gh.lazySingleton<_i262.ChatRepository>(
-        () => _i943.ChatRepositoryImpl(gh<_i570.ChatRemoteDataSource>()));
-    gh.factory<_i356.ChatCubit>(
-        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
+    gh.lazySingleton<_i310.AuthRemoteDataSource>(
+        () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
+          gh<_i310.AuthRemoteDataSource>(),
+          gh<_i120.AuthLocalDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
+    gh.lazySingleton<_i203.LoginUseCase>(
+        () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i338.RegisterUseCase>(
+        () => _i338.RegisterUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i621.CareerPathsRemoteDataSource>(
+        () => _i621.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i623.CareerPathsRepository>(
+        () => _i622.CareerPathsRepositoryImpl(
+              gh<_i621.CareerPathsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i624.GetCareerPathsUseCase>(
+        () => _i624.GetCareerPathsUseCase(gh<_i623.CareerPathsRepository>()));
+    gh.factory<_i625.CareerPathsCubit>(
+        () => _i625.CareerPathsCubit(gh<_i624.GetCareerPathsUseCase>()));
+    gh.factory<_i753.LoginCubit>(
+        () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
     return this;
   }
 }

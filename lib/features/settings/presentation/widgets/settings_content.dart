@@ -82,6 +82,11 @@ class SettingsContent extends StatelessWidget {
         context: context,
         messageKey: 'settings.signedOut',
       );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
     }
   }
 
@@ -100,6 +105,11 @@ class SettingsContent extends StatelessWidget {
       CustomSnackbar.showSuccessKey(
         context: context,
         messageKey: 'settings.accountDeleted',
+      );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
       );
     }
   }

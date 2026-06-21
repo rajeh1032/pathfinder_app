@@ -26,7 +26,7 @@ class ProfileSavedJobsCard extends StatelessWidget {
       titleKey: 'profile.savedJobs',
       trailing: TextButton(
         onPressed: () => Navigator.pushNamed(context, AppRoutes.savedJobs),
-        child: Text('profile.viewAll'.tr()),
+        child: Text(context.tr('profile.viewAll')),
       ),
       children: [
         Column(
