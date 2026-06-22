@@ -119,7 +119,7 @@ class AppRouter {
 
       // AI Chat
       AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
-      AppRoutes.chatAiHistory => const ChatSessionsScreen(),
+      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: '',),
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
