@@ -3,30 +3,24 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../domain/entities/interview_result_question.dart';
+import 'interview_result_labels.dart';
 
 class InterviewResultQuestionTile extends StatelessWidget {
   const InterviewResultQuestionTile({
-    required this.titleKey,
-    this.titleArgs,
-    this.score,
-    this.statusKey,
-    this.feedbackKey,
-    this.suggestionKey,
+    required this.question,
     this.expanded = false,
     super.key,
   });
 
-  final String titleKey;
-  final Map<String, String>? titleArgs;
-  final String? score;
-  final String? statusKey;
-  final String? feedbackKey;
-  final String? suggestionKey;
+  final InterviewResultQuestion question;
   final bool expanded;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final feedback = question.feedback;
+    final suggestion = question.aiSuggestion;
 
     return Container(
       decoration: BoxDecoration(
@@ -44,7 +38,12 @@ class InterviewResultQuestionTile extends StatelessWidget {
       child: ExpansionTile(
         initiallyExpanded: expanded,
         title: Text(
-          titleKey.tr(namedArgs: titleArgs),
+          'interview.questionNumberTitle'.tr(
+            namedArgs: {
+              'number': '${question.order}',
+              'question': question.question,
+            },
+          ),
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.w700,
@@ -57,39 +56,38 @@ class InterviewResultQuestionTile extends StatelessWidget {
           AppSpacing.md,
         ),
         children: [
-          if (score != null || statusKey != null)
-            Row(
-              children: [
-                Text(
-                  '${'interview.scoreLabel'.tr()} ${score ?? ''}',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                ),
-                const SizedBox(width: 12),
-                if (statusKey != null)
-                  Text(
-                    '${'interview.statusLabel'.tr()} ${statusKey!.tr()}',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                  ),
-              ],
-            ),
-          if (feedbackKey != null) ...[
+          Row(
+            children: [
+              Text(
+                '${'interview.scoreLabel'.tr()} ${question.score.round()}%',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                '${'interview.statusLabel'.tr()} '
+                '${InterviewResultLabels.questionStatusLabel(question.questionStatus)}',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ],
+          ),
+          if (feedback != null && feedback.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.sm),
             Text(
-              '${'interview.aiFeedbackLabel'.tr()} ${feedbackKey!.tr()}',
+              '${'interview.aiFeedbackLabel'.tr()} $feedback',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                     height: 1.45,
                   ),
             ),
           ],
-          if (suggestionKey != null) ...[
+          if (suggestion != null && suggestion.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.sm),
             Text(
-              '${'interview.suggestedLabel'.tr()} ${suggestionKey!.tr()}',
+              '${'interview.suggestedLabel'.tr()} $suggestion',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurface,
                     fontWeight: FontWeight.w600,

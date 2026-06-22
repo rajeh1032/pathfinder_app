@@ -7,7 +7,18 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class InterviewHistoryStatsCard extends StatelessWidget {
-  const InterviewHistoryStatsCard({super.key});
+  const InterviewHistoryStatsCard({
+    required this.totalInterviews,
+    required this.averageScore,
+    required this.bestScore,
+    required this.latestScore,
+    super.key,
+  });
+
+  final String totalInterviews;
+  final String averageScore;
+  final String bestScore;
+  final String latestScore;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +30,8 @@ class InterviewHistoryStatsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: colorScheme.outlineVariant.withValues(alpha: 0.4)),
+        border: Border.all(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
             color: colorScheme.shadow.withValues(alpha: 0.06),
@@ -38,30 +50,30 @@ class InterviewHistoryStatsCard extends StatelessWidget {
             mainAxisSpacing: AppSpacing.sm.h,
             crossAxisSpacing: AppSpacing.sm.w,
             childAspectRatio: isWide ? 1.5 : 1.15,
-            children: const [
+            children: [
               _HistoryStatTile(
                 icon: Icons.event_note_rounded,
                 iconColorKey: _HistoryStatColor.primary,
                 labelKey: 'interview.totalInterviewsLabel',
-                valueText: '12',
+                valueText: totalInterviews,
               ),
               _HistoryStatTile(
                 icon: Icons.show_chart_rounded,
                 iconColorKey: _HistoryStatColor.secondary,
                 labelKey: 'interview.averageScoreLabel',
-                valueText: '81%',
+                valueText: averageScore,
               ),
               _HistoryStatTile(
                 icon: Icons.emoji_events_rounded,
                 iconColorKey: _HistoryStatColor.tertiary,
                 labelKey: 'interview.bestScoreLabel',
-                valueText: '92%',
+                valueText: bestScore,
               ),
               _HistoryStatTile(
                 icon: Icons.access_time_rounded,
                 iconColorKey: _HistoryStatColor.primary,
                 labelKey: 'interview.latestScoreLabel',
-                valueText: '84%',
+                valueText: latestScore,
               ),
             ],
           );

@@ -121,9 +121,9 @@ class AppRouter {
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
-      AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.activeInterview => ActiveInterviewScreen(sessionId: routeId),
       AppRoutes.interviewHistory => const InterviewHistoryScreen(),
-      AppRoutes.interviewResult => const InterviewResultScreen(),
+      AppRoutes.interviewResult => InterviewResultScreen(sessionId: routeId),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
   }

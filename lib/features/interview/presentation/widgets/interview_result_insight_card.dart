@@ -64,7 +64,7 @@ class InterviewResultInsightCard extends StatelessWidget {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      item.tr(),
+                      item,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: bodyColor,
                             height: 1.35,

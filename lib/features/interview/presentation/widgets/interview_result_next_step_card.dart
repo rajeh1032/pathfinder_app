@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,14 +7,14 @@ import '../../../../core/theme/app_spacing.dart';
 class InterviewResultNextStepCard extends StatelessWidget {
   const InterviewResultNextStepCard({
     required this.icon,
-    required this.titleKey,
-    required this.subtitleKey,
+    required this.title,
+    required this.subtitle,
     super.key,
   });
 
   final IconData icon;
-  final String titleKey;
-  final String subtitleKey;
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,7 @@ class InterviewResultNextStepCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  titleKey.tr(),
+                  title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -64,7 +63,7 @@ class InterviewResultNextStepCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  subtitleKey.tr(),
+                  subtitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(

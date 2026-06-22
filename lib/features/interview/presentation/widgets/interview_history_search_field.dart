@@ -7,7 +7,14 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class InterviewHistorySearchField extends StatelessWidget {
-  const InterviewHistorySearchField({super.key});
+  const InterviewHistorySearchField({
+    this.controller,
+    this.onChanged,
+    super.key,
+  });
+
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +24,13 @@ class InterviewHistorySearchField extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: colorScheme.outlineVariant.withValues(alpha: 0.45)),
+        border: Border.all(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.45)),
       ),
       child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: 'interview.searchHistoryHint'.tr(),
           hintStyle: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant),
