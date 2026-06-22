@@ -5,7 +5,6 @@ import '../../../../core/di/di.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/storage/cache_keys.dart';
 import '../../../../core/storage/local_storage.dart';
-import '../../../../core/storage/secure_storage.dart';
 import '../widgets/splash_content.dart';
 
 class SplashScreen extends StatefulWidget {

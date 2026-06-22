@@ -5,6 +5,8 @@ import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/custom_snackbar.dart';
 import '../../domain/entities/settings_preferences.dart';
+import '../cubit/account_identity_cubit.dart';
+import '../cubit/account_identity_state.dart';
 import '../cubit/settings_cubit.dart';
 import 'app_preferences_section.dart';
 import 'settings_account_card.dart';
@@ -38,12 +40,24 @@ class SettingsContent extends StatelessWidget {
           titleKey: 'settings.account',
           carded: false,
           children: [
-            SettingsAccountCard(
-              preferences: preferences,
-              onEdit: () => Navigator.pushNamed(context, AppRoutes.editProfile),
+            BlocBuilder<AccountIdentityCubit, AccountIdentityState>(
+              builder: (context, identity) => Column(
+                children: [
+                  SettingsAccountCard(
+                    preferences: preferences,
+                    displayName: identity.name,
+                    subtitle: identity.careerPath,
+                    onEdit: () =>
+                        Navigator.pushNamed(context, AppRoutes.editProfile),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  AccountDetails(
+                    preferences: preferences,
+                    email: identity.email,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: AppSpacing.sm),
-            AccountDetails(preferences: preferences),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),

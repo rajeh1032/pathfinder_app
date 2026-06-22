@@ -13,6 +13,7 @@ import '../../domain/use_cases/sign_out_use_case.dart';
 import '../../domain/use_cases/update_career_goal_use_case.dart';
 import '../../domain/use_cases/update_mentor_tone_use_case.dart';
 import '../../domain/use_cases/update_settings_preference_use_case.dart';
+import '../cubit/account_identity_cubit.dart';
 import '../cubit/settings_cubit.dart';
 import '../cubit/settings_state.dart';
 import '../widgets/settings_content.dart';
@@ -22,18 +23,27 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        final repository = DemoSettingsRepository(getIt<TokenStorage>());
-        return SettingsCubit(
-          getPreferencesUseCase: GetSettingsPreferencesUseCase(repository),
-          updatePreferenceUseCase: UpdateSettingsPreferenceUseCase(repository),
-          updateMentorToneUseCase: UpdateMentorToneUseCase(repository),
-          updateCareerGoalUseCase: UpdateCareerGoalUseCase(repository),
-          signOutUseCase: SignOutUseCase(repository),
-          deleteAccountUseCase: DeleteAccountUseCase(repository),
-        )..loadSettings();
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) {
+            final repository = DemoSettingsRepository(getIt<TokenStorage>());
+            return SettingsCubit(
+              getPreferencesUseCase:
+                  GetSettingsPreferencesUseCase(repository),
+              updatePreferenceUseCase:
+                  UpdateSettingsPreferenceUseCase(repository),
+              updateMentorToneUseCase: UpdateMentorToneUseCase(repository),
+              updateCareerGoalUseCase: UpdateCareerGoalUseCase(repository),
+              signOutUseCase: SignOutUseCase(repository),
+              deleteAccountUseCase: DeleteAccountUseCase(repository),
+            )..loadSettings();
+          },
+        ),
+        BlocProvider(
+          create: (_) => getIt<AccountIdentityCubit>()..load(),
+        ),
+      ],
       child: const _SettingsView(),
     );
   }

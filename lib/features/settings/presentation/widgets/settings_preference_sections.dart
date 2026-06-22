@@ -10,9 +10,12 @@ import '../cubit/settings_cubit.dart';
 import 'settings_section.dart';
 
 class AccountDetails extends StatelessWidget {
-  const AccountDetails({required this.preferences, super.key});
+  const AccountDetails({required this.preferences, this.email, super.key});
 
   final SettingsPreferences preferences;
+
+  /// Real email from the access token; falls back to the demo key when null.
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,7 @@ class AccountDetails extends StatelessWidget {
             SettingsTile(
               titleKey: 'settings.emailLabel',
               subtitleKey: preferences.emailKey,
+              subtitle: (email?.trim().isNotEmpty ?? false) ? email!.trim() : null,
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.pushNamed(context, AppRoutes.editProfile),
             ),
