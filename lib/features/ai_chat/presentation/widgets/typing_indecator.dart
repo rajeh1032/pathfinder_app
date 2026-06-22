@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +10,7 @@ class TypingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs =  Theme.of(context).colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -22,12 +21,12 @@ class TypingIndicator extends StatelessWidget {
           vertical: AppSpacing.sm.h,
         ),
         decoration: BoxDecoration(
-          color: cs.surfaceContainerHighest.withOpacity(0.6),
+          color: cs.surfaceContainerHighest.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(AppRadius.md.r),
         ),
         child: Text(
           '...',
-          style: AppTextStyles.bodyMedium(cs.onSurface.withOpacity(0.5)),
+          style: AppTextStyles.bodyMedium(cs.onSurface.withValues(alpha: 0.5)),
         ),
       ),
     );

@@ -1,14 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
 import 'match_badge.dart';
 
 class HomeRecommendationCard extends StatelessWidget {
-  final HomeRecommendationModel recommendation;
+  final String title;
 
-  const HomeRecommendationCard({super.key, required this.recommendation});
+  const HomeRecommendationCard({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +48,12 @@ class HomeRecommendationCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  recommendation.title,
+                  title,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
               SizedBox(width: 8.w),
-              MatchBadge(label: recommendation.badge),
+              MatchBadge(label: 'home.match'.tr()),
             ],
           ),
           SizedBox(height: 8.h),
@@ -65,11 +63,11 @@ class HomeRecommendationCard extends StatelessWidget {
               Icon(
                 Icons.auto_awesome,
                 size: 14.sp,
-                color: AppColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               SizedBox(width: 4.w),
               Text(
-                recommendation.reasonKey.tr(),
+                'home.basedOnYourStack'.tr(),
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: colorScheme.onSurfaceVariant,

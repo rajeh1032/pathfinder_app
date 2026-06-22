@@ -1,29 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
-
 class SkillChip extends StatelessWidget {
-  final HomeSkillGapModel skill;
+  final String skill;
+  final int index;
 
-  const SkillChip({super.key, required this.skill});
+  const SkillChip({super.key, required this.skill, required this.index});
 
   // Assign color per level (maps to priority visually)
-  Color _chipColor() {
-    switch (skill.level) {
-      case SkillLevel.tailwind:
-        return AppColors.primary;
-      case SkillLevel.nextJs:
-        return AppColors.secondary;
-      case SkillLevel.testing:
-        return AppColors.warning;
+  Color _chipColor(BuildContext context) {
+    switch (index % 3) {
+      case 0:
+        return Theme.of(context).colorScheme.primary;
+      case 1:
+        return Theme.of(context).colorScheme.secondary;
+      default:
+        return Theme.of(context).colorScheme.tertiary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final color = _chipColor();
+    final color = _chipColor(context);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 7.h),
@@ -33,7 +31,7 @@ class SkillChip extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
-        skill.skill,
+        skill,
         style: TextStyle(
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,

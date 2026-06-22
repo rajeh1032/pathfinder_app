@@ -7,13 +7,24 @@ class ApiEndpoints {
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
   static const resetPassword = '/auth/reset-password';
+
   static const profile = '/profile';
   static const updateProfile = '/profile/update';
   static const userSkills = '/profile/skills';
-  static const uploadCv = '/cv/upload';
-  static const analyzeCv = '/cv/analyze';
-  static const cvAnalyses = '/cv/analyses';
+  static const profileMe = '/v1/profiles/me';
+  static const profileExperiences = '/v1/profiles/me/experiences';
+  static const profileEducation = '/v1/profiles/me/education';
+  static const uploadCv = '/v1/cvs/analyze';
+  static const analyzeCv = '/v1/cvs/analyze';
+  static const latestCvAnalysis = '/v1/cvs/me/latest-analysis';
+  static const cvStatus = '/v1/cvs/me/status';
+  static const cvAnalyses = '/v1/cvs';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
+  static String cvDetails(String id) => '$cvAnalyses/${_segment(id)}';
+  static String profileExperienceById(String id) =>
+      '$profileExperiences/${_segment(id)}';
+  static String profileEducationById(String id) =>
+      '$profileEducation/${_segment(id)}';
   static const roadmapsBase = '/v1/roadmaps';
   static const myRoadmap = '$roadmapsBase/me';
   static const generateRoadmap = '$roadmapsBase/generate';
@@ -30,16 +41,22 @@ class ApiEndpoints {
   static String courseEnroll(String id) => '${courseDetails(id)}/enroll';
   static String courseEnrollment(String id) =>
       '${courseDetails(id)}/enrollment';
-  static const jobs = '/jobs';
+
+  static const jobs = '/v1/jobs';
   static String jobDetails(String id) => '$jobs/${_segment(id)}';
-  static const jobMatches = '/jobs/matches';
-  static const savedJobs = '/jobs/saved';
+  static const jobMatches = '/v1/job-matches';
+  static const savedJobs = '/v1/jobs/saved';
+
   static const coverLetters = '/cover-letters';
   static const generateCoverLetter = '/cover-letters/generate';
-  static const chatSessions = '/chat/sessions';
-  static String chatMessages(String id) =>
-      '$chatSessions/${_segment(id)}/messages';
+
+  static const chatBase = '/v1/chat';
+  static const chatSessions = '$chatBase/sessions';
+  static String chatMessages(String id) => '$chatBase/${_segment(id)}/messages';
+  static String sendChatMessage(String id) => '$chatBase/${_segment(id)}';
+  static String deleteSession(String id) => '$chatSessions/${_segment(id)}';
   static const sendMessage = '/chat/messages';
+
   static const interviewCareerPaths = '/v1/interviews/career-paths';
   static const interviewSessions = '/v1/interviews/sessions';
   static const legacyInterviewSessions = '/interviews';

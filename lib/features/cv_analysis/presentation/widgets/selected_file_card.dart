@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,6 +14,7 @@ class SelectedFileCard extends StatelessWidget {
   final VoidCallback onRemove;
 
   const SelectedFileCard({
+    super.key,
     required this.file,
     required this.formatSize,
     required this.fileIcon,
@@ -30,9 +30,9 @@ class SelectedFileCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppRadius.lg.r),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -40,7 +40,7 @@ class SelectedFileCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(AppRadius.md.r),
             ),
             child: Icon(fileIcon(file.extension), size: 24.sp, color: color),

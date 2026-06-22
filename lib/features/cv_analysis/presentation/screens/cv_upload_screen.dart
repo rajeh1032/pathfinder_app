@@ -1,14 +1,13 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../../core/routing/route_arguments.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/custom_button.dart';
 import '../../../jobs/presentation/widgets/job_details/ai_recommendation_card.dart';
 import '../widgets/selected_file_card.dart';
 
@@ -25,7 +24,7 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx'],
+      allowedExtensions: ['pdf'],
     );
     if (result != null) {
       setState(() => _selectedFile = result.files.single);
@@ -42,23 +41,8 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
     switch (ext?.toLowerCase()) {
       case 'pdf':
         return Icons.picture_as_pdf_rounded;
-      case 'doc':
-      case 'docx':
-        return Icons.description_rounded;
       default:
         return Icons.insert_drive_file_rounded;
-    }
-  }
-
-  Color _fileColor(String? ext) {
-    switch (ext?.toLowerCase()) {
-      case 'pdf':
-        return AppColors.error;
-      case 'doc':
-      case 'docx':
-        return AppColors.primary;
-      default:
-        return AppColors.secondary;
     }
   }
 
@@ -73,20 +57,12 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
           icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20.sp),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'PathFinder AI',
-          style: AppTextStyles.titleMedium(AppColors.primary).copyWith(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        centerTitle: true,
+        title: Text('routes.cvUpload'.tr()),
         actions: [
           IconButton(
             icon: Icon(
               Icons.notifications_outlined,
               size: 24.sp,
-              color: colorScheme.onSurfaceVariant,
             ),
             onPressed: () => Navigator.pushNamed(context, '/notifications'),
           ),
@@ -127,13 +103,13 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                 constraints: BoxConstraints(minHeight: 220.h),
                 decoration: BoxDecoration(
                   color: hasFile
-                      ? AppColors.primary.withOpacity(0.05)
+                      ? colorScheme.primary.withValues(alpha: 0.05)
                       : colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(AppRadius.lg.r),
                   border: Border.all(
                     color: hasFile
-                        ? AppColors.primary.withOpacity(0.4)
-                        : colorScheme.outline.withOpacity(0.4),
+                        ? colorScheme.primary.withValues(alpha: 0.4)
+                        : colorScheme.outline.withValues(alpha: 0.4),
                     width: 1.5,
                   ),
                 ),
@@ -144,13 +120,13 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                       width: 64.w,
                       height: 64.w,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: colorScheme.primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.upload_file_rounded,
                         size: 32.sp,
-                        color: AppColors.primary,
+                        color: colorScheme.primary,
                       ),
                     ),
                     SizedBox(height: AppSpacing.md.h),
@@ -162,14 +138,15 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                     SizedBox(height: 4.h),
                     Text(
                       'cvUpload.formats'.tr(),
-                      style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                          .copyWith(fontSize: 12.sp),
+                      style:
+                          AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                              .copyWith(fontSize: 12.sp),
                     ),
                     SizedBox(height: AppSpacing.md.h),
                     // Format chips
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: ['PDF', 'DOC', 'DOCX'].map((fmt) {
+                      children: ['PDF'].map((fmt) {
                         return Container(
                           margin: EdgeInsets.only(right: 6.w),
                           padding: EdgeInsets.symmetric(
@@ -177,16 +154,16 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                             vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: colorScheme.primary.withValues(alpha: 0.1),
                             borderRadius:
-                            BorderRadius.circular(AppRadius.pill.r),
+                                BorderRadius.circular(AppRadius.pill.r),
                           ),
                           child: Text(
                             fmt,
                             style: TextStyle(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
+                              color: colorScheme.primary,
                             ),
                           ),
                         );
@@ -195,8 +172,9 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                     SizedBox(height: AppSpacing.sm.h),
                     Text(
                       'cvUpload.maxSize'.tr(),
-                      style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                          .copyWith(fontSize: 11.sp),
+                      style:
+                          AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                              .copyWith(fontSize: 11.sp),
                     ),
                   ],
                 ),
@@ -210,7 +188,7 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                 file: _selectedFile!,
                 formatSize: _formatSize,
                 fileIcon: _fileIcon,
-                fileColor: _fileColor,
+                fileColor: (_) => colorScheme.error,
                 onRemove: () => setState(() => _selectedFile = null),
               ),
               SizedBox(height: AppSpacing.md.h),
@@ -223,59 +201,43 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
         ),
       ),
       // Bottom Button
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.fromLTRB(
-          AppSpacing.md.w,
-          AppSpacing.sm.h,
-          AppSpacing.md.w,
-          AppSpacing.lg.h,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 52.h,
-              child: ElevatedButton.icon(
-                onPressed: hasFile
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.md.w,
+            AppSpacing.sm.h,
+            AppSpacing.md.w,
+            AppSpacing.lg.h,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomButton(
+                onPressed: hasFile && _selectedFile!.path != null
                     ? () => Navigator.pushNamed(
-                  context,
-                  AppRoutes.cvUploadLoading,
-                )
+                          context,
+                          AppRoutes.cvAnalysisResult,
+                          arguments:
+                              RouteArguments(payload: _selectedFile!.path),
+                        )
                     : null,
-                icon: Icon(Icons.analytics_outlined, size: 20.sp),
-                label: Text(
-                  'cvUpload.analyzeButton'.tr(),
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  disabledBackgroundColor:
-                  colorScheme.surfaceContainerHighest,
-                  disabledForegroundColor: colorScheme.onSurfaceVariant,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.md.r),
-                  ),
-                ),
+                icon: Icons.analytics_outlined,
+                labelKey: 'cvUpload.analyzeButton',
+                height: 52.h,
               ),
-            ),
-            SizedBox(height: 8.h),
-            if (!hasFile)
-              Text(
-                'cvUpload.selectPrompt'.tr(),
-                style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                    .copyWith(fontSize: 12.sp),
-                textAlign: TextAlign.center,
-              ),
-          ],
+              SizedBox(height: 8.h),
+              if (!hasFile)
+                Text(
+                  'cvUpload.selectPrompt'.tr(),
+                  style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                      .copyWith(fontSize: 12.sp),
+                  textAlign: TextAlign.center,
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-

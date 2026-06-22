@@ -2,29 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/custom_snackbar.dart';
+import '../../../../core/di/di.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
-import '../../data/repositories/demo_profile_repository.dart';
-import '../../domain/use_cases/get_profile_use_case.dart';
-import '../../domain/use_cases/update_profile_use_case.dart';
-import '../cubit/edit_profile_cubit.dart';
-import '../cubit/edit_profile_state.dart';
-import '../widgets/edit_profile_form.dart';
+import '../cubit/my_profile_cubit.dart';
+import '../cubit/my_profile_state.dart';
+import '../widgets/api_edit_profile_form.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        const repository = DemoProfileRepository();
-        return EditProfileCubit(
-          getProfileUseCase: const GetProfileUseCase(repository),
-          updateProfileUseCase: const UpdateProfileUseCase(repository),
-        )..loadProfile();
-      },
+    return BlocProvider<MyProfileCubit>(
+      create: (_) => getIt<MyProfileCubit>()..load(),
       child: const _EditProfileView(),
     );
   }
@@ -42,52 +33,36 @@ class _EditProfileViewState extends State<_EditProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EditProfileCubit, EditProfileState>(
-      listener: (context, state) {
-        if (state is EditProfileSaved) {
-          _hasSavedChanges = true;
-          CustomSnackbar.showSuccessKey(
-            context: context,
-            messageKey: 'profile.updateSuccess',
-          );
-        }
-        if (state is EditProfileError) {
-          CustomSnackbar.showErrorKey(
-            context: context,
-            messageKey: state.messageKey,
-          );
-        }
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) _close();
       },
-      child: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (!didPop) _close();
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: AppGradientBackButton(onPressed: _close),
-            title: Text(context.tr('profile.editProfile')),
-          ),
-          body: SafeArea(
-            child: BlocBuilder<EditProfileCubit, EditProfileState>(
-              builder: (context, state) {
-                if (state is EditProfileReady) {
-                  return EditProfileForm(
-                    profile: state.profile,
-                    isSubmitting: state.isSubmitting,
-                  );
-                }
+      child: Scaffold(
+        appBar: AppBar(
+          leading: AppGradientBackButton(onPressed: _close),
+          title: Text(context.tr('profile.editProfile')),
+        ),
+        body: SafeArea(
+          child: BlocBuilder<MyProfileCubit, MyProfileState>(
+            builder: (context, state) {
+              if (state.isSuccess && state.profile != null) {
+                return ApiEditProfileForm(
+                  profile: state.profile!,
+                  isSubmitting: state.isSaving,
+                  onSaved: () => _hasSavedChanges = true,
+                );
+              }
 
-                if (state is EditProfileError) {
-                  return AppErrorView(
-                    message: context.tr(state.messageKey),
-                    onRetry: context.read<EditProfileCubit>().loadProfile,
-                  );
-                }
+              if (state.isFailure) {
+                return AppErrorView(
+                  message: state.errorMessage ?? context.tr('common.error'),
+                  onRetry: context.read<MyProfileCubit>().load,
+                );
+              }
 
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),

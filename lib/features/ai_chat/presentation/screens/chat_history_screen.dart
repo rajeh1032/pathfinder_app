@@ -1,143 +1,157 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../dummy_session.dart';
-import '../model_chat_ai_history.dart';
-import '../widgets/empty_state.dart';
-import '../widgets/session_card.dart';
+import '../cubit/chat_cubit.dart';
+import '../cubit/chat_state.dart';
+import '../widgets/chat_session_tile.dart';
 
-class ChatSessionsScreen extends StatefulWidget {
-  const ChatSessionsScreen({super.key});
+class ChatSidebarDrawer extends StatelessWidget {
+  final String currentSessionId;
+  final VoidCallback? onNewChat;
 
-  @override
-  State<ChatSessionsScreen> createState() => _ChatSessionsScreenState();
-}
-
-class _ChatSessionsScreenState extends State<ChatSessionsScreen> {
-  final _searchController = TextEditingController();
-  List<ChatSessionModel> _filtered = dummySessions;
-
-  void _onSearch(String query) {
-    setState(() {
-      _filtered = query.isEmpty
-          ? dummySessions
-          : dummySessions
-          .where((s) =>
-      s.title.toLowerCase().contains(query.toLowerCase()) ||
-          s.preview.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
+  const ChatSidebarDrawer({
+    super.key,
+    required this.currentSessionId,
+    this.onNewChat,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      backgroundColor: cs.surface,
-      appBar: AppBar(
-        backgroundColor: cs.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 18.sp,
-            color: cs.onSurface,
-          ),
-          onPressed: () => Navigator.pop(context),
+    return Drawer(
+      width: 300.w,
+      backgroundColor: colorScheme.surface,
+      child: SafeArea(
+        child: Column(
+          children: [
+            _DrawerHeader(onNewChat: onNewChat),
+            Expanded(
+              child: BlocBuilder<ChatCubit, ChatState>(
+                builder: (context, state) {
+                  if (state is ChatSessionsLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  }
+
+                  final sessions = switch (state) {
+                    ChatSessionsLoaded(:final sessions) => sessions,
+                    ChatLoaded(:final sessions) => sessions,
+                    _ => null,
+                  };
+
+                  if (sessions == null || sessions.isEmpty) {
+                    return _EmptySessionsView();
+                  }
+
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm.w,
+                      vertical: AppSpacing.sm.h,
+                    ),
+                    itemCount: sessions.length,
+                    itemBuilder: (_, i) {
+                      final session = sessions[i];
+                      final isActive = session.id == currentSessionId;
+
+                      return ChatSessionTile(
+                        id: session.id,
+                        title: session.title,
+                        status: session.status,
+                        isActive: isActive,
+                        onTap: () {
+                          Navigator.pop(context);
+                          if (!isActive) {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.aiChat,
+                              arguments: session.id,
+                            );
+                          }
+                        },
+                        onDelete: () async {
+                          await context
+                              .read<ChatCubit>()
+                              .deleteSession(session.id);
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            _DrawerFooter(),
+          ],
         ),
-        title: Text(
-          'chatHistory.title'.tr(),
-          style: AppTextStyles.titleMedium(AppColors.primary).copyWith(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w800,
+      ),
+    );
+  }
+}
+
+class _DrawerHeader extends StatelessWidget {
+  final VoidCallback? onNewChat;
+
+  const _DrawerHeader({this.onNewChat});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      padding: EdgeInsets.all(AppSpacing.md.w),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: colorScheme.outline.withValues(alpha: 0.2),
           ),
         ),
-        centerTitle: false,
-        actions: [
+      ),
+      child: Row(
+        children: [
           Container(
-            margin: EdgeInsets.only(right: AppSpacing.md.w),
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: AppColors.primary,
               shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(Icons.add_rounded, size: 20.sp, color: Colors.white),
-              onPressed: () =>
-                  Navigator.pushNamed(context, AppRoutes.aiChat),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Search Bar
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.md.w,
-              vertical: AppSpacing.sm.h,
-            ),
-            child: SearchBar(
-              controller: _searchController,
-              onChanged: _onSearch,
-            ),
-          ),
-
-          //  Sessions List
-          Expanded(
-            child: _filtered.isEmpty
-                ? EmptyState()
-                : ListView.builder(
-              padding: EdgeInsets.only(
-                top: AppSpacing.xs.h,
-                bottom: AppSpacing.xl.h,
-              ),
-              itemCount: _filtered.length,
-              itemBuilder: (_, i) => SessionCard(
-                session: _filtered[i],
-                onTap: () =>
-                    Navigator.pushNamed(context, AppRoutes.aiChat),
-              ),
-            ),
-          ),
-
-          // View Archived Sessions
-          Padding(
-            padding: EdgeInsets.only(bottom: AppSpacing.lg.h),
-            child: GestureDetector(
-              onTap: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'chatHistory.viewArchived'.tr(),
-                    style: AppTextStyles.bodySmall(
-                      cs.onSurface.withOpacity(0.5),
-                    ).copyWith(fontSize: 12.sp),
-                  ),
-                  SizedBox(width: 4.w),
-                  Icon(
-                    Icons.archive_outlined,
-                    size: 14.sp,
-                    color: cs.onSurface.withOpacity(0.5),
-                  ),
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.tertiary
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
+            child: Icon(
+              Icons.psychology_rounded,
+              size: 18.sp,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
+          SizedBox(width: AppSpacing.sm.w),
+          Expanded(
+            child: Text(
+              'chat.title'.tr(),
+              style: AppTextStyles.titleSmall(colorScheme.onSurface)
+                  .copyWith(fontSize: 14.sp),
+            ),
+          ),
+          IconButton(
+            onPressed: onNewChat,
+            icon: Icon(
+              Icons.edit_square,
+              size: 20.sp,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            tooltip: 'chatHistory.newChat'.tr(),
           ),
         ],
       ),
@@ -145,6 +159,54 @@ class _ChatSessionsScreenState extends State<ChatSessionsScreen> {
   }
 }
 
+class _EmptySessionsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(AppSpacing.lg.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.chat_bubble_outline_rounded,
+              size: 40.sp,
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            ),
+            SizedBox(height: AppSpacing.sm.h),
+            Text(
+              'chatHistory.empty'.tr(),
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                  .copyWith(fontSize: 12.sp),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
+class _DrawerFooter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
+    return Container(
+      padding: EdgeInsets.all(AppSpacing.md.w),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: colorScheme.outline.withValues(alpha: 0.2)),
+        ),
+      ),
+      child: Text(
+        'chatHistory.clearHint'.tr(),
+        style: AppTextStyles.labelSmall(colorScheme.onSurfaceVariant)
+            .copyWith(fontSize: 11.sp),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
