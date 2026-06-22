@@ -12,8 +12,8 @@ abstract class CvAnalysisRepository {
   /// GET /api/v1/cvs/status
   /// Check if user has CV and analysis
   Future<CvStatusEntity> getCvStatus();
+
   /// GET /api/v1/cvs/{id}
   /// Get CV with full analysis by ID
   Future<CvWithAnalysisEntity> getAnalysisById(String cvId);
-
 }

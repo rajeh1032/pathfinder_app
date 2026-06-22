@@ -19,8 +19,6 @@ import '../widgets/recommendation_section.dart';
 import '../widgets/score_section.dart';
 import '../widgets/upload_cv_button.dart';
 
-/// Shows the result for a specific CV (when [cvId] is provided) or the
-/// user's most recent analysis (when [cvId] is null).
 class CvAnalysisResult extends StatelessWidget {
   final String? cvId;
 

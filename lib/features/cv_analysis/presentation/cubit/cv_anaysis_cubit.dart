@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/repositories/cv_anaylsis_repo.dart';
 import 'cv_anaylsis_state.dart';
-
+@injectable
 class CvAnalysisCubit extends Cubit<CvAnalysisState> {
   final CvAnalysisRepository repository;
 
