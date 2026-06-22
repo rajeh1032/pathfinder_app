@@ -5,9 +5,18 @@ import '../../../../core/theme/app_spacing.dart';
 import 'interview_score_ring.dart';
 
 class InterviewResultSummaryCard extends StatelessWidget {
-  const InterviewResultSummaryCard({required this.colorScheme, super.key});
+  const InterviewResultSummaryCard({
+    required this.colorScheme,
+    required this.score,
+    this.previousScore,
+    this.improvement,
+    super.key,
+  });
 
   final ColorScheme colorScheme;
+  final int score;
+  final int? previousScore;
+  final int? improvement;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +35,13 @@ class InterviewResultSummaryCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Center(child: InterviewScoreRing(score: 82, previousScore: 74)),
+      child: Center(
+        child: InterviewScoreRing(
+          score: score,
+          previousScore: previousScore,
+          improvement: improvement,
+        ),
+      ),
     );
   }
 }

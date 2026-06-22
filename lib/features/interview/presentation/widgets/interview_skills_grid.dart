@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
+import '../../domain/entities/interview_skill_breakdown.dart';
 import 'interview_skill_bar.dart';
 
 class InterviewSkillsGrid extends StatelessWidget {
-  const InterviewSkillsGrid({super.key});
+  const InterviewSkillsGrid({required this.skills, super.key});
+
+  final List<InterviewSkillBreakdown> skills;
 
   @override
   Widget build(BuildContext context) {
-    const skills = <({String titleKey, int percent, double value})>[
-      (titleKey: 'interview.technicalKnowledge', percent: 90, value: 0.9),
-      (titleKey: 'interview.problemSolving', percent: 85, value: 0.85),
-      (titleKey: 'interview.communication', percent: 70, value: 0.7),
-      (titleKey: 'interview.systemDesign', percent: 75, value: 0.75),
-      (titleKey: 'interview.behavioral', percent: 65, value: 0.65),
-    ];
-
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -28,10 +23,11 @@ class InterviewSkillsGrid extends StatelessWidget {
       itemCount: skills.length,
       itemBuilder: (context, index) {
         final skill = skills[index];
+        final percent = skill.score.clamp(0, 100).round();
         return InterviewSkillBar(
-          title: skill.titleKey,
-          percent: skill.percent,
-          value: skill.value,
+          title: skill.skillName,
+          percent: percent,
+          value: skill.progress,
         );
       },
     );

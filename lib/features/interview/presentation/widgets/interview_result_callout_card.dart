@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -7,14 +6,14 @@ import '../../../../core/theme/app_spacing.dart';
 class InterviewResultCalloutCard extends StatelessWidget {
   const InterviewResultCalloutCard({
     required this.colorScheme,
-    required this.titleKey,
-    required this.descriptionKey,
+    required this.title,
+    required this.description,
     super.key,
   });
 
   final ColorScheme colorScheme;
-  final String titleKey;
-  final String descriptionKey;
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class InterviewResultCalloutCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            titleKey.tr(),
+            title,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: colorScheme.onSurface,
@@ -39,7 +38,7 @@ class InterviewResultCalloutCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            descriptionKey.tr(),
+            description,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,

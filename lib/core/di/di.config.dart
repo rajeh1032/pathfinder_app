@@ -109,6 +109,50 @@ import 'package:pathfinder_app/features/home/domain/repo/home_repo.dart'
     as _i888;
 import 'package:pathfinder_app/features/home/presentation/cubit/home_cubit.dart'
     as _i618;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_history_remote_data_source.dart'
+    as _i642;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_remote_data_source.dart'
+    as _i981;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_session_remote_data_source.dart'
+    as _i400;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_history_repository_impl.dart'
+    as _i877;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_repository_impl.dart'
+    as _i283;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_session_repository_impl.dart'
+    as _i406;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_history_repository.dart'
+    as _i370;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_repository.dart'
+    as _i213;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_session_repository.dart'
+    as _i883;
+import 'package:pathfinder_app/features/interview/domain/use_cases/cancel_interview_session_use_case.dart'
+    as _i760;
+import 'package:pathfinder_app/features/interview/domain/use_cases/create_interview_session_use_case.dart'
+    as _i713;
+import 'package:pathfinder_app/features/interview/domain/use_cases/finish_interview_session_use_case.dart'
+    as _i223;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_career_paths_use_case.dart'
+    as _i580;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_history_use_case.dart'
+    as _i1051;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_session_questions_use_case.dart'
+    as _i394;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_session_result_use_case.dart'
+    as _i672;
+import 'package:pathfinder_app/features/interview/domain/use_cases/save_interview_answer_use_case.dart'
+    as _i253;
+import 'package:pathfinder_app/features/interview/domain/use_cases/skip_interview_question_use_case.dart'
+    as _i278;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_active_cubit.dart'
+    as _i454;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_history_cubit.dart'
+    as _i1;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_result_cubit.dart'
+    as _i669;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_start_cubit.dart'
+    as _i422;
 import 'package:pathfinder_app/features/jobs/data/data_sources/remote/saved_jobs_remote_data_source.dart'
     as _i733;
 import 'package:pathfinder_app/features/jobs/data/repositories/saved_jobs_repository_impl.dart'
@@ -220,6 +264,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i501.CoursesRemoteDataSource>(),
           gh<_i874.NetworkInfo>(),
         ));
+    gh.lazySingleton<_i400.InterviewSessionRemoteDataSource>(() =>
+        _i400.InterviewSessionRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i981.InterviewRemoteDataSource>(
+        () => _i981.InterviewRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i570.ChatRemoteDataSource>(
         () => _i479.ChatRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i991.RoadmapsRemoteDataSource>(
@@ -228,6 +276,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i714.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i977.ProfileRemoteDataSource>(
         () => _i977.ProfileRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i642.InterviewHistoryRemoteDataSource>(() =>
+        _i642.InterviewHistoryRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i815.HomeRemoteDataSource>(
         () => _i815.HomeRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i617.UserProfileRepository>(
@@ -235,10 +285,19 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i977.ProfileRemoteDataSource>(),
               gh<_i874.NetworkInfo>(),
             ));
+    gh.lazySingleton<_i213.InterviewRepository>(
+        () => _i283.InterviewRepositoryImpl(
+              gh<_i981.InterviewRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
     gh.lazySingleton<_i262.ChatRepository>(() => _i943.ChatRepositoryImpl(
           gh<_i570.ChatRemoteDataSource>(),
           gh<_i874.NetworkInfo>(),
         ));
+    gh.lazySingleton<_i713.CreateInterviewSessionUseCase>(() =>
+        _i713.CreateInterviewSessionUseCase(gh<_i213.InterviewRepository>()));
+    gh.lazySingleton<_i580.GetInterviewCareerPathsUseCase>(() =>
+        _i580.GetInterviewCareerPathsUseCase(gh<_i213.InterviewRepository>()));
     gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
           gh<_i310.AuthRemoteDataSource>(),
           gh<_i120.AuthLocalDataSource>(),
@@ -247,6 +306,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i631.CareerPathsRepository>(
         () => _i387.CareerPathsRepositoryImpl(
               gh<_i714.CareerPathsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i883.InterviewSessionRepository>(
+        () => _i406.InterviewSessionRepositoryImpl(
+              gh<_i400.InterviewSessionRemoteDataSource>(),
               gh<_i874.NetworkInfo>(),
             ));
     gh.lazySingleton<_i373.EnrollCourseUseCase>(
@@ -306,9 +370,19 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i925.UpdateMyProfileUseCase(gh<_i617.UserProfileRepository>()));
     gh.factory<_i926.CareerPathsCubit>(
         () => _i926.CareerPathsCubit(gh<_i123.GetCareerPathsUseCase>()));
+    gh.lazySingleton<_i370.InterviewHistoryRepository>(
+        () => _i877.InterviewHistoryRepositoryImpl(
+              gh<_i642.InterviewHistoryRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
     gh.lazySingleton<_i888.HomeRepository>(() => _i856.HomeRepositoryImpl(
           gh<_i815.HomeRemoteDataSource>(),
           gh<_i874.NetworkInfo>(),
+        ));
+    gh.factory<_i422.InterviewStartCubit>(() => _i422.InterviewStartCubit(
+          getCareerPathsUseCase: gh<_i580.GetInterviewCareerPathsUseCase>(),
+          createInterviewSessionUseCase:
+              gh<_i713.CreateInterviewSessionUseCase>(),
         ));
     gh.factory<_i284.CoursesCatalogCubit>(() => _i284.CoursesCatalogCubit(
           gh<_i582.GetCoursesUseCase>(),
@@ -355,11 +429,34 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i186.CvAnalysisCubit>(
         () => _i186.CvAnalysisCubit(gh<_i166.CvAnalysisRepository>()));
+    gh.lazySingleton<_i760.CancelInterviewSessionUseCase>(() =>
+        _i760.CancelInterviewSessionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i223.FinishInterviewSessionUseCase>(() =>
+        _i223.FinishInterviewSessionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i394.GetInterviewSessionQuestionsUseCase>(() =>
+        _i394.GetInterviewSessionQuestionsUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i672.GetInterviewSessionResultUseCase>(() =>
+        _i672.GetInterviewSessionResultUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i253.SaveInterviewAnswerUseCase>(() =>
+        _i253.SaveInterviewAnswerUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i278.SkipInterviewQuestionUseCase>(() =>
+        _i278.SkipInterviewQuestionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.factory<_i669.InterviewResultCubit>(() => _i669.InterviewResultCubit(
+        getSessionResultUseCase: gh<_i672.GetInterviewSessionResultUseCase>()));
     gh.factory<_i751.AccountIdentityCubit>(() => _i751.AccountIdentityCubit(
           gh<_i612.GetMyProfileUseCase>(),
           gh<_i123.GetCareerPathsUseCase>(),
           gh<_i203.TokenStorage>(),
         ));
+    gh.lazySingleton<_i1051.GetInterviewHistoryUseCase>(() =>
+        _i1051.GetInterviewHistoryUseCase(
+            gh<_i370.InterviewHistoryRepository>()));
     gh.factory<_i694.MyProfileCubit>(() => _i694.MyProfileCubit(
           gh<_i612.GetMyProfileUseCase>(),
           gh<_i925.UpdateMyProfileUseCase>(),
@@ -372,8 +469,21 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i788.UpdateEducationUseCase>(),
           gh<_i995.DeleteEducationUseCase>(),
         ));
+    gh.factory<_i454.InterviewActiveCubit>(() => _i454.InterviewActiveCubit(
+          getSessionQuestionsUseCase:
+              gh<_i394.GetInterviewSessionQuestionsUseCase>(),
+          saveInterviewAnswerUseCase: gh<_i253.SaveInterviewAnswerUseCase>(),
+          skipInterviewQuestionUseCase:
+              gh<_i278.SkipInterviewQuestionUseCase>(),
+          finishInterviewSessionUseCase:
+              gh<_i223.FinishInterviewSessionUseCase>(),
+          cancelInterviewSessionUseCase:
+              gh<_i760.CancelInterviewSessionUseCase>(),
+        ));
     gh.factory<_i753.LoginCubit>(
         () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
+    gh.factory<_i1.InterviewHistoryCubit>(() => _i1.InterviewHistoryCubit(
+        getHistoryUseCase: gh<_i1051.GetInterviewHistoryUseCase>()));
     return this;
   }
 }
