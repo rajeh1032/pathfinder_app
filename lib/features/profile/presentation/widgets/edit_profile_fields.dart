@@ -12,6 +12,7 @@ class EditProfileField extends StatelessWidget {
     this.keyboardType,
     this.minLines,
     this.maxLines = 1,
+    this.enabled = true,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class EditProfileField extends StatelessWidget {
   final TextInputType? keyboardType;
   final int? minLines;
   final int maxLines;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class EditProfileField extends StatelessWidget {
         keyboardType: keyboardType,
         minLines: minLines,
         maxLines: maxLines,
+        enabled: enabled,
         decoration: InputDecoration(
           labelText: context.tr(labelKey),
           fillColor: colors.onPrimary,
