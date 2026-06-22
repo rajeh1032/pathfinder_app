@@ -102,8 +102,13 @@ class AppRouter {
 
       // CV
 
-      AppRoutes.cvAnalysisResult => const CvAnalysisResult(),
-      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
+      AppRoutes.cvAnalysisResult => CvAnalysisResult(
+        cvId: routeId,
+        filePath: settings.arguments is RouteArguments &&
+            (settings.arguments as RouteArguments).payload is String
+            ? (settings.arguments as RouteArguments).payload as String
+            : null,
+      ),      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
       AppRoutes.cvUpload => const CvUploadScreen(),
 
       // Jobs

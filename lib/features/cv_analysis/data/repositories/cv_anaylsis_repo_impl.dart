@@ -14,6 +14,17 @@ class CvAnalysisRepositoryImpl implements CvAnalysisRepository {
 
   CvAnalysisRepositoryImpl(this._apiClient);
 
+  Map<String, dynamic> _payload(dynamic responseData) {
+    final json = responseData as Map<String, dynamic>;
+    final data = json['data'];
+
+    if (data is Map<String, dynamic>) {
+      return data;
+    }
+
+    return json;
+  }
+
   @override
   Future<CvWithAnalysisEntity> uploadAndAnalyze(String filePath) async {
     final response = await _apiClient.uploadFile(
@@ -21,30 +32,28 @@ class CvAnalysisRepositoryImpl implements CvAnalysisRepository {
       file: File(filePath),
       fieldName: 'file',
     );
-    return CvWithAnalysisModel.fromJson(
-      response.data as Map<String, dynamic>,
-    );
+
+    return CvWithAnalysisModel.fromJson(_payload(response.data));
   }
 
   @override
   Future<CvWithAnalysisEntity> getLatestAnalysis() async {
     final response = await _apiClient.get(ApiEndpoints.latestCvAnalysis);
-    return CvWithAnalysisModel.fromJson(
-      response.data as Map<String, dynamic>,
-    );
+
+    return CvWithAnalysisModel.fromJson(_payload(response.data));
   }
 
   @override
   Future<CvStatusEntity> getCvStatus() async {
     final response = await _apiClient.get(ApiEndpoints.cvStatus);
-    return CvStatusModel.fromJson(response.data as Map<String, dynamic>);
+
+    return CvStatusModel.fromJson(_payload(response.data));
   }
 
   @override
   Future<CvWithAnalysisEntity> getAnalysisById(String cvId) async {
     final response = await _apiClient.get(ApiEndpoints.cvDetails(cvId));
-    return CvWithAnalysisModel.fromJson(
-      response.data as Map<String, dynamic>,
-    );
+
+    return CvWithAnalysisModel.fromJson(_payload(response.data));
   }
 }
