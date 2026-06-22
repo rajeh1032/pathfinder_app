@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/routing/app_routes.dart';
 import '../cubit/chat_cubit.dart';
 import '../cubit/chat_state.dart';
 
@@ -23,7 +23,6 @@ class ChatSidebarDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final colorScheme = Theme.of(context).colorScheme;
 
     return Drawer(
@@ -32,10 +31,7 @@ class ChatSidebarDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            // ── Header ──
             _DrawerHeader(onNewChat: onNewChat),
-
-            // ── Sessions List ──
             Expanded(
               child: BlocBuilder<ChatCubit, ChatState>(
                 builder: (context, state) {
@@ -47,50 +43,52 @@ class ChatSidebarDrawer extends StatelessWidget {
                     );
                   }
 
-                  if (state is ChatSessionsLoaded) {
-                    if (state.sessions.isEmpty) {
-                      return _EmptySessionsView();
-                    }
+                  final sessions = switch (state) {
+                    ChatSessionsLoaded(:final sessions) => sessions,
+                    ChatLoaded(:final sessions) => sessions,
+                    _ => null,
+                  };
 
-                    return ListView.builder(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm.w,
-                        vertical: AppSpacing.sm.h,
-                      ),
-                      itemCount: state.sessions.length,
-                      itemBuilder: (_, i) {
-                        final session = state.sessions[i];
-                        final isActive = session.id == currentSessionId;
-
-                        return _SessionTile(
-                          title: session.title,
-                          isActive: isActive,
-                          onTap: () {
-                            Navigator.pop(context); // close drawer
-                            if (!isActive) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                AppRoutes.aiChat,
-                                arguments: session.id,
-                              );
-                            }
-                          },
-                          onDelete: () async {
-                            await context
-                                .read<ChatCubit>()
-                                .deleteSession(session.id);
-                          },
-                        );
-                      },
-                    );
+                  if (sessions == null || sessions.isEmpty) {
+                    return _EmptySessionsView();
                   }
 
-                  return const SizedBox.shrink();
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm.w,
+                      vertical: AppSpacing.sm.h,
+                    ),
+                    itemCount: sessions.length,
+                    itemBuilder: (_, i) {
+                      final session = sessions[i];
+                      final isActive = session.id == currentSessionId;
+
+                      return _SessionTile(
+                        id: session.id,
+                        title: session.title,
+                        status: session.status,
+                        isActive: isActive,
+                        onTap: () {
+                          Navigator.pop(context);
+                          if (!isActive) {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.aiChat,
+                              arguments: session.id,
+                            );
+                          }
+                        },
+                        onDelete: () async {
+                          await context
+                              .read<ChatCubit>()
+                              .deleteSession(session.id);
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),
-
-            // ── Footer ──
             _DrawerFooter(),
           ],
         ),
@@ -99,9 +97,9 @@ class ChatSidebarDrawer extends StatelessWidget {
   }
 }
 
-// ─── Drawer Header ────────────────────────────────────────────
 class _DrawerHeader extends StatelessWidget {
   final VoidCallback? onNewChat;
+
   const _DrawerHeader({this.onNewChat});
 
   @override
@@ -119,7 +117,6 @@ class _DrawerHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // AI Avatar
           Container(
             width: 36.w,
             height: 36.w,
@@ -145,7 +142,6 @@ class _DrawerHeader extends StatelessWidget {
                   .copyWith(fontSize: 14.sp),
             ),
           ),
-          // New Chat button
           IconButton(
             onPressed: onNewChat,
             icon: Icon(
@@ -161,15 +157,18 @@ class _DrawerHeader extends StatelessWidget {
   }
 }
 
-// ─── Session Tile ─────────────────────────────────────────────
 class _SessionTile extends StatelessWidget {
+  final String id;
   final String title;
+  final String status;
   final bool isActive;
   final VoidCallback onTap;
   final VoidCallback onDelete;
 
   const _SessionTile({
+    required this.id,
     required this.title,
+    required this.status,
     required this.isActive,
     required this.onTap,
     required this.onDelete,
@@ -178,9 +177,10 @@ class _SessionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isArchived = status == 'archived';
 
     return Dismissible(
-      key: Key(title),
+      key: Key(id),
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
@@ -195,9 +195,7 @@ class _SessionTile extends StatelessWidget {
           size: 20.sp,
         ),
       ),
-      confirmDismiss: (_) async {
-        return await _showDeleteConfirm(context);
-      },
+      confirmDismiss: (_) => _showDeleteConfirm(context),
       onDismissed: (_) => onDelete(),
       child: GestureDetector(
         onTap: onTap,
@@ -219,7 +217,6 @@ class _SessionTile extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // Active indicator
               if (isActive)
                 Container(
                   width: 3.w,
@@ -231,7 +228,9 @@ class _SessionTile extends StatelessWidget {
                   ),
                 ),
               Icon(
-                Icons.chat_bubble_outline_rounded,
+                isArchived
+                    ? Icons.archive_outlined
+                    : Icons.chat_bubble_outline_rounded,
                 size: 16.sp,
                 color: isActive
                     ? AppColors.primary
@@ -245,13 +244,19 @@ class _SessionTile extends StatelessWidget {
                     isActive ? AppColors.primary : colorScheme.onSurface,
                   ).copyWith(
                     fontSize: 13.sp,
-                    fontWeight:
-                    isActive ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
               ),
+              if (isArchived)
+                Text(
+                  'Archived',
+                  style: AppTextStyles.labelSmall(
+                    colorScheme.onSurfaceVariant,
+                  ).copyWith(fontSize: 10.sp),
+                ),
             ],
           ),
         ),
@@ -278,11 +283,11 @@ class _SessionTile extends StatelessWidget {
         ],
       ),
     );
+
     return result ?? false;
   }
 }
 
-// ─── Empty Sessions ───────────────────────────────────────────
 class _EmptySessionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -313,7 +318,6 @@ class _EmptySessionsView extends StatelessWidget {
   }
 }
 
-// ─── Drawer Footer ────────────────────────────────────────────
 class _DrawerFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

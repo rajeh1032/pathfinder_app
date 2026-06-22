@@ -26,8 +26,7 @@ class ChatWithAiScreen extends StatelessWidget {
 
     return BlocProvider<ChatCubit>(
       create: (_) => getIt<ChatCubit>()
-        ..loadMessages(sessionId)
-        ..loadSessions(),
+        ..loadMessages(sessionId),
       child: _ChatWithAiView(
         sessionId: sessionId,
       ),

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import 'chat_remote_data_source.dart';
+
 @LazySingleton(as: ChatRemoteDataSource)
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   final Dio dio;
@@ -14,12 +15,14 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       '/chat/sessions',
       data: {'title': title ?? 'New chat'},
     );
+
     return response.data['session'] as Map<String, dynamic>;
   }
 
   @override
   Future<List<Map<String, dynamic>>> getSessions() async {
     final response = await dio.get('/chat/sessions');
+
     return List<Map<String, dynamic>>.from(
       response.data['sessions'] as List,
     );
@@ -28,6 +31,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   @override
   Future<List<Map<String, dynamic>>> getMessages(String sessionId) async {
     final response = await dio.get('/chat/$sessionId/messages');
+
     return List<Map<String, dynamic>>.from(
       response.data['messages'] as List,
     );
@@ -42,6 +46,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       '/chat/$sessionId',
       data: {'message': message},
     );
+
     return response.data as Map<String, dynamic>;
   }
 
