@@ -21,15 +21,19 @@ import '../widgets/upload_cv_button.dart';
 
 class CvAnalysisResult extends StatelessWidget {
   final String? cvId;
+  final String? filePath;
 
-  const CvAnalysisResult({super.key, this.cvId});
+
+  const CvAnalysisResult({super.key, this.cvId, this.filePath});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
         final cubit = getIt<CvAnalysisCubit>();
-        if (cvId != null) {
+        if (filePath != null) {
+          cubit.uploadAndAnalyze(filePath!);
+        } else if (cvId != null) {
           cubit.loadAnalysis(cvId!);
         } else {
           cubit.loadLatestAnalysis();
