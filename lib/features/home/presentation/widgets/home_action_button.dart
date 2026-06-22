@@ -5,6 +5,7 @@ import '../../../../core/di/di.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../ai_chat/domain/repositories/chat_repo.dart';
 import '../../../ai_chat/presentation/cubit/chat_cubit.dart';
 
 class HomeActionButtons extends StatelessWidget {
@@ -28,10 +29,16 @@ class HomeActionButtons extends StatelessWidget {
             label: 'home.chatWithAi'.tr(),
             icon: Icons.smart_toy_outlined,
             isPrimary: false,
-              onTap: () async {
-                final session = await getIt<ChatCubit>().createSession();
-                Navigator.pushNamed(context, '/ai-chat', arguments: session?.id);
-              },
+            onTap: () async {
+              try {
+                final session = await getIt<ChatRepository>().createSession();
+                Navigator.pushNamed(context, '/ai-chat', arguments: session.id);
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(e.toString())),
+                );
+              }
+            },
           ),
         ),
       ],

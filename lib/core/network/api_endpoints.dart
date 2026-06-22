@@ -3,7 +3,7 @@ class ApiEndpoints {
 
   static const login = '/api/v1/auth/login';
   static const register = '/api/v1/auth/register';
-  static const careerPaths = '/api/v1/profiles/me/careerPahts';
+  static const careerPaths = 'api/v1/profiles/me/careerPahts';
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
   static const resetPassword = '/auth/reset-password';
@@ -11,8 +11,8 @@ class ApiEndpoints {
   static const updateProfile = '/profile/update';
   static const userSkills = '/profile/skills';
   static const uploadCv = '/cv/upload';
-  static const analyzeCv = '/cv/analyze';
   static const cvAnalyses = '/cv/analyses';
+  static const cvStatus = '/cv/status';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static const roadmapsBase = '/api/v1/roadmaps';
   static const myRoadmap = '$roadmapsBase/me';
@@ -40,6 +40,11 @@ class ApiEndpoints {
   static String chatMessages(String id) =>
       '$chatSessions/${_segment(id)}/messages';
   static const sendMessage = '/chat/messages';
+  static deleteSession (String id) =>
+      '/chat/sessions/$chatSessions/${_segment(id)}';
+  static const analyzeCv = '/api/v1/cvs/analyze';
+  static const latestCvAnalysis = '/api/v1/cvs/me/latest-analysis';
+  static String cvDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static const interviewSessions = '/interviews';
   static const startInterview = '/interviews/start';
   static String submitInterviewAnswer(String id) =>

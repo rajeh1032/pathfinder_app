@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 
 abstract class CvAnalysisRemoteDataSource {
   Future<Map<String, dynamic>> uploadAndAnalyze(String filePath);

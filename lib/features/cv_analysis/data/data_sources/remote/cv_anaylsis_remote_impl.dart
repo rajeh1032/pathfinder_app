@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/errors/chat_enjection.dart';
-import '../../data/data_sources/remote/cv_anaylsis_remote_data_source.dart';
+import '../../../../../core/errors/chat_enjection.dart';
+import 'cv_anaylsis_remote_data_source.dart';
 
 @LazySingleton(as: CvAnalysisRemoteDataSource)
 class CvAnalysisRemoteDataSourceImpl implements CvAnalysisRemoteDataSource {

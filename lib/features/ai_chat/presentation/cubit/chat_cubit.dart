@@ -49,6 +49,15 @@ class ChatCubit extends Cubit<ChatState> {
       emit(ChatError(e.toString()));
     }
   }
+  Future<void> getSessions() async {
+    emit(const ChatSessionsLoading());
+    try {
+      final sessions = await _repository.getSessions();
+      emit(ChatSessionsLoaded(sessions));
+    } catch (e) {
+      emit(ChatError(e.toString()));
+    }
+  }
 
   Future<void> sendMessage({
     required String sessionId,
