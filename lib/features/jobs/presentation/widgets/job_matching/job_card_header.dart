@@ -1,11 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobCardHeader extends StatelessWidget {
-  const JobCardHeader({super.key});
+  const JobCardHeader({
+    super.key,
+    required this.title,
+    required this.companyLocation,
+  });
+
+  final String title;
+  final String companyLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class JobCardHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'jobs.common.seniorUxDesigner'.tr(),
+                title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.w900,
@@ -56,7 +62,7 @@ class JobCardHeader extends StatelessWidget {
               ),
               SizedBox(height: 2.h),
               Text(
-                'jobs.matching.companyLocation'.tr(),
+                companyLocation,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.w600,

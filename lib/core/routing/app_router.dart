@@ -13,11 +13,11 @@ import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
-import '../../features/cv_analysis/presentation/screens/cv_upload_loading.dart';
-import '../../features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
+import '../../features/jobs/presentation/screens/job_matching_screen.dart';
 import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';
+import '../../features/jobs/domain/entities/job_match.dart';
 import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
 import '../../features/interview/presentation/screens/active_interview_screen.dart';
 import '../../features/interview/presentation/screens/interview_history_screen.dart';
@@ -105,8 +105,11 @@ class AppRouter {
       AppRoutes.cvUpload => const CvUploadScreen(),
 
       // Jobs
-      AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
-      AppRoutes.jobDetails => const JobDetailsScreen(),
+      AppRoutes.jobs => const JobMatchingScreen(),
+      AppRoutes.jobDetails => JobDetailsScreen(
+          jobId: routeId,
+          initialMatch: _jobMatchFrom(settings.arguments),
+        ),
       AppRoutes.savedJobs => const SavedJobsScreen(),
       AppRoutes.appliedJobs => const AppliedJobsScreen(),
 
@@ -116,7 +119,9 @@ class AppRouter {
       AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
-      AppRoutes.aiChat => const ChatWithAiScreen(sessionId: '',),
+      AppRoutes.aiChat => const ChatWithAiScreen(
+          sessionId: '',
+        ),
       AppRoutes.chatAiHistory => const ChatSessionsScreen(),
 
       // Interview
@@ -132,8 +137,13 @@ class AppRouter {
     return switch (arguments) {
       final RouteArguments args => args.id,
       final String id => id,
+      final JobMatch match => match.jobId,
       _ => null,
     };
+  }
+
+  static JobMatch? _jobMatchFrom(Object? arguments) {
+    return arguments is JobMatch ? arguments : null;
   }
 
   static Widget _setupProfileScreen(Object? arguments) {

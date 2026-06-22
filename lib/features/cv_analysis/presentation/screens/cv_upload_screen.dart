@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -127,13 +126,13 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                 constraints: BoxConstraints(minHeight: 220.h),
                 decoration: BoxDecoration(
                   color: hasFile
-                      ? AppColors.primary.withOpacity(0.05)
+                      ? AppColors.primary.withValues(alpha: 0.05)
                       : colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(AppRadius.lg.r),
                   border: Border.all(
                     color: hasFile
-                        ? AppColors.primary.withOpacity(0.4)
-                        : colorScheme.outline.withOpacity(0.4),
+                        ? AppColors.primary.withValues(alpha: 0.4)
+                        : colorScheme.outline.withValues(alpha: 0.4),
                     width: 1.5,
                   ),
                 ),
@@ -144,7 +143,7 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                       width: 64.w,
                       height: 64.w,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -162,8 +161,9 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                     SizedBox(height: 4.h),
                     Text(
                       'cvUpload.formats'.tr(),
-                      style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                          .copyWith(fontSize: 12.sp),
+                      style:
+                          AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                              .copyWith(fontSize: 12.sp),
                     ),
                     SizedBox(height: AppSpacing.md.h),
                     // Format chips
@@ -177,9 +177,9 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                             vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius:
-                            BorderRadius.circular(AppRadius.pill.r),
+                                BorderRadius.circular(AppRadius.pill.r),
                           ),
                           child: Text(
                             fmt,
@@ -195,8 +195,9 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                     SizedBox(height: AppSpacing.sm.h),
                     Text(
                       'cvUpload.maxSize'.tr(),
-                      style: AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
-                          .copyWith(fontSize: 11.sp),
+                      style:
+                          AppTextStyles.bodySmall(colorScheme.onSurfaceVariant)
+                              .copyWith(fontSize: 11.sp),
                     ),
                   ],
                 ),
@@ -239,9 +240,9 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
               child: ElevatedButton.icon(
                 onPressed: hasFile
                     ? () => Navigator.pushNamed(
-                  context,
-                  AppRoutes.cvUploadLoading,
-                )
+                          context,
+                          AppRoutes.cvUploadLoading,
+                        )
                     : null,
                 icon: Icon(Icons.analytics_outlined, size: 20.sp),
                 label: Text(
@@ -254,8 +255,7 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
-                  disabledBackgroundColor:
-                  colorScheme.surfaceContainerHighest,
+                  disabledBackgroundColor: colorScheme.surfaceContainerHighest,
                   disabledForegroundColor: colorScheme.onSurfaceVariant,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.md.r),
@@ -277,5 +277,3 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
     );
   }
 }
-
-

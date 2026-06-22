@@ -1,58 +1,71 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
+import '../cubit/jobs_cubit.dart';
+import '../cubit/jobs_cubit_factory.dart';
+import '../cubit/jobs_state.dart';
 import '../widgets/saved_jobs/saved_job_card.dart';
 import '../widgets/saved_jobs/saved_jobs_summary.dart';
-import '../widgets/saved_jobs/saved_jobs_state.dart';
 
 class SavedJobsScreen extends StatelessWidget {
   const SavedJobsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const AppGradientBackButton(),
-        title: Text('routes.savedJobs'.tr()),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.all(AppSpacing.md.w),
-          children: [
-            ValueListenableBuilder<Set<String>>(
-              valueListenable: SavedJobsState.savedIds,
-              builder: (context, savedIds, _) {
-                return Column(
+    return BlocProvider(
+      create: (_) => createJobsCubit()..loadSavedJobs(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const AppGradientBackButton(),
+          title: Text('routes.savedJobs'.tr()),
+        ),
+        body: SafeArea(
+          child: BlocBuilder<JobsCubit, JobsState>(
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (state.status == JobsStatus.failure) {
+                return Center(
+                  child: OutlinedButton(
+                    onPressed: context.read<JobsCubit>().loadSavedJobs,
+                    child: Text(state.errorMessage ?? 'Retry'),
+                  ),
+                );
+              }
+
+              return RefreshIndicator(
+                onRefresh: context.read<JobsCubit>().loadSavedJobs,
+                child: ListView(
+                  padding: EdgeInsets.all(AppSpacing.md.w),
                   children: [
-                    SavedJobsSummary(count: savedIds.length),
+                    SavedJobsSummary(count: state.savedJobs.length),
                     SizedBox(height: AppSpacing.md.h),
-                    if (savedIds.contains(SavedJobsState.primaryJobId)) ...[
+                    if (state.savedJobs.isEmpty) const _EmptySavedJobs(),
+                    for (final savedJob in state.savedJobs) ...[
                       SavedJobCard(
-                        companyKey: 'jobs.matching.companyLocation',
-                        savedAtKey: 'jobs.saved.savedAt',
-                        onRemove: () => SavedJobsState.remove(
-                          SavedJobsState.primaryJobId,
-                        ),
+                        savedJob: savedJob,
+                        onRemove: () async {
+                          await context
+                              .read<JobsCubit>()
+                              .toggleSave(savedJob.job.id);
+                          if (context.mounted) {
+                            context.read<JobsCubit>().loadSavedJobs();
+                          }
+                        },
                       ),
                       SizedBox(height: AppSpacing.md.h),
                     ],
-                    if (savedIds.contains(SavedJobsState.architectJobId))
-                      SavedJobCard(
-                        companyKey: 'coverLetter.selectedRole.companyLocation',
-                        savedAtKey: 'jobs.applied.updated',
-                        onRemove: () => SavedJobsState.remove(
-                          SavedJobsState.architectJobId,
-                        ),
-                      ),
-                    if (savedIds.isEmpty) const _EmptySavedJobs(),
                   ],
-                );
-              },
-            ),
-          ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

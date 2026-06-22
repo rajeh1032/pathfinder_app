@@ -11,9 +11,14 @@ class AuthSessionModel {
 
   factory AuthSessionModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'];
-    final source = data is Map<String, dynamic> ? data : json;
+    final user = data is Map<String, dynamic> ? data['user'] : null;
+    final sources = [
+      json,
+      if (data is Map<String, dynamic>) data,
+      if (user is Map<String, dynamic>) user,
+    ];
 
-    final accessToken = _readString(source, [
+    final accessToken = _readStringFromSources(sources, [
       'accessToken',
       'access_token',
       'token',
@@ -26,12 +31,26 @@ class AuthSessionModel {
 
     return AuthSessionModel(
       accessToken: accessToken,
-      refreshToken: _readString(source, ['refreshToken', 'refresh_token']),
+      refreshToken: _readStringFromSources(
+        sources,
+        ['refreshToken', 'refresh_token'],
+      ),
     );
   }
-  
+
   AuthSession toEntity() {
     return AuthSession(accessToken: accessToken, refreshToken: refreshToken);
+  }
+
+  static String? _readStringFromSources(
+    List<Map<String, dynamic>> sources,
+    List<String> keys,
+  ) {
+    for (final source in sources) {
+      final value = _readString(source, keys);
+      if (value != null && value.isNotEmpty) return value;
+    }
+    return null;
   }
 
   static String? _readString(Map<String, dynamic> json, List<String> keys) {

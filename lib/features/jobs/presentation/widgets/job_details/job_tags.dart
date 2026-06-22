@@ -1,29 +1,30 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobTags extends StatelessWidget {
-  const JobTags({super.key});
+  const JobTags({
+    super.key,
+    required this.labels,
+  });
+
+  final List<String> labels;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: AppSpacing.sm.w,
       runSpacing: AppSpacing.sm.h,
-      children: [
-        JobTag(labelKey: 'jobs.details.webDevelopment'),
-        JobTag(labelKey: 'jobs.details.advanced'),
-      ],
+      children: labels.map((label) => JobTag(label: label)).toList(),
     );
   }
 }
 
 class JobTag extends StatelessWidget {
-  const JobTag({super.key, required this.labelKey});
+  const JobTag({super.key, required this.label});
 
-  final String labelKey;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class JobTag extends StatelessWidget {
         border: Border.all(color: colorScheme.primary.withValues(alpha: .38)),
       ),
       child: Text(
-        labelKey.tr(),
+        label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
               color: colorScheme.primary,
               fontWeight: FontWeight.w800,

@@ -1,9 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
+import '../cubit/jobs_cubit.dart';
+import '../cubit/jobs_cubit_factory.dart';
+import '../cubit/jobs_state.dart';
+import '../../domain/entities/job_match.dart';
 import '../widgets/job_details/about_section.dart';
 import '../widgets/job_details/ai_recommendation_card.dart';
 import '../widgets/job_details/apply_bottom_bar.dart';
@@ -13,10 +19,47 @@ import '../widgets/job_details/job_title_block.dart';
 import '../widgets/job_details/needs_section.dart';
 import '../widgets/job_details/overview_tab.dart';
 import '../widgets/job_details/skill_section.dart';
-import '../widgets/saved_jobs/saved_jobs_state.dart';
 
 class JobDetailsScreen extends StatelessWidget {
-  const JobDetailsScreen({super.key});
+  const JobDetailsScreen({
+    super.key,
+    required this.jobId,
+    this.initialMatch,
+  });
+
+  final String? jobId;
+  final JobMatch? initialMatch;
+
+  @override
+  Widget build(BuildContext context) {
+    if (jobId == null || jobId!.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          leading: const AppGradientBackButton(),
+          title: Text('routes.jobDetails'.tr()),
+        ),
+        body: const Center(child: Text('Missing job id')),
+      );
+    }
+
+    return BlocProvider(
+      create: (_) => createJobsCubit()..loadJobDetails(jobId!),
+      child: _JobDetailsBody(
+        jobId: jobId!,
+        initialMatch: initialMatch,
+      ),
+    );
+  }
+}
+
+class _JobDetailsBody extends StatelessWidget {
+  const _JobDetailsBody({
+    required this.jobId,
+    required this.initialMatch,
+  });
+
+  final String jobId;
+  final JobMatch? initialMatch;
 
   @override
   Widget build(BuildContext context) {
@@ -48,72 +91,134 @@ class JobDetailsScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.share_outlined),
           ),
-          ValueListenableBuilder<Set<String>>(
-            valueListenable: SavedJobsState.savedIds,
-            builder: (context, savedIds, _) {
-              final isSaved = savedIds.contains(SavedJobsState.primaryJobId);
-
+          BlocBuilder<JobsCubit, JobsState>(
+            builder: (context, state) {
+              final isSaved = state.savedJobIds.contains(jobId);
               return IconButton(
-                onPressed: () =>
-                    SavedJobsState.toggle(SavedJobsState.primaryJobId),
-                icon: Icon(
-                  isSaved ? Icons.bookmark : Icons.bookmark_border,
-                ),
+                onPressed: state.isSaving
+                    ? null
+                    : () => context.read<JobsCubit>().toggleSave(jobId),
+                icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border),
               );
             },
           ),
         ],
       ),
-      body: SafeArea(
-        bottom: false,
-        child: CustomScrollView(
-          slivers: [
-            const SliverToBoxAdapter(child: JobHeroPreview()),
-            SliverPadding(
-              padding: EdgeInsets.fromLTRB(
-                AppSpacing.md.w,
-                AppSpacing.md.h,
-                AppSpacing.md.w,
-                MediaQuery.paddingOf(context).bottom + 150.h,
+      body: BlocConsumer<JobsCubit, JobsState>(
+        listenWhen: (previous, current) =>
+            previous.errorMessage != current.errorMessage ||
+            previous.isApplying != current.isApplying,
+        listener: (context, state) {
+          if (state.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage!)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final job = state.selectedJob;
+          final match = initialMatch;
+          final hasCvAnalysis = match?.cvId != null;
+          if (state.status == JobsStatus.failure || job == null) {
+            return Center(
+              child: OutlinedButton(
+                onPressed: () =>
+                    context.read<JobsCubit>().loadJobDetails(jobId),
+                child: const Text('Retry'),
               ),
-              sliver: SliverList.list(
-                children: [
-                  const JobTags(),
-                  SizedBox(height: AppSpacing.md.h),
-                  const JobTitleBlock(),
-                  SizedBox(height: AppSpacing.lg.h),
-                  const AiRecommendationCard(),
-                  SizedBox(height: AppSpacing.xxl.h),
-                  const OverviewTab(),
-                  SizedBox(height: AppSpacing.lg.h),
-                  const AboutSection(),
-                  SizedBox(height: AppSpacing.lg.h),
-                  const NeedsSection(),
-                  SizedBox(height: AppSpacing.lg.h),
-                  DetailsSkillSection(
-                    title: 'jobs.common.requiredSkills'.tr(),
-                    skills: [
-                      'jobs.skills.systemDesign'.tr(),
-                      'jobs.skills.figma'.tr(),
-                      'jobs.skills.react'.tr(),
+            );
+          }
+
+          final tags = [
+            if (job.category != null) job.category!,
+            if (job.level != null) job.level!,
+            if (job.employmentType != null) job.employmentType!,
+          ];
+
+          return SafeArea(
+            bottom: false,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: JobHeroPreview(showAiBadge: hasCvAnalysis),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.md.w,
+                    AppSpacing.md.h,
+                    AppSpacing.md.w,
+                    MediaQuery.paddingOf(context).bottom + 150.h,
+                  ),
+                  sliver: SliverList.list(
+                    children: [
+                      JobTags(labels: tags.isEmpty ? ['Job'] : tags),
+                      SizedBox(height: AppSpacing.md.h),
+                      JobTitleBlock(
+                        title: job.title,
+                        company: job.company,
+                        location: job.location,
+                        certificateProvider: job.certificateProvider,
+                        duration: job.duration,
+                      ),
+                      SizedBox(height: AppSpacing.lg.h),
+                      if (hasCvAnalysis) ...[
+                        AiRecommendationCard(
+                          percentage: match!.matchPercentage,
+                          reason: match.reason,
+                        ),
+                        SizedBox(height: AppSpacing.xxl.h),
+                      ],
+                      const OverviewTab(),
+                      SizedBox(height: AppSpacing.lg.h),
+                      AboutSection(description: job.description),
+                      SizedBox(height: AppSpacing.lg.h),
+                      NeedsSection(items: job.requiredSkills),
+                      SizedBox(height: AppSpacing.lg.h),
+                      DetailsSkillSection(
+                        title: 'jobs.common.requiredSkills'.tr(),
+                        skills: job.requiredSkills,
+                        color: requiredSkillColor,
+                        textColor: colorScheme.secondary,
+                      ),
+                      SizedBox(height: AppSpacing.lg.h),
+                      if (hasCvAnalysis)
+                        DetailsSkillSection(
+                          title: 'jobs.common.missingSkills'.tr(),
+                          skills: match!.missingSkills,
+                          color: missingSkillColor,
+                          textColor: colorScheme.error,
+                        ),
                     ],
-                    color: requiredSkillColor,
-                    textColor: colorScheme.secondary,
                   ),
-                  SizedBox(height: AppSpacing.lg.h),
-                  DetailsSkillSection(
-                    title: 'jobs.common.missingSkills'.tr(),
-                    skills: ['jobs.skills.graphql'.tr()],
-                    color: missingSkillColor,
-                    textColor: colorScheme.error,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
-      bottomNavigationBar: const ApplyBottomBar(),
+      bottomNavigationBar: BlocBuilder<JobsCubit, JobsState>(
+        builder: (context, state) {
+          return ApplyBottomBar(
+            isSaved: state.savedJobIds.contains(jobId),
+            isSaving: state.isSaving,
+            isApplying: state.isApplying,
+            onToggleSave: () => context.read<JobsCubit>().toggleSave(jobId),
+            onApply: () async {
+              await context.read<JobsCubit>().applyToJob(jobId);
+              if (context.mounted) {
+                Navigator.of(context).pushNamed(
+                  AppRoutes.coverLetterGenerator,
+                  arguments: jobId,
+                );
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

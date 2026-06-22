@@ -4,17 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/job_match.dart';
 import 'ai_match_pill.dart';
 import 'insight_box.dart';
 import 'job_card_header.dart';
 import 'skill_section.dart';
 
 class JobMatchCard extends StatelessWidget {
-  const JobMatchCard({super.key});
+  const JobMatchCard({
+    super.key,
+    required this.match,
+  });
+
+  final JobMatch match;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final hasCvAnalysis = match.cvId != null;
     final requiredSkillColor = _softTint(
       context,
       colorScheme.secondary,
@@ -45,12 +52,17 @@ class JobMatchCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const JobCardHeader(),
+          JobCardHeader(
+            title: match.job.title,
+            companyLocation: '${match.job.company} • ${match.job.location}',
+          ),
           SizedBox(height: AppSpacing.md.h),
-          const AiMatchPill(),
-          SizedBox(height: AppSpacing.md.h),
+          if (hasCvAnalysis) ...[
+            AiMatchPill(percentage: match.matchPercentage),
+            SizedBox(height: AppSpacing.md.h),
+          ],
           Text(
-            'jobs.matching.salary'.tr(),
+            match.job.salaryRange ?? 'Salary not specified',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w900,
@@ -59,23 +71,24 @@ class JobMatchCard extends StatelessWidget {
           SizedBox(height: AppSpacing.lg.h),
           MatchingSkillSection(
             title: 'jobs.common.requiredSkillsUpper'.tr(),
-            skills: [
-              'jobs.skills.systemDesign'.tr(),
-              'jobs.skills.figma'.tr(),
-              'jobs.skills.react'.tr(),
-            ],
+            skills: match.job.requiredSkills,
             color: requiredSkillColor,
             textColor: colorScheme.secondary,
           ),
           SizedBox(height: AppSpacing.md.h),
-          MatchingSkillSection(
-            title: 'jobs.common.missingSkillsUpper'.tr(),
-            skills: ['jobs.skills.graphql'.tr()],
-            color: missingSkillColor,
-            textColor: colorScheme.error,
-          ),
+          if (hasCvAnalysis)
+            MatchingSkillSection(
+              title: 'jobs.common.missingSkillsUpper'.tr(),
+              skills: match.missingSkills,
+              color: missingSkillColor,
+              textColor: colorScheme.error,
+            ),
           SizedBox(height: AppSpacing.lg.h),
-          const JobInsightBox(),
+          JobInsightBox(
+            message: hasCvAnalysis
+                ? match.reason
+                : 'Upload your CV to unlock AI match score and missing skills.',
+          ),
           SizedBox(height: AppSpacing.md.h),
           SizedBox(
             width: double.infinity,
@@ -105,6 +118,7 @@ class JobMatchCard extends StatelessWidget {
               child: TextButton.icon(
                 onPressed: () => Navigator.of(context).pushNamed(
                   AppRoutes.jobDetails,
+                  arguments: match,
                 ),
                 iconAlignment: IconAlignment.end,
                 icon: Icon(

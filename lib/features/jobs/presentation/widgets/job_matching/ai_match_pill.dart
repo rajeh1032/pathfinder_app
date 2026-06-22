@@ -1,10 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_radius.dart';
 
 class AiMatchPill extends StatelessWidget {
-  const AiMatchPill({super.key});
+  const AiMatchPill({
+    super.key,
+    required this.percentage,
+  });
+
+  final int percentage;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class AiMatchPill extends StatelessWidget {
           Icon(Icons.auto_awesome, color: colorScheme.primary, size: 16.sp),
           SizedBox(width: 5.w),
           Text(
-            'jobs.common.aiMatchPercent'.tr(),
+            'AI Match: $percentage%',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w900,
