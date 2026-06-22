@@ -129,6 +129,16 @@ import 'package:pathfinder_app/features/profile/domain/use_cases/update_my_profi
     as _i925;
 import 'package:pathfinder_app/features/profile/presentation/cubit/my_profile_cubit.dart'
     as _i694;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_data_source.dart'
+    as _i752;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_impl.dart'
+    as _i183;
+import 'package:pathfinder_app/features/cv_analysis/data/repositories/cv_anaylsis_repo_impl.dart'
+    as _i564;
+import 'package:pathfinder_app/features/cv_analysis/domain/repositories/cv_anaylsis_repo.dart'
+    as _i166;
+import 'package:pathfinder_app/features/cv_analysis/presentation/cubit/cv_anaysis_cubit.dart'
+    as _i186;
 import 'package:pathfinder_app/features/roadmaps/data/data_sources/remote/roadmaps_remote_data_source.dart'
     as _i991;
 import 'package:pathfinder_app/features/roadmaps/data/repositories/roadmaps_repository_impl.dart'
@@ -191,6 +201,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
     gh.lazySingleton<_i570.ChatRemoteDataSource>(
         () => _i479.ChatRemoteDataSourceImpl(gh<_i361.Dio>()));
+    gh.lazySingleton<_i752.CvAnalysisRemoteDataSource>(
+        () => _i183.CvAnalysisRemoteDataSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i733.SavedJobsRemoteDataSource>(
         () => _i733.SavedJobsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
@@ -217,6 +229,14 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i356.ChatCubit>(
         () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
+    gh.lazySingleton<_i166.CvAnalysisRepository>(
+        () => _i564.CvAnalysisRepositoryImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i714.CareerPathsRemoteDataSource>(
+        () => _i714.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.factory<_i356.ChatCubit>(
+        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
+    gh.factory<_i186.CvAnalysisCubit>(
+        () => _i186.CvAnalysisCubit(gh<_i166.CvAnalysisRepository>()));
     gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
           gh<_i310.AuthRemoteDataSource>(),
           gh<_i120.AuthLocalDataSource>(),

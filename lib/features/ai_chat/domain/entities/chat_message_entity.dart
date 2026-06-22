@@ -19,12 +19,15 @@ class ChatMessageEntity {
 
   factory ChatMessageEntity.fromJson(Map<String, dynamic> json) {
     return ChatMessageEntity(
-      id: json['id'],
-      sessionId: json['session_id'] ?? '',
-      sender: json['sender'],
-      message: json['message'],
-      tokens: json['tokens'],
-      createdAt: DateTime.parse(json['created_at']),
+      id: json['id'] as String? ??
+          'temp-${DateTime.now().millisecondsSinceEpoch}',
+      sessionId: json['session_id'] as String? ?? '',
+      sender: json['sender'] as String? ?? 'assistant',
+      message: json['message'] as String? ?? '',
+      tokens: json['tokens'] as int?,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : DateTime.now(),
     );
   }
 }

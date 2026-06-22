@@ -5,10 +5,11 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../cv_anaylsis_dummy_model.dart';
 
 class AiInsightsCard extends StatelessWidget {
-  const AiInsightsCard({super.key});
+  final String insight;
+
+  const AiInsightsCard({super.key, required this.insight});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class AiInsightsCard extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.sm.h),
           Text(
-            CvAnalysisDummyData.aiInsight,
+            insight,
             style: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant)
                 .copyWith(fontSize: 13.sp, height: 1.5),
           ),

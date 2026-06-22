@@ -8,11 +8,13 @@ import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_s
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
 import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
+import '../../features/cv_analysis/presentation/screens/cv_anaylsis_result.dart';
 import '../../features/cv_analysis/presentation/screens/cv_upload_loading.dart';
 import '../../features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
@@ -71,7 +73,7 @@ class AppRouter {
       AppRoutes.setupProfile => _setupProfileScreen(settings.arguments),
 
       // Home / Search
-      AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
+      AppRoutes.home => const HomeScreen(),
       AppRoutes.search => const SearchScreen(),
 
       // Profile
@@ -116,8 +118,8 @@ class AppRouter {
       AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
-      AppRoutes.aiChat => const ChatWithAiScreen(sessionId: '',),
-      AppRoutes.chatAiHistory => const ChatSessionsScreen(),
+      AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
+      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: '',),
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),

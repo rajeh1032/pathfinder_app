@@ -20,8 +20,8 @@ class ApiEndpoints {
   static const updateProfile = '/profile/update';
   static const userSkills = '/profile/skills';
   static const uploadCv = '/cv/upload';
-  static const analyzeCv = '/cv/analyze';
   static const cvAnalyses = '/cv/analyses';
+  static const cvStatus = '/cv/status';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static const roadmapsBase = '/v1/roadmaps';
   static const myRoadmap = '$roadmapsBase/me';
@@ -49,6 +49,11 @@ class ApiEndpoints {
   static String chatMessages(String id) =>
       '$chatSessions/${_segment(id)}/messages';
   static const sendMessage = '/chat/messages';
+  static deleteSession (String id) =>
+      '/chat/sessions/$chatSessions/${_segment(id)}';
+  static const analyzeCv = '/api/v1/cvs/analyze';
+  static const latestCvAnalysis = '/api/v1/cvs/me/latest-analysis';
+  static String cvDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static const interviewSessions = '/interviews';
   static const startInterview = '/interviews/start';
   static String submitInterviewAnswer(String id) =>
