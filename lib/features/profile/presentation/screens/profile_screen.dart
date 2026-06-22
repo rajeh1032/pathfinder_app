@@ -2,26 +2,36 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/di.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/widgets/app_error_view.dart';
-import '../../data/repositories/demo_profile_repository.dart';
-import '../../domain/use_cases/get_profile_use_case.dart';
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_state.dart';
-import '../widgets/profile_body.dart';
+import '../../../courses/presentation/cubit/saved_courses_cubit.dart';
+import '../../../jobs/presentation/cubit/saved_jobs_cubit.dart';
+import '../../../roadmaps/presentation/cubit/roadmaps_cubit.dart';
+import '../cubit/my_profile_cubit.dart';
+import '../cubit/my_profile_state.dart';
+import '../widgets/api_profile_body.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        const repository = DemoProfileRepository();
-        return ProfileCubit(
-          getProfileUseCase: const GetProfileUseCase(repository),
-        )..loadProfile();
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MyProfileCubit>(
+          create: (_) => getIt<MyProfileCubit>()..load(),
+        ),
+        BlocProvider<SavedJobsCubit>(
+          create: (_) => getIt<SavedJobsCubit>()..load(),
+        ),
+        BlocProvider<SavedCoursesCubit>(
+          create: (_) => getIt<SavedCoursesCubit>()..load(),
+        ),
+        BlocProvider<RoadmapsCubit>(
+          create: (_) => getIt<RoadmapsCubit>()..loadMyRoadmap(),
+        ),
+      ],
       child: const _ProfileView(),
     );
   }
@@ -51,23 +61,16 @@ class _ProfileView extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: BlocBuilder<ProfileCubit, ProfileState>(
+        child: BlocBuilder<MyProfileCubit, MyProfileState>(
           builder: (context, state) {
-            if (state is ProfileSuccess) {
-              return ProfileBody(state: state);
+            if (state.isSuccess && state.profile != null) {
+              return ApiProfileBody(state: state);
             }
 
-            if (state is ProfileEmpty) {
+            if (state.isFailure) {
               return AppErrorView(
-                message: context.tr('profile.empty'),
-                onRetry: context.read<ProfileCubit>().loadProfile,
-              );
-            }
-
-            if (state is ProfileError) {
-              return AppErrorView(
-                message: context.tr(state.messageKey),
-                onRetry: context.read<ProfileCubit>().loadProfile,
+                message: state.errorMessage ?? context.tr('common.error'),
+                onRetry: context.read<MyProfileCubit>().load,
               );
             }
 

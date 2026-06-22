@@ -12,15 +12,27 @@ class SettingsAccountCard extends StatelessWidget {
   const SettingsAccountCard({
     required this.preferences,
     required this.onEdit,
+    this.displayName,
+    this.subtitle,
     super.key,
   });
 
   final SettingsPreferences preferences;
   final VoidCallback onEdit;
 
+  /// Real values from the API; fall back to the localized demo keys when null.
+  final String? displayName;
+  final String? subtitle;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final name = (displayName?.trim().isNotEmpty ?? false)
+        ? displayName!.trim()
+        : context.tr(preferences.displayNameKey);
+    final secondary = (subtitle?.trim().isNotEmpty ?? false)
+        ? subtitle!.trim()
+        : context.tr(preferences.headlineKey);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -47,11 +59,11 @@ class SettingsAccountCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.tr(preferences.displayNameKey),
+                    name,
                     style: AppTextStyles.bodyLarge(colors.onSurface),
                   ),
                   Text(
-                    context.tr(preferences.headlineKey),
+                    secondary,
                     style: AppTextStyles.bodyMedium(colors.onSurfaceVariant),
                   ),
                 ],
