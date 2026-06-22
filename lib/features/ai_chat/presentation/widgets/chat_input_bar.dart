@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
@@ -35,15 +35,15 @@ class ChatInputBar extends StatelessWidget {
               height: 44.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: colorScheme.primary.withValues(alpha: 0.1),
                 border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: colorScheme.primary.withValues(alpha: 0.3),
                 ),
               ),
               child: Icon(
                 Icons.upload_file_rounded,
                 size: 20.sp,
-                color: AppColors.primary,
+                color: colorScheme.primary,
               ),
             ),
           ),
@@ -60,7 +60,7 @@ class ChatInputBar extends StatelessWidget {
                 controller: controller,
                 style: TextStyle(fontSize: 13.sp),
                 decoration: InputDecoration(
-                  hintText: 'Ask your career mentor...',
+                  hintText: 'chat.inputHint'.tr(),
                   hintStyle: TextStyle(
                     fontSize: 12.sp,
                     color: colorScheme.onSurfaceVariant,
@@ -83,10 +83,10 @@ class ChatInputBar extends StatelessWidget {
             child: Container(
               width: 44.w,
               height: 44.w,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [AppColors.primary, AppColors.tertiary],
+                  colors: [colorScheme.primary, colorScheme.tertiary],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -94,7 +94,7 @@ class ChatInputBar extends StatelessWidget {
               child: Icon(
                 Icons.send_rounded,
                 size: 18.sp,
-                color: Colors.white,
+                color: colorScheme.onPrimary,
               ),
             ),
           ),

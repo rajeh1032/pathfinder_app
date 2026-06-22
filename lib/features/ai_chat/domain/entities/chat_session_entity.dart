@@ -1,11 +1,6 @@
-class ChatSessionEntity {
-  final String id;
-  final String userId;
-  final String title;
-  final String status; // active | archived | deleted
-  final DateTime createdAt;
-  final DateTime updatedAt;
+import 'package:equatable/equatable.dart';
 
+class ChatSessionEntity extends Equatable {
   const ChatSessionEntity({
     required this.id,
     required this.userId,
@@ -15,16 +10,15 @@ class ChatSessionEntity {
     required this.updatedAt,
   });
 
+  final String id;
+  final String userId;
+  final String title;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
   bool get isActive => status == 'active';
 
-  factory ChatSessionEntity.fromJson(Map<String, dynamic> json) {
-    return ChatSessionEntity(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      title: json['title'] as String? ?? 'New chat',
-      status: json['status'] as String? ?? 'active',
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-    );
-  }
+  @override
+  List<Object?> get props => [id, userId, title, status, createdAt, updatedAt];
 }

@@ -22,4 +22,3 @@ class HomeScoreInsightRow extends StatelessWidget {
     );
   }
 }
-

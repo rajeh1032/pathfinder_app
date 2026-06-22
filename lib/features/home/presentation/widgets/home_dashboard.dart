@@ -4,13 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
+import '../../domain/entites/home_entity.dart';
 
 class HomeHeader extends StatelessWidget {
-  final HomeUserModel user;
+  final HomeUserEntity user;
+  final int cvScore;
 
-  const HomeHeader({super.key, required this.user});
+  const HomeHeader({super.key, required this.user, required this.cvScore});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class HomeHeader extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         // CV Score circle
-        _CvScoreCircle(score: user.cvScore),
+        _CvScoreCircle(score: cvScore),
       ],
     );
   }
@@ -53,18 +53,19 @@ class _CvScoreCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Container(
       width: 52.w,
       height: 52.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const SweepGradient(
-          colors: [AppColors.primary, AppColors.secondary, AppColors.primary],
+        gradient: SweepGradient(
+          colors: [colors.primary, colors.secondary, colors.primary],
           stops: [0.0, 0.75, 1.0],
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.35),
+            color: colors.primary.withValues(alpha: 0.35),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -82,7 +83,7 @@ class _CvScoreCircle extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.primary,
+              color: colors.primary,
             ),
           ),
         ),

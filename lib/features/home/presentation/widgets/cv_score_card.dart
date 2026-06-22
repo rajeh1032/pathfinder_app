@@ -2,8 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-
 class CvScoreCard extends StatelessWidget {
   final int score;
 
@@ -49,7 +47,7 @@ class CvScoreCard extends StatelessWidget {
               Icon(
                 Icons.bar_chart_rounded,
                 size: 16.sp,
-                color: AppColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ],
           ),

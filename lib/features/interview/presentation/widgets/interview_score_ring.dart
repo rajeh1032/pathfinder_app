@@ -8,17 +8,21 @@ import '../../../../core/theme/app_spacing.dart';
 class InterviewScoreRing extends StatelessWidget {
   const InterviewScoreRing({
     required this.score,
-    required this.previousScore,
+    this.previousScore,
+    this.improvement,
     super.key,
   });
 
   final int score;
-  final int previousScore;
+  final int? previousScore;
+  final int? improvement;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final improvement = score - previousScore;
+    final hasPrevious = previousScore != null;
+    final change = improvement ?? (hasPrevious ? score - previousScore! : 0);
+    final isPositive = change >= 0;
 
     return SizedBox(
       width: 220.w,
@@ -29,7 +33,7 @@ class InterviewScoreRing extends StatelessWidget {
           SizedBox.square(
             dimension: 180.w,
             child: CircularProgressIndicator(
-              value: score / 100,
+              value: (score.clamp(0, 100)) / 100,
               strokeWidth: 12,
               backgroundColor: colorScheme.primaryContainer,
               valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
@@ -45,38 +49,48 @@ class InterviewScoreRing extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
               ),
-              const SizedBox(height: AppSpacing.sm),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.sm,
-                ),
-                decoration: BoxDecoration(
-                  color: colorScheme.secondaryContainer.withValues(alpha: 0.55),
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'interview.improvementLabel'.tr(
-                        namedArgs: {'value': '$improvement'},
+              if (hasPrevious) ...[
+                const SizedBox(height: AppSpacing.sm),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.sm,
+                  ),
+                  decoration: BoxDecoration(
+                    color: (isPositive
+                            ? colorScheme.secondaryContainer
+                            : colorScheme.errorContainer)
+                        .withValues(alpha: 0.55),
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        isPositive
+                            ? 'interview.improvementLabel'
+                                .tr(namedArgs: {'value': '$change'})
+                            : 'interview.declineLabel'
+                                .tr(namedArgs: {'value': '$change'}),
+                        style:
+                            Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: isPositive
+                                      ? colorScheme.secondary
+                                      : colorScheme.error,
+                                  fontWeight: FontWeight.w700,
+                                ),
                       ),
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: colorScheme.secondary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                    Text(
-                      'interview.previousScoreLabel'.tr(
-                        namedArgs: {'value': '$previousScore'},
+                      Text(
+                        'interview.previousScoreLabel'.tr(
+                          namedArgs: {'value': '$previousScore'},
+                        ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
                       ),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ],

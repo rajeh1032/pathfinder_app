@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
+import '../../domain/entites/home_entity.dart';
 
 class HomeRoadmapCard extends StatelessWidget {
-  final HomeRoadmapModel roadmap;
+  final HomeRoadmapEntity roadmap;
 
   const HomeRoadmapCard({super.key, required this.roadmap});
 
@@ -40,12 +39,12 @@ class HomeRoadmapCard extends StatelessWidget {
                     Icon(
                       Icons.route_outlined,
                       size: 16.sp,
-                      color: AppColors.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     SizedBox(width: 6.w),
                     Expanded(
                       child: Text(
-                        'Roadmap: ${roadmap.title}',
+                        '${'home.roadmap'.tr()}: ${roadmap.title}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -65,15 +64,18 @@ class HomeRoadmapCard extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.12),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(999.r),
                   ),
                   child: Text(
-                    '${(roadmap.progress * 100).toInt()}%  ${'home.complete'.tr()}',
+                    '${roadmap.progress}%  ${'home.complete'.tr()}',
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.success,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ),
@@ -85,10 +87,11 @@ class HomeRoadmapCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(999.r),
             child: LinearProgressIndicator(
-              value: roadmap.progress,
+              value: roadmap.progress / 100,
               minHeight: 8.h,
               backgroundColor: colorScheme.surfaceContainerHighest,
-              valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+              valueColor:
+                  AlwaysStoppedAnimation(Theme.of(context).colorScheme.primary),
             ),
           ),
         ],

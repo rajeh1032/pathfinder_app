@@ -5,14 +5,15 @@ import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.d
 import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
-import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
 import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
+import '../../features/cv_analysis/presentation/screens/cv_anaylsis_result.dart';
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
 import '../../features/jobs/presentation/screens/job_matching_screen.dart';
@@ -71,7 +72,7 @@ class AppRouter {
       AppRoutes.setupProfile => _setupProfileScreen(settings.arguments),
 
       // Home / Search
-      AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
+      AppRoutes.home => const HomeScreen(),
       AppRoutes.search => const SearchScreen(),
 
       // Profile
@@ -99,8 +100,13 @@ class AppRouter {
       AppRoutes.courseDetails => CourseDetailsScreen(courseId: routeId),
 
       // CV
-
-      AppRoutes.cvAnalysisResult => const CvAnalysisResult(),
+      AppRoutes.cvAnalysisResult => CvAnalysisResult(
+          cvId: routeId,
+          filePath: settings.arguments is RouteArguments &&
+                  (settings.arguments as RouteArguments).payload is String
+              ? (settings.arguments as RouteArguments).payload as String
+              : null,
+        ),
       AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
       AppRoutes.cvUpload => const CvUploadScreen(),
 
@@ -119,16 +125,14 @@ class AppRouter {
       AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
 
       // AI Chat
-      AppRoutes.aiChat => const ChatWithAiScreen(
-          sessionId: '',
-        ),
-      AppRoutes.chatAiHistory => const ChatSessionsScreen(),
+      AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
+      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: ''),
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
-      AppRoutes.activeInterview => const ActiveInterviewScreen(),
+      AppRoutes.activeInterview => ActiveInterviewScreen(sessionId: routeId),
       AppRoutes.interviewHistory => const InterviewHistoryScreen(),
-      AppRoutes.interviewResult => const InterviewResultScreen(),
+      AppRoutes.interviewResult => InterviewResultScreen(sessionId: routeId),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
   }

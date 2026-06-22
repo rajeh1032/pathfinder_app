@@ -1,13 +1,10 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pathfinder_app/features/home/presentation/widgets/skill_chip.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
 
 class HomeSkillGapSection extends StatelessWidget {
-  final List<HomeSkillGapModel> skills;
+  final List<String> skills;
 
   const HomeSkillGapSection({super.key, required this.skills});
 
@@ -37,7 +34,7 @@ class HomeSkillGapSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -48,10 +45,13 @@ class HomeSkillGapSection extends StatelessWidget {
         Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
-          children: skills.map((s) => SkillChip(skill: s)).toList(),
+          children: skills
+              .asMap()
+              .entries
+              .map((entry) => SkillChip(skill: entry.value, index: entry.key))
+              .toList(),
         ),
       ],
     );
   }
 }
-

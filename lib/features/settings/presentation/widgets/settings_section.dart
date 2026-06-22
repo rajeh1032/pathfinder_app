@@ -66,6 +66,7 @@ class SettingsTile extends StatelessWidget {
   const SettingsTile({
     required this.titleKey,
     this.subtitleKey,
+    this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
@@ -75,6 +76,9 @@ class SettingsTile extends StatelessWidget {
 
   final String titleKey;
   final String? subtitleKey;
+
+  /// Raw (already-resolved) subtitle text. Takes precedence over [subtitleKey].
+  final String? subtitle;
   final Widget? leading;
   final Widget? trailing;
   final VoidCallback? onTap;
@@ -105,9 +109,9 @@ class SettingsTile extends StatelessWidget {
                     style: AppTextStyles.bodyLarge(colors.onSurface),
                     textAlign: centered ? TextAlign.center : TextAlign.start,
                   ),
-                  if (subtitleKey != null)
+                  if (subtitle != null || subtitleKey != null)
                     Text(
-                      context.tr(subtitleKey!),
+                      subtitle ?? context.tr(subtitleKey!),
                       style: AppTextStyles.bodySmall(colors.onSurfaceVariant),
                       textAlign: centered ? TextAlign.center : TextAlign.start,
                     ),

@@ -5,17 +5,25 @@ class SavedJobModel extends SavedJob {
   const SavedJobModel({
     required super.id,
     required super.job,
+    super.savedId,
     super.createdAt,
   });
 
   factory SavedJobModel.fromJson(Map<String, dynamic> json) {
-    final jobJson = json['jobs'];
+    final jobJson = json['jobs'] ?? json['job'];
+    final job = jobJson is Map<String, dynamic>
+        ? JobModel.fromJson(jobJson)
+        : JobModel.fromJson(json);
+
     return SavedJobModel(
-      id: json['id']?.toString() ?? '',
-      job: jobJson is Map<String, dynamic>
-          ? JobModel.fromJson(jobJson)
-          : JobModel.fromJson(json),
-      createdAt: DateTime.tryParse(json['created_at']?.toString() ?? ''),
+      id: job.id,
+      savedId: json['id']?.toString(),
+      job: job,
+      createdAt: DateTime.tryParse(
+        (json['created_at'] ?? json['saved_at'])?.toString() ?? '',
+      ),
     );
   }
+
+  SavedJob toEntity() => this;
 }

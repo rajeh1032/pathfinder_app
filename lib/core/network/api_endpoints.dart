@@ -7,13 +7,24 @@ class ApiEndpoints {
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
   static const resetPassword = '/auth/reset-password';
+
   static const profile = '/profile';
   static const updateProfile = '/profile/update';
   static const userSkills = '/profile/skills';
-  static const uploadCv = '/cv/upload';
-  static const analyzeCv = '/cv/analyze';
-  static const cvAnalyses = '/cv/analyses';
+  static const profileMe = '/v1/profiles/me';
+  static const profileExperiences = '/v1/profiles/me/experiences';
+  static const profileEducation = '/v1/profiles/me/education';
+  static const uploadCv = '/v1/cvs/analyze';
+  static const analyzeCv = '/v1/cvs/analyze';
+  static const latestCvAnalysis = '/v1/cvs/me/latest-analysis';
+  static const cvStatus = '/v1/cvs/me/status';
+  static const cvAnalyses = '/v1/cvs';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
+  static String cvDetails(String id) => '$cvAnalyses/${_segment(id)}';
+  static String profileExperienceById(String id) =>
+      '$profileExperiences/${_segment(id)}';
+  static String profileEducationById(String id) =>
+      '$profileEducation/${_segment(id)}';
   static const roadmapsBase = '/v1/roadmaps';
   static const myRoadmap = '$roadmapsBase/me';
   static const generateRoadmap = '$roadmapsBase/generate';
@@ -46,16 +57,39 @@ class ApiEndpoints {
       '$appliedJobs/${_segment(id)}/status';
   static const coverLetters = '/v1/cover-letters';
   static const generateCoverLetter = '/v1/cover-letters/generate';
-  static const chatSessions = '/chat/sessions';
-  static String chatMessages(String id) =>
-      '$chatSessions/${_segment(id)}/messages';
+  static const chatBase = '/v1/chat';
+  static const chatSessions = '$chatBase/sessions';
+  static String chatMessages(String id) => '$chatBase/${_segment(id)}/messages';
+  static String sendChatMessage(String id) => '$chatBase/${_segment(id)}';
+  static String deleteSession(String id) => '$chatSessions/${_segment(id)}';
+  static String coverLetterDetails(String id) =>
+      '$coverLetters/${_segment(id)}';
+  static String coverLetterVersions(String id) =>
+      '${coverLetterDetails(id)}/versions';
+  static String coverLetterExport(String id) =>
+      '${coverLetterDetails(id)}/export';
   static const sendMessage = '/chat/messages';
-  static const interviewSessions = '/interviews';
+
+  static const interviewCareerPaths = '/v1/interviews/career-paths';
+  static const interviewSessions = '/v1/interviews/sessions';
+  static const legacyInterviewSessions = '/interviews';
   static const startInterview = '/interviews/start';
-  static String submitInterviewAnswer(String id) =>
-      '$interviewSessions/${_segment(id)}/answers';
-  static String interviewResult(String id) =>
+  static String interviewSessionQuestions(String id) =>
+      '$interviewSessions/${_segment(id)}/questions';
+  static String interviewQuestionAnswer(String sessionId, String questionId) =>
+      '$interviewSessions/${_segment(sessionId)}/questions/${_segment(questionId)}/answer';
+  static String interviewQuestionSkip(String sessionId, String questionId) =>
+      '$interviewSessions/${_segment(sessionId)}/questions/${_segment(questionId)}/skip';
+  static String cancelInterviewSession(String id) =>
+      '$interviewSessions/${_segment(id)}/cancel';
+  static String finishInterviewSession(String id) =>
+      '$interviewSessions/${_segment(id)}/finish';
+  static String interviewSessionResult(String id) =>
       '$interviewSessions/${_segment(id)}/result';
+  static String interviewResult(String id) =>
+      '$legacyInterviewSessions/${_segment(id)}/result';
+  static String submitInterviewAnswer(String id) =>
+      '$legacyInterviewSessions/${_segment(id)}/answers';
   static const notifications = '/notifications';
   static String markNotificationAsRead(String id) =>
       '$notifications/${_segment(id)}/read';

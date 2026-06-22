@@ -1,11 +1,6 @@
-class ChatMessageEntity {
-  final String id;
-  final String sessionId;
-  final String sender;
-  final String message;
-  final int? tokens;
-  final DateTime createdAt;
+import 'package:equatable/equatable.dart';
 
+class ChatMessageEntity extends Equatable {
   const ChatMessageEntity({
     required this.id,
     required this.sessionId,
@@ -15,16 +10,27 @@ class ChatMessageEntity {
     required this.createdAt,
   });
 
+  final String id;
+  final String sessionId;
+  final String sender;
+  final String message;
+  final int? tokens;
+  final DateTime createdAt;
+
   bool get isFromUser => sender == 'user';
 
-  factory ChatMessageEntity.fromJson(Map<String, dynamic> json) {
-    return ChatMessageEntity(
-      id: json['id'],
-      sessionId: json['session_id'] ?? '',
-      sender: json['sender'],
-      message: json['message'],
-      tokens: json['tokens'],
-      createdAt: DateTime.parse(json['created_at']),
-    );
-  }
+  @override
+  List<Object?> get props =>
+      [id, sessionId, sender, message, tokens, createdAt];
+}
+
+class ChatReplyEntity extends Equatable {
+  const ChatReplyEntity(
+      {required this.userMessage, required this.assistantMessage});
+
+  final ChatMessageEntity userMessage;
+  final ChatMessageEntity assistantMessage;
+
+  @override
+  List<Object?> get props => [userMessage, assistantMessage];
 }
