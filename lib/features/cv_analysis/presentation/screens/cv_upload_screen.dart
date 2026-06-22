@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../../core/routing/route_arguments.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
@@ -237,10 +237,11 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
               width: double.infinity,
               height: 52.h,
               child: ElevatedButton.icon(
-                onPressed: hasFile
+                onPressed: hasFile && _selectedFile!.path != null
                     ? () => Navigator.pushNamed(
                   context,
-                  AppRoutes.cvUploadLoading,
+                  AppRoutes.cvAnalysisResult,
+                  arguments: RouteArguments(payload: _selectedFile!.path),
                 )
                     : null,
                 icon: Icon(Icons.analytics_outlined, size: 20.sp),
