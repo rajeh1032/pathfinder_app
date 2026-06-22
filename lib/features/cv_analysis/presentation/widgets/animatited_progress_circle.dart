@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/theme/app_colors.dart';
 
 class AnimatedProgressCircle extends StatelessWidget {
   final AnimationController controller;
@@ -24,9 +21,9 @@ class AnimatedProgressCircle extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: SweepGradient(
                 colors: [
-                  AppColors.primary,
-                  AppColors.tertiary,
-                  AppColors.primary.withOpacity(0.1),
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.tertiary,
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                 ],
               ),
             ),
@@ -44,7 +41,7 @@ class AnimatedProgressCircle extends StatelessWidget {
             child: Icon(
               Icons.description_outlined,
               size: 36.sp,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),

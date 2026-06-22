@@ -1,21 +1,17 @@
-class HomeUserEntity {
+import 'package:equatable/equatable.dart';
+
+class HomeUserEntity extends Equatable {
+  const HomeUserEntity({required this.name, this.avatarUrl, this.targetRole});
+
   final String name;
   final String? avatarUrl;
   final String? targetRole;
 
-  const HomeUserEntity({
-    required this.name,
-    this.avatarUrl,
-    this.targetRole,
-  });
+  @override
+  List<Object?> get props => [name, avatarUrl, targetRole];
 }
 
-class HomeRoadmapEntity {
-  final String id;
-  final String title;
-  final int progress;
-  final String status;
-
+class HomeRoadmapEntity extends Equatable {
   const HomeRoadmapEntity({
     required this.id,
     required this.title,
@@ -23,24 +19,16 @@ class HomeRoadmapEntity {
     required this.status,
   });
 
-  factory HomeRoadmapEntity.fromJson(Map<String, dynamic> json) {
-    return HomeRoadmapEntity(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      progress: json['progress'] as int? ?? 0,
-      status: json['status'] as String? ?? 'active',
-    );
-  }
+  final String id;
+  final String title;
+  final int progress;
+  final String status;
+
+  @override
+  List<Object?> get props => [id, title, progress, status];
 }
 
-class HomeJobMatchEntity {
-  final String jobId;
-  final String jobTitle;
-  final String company;
-  final int matchPercentage;
-  final String? salaryRange;
-  final bool isRemote;
-
+class HomeJobMatchEntity extends Equatable {
   const HomeJobMatchEntity({
     required this.jobId,
     required this.jobTitle,
@@ -50,30 +38,25 @@ class HomeJobMatchEntity {
     this.isRemote = false,
   });
 
-  factory HomeJobMatchEntity.fromJson(Map<String, dynamic> json) {
-    final job = json['job'] as Map<String, dynamic>? ?? json;
-    return HomeJobMatchEntity(
-      jobId: json['job_id'] as String? ?? job['id'] as String? ?? '',
-      jobTitle: job['title'] as String? ?? '',
-      company: job['company'] as String? ?? '',
-      matchPercentage: json['match_percentage'] as int? ?? 0,
-      salaryRange: job['salary_range'] as String?,
-      isRemote: (job['employment_type'] as String?)
-          ?.toLowerCase()
-          .contains('remote') ??
-          false,
-    );
-  }
+  final String jobId;
+  final String jobTitle;
+  final String company;
+  final int matchPercentage;
+  final String? salaryRange;
+  final bool isRemote;
+
+  @override
+  List<Object?> get props => [
+        jobId,
+        jobTitle,
+        company,
+        matchPercentage,
+        salaryRange,
+        isRemote,
+      ];
 }
 
-class HomeSummaryEntity {
-  final HomeUserEntity user;
-  final int? cvScore;
-  final String? analyzedRole;
-  final List<String> missingSkills;
-  final HomeRoadmapEntity? roadmap;
-  final List<HomeJobMatchEntity> jobMatches;
-
+class HomeSummaryEntity extends Equatable {
   const HomeSummaryEntity({
     required this.user,
     this.cvScore,
@@ -82,4 +65,21 @@ class HomeSummaryEntity {
     this.roadmap,
     this.jobMatches = const [],
   });
+
+  final HomeUserEntity user;
+  final int? cvScore;
+  final String? analyzedRole;
+  final List<String> missingSkills;
+  final HomeRoadmapEntity? roadmap;
+  final List<HomeJobMatchEntity> jobMatches;
+
+  @override
+  List<Object?> get props => [
+        user,
+        cvScore,
+        analyzedRole,
+        missingSkills,
+        roadmap,
+        jobMatches,
+      ];
 }

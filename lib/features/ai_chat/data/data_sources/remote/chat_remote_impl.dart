@@ -1,57 +1,62 @@
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../../core/network/api_client.dart';
+import '../../../../../core/network/api_endpoints.dart';
+import '../../models/chat_models.dart';
 import 'chat_remote_data_source.dart';
 
 @LazySingleton(as: ChatRemoteDataSource)
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
-  final Dio dio;
+  const ChatRemoteDataSourceImpl(this._apiClient);
 
-  ChatRemoteDataSourceImpl(this.dio);
+  final ApiClient _apiClient;
 
   @override
-  Future<Map<String, dynamic>> createSession({String? title}) async {
-    final response = await dio.post(
-      '/chat/sessions',
-      data: {'title': title ?? 'New chat'},
+  Future<ChatSessionModel> createSession({String? title}) async {
+    final response = await _apiClient.post(
+      ApiEndpoints.chatSessions,
+      data: title == null ? const {} : {'title': title},
     );
-
-    return response.data['session'] as Map<String, dynamic>;
+    final json = response.data as Map<String, dynamic>;
+    return ChatSessionModel(json['session'] as Map<String, dynamic>);
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getSessions() async {
-    final response = await dio.get('/chat/sessions');
-
-    return List<Map<String, dynamic>>.from(
-      response.data['sessions'] as List,
-    );
+  Future<List<ChatSessionModel>> getSessions() async {
+    final response = await _apiClient.get(ApiEndpoints.chatSessions);
+    final json = response.data as Map<String, dynamic>;
+    return (json['sessions'] as List? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map(ChatSessionModel.new)
+        .toList();
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getMessages(String sessionId) async {
-    final response = await dio.get('/chat/$sessionId/messages');
-
-    return List<Map<String, dynamic>>.from(
-      response.data['messages'] as List,
-    );
+  Future<List<ChatMessageModel>> getMessages(String sessionId) async {
+    final response = await _apiClient.get(ApiEndpoints.chatMessages(sessionId));
+    final json = response.data as Map<String, dynamic>;
+    return (json['messages'] as List? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map((item) => ChatMessageModel(item, sessionId: sessionId))
+        .toList();
   }
 
   @override
-  Future<Map<String, dynamic>> sendMessage({
+  Future<ChatReplyModel> sendMessage({
     required String sessionId,
     required String message,
   }) async {
-    final response = await dio.post(
-      '/chat/$sessionId',
+    final response = await _apiClient.post(
+      ApiEndpoints.sendChatMessage(sessionId),
       data: {'message': message},
     );
-
-    return response.data as Map<String, dynamic>;
+    return ChatReplyModel(
+      response.data as Map<String, dynamic>,
+      sessionId: sessionId,
+    );
   }
 
   @override
-  Future<void> deleteSession(String sessionId) async {
-    await dio.delete('/chat/sessions/$sessionId');
-  }
+  Future<void> deleteSession(String sessionId) =>
+      _apiClient.delete(ApiEndpoints.deleteSession(sessionId));
 }

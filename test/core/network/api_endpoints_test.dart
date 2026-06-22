@@ -4,7 +4,7 @@ import 'package:pathfinder_app/core/network/api_endpoints.dart';
 void main() {
   group('ApiEndpoints', () {
     test('builds reusable resource endpoints from IDs', () {
-      expect(ApiEndpoints.cvAnalysisDetails('12'), '/cv/analyses/12');
+      expect(ApiEndpoints.cvAnalysisDetails('12'), '/v1/cvs/12');
       expect(ApiEndpoints.myRoadmap, '/v1/roadmaps/me');
       expect(ApiEndpoints.generateRoadmap, '/v1/roadmaps/generate');
       expect(ApiEndpoints.roadmapDetails('12'), '/v1/roadmaps/12');
@@ -23,10 +23,10 @@ void main() {
         ApiEndpoints.courseEnrollment('12'),
         '/v1/courses/12/enrollment',
       );
-      expect(ApiEndpoints.jobDetails('12'), '/jobs/12');
+      expect(ApiEndpoints.jobDetails('12'), '/v1/jobs/12');
       expect(
         ApiEndpoints.chatMessages('12'),
-        '/chat/sessions/12/messages',
+        '/v1/chat/12/messages',
       );
       expect(
         ApiEndpoints.submitInterviewAnswer('12'),
@@ -40,7 +40,7 @@ void main() {
     });
 
     test('encodes IDs as safe URL path segments', () {
-      expect(ApiEndpoints.jobDetails('job/12'), '/jobs/job%2F12');
+      expect(ApiEndpoints.jobDetails('job/12'), '/v1/jobs/job%2F12');
       expect(
         ApiEndpoints.courseDetails('course/12'),
         '/v1/courses/course%2F12',
@@ -50,7 +50,7 @@ void main() {
         '/v1/roadmaps/road%2Fmap/steps/step%20one/progress',
       );
       expect(ApiEndpoints.chatMessages('session 1'),
-          '/chat/sessions/session%201/messages');
+          '/v1/chat/session%201/messages');
     });
   });
 }

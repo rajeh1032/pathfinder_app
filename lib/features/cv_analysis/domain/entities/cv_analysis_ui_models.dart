@@ -1,7 +1,3 @@
-
-import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-
 enum SkillChipType { strength, weakness, missing }
 
 class CvSkillChip {
@@ -36,44 +32,43 @@ class CvRecommendation {
   final String title;
   final String subtitle;
   final String avatarLabel;
-  final Color avatarColor;
+  final int colorIndex;
 
   const CvRecommendation({
     required this.title,
     required this.subtitle,
     required this.avatarLabel,
-    required this.avatarColor,
+    required this.colorIndex,
   });
 
   /// Converts plain suggestion strings from the backend into displayable
   /// recommendation cards. Splits "Title: detail" style strings when
   /// possible, otherwise uses the whole string as the title.
   static List<CvRecommendation> fromSuggestions(List<String> suggestions) {
-    const palette = [
-      AppColors.primary,
-      AppColors.secondary,
-      AppColors.tertiary,
-      AppColors.warning,
-    ];
-
     return suggestions.asMap().entries.map((entry) {
       final index = entry.key;
       final text = entry.value;
 
       final parts = text.split(':');
       final title = parts.length > 1 ? parts.first.trim() : text;
-      final subtitle = parts.length > 1 ? parts.sublist(1).join(':').trim() : '';
+      final subtitle =
+          parts.length > 1 ? parts.sublist(1).join(':').trim() : '';
 
-      final color = palette[index % palette.length];
       final initials = title.isNotEmpty
-          ? title.trim().split(' ').take(2).map((w) => w[0]).join().toUpperCase()
+          ? title
+              .trim()
+              .split(' ')
+              .take(2)
+              .map((w) => w[0])
+              .join()
+              .toUpperCase()
           : 'AI';
 
       return CvRecommendation(
         title: title,
         subtitle: subtitle,
         avatarLabel: initials,
-        avatarColor: color,
+        colorIndex: index % 4,
       );
     }).toList();
   }

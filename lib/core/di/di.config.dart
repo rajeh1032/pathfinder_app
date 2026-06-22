@@ -91,6 +91,24 @@ import 'package:pathfinder_app/features/courses/presentation/cubit/courses_catal
     as _i284;
 import 'package:pathfinder_app/features/courses/presentation/cubit/saved_courses_cubit.dart'
     as _i976;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_data_source.dart'
+    as _i752;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_impl.dart'
+    as _i183;
+import 'package:pathfinder_app/features/cv_analysis/data/repositories/cv_anaylsis_repo_impl.dart'
+    as _i564;
+import 'package:pathfinder_app/features/cv_analysis/domain/repositories/cv_anaylsis_repo.dart'
+    as _i166;
+import 'package:pathfinder_app/features/cv_analysis/presentation/cubit/cv_anaysis_cubit.dart'
+    as _i186;
+import 'package:pathfinder_app/features/home/data/data_sources/remote/home_remote_data_source.dart'
+    as _i815;
+import 'package:pathfinder_app/features/home/data/repositories/home_repo_impl.dart'
+    as _i856;
+import 'package:pathfinder_app/features/home/domain/repo/home_repo.dart'
+    as _i888;
+import 'package:pathfinder_app/features/home/presentation/cubit/home_cubit.dart'
+    as _i618;
 import 'package:pathfinder_app/features/jobs/data/data_sources/remote/saved_jobs_remote_data_source.dart'
     as _i733;
 import 'package:pathfinder_app/features/jobs/data/repositories/saved_jobs_repository_impl.dart'
@@ -129,16 +147,6 @@ import 'package:pathfinder_app/features/profile/domain/use_cases/update_my_profi
     as _i925;
 import 'package:pathfinder_app/features/profile/presentation/cubit/my_profile_cubit.dart'
     as _i694;
-import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_data_source.dart'
-    as _i752;
-import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_impl.dart'
-    as _i183;
-import 'package:pathfinder_app/features/cv_analysis/data/repositories/cv_anaylsis_repo_impl.dart'
-    as _i564;
-import 'package:pathfinder_app/features/cv_analysis/domain/repositories/cv_anaylsis_repo.dart'
-    as _i166;
-import 'package:pathfinder_app/features/cv_analysis/presentation/cubit/cv_anaysis_cubit.dart'
-    as _i186;
 import 'package:pathfinder_app/features/roadmaps/data/data_sources/remote/roadmaps_remote_data_source.dart'
     as _i991;
 import 'package:pathfinder_app/features/roadmaps/data/repositories/roadmaps_repository_impl.dart'
@@ -199,44 +207,38 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i120.AuthLocalDataSourceImpl(gh<_i203.TokenStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
-    gh.lazySingleton<_i570.ChatRemoteDataSource>(
-        () => _i479.ChatRemoteDataSourceImpl(gh<_i361.Dio>()));
-    gh.lazySingleton<_i752.CvAnalysisRemoteDataSource>(
-        () => _i183.CvAnalysisRemoteDataSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
     gh.lazySingleton<_i733.SavedJobsRemoteDataSource>(
         () => _i733.SavedJobsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
-    gh.lazySingleton<_i262.ChatRepository>(
-        () => _i943.ChatRepositoryImpl(gh<_i570.ChatRemoteDataSource>()));
     gh.lazySingleton<_i310.AuthRemoteDataSource>(
         () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i752.CvAnalysisRemoteDataSource>(
+        () => _i183.CvAnalysisRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i501.CoursesRemoteDataSource>(
         () => _i501.CoursesRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i893.CoursesRepository>(() => _i773.CoursesRepositoryImpl(
           gh<_i501.CoursesRemoteDataSource>(),
           gh<_i874.NetworkInfo>(),
         ));
+    gh.lazySingleton<_i570.ChatRemoteDataSource>(
+        () => _i479.ChatRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i991.RoadmapsRemoteDataSource>(
         () => _i991.RoadmapsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i714.CareerPathsRemoteDataSource>(
         () => _i714.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i977.ProfileRemoteDataSource>(
         () => _i977.ProfileRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i815.HomeRemoteDataSource>(
+        () => _i815.HomeRemoteDataSourceImpl(gh<_i429.ApiClient>()));
     gh.lazySingleton<_i617.UserProfileRepository>(
         () => _i891.UserProfileRepositoryImpl(
               gh<_i977.ProfileRemoteDataSource>(),
               gh<_i874.NetworkInfo>(),
             ));
-    gh.factory<_i356.ChatCubit>(
-        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
-    gh.lazySingleton<_i166.CvAnalysisRepository>(
-        () => _i564.CvAnalysisRepositoryImpl(gh<_i429.ApiClient>()));
-    gh.lazySingleton<_i714.CareerPathsRemoteDataSource>(
-        () => _i714.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
-    gh.factory<_i356.ChatCubit>(
-        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
-    gh.factory<_i186.CvAnalysisCubit>(
-        () => _i186.CvAnalysisCubit(gh<_i166.CvAnalysisRepository>()));
+    gh.lazySingleton<_i262.ChatRepository>(() => _i943.ChatRepositoryImpl(
+          gh<_i570.ChatRemoteDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
     gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
           gh<_i310.AuthRemoteDataSource>(),
           gh<_i120.AuthLocalDataSource>(),
@@ -277,6 +279,11 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i991.RoadmapsRemoteDataSource>(),
               gh<_i874.NetworkInfo>(),
             ));
+    gh.lazySingleton<_i166.CvAnalysisRepository>(
+        () => _i564.CvAnalysisRepositoryImpl(
+              gh<_i752.CvAnalysisRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
     gh.lazySingleton<_i587.CreateEducationUseCase>(
         () => _i587.CreateEducationUseCase(gh<_i617.UserProfileRepository>()));
     gh.lazySingleton<_i896.CreateExperienceUseCase>(
@@ -299,6 +306,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i925.UpdateMyProfileUseCase(gh<_i617.UserProfileRepository>()));
     gh.factory<_i926.CareerPathsCubit>(
         () => _i926.CareerPathsCubit(gh<_i123.GetCareerPathsUseCase>()));
+    gh.lazySingleton<_i888.HomeRepository>(() => _i856.HomeRepositoryImpl(
+          gh<_i815.HomeRemoteDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
     gh.factory<_i284.CoursesCatalogCubit>(() => _i284.CoursesCatalogCubit(
           gh<_i582.GetCoursesUseCase>(),
           gh<_i661.GetRecommendedCoursesUseCase>(),
@@ -324,6 +335,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1033.GetRoadmapDetailsUseCase(gh<_i445.RoadmapsRepository>()));
     gh.lazySingleton<_i315.UpdateRoadmapStepProgressUseCase>(() =>
         _i315.UpdateRoadmapStepProgressUseCase(gh<_i445.RoadmapsRepository>()));
+    gh.factory<_i618.HomeCubit>(
+        () => _i618.HomeCubit(gh<_i888.HomeRepository>()));
     gh.lazySingleton<_i203.LoginUseCase>(
         () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
     gh.lazySingleton<_i338.RegisterUseCase>(
@@ -332,12 +345,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i506.SavedJobsCubit(gh<_i344.GetSavedJobsUseCase>()));
     gh.factory<_i976.SavedCoursesCubit>(
         () => _i976.SavedCoursesCubit(gh<_i296.GetSavedCoursesUseCase>()));
+    gh.factory<_i356.ChatCubit>(
+        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
     gh.factory<_i1070.RoadmapsCubit>(() => _i1070.RoadmapsCubit(
           gh<_i844.GetMyRoadmapUseCase>(),
           gh<_i741.GenerateRoadmapUseCase>(),
           gh<_i1033.GetRoadmapDetailsUseCase>(),
           gh<_i315.UpdateRoadmapStepProgressUseCase>(),
         ));
+    gh.factory<_i186.CvAnalysisCubit>(
+        () => _i186.CvAnalysisCubit(gh<_i166.CvAnalysisRepository>()));
     gh.factory<_i751.AccountIdentityCubit>(() => _i751.AccountIdentityCubit(
           gh<_i612.GetMyProfileUseCase>(),
           gh<_i123.GetCareerPathsUseCase>(),

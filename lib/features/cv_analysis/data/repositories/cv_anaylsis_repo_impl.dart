@@ -1,59 +1,52 @@
-import 'dart:io';
-
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/network/api_client.dart';
-import '../../../../core/network/api_endpoints.dart';
+import '../../../../core/errors/error_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/network/dio_error_handler.dart';
+import '../../../../core/network/network_info.dart';
 import '../../domain/entities/cv_anaysis_entity.dart';
 import '../../domain/repositories/cv_anaylsis_repo.dart';
-import '../models/cv_anaysis_entity.dart';
+import '../data_sources/remote/cv_anaylsis_remote_data_source.dart';
 
 @LazySingleton(as: CvAnalysisRepository)
 class CvAnalysisRepositoryImpl implements CvAnalysisRepository {
-  final ApiClient _apiClient;
+  const CvAnalysisRepositoryImpl(this._remoteDataSource, this._networkInfo);
 
-  CvAnalysisRepositoryImpl(this._apiClient);
+  final CvAnalysisRemoteDataSource _remoteDataSource;
+  final NetworkInfo _networkInfo;
 
-  Map<String, dynamic> _payload(dynamic responseData) {
-    final json = responseData as Map<String, dynamic>;
-    final data = json['data'];
+  @override
+  Future<Either<Failure, CvStatusEntity>> getCvStatus() =>
+      _request(() async => (await _remoteDataSource.getCvStatus()).toEntity());
 
-    if (data is Map<String, dynamic>) {
-      return data;
+  @override
+  Future<Either<Failure, CvWithAnalysisEntity>> uploadAndAnalyze(
+    String filePath,
+  ) =>
+      _request(
+        () async =>
+            (await _remoteDataSource.uploadAndAnalyze(filePath)).toEntity(),
+      );
+
+  @override
+  Future<Either<Failure, CvWithAnalysisEntity>> getLatestAnalysis() => _request(
+        () async => (await _remoteDataSource.getLatestAnalysis()).toEntity(),
+      );
+
+  Future<Either<Failure, T>> _request<T>(Future<T> Function() request) async {
+    if (!await _networkInfo.isConnected) {
+      return const Left(NetworkFailure(ErrorMessages.network));
     }
-
-    return json;
-  }
-
-  @override
-  Future<CvWithAnalysisEntity> uploadAndAnalyze(String filePath) async {
-    final response = await _apiClient.uploadFile(
-      ApiEndpoints.analyzeCv,
-      file: File(filePath),
-      fieldName: 'file',
-    );
-
-    return CvWithAnalysisModel.fromJson(_payload(response.data));
-  }
-
-  @override
-  Future<CvWithAnalysisEntity> getLatestAnalysis() async {
-    final response = await _apiClient.get(ApiEndpoints.latestCvAnalysis);
-
-    return CvWithAnalysisModel.fromJson(_payload(response.data));
-  }
-
-  @override
-  Future<CvStatusEntity> getCvStatus() async {
-    final response = await _apiClient.get(ApiEndpoints.cvStatus);
-
-    return CvStatusModel.fromJson(_payload(response.data));
-  }
-
-  @override
-  Future<CvWithAnalysisEntity> getAnalysisById(String cvId) async {
-    final response = await _apiClient.get(ApiEndpoints.cvDetails(cvId));
-
-    return CvWithAnalysisModel.fromJson(_payload(response.data));
+    try {
+      return Right(await request());
+    } on DioException catch (error) {
+      return Left(DioErrorHandler.handle(error));
+    } on FormatException catch (error) {
+      return Left(ServerFailure(error.message));
+    } catch (_) {
+      return const Left(UnknownFailure(ErrorMessages.unknown));
+    }
   }
 }

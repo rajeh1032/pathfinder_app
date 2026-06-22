@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -34,9 +33,7 @@ class _ChecklistSectionState extends State<ChecklistSection> {
   @override
   void initState() {
     super.initState();
-    _items = widget.items
-        .map((text) => CvChecklistItem(text: text))
-        .toList();
+    _items = widget.items.map((text) => CvChecklistItem(text: text)).toList();
   }
 
   @override
@@ -66,7 +63,8 @@ class _ChecklistSectionState extends State<ChecklistSection> {
           decoration: BoxDecoration(
             color: colorScheme.surface,
             borderRadius: BorderRadius.circular(AppRadius.lg.r),
-            border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
+            border:
+                Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
           ),
           child: Column(
             children: _items.asMap().entries.map((entry) {
@@ -89,10 +87,10 @@ class _ChecklistSectionState extends State<ChecklistSection> {
                     border: isLast
                         ? null
                         : Border(
-                      bottom: BorderSide(
-                        color: colorScheme.outline.withValues(alpha: 0.3),
-                      ),
-                    ),
+                            bottom: BorderSide(
+                              color: colorScheme.outline.withValues(alpha: 0.3),
+                            ),
+                          ),
                   ),
                   child: Row(
                     children: [
@@ -104,16 +102,21 @@ class _ChecklistSectionState extends State<ChecklistSection> {
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: item.isDone
-                                ? AppColors.success
+                                ? Theme.of(context).colorScheme.secondary
                                 : colorScheme.outline,
                             width: 1.5,
                           ),
                           color: item.isDone
-                              ? AppColors.success
-                              : Colors.transparent,
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .surface
+                                  .withValues(alpha: 0),
                         ),
                         child: item.isDone
-                            ? Icon(Icons.check, size: 12.sp, color: Colors.white)
+                            ? Icon(Icons.check,
+                                size: 12.sp,
+                                color: Theme.of(context).colorScheme.onPrimary)
                             : null,
                       ),
                       SizedBox(width: AppSpacing.sm.w),
@@ -126,9 +129,8 @@ class _ChecklistSectionState extends State<ChecklistSection> {
                                 : colorScheme.onSurface,
                           ).copyWith(
                             fontSize: 13.sp,
-                            decoration: item.isDone
-                                ? TextDecoration.lineThrough
-                                : null,
+                            decoration:
+                                item.isDone ? TextDecoration.lineThrough : null,
                           ),
                         ),
                       ),

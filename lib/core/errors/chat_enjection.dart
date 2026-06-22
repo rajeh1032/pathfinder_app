@@ -10,11 +10,11 @@ class AppException implements Exception {
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||
         error.type == DioExceptionType.sendTimeout) {
-      return AppException('connectionTimeout'.tr_fallback());
+      return AppException('connectionTimeout'.trFallback());
     }
 
     if (error.type == DioExceptionType.connectionError) {
-      return AppException('noInternetConnection'.tr_fallback());
+      return AppException('noInternetConnection'.trFallback());
     }
 
     final statusCode = error.response?.statusCode;
@@ -27,31 +27,29 @@ class AppException implements Exception {
 
     switch (statusCode) {
       case 400:
-        return AppException(serverMessage ?? 'validationFailed'.tr_fallback(),
+        return AppException(serverMessage ?? 'validationFailed'.trFallback(),
             statusCode: 400);
       case 401:
-        return AppException(
-            serverMessage ?? 'sessionExpired'.tr_fallback(),
+        return AppException(serverMessage ?? 'sessionExpired'.trFallback(),
             statusCode: 401);
       case 404:
-        return AppException(serverMessage ?? 'notFound'.tr_fallback(),
+        return AppException(serverMessage ?? 'notFound'.trFallback(),
             statusCode: 404);
       case 409:
-        return AppException(serverMessage ?? 'conflict'.tr_fallback(),
+        return AppException(serverMessage ?? 'conflict'.trFallback(),
             statusCode: 409);
       case 413:
-        return AppException(serverMessage ?? 'fileTooLarge'.tr_fallback(),
+        return AppException(serverMessage ?? 'fileTooLarge'.trFallback(),
             statusCode: 413);
       case 415:
-        return AppException(
-            serverMessage ?? 'unsupportedFileType'.tr_fallback(),
+        return AppException(serverMessage ?? 'unsupportedFileType'.trFallback(),
             statusCode: 415);
       case 429:
-        return AppException(serverMessage ?? 'tooManyRequests'.tr_fallback(),
+        return AppException(serverMessage ?? 'tooManyRequests'.trFallback(),
             statusCode: 429);
       default:
         return AppException(
-          serverMessage ?? 'somethingWentWrong'.tr_fallback(),
+          serverMessage ?? 'somethingWentWrong'.trFallback(),
           statusCode: statusCode,
         );
     }
@@ -65,5 +63,5 @@ class AppException implements Exception {
 // context. Replace with `.tr()` calls directly if you prefer localized
 // strings resolved at the call site instead.
 extension _TrFallback on String {
-  String tr_fallback() => this;
+  String trFallback() => this;
 }

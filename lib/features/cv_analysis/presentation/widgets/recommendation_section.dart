@@ -28,60 +28,69 @@ class RecommendationsSection extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.sm.h),
         ...recommendations.map(
-              (rec) => Container(
-            margin: EdgeInsets.only(bottom: AppSpacing.sm.h),
-            padding: EdgeInsets.all(AppSpacing.md.w),
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(AppRadius.lg.r),
-              border:
-              Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 44.w,
-                  height: 44.w,
-                  decoration: BoxDecoration(
-                    color: rec?.avatarColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(AppRadius.md.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      rec.avatarLabel,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w800,
-                        color: rec.avatarColor,
+          (rec) {
+            final palette = [
+              colorScheme.primary,
+              colorScheme.secondary,
+              colorScheme.tertiary,
+              colorScheme.error,
+            ];
+            final avatarColor = palette[rec.colorIndex];
+            return Container(
+              margin: EdgeInsets.only(bottom: AppSpacing.sm.h),
+              padding: EdgeInsets.all(AppSpacing.md.w),
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(AppRadius.lg.r),
+                border: Border.all(
+                    color: colorScheme.outline.withValues(alpha: 0.4)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 44.w,
+                    height: 44.w,
+                    decoration: BoxDecoration(
+                      color: avatarColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(AppRadius.md.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        rec.avatarLabel,
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w800,
+                          color: avatarColor,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: AppSpacing.sm.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        rec.title,
-                        style: AppTextStyles.titleSmall(colorScheme.onSurface)
-                            .copyWith(fontSize: 13.sp),
-                      ),
-                      if (rec.subtitle.isNotEmpty) ...[
-                        SizedBox(height: 2.h),
+                  SizedBox(width: AppSpacing.sm.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          rec.subtitle,
-                          style: AppTextStyles.bodySmall(
-                            colorScheme.onSurfaceVariant,
-                          ).copyWith(fontSize: 11.sp),
+                          rec.title,
+                          style: AppTextStyles.titleSmall(colorScheme.onSurface)
+                              .copyWith(fontSize: 13.sp),
                         ),
+                        if (rec.subtitle.isNotEmpty) ...[
+                          SizedBox(height: 2.h),
+                          Text(
+                            rec.subtitle,
+                            style: AppTextStyles.bodySmall(
+                              colorScheme.onSurfaceVariant,
+                            ).copyWith(fontSize: 11.sp),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );

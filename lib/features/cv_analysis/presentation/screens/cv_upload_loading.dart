@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +131,7 @@ class _CvUploadLoadingScreenState extends State<CvUploadLoadingScreen>
               // Steps
               ..._steps.asMap().entries.map(
                     (e) => StepTile(step: e.value),
-              ),
+                  ),
               const Spacer(),
               // Pro Tip
               ProTipCard(),
@@ -144,5 +143,3 @@ class _CvUploadLoadingScreenState extends State<CvUploadLoadingScreen>
     );
   }
 }
-
-

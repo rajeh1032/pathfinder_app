@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -21,14 +20,14 @@ class ChipsSection extends StatelessWidget {
     required this.chips,
   });
 
-  Color chipColor(SkillChipType type) {
+  Color chipColor(BuildContext context, SkillChipType type) {
     switch (type) {
       case SkillChipType.strength:
-        return AppColors.success;
+        return Theme.of(context).colorScheme.secondary;
       case SkillChipType.weakness:
-        return AppColors.warning;
+        return Theme.of(context).colorScheme.tertiary;
       case SkillChipType.missing:
-        return AppColors.error;
+        return Theme.of(context).colorScheme.error;
     }
   }
 
@@ -57,7 +56,7 @@ class ChipsSection extends StatelessWidget {
           spacing: AppSpacing.sm.w,
           runSpacing: AppSpacing.sm.h,
           children: chips.map((chip) {
-            final color = chipColor(chip.type);
+            final color = chipColor(context, chip.type);
             return Container(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.md.w,

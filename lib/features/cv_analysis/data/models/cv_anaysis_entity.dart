@@ -1,161 +1,131 @@
 import '../../domain/entities/cv_anaysis_entity.dart';
 
-/// Data-layer model for [DetectedSkillEntity].
-/// Reuses the entity's own `fromJson` since it already matches the API
-/// response shape (snake_case keys) — no extra mapping needed here.
-class DetectedSkillModel extends DetectedSkillEntity {
+List<String> _strings(dynamic value) =>
+    value is List ? value.map((item) => item.toString()).toList() : const [];
+
+DateTime _date(dynamic value) =>
+    DateTime.tryParse(value?.toString() ?? '') ??
+    DateTime.fromMillisecondsSinceEpoch(0);
+
+class DetectedSkillModel {
   const DetectedSkillModel({
-    required super.name,
-    required super.level,
-    required super.category,
-    required super.evidence,
-    super.skillId,
-    required super.confidence,
+    required this.name,
+    required this.level,
+    required this.category,
+    required this.evidence,
+    this.skillId,
+    required this.confidence,
   });
 
-  factory DetectedSkillModel.fromJson(Map<String, dynamic> json) {
-    final entity = DetectedSkillEntity.fromJson(json);
-    return DetectedSkillModel(
-      name: entity.name,
-      level: entity.level,
-      category: entity.category,
-      evidence: entity.evidence,
-      skillId: entity.skillId,
-      confidence: entity.confidence,
-    );
-  }
+  final String name;
+  final String level;
+  final String category;
+  final String evidence;
+  final String? skillId;
+  final double confidence;
+
+  factory DetectedSkillModel.fromJson(Map<String, dynamic> json) =>
+      DetectedSkillModel(
+        name: json['name'] as String? ?? '',
+        level: json['level'] as String? ?? '',
+        category: json['category'] as String? ?? '',
+        evidence: json['evidence'] as String? ?? '',
+        skillId: json['skill_id'] as String?,
+        confidence: (json['confidence'] as num?)?.toDouble() ?? 0,
+      );
+
+  DetectedSkillEntity toEntity() => DetectedSkillEntity(
+        name: name,
+        level: level,
+        category: category,
+        evidence: evidence,
+        skillId: skillId,
+        confidence: confidence,
+      );
 }
 
-/// Data-layer model for [CvExtractedEntity].
-class CvExtractedModel extends CvExtractedEntity {
-  const CvExtractedModel({
-    required super.projects,
-    required super.languages,
-    required super.jobKeywords,
-    required super.certifications,
-    required super.missingSkills,
-    required super.interviewFocus,
-    required super.recommendedRoles,
-  });
+class CvExtractedModel {
+  const CvExtractedModel(this.json);
+  final Map<String, dynamic> json;
 
-  factory CvExtractedModel.fromJson(Map<String, dynamic> json) {
-    final entity = CvExtractedEntity.fromJson(json);
-    return CvExtractedModel(
-      projects: entity.projects,
-      languages: entity.languages,
-      jobKeywords: entity.jobKeywords,
-      certifications: entity.certifications,
-      missingSkills: entity.missingSkills,
-      interviewFocus: entity.interviewFocus,
-      recommendedRoles: entity.recommendedRoles,
-    );
-  }
+  CvExtractedEntity toEntity() => CvExtractedEntity(
+        projects: _strings(json['projects']),
+        languages: _strings(json['languages']),
+        jobKeywords: _strings(json['job_keywords']),
+        certifications: _strings(json['certifications']),
+        missingSkills: _strings(json['missing_skills']),
+        interviewFocus: _strings(json['interview_focus']),
+        recommendedRoles: _strings(json['recommended_roles']),
+      );
 }
 
-/// Data-layer model for [CvAnalysisEntity].
-class CvAnalysisModel extends CvAnalysisEntity {
-  const CvAnalysisModel({
-    required super.id,
-    required super.cvId,
-    required super.score,
-    required super.summary,
-    required super.strengths,
-    required super.weaknesses,
-    required super.suggestions,
-    required super.detectedSkills,
-    required super.extracted,
-    required super.status,
-    required super.createdAt,
-  });
+class CvAnalysisModel {
+  const CvAnalysisModel(this.json);
+  final Map<String, dynamic> json;
 
-  factory CvAnalysisModel.fromJson(Map<String, dynamic> json) {
-    final entity = CvAnalysisEntity.fromJson(json);
-    return CvAnalysisModel(
-      id: entity.id,
-      cvId: entity.cvId,
-      score: entity.score,
-      summary: entity.summary,
-      strengths: entity.strengths,
-      weaknesses: entity.weaknesses,
-      suggestions: entity.suggestions,
-      detectedSkills: entity.detectedSkills,
-      extracted: entity.extracted,
-      status: entity.status,
-      createdAt: entity.createdAt,
-    );
-  }
+  CvAnalysisEntity toEntity() => CvAnalysisEntity(
+        id: json['id'] as String? ?? '',
+        cvId: json['cv_id'] as String? ?? '',
+        score: (json['score'] as num?)?.round() ?? 0,
+        summary: json['summary'] as String? ?? '',
+        strengths: _strings(json['strengths']),
+        weaknesses: _strings(json['weaknesses']),
+        suggestions: _strings(json['suggestions']),
+        detectedSkills: (json['detected_skills'] as List? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(DetectedSkillModel.fromJson)
+            .map((model) => model.toEntity())
+            .toList(),
+        extracted: CvExtractedModel(
+          json['extracted'] as Map<String, dynamic>? ?? const {},
+        ).toEntity(),
+        status: json['status'] as String? ?? 'completed',
+        createdAt: _date(json['created_at']),
+      );
 }
 
-/// Data-layer model for [CvEntity].
-class CvModel extends CvEntity {
-  const CvModel({
-    required super.id,
-    required super.userId,
-    super.fileUrl,
-    required super.storagePath,
-    required super.originalName,
-    required super.mimeType,
-    required super.sizeBytes,
-    required super.status,
-    required super.uploadedAt,
-  });
+class CvModel {
+  const CvModel(this.json);
+  final Map<String, dynamic> json;
 
-  factory CvModel.fromJson(Map<String, dynamic> json) {
-    final entity = CvEntity.fromJson(json);
-    return CvModel(
-      id: entity.id,
-      userId: entity.userId,
-      fileUrl: entity.fileUrl,
-      storagePath: entity.storagePath,
-      originalName: entity.originalName,
-      mimeType: entity.mimeType,
-      sizeBytes: entity.sizeBytes,
-      status: entity.status,
-      uploadedAt: entity.uploadedAt,
-    );
-  }
+  CvEntity toEntity() => CvEntity(
+        id: json['id'] as String? ?? '',
+        userId: json['user_id'] as String? ?? '',
+        fileUrl: json['file_url'] as String?,
+        storagePath: json['storage_path'] as String? ?? '',
+        originalName: json['original_name'] as String? ?? '',
+        mimeType: json['mime_type'] as String? ?? '',
+        sizeBytes: (json['size_bytes'] as num?)?.round() ?? 0,
+        status: json['status'] as String? ?? '',
+        uploadedAt: _date(json['uploaded_at'] ?? json['created_at']),
+      );
 }
 
-/// Data-layer model combining [CvModel] and [CvAnalysisModel].
-///
-/// Expected backend response shape (adjust keys if your API differs):
-/// ```json
-/// {
-///   "cv": { ...CvEntity fields... },
-///   "analysis": { ...CvAnalysisEntity fields... }
-/// }
-/// ```
-class CvWithAnalysisModel extends CvWithAnalysisEntity {
-  const CvWithAnalysisModel({
-    required super.cv,
-    required super.analysis,
-  });
+class CvWithAnalysisModel {
+  const CvWithAnalysisModel({required this.cv, required this.analysis});
+  final CvModel cv;
+  final CvAnalysisModel analysis;
 
-  factory CvWithAnalysisModel.fromJson(Map<String, dynamic> json) {
-    return CvWithAnalysisModel(
-      cv: CvModel.fromJson(json['cv'] as Map<String, dynamic>),
-      analysis:
-      CvAnalysisModel.fromJson(json['analysis'] as Map<String, dynamic>),
-    );
-  }
+  factory CvWithAnalysisModel.fromJson(Map<String, dynamic> json) =>
+      CvWithAnalysisModel(
+        cv: CvModel(json['cv'] as Map<String, dynamic>? ?? const {}),
+        analysis: CvAnalysisModel(
+          json['analysis'] as Map<String, dynamic>? ?? const {},
+        ),
+      );
+
+  CvWithAnalysisEntity toEntity() =>
+      CvWithAnalysisEntity(cv: cv.toEntity(), analysis: analysis.toEntity());
 }
 
-/// Data-layer model for [CvStatusEntity].
-class CvStatusModel extends CvStatusEntity {
-  const CvStatusModel({
-    required super.hasCv,
-    required super.hasCompletedAnalysis,
-    super.latestCvStatus,
-    super.requiredAction,
-  });
+class CvStatusModel {
+  const CvStatusModel(this.json);
+  final Map<String, dynamic> json;
 
-  factory CvStatusModel.fromJson(Map<String, dynamic> json) {
-    final entity = CvStatusEntity.fromJson(json);
-    return CvStatusModel(
-      hasCv: entity.hasCv,
-      hasCompletedAnalysis: entity.hasCompletedAnalysis,
-      latestCvStatus: entity.latestCvStatus,
-      requiredAction: entity.requiredAction,
-    );
-  }
+  CvStatusEntity toEntity() => CvStatusEntity(
+        hasCv: json['hasCv'] as bool? ?? false,
+        hasCompletedAnalysis: json['hasCompletedAnalysis'] as bool? ?? false,
+        latestCvStatus: json['latestCvStatus'] as String?,
+        requiredAction: json['requiredAction'] as String?,
+      );
 }

@@ -1,11 +1,6 @@
-class DetectedSkillEntity {
-  final String name;
-  final String level;
-  final String category;
-  final String evidence;
-  final String? skillId;
-  final double confidence;
+import 'package:equatable/equatable.dart';
 
+class DetectedSkillEntity extends Equatable {
   const DetectedSkillEntity({
     required this.name,
     required this.level,
@@ -15,27 +10,19 @@ class DetectedSkillEntity {
     required this.confidence,
   });
 
-  factory DetectedSkillEntity.fromJson(Map<String, dynamic> json) {
-    return DetectedSkillEntity(
-      name: json['name'] as String,
-      level: json['level'] as String,
-      category: json['category'] as String,
-      evidence: json['evidence'] as String,
-      skillId: json['skill_id'] as String?,
-      confidence: (json['confidence'] as num).toDouble(),
-    );
-  }
+  final String name;
+  final String level;
+  final String category;
+  final String evidence;
+  final String? skillId;
+  final double confidence;
+
+  @override
+  List<Object?> get props =>
+      [name, level, category, evidence, skillId, confidence];
 }
 
-class CvExtractedEntity {
-  final List<String> projects;
-  final List<String> languages;
-  final List<String> jobKeywords;
-  final List<String> certifications;
-  final List<String> missingSkills;
-  final List<String> interviewFocus;
-  final List<String> recommendedRoles;
-
+class CvExtractedEntity extends Equatable {
   const CvExtractedEntity({
     required this.projects,
     required this.languages,
@@ -46,35 +33,27 @@ class CvExtractedEntity {
     required this.recommendedRoles,
   });
 
-  factory CvExtractedEntity.fromJson(Map<String, dynamic> json) {
-    List<String> _list(String key) =>
-        List<String>.from(json[key] as List? ?? []);
+  final List<String> projects;
+  final List<String> languages;
+  final List<String> jobKeywords;
+  final List<String> certifications;
+  final List<String> missingSkills;
+  final List<String> interviewFocus;
+  final List<String> recommendedRoles;
 
-    return CvExtractedEntity(
-      projects: _list('projects'),
-      languages: _list('languages'),
-      jobKeywords: _list('job_keywords'),
-      certifications: _list('certifications'),
-      missingSkills: _list('missing_skills'),
-      interviewFocus: _list('interview_focus'),
-      recommendedRoles: _list('recommended_roles'),
-    );
-  }
+  @override
+  List<Object?> get props => [
+        projects,
+        languages,
+        jobKeywords,
+        certifications,
+        missingSkills,
+        interviewFocus,
+        recommendedRoles,
+      ];
 }
 
-class CvAnalysisEntity {
-  final String id;
-  final String cvId;
-  final int score;
-  final String summary;
-  final List<String> strengths;
-  final List<String> weaknesses;
-  final List<String> suggestions;
-  final List<DetectedSkillEntity> detectedSkills;
-  final CvExtractedEntity extracted;
-  final String status;
-  final DateTime createdAt;
-
+class CvAnalysisEntity extends Equatable {
   const CvAnalysisEntity({
     required this.id,
     required this.cvId,
@@ -89,38 +68,35 @@ class CvAnalysisEntity {
     required this.createdAt,
   });
 
-  factory CvAnalysisEntity.fromJson(Map<String, dynamic> json) {
-    return CvAnalysisEntity(
-      id: json['id'] as String,
-      cvId: json['cv_id'] as String,
-      score: json['score'] as int,
-      summary: json['summary'] as String,
-      strengths: List<String>.from(json['strengths'] as List? ?? []),
-      weaknesses: List<String>.from(json['weaknesses'] as List? ?? []),
-      suggestions: List<String>.from(json['suggestions'] as List? ?? []),
-      detectedSkills: (json['detected_skills'] as List? ?? [])
-          .map((s) => DetectedSkillEntity.fromJson(s as Map<String, dynamic>))
-          .toList(),
-      extracted: CvExtractedEntity.fromJson(
-        json['extracted'] as Map<String, dynamic>? ?? {},
-      ),
-      status: json['status'] as String? ?? 'completed',
-      createdAt: DateTime.parse(json['created_at'] as String),
-    );
-  }
+  final String id;
+  final String cvId;
+  final int score;
+  final String summary;
+  final List<String> strengths;
+  final List<String> weaknesses;
+  final List<String> suggestions;
+  final List<DetectedSkillEntity> detectedSkills;
+  final CvExtractedEntity extracted;
+  final String status;
+  final DateTime createdAt;
+
+  @override
+  List<Object?> get props => [
+        id,
+        cvId,
+        score,
+        summary,
+        strengths,
+        weaknesses,
+        suggestions,
+        detectedSkills,
+        extracted,
+        status,
+        createdAt,
+      ];
 }
 
-class CvEntity {
-  final String id;
-  final String userId;
-  final String? fileUrl;
-  final String storagePath;
-  final String originalName;
-  final String mimeType;
-  final int sizeBytes;
-  final String status;
-  final DateTime uploadedAt;
-
+class CvEntity extends Equatable {
   const CvEntity({
     required this.id,
     required this.userId,
@@ -133,37 +109,41 @@ class CvEntity {
     required this.uploadedAt,
   });
 
-  factory CvEntity.fromJson(Map<String, dynamic> json) {
-    return CvEntity(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      fileUrl: json['file_url'] as String?,
-      storagePath: json['storage_path'] as String,
-      originalName: json['original_name'] as String,
-      mimeType: json['mime_type'] as String,
-      sizeBytes: json['size_bytes'] as int,
-      status: json['status'] as String,
-      uploadedAt: DateTime.parse(json['uploaded_at'] as String),
-    );
-  }
+  final String id;
+  final String userId;
+  final String? fileUrl;
+  final String storagePath;
+  final String originalName;
+  final String mimeType;
+  final int sizeBytes;
+  final String status;
+  final DateTime uploadedAt;
+
+  @override
+  List<Object?> get props => [
+        id,
+        userId,
+        fileUrl,
+        storagePath,
+        originalName,
+        mimeType,
+        sizeBytes,
+        status,
+        uploadedAt,
+      ];
 }
 
-class CvWithAnalysisEntity {
+class CvWithAnalysisEntity extends Equatable {
+  const CvWithAnalysisEntity({required this.cv, required this.analysis});
+
   final CvEntity cv;
   final CvAnalysisEntity analysis;
 
-  const CvWithAnalysisEntity({
-    required this.cv,
-    required this.analysis,
-  });
+  @override
+  List<Object?> get props => [cv, analysis];
 }
 
-class CvStatusEntity {
-  final bool hasCv;
-  final bool hasCompletedAnalysis;
-  final String? latestCvStatus;
-  final String? requiredAction;
-
+class CvStatusEntity extends Equatable {
   const CvStatusEntity({
     required this.hasCv,
     required this.hasCompletedAnalysis,
@@ -171,12 +151,16 @@ class CvStatusEntity {
     this.requiredAction,
   });
 
-  factory CvStatusEntity.fromJson(Map<String, dynamic> json) {
-    return CvStatusEntity(
-      hasCv: json['hasCv'] as bool,
-      hasCompletedAnalysis: json['hasCompletedAnalysis'] as bool,
-      latestCvStatus: json['latestCvStatus'] as String?,
-      requiredAction: json['requiredAction'] as String?,
-    );
-  }
+  final bool hasCv;
+  final bool hasCompletedAnalysis;
+  final String? latestCvStatus;
+  final String? requiredAction;
+
+  @override
+  List<Object?> get props => [
+        hasCv,
+        hasCompletedAnalysis,
+        latestCvStatus,
+        requiredAction,
+      ];
 }

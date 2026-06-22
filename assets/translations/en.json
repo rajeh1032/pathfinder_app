@@ -321,12 +321,14 @@
     "aiInsightBody": "Your React skills are trending! Users with similar profiles saw a 20% salary increase after mastering TypeScript.",
     "chatWithAi": "Chat with AI",
     "topRecommendation": "Top Recommendation",
+    "match": "Match",
     "basedOnYourStack": "Based on your stack",
     "uiScore": "UI Score",
     "aiCareerInsight": "AI Career Insight",
     "roadmap": "Roadmap",
     "skillGapAnalysis": "Skill Gap Analysis",
     "jobsForYou": "Jobs for You",
+    "remote": "Remote",
     "viewAll": "View All"
   },
   "cvAnalysis": {
@@ -338,7 +340,11 @@
     "missingSkills": "Missing Skills",
     "improvementChecklist": "Improvement Checklist",
     "aiRecommendations": "AI Recommendations",
-    "uploadNewCv": "Upload New CV"
+    "uploadNewCv": "Upload New CV",
+    "uploading": "Uploading your CV...",
+    "analyzing": "Analyzing your CV...",
+    "analyzingHint": "Your CV is still being analyzed. Please try again shortly.",
+    "noCvYet": "Upload a PDF CV to receive your analysis."
   },
   "chat": {
     "title": "AI Career Mentor",
@@ -951,8 +957,8 @@
     "title": "Optimize Your Future",
     "subtitle": "Upload your professional details to get an AI-powered analysis of your career trajectory.",
     "uploadTitle": "Upload Your CV",
-    "formats": "PDF, DOC, DOCX supported",
-    "maxSize": "Max file size: 5MB",
+    "formats": "PDF supported",
+    "maxSize": "Max file size: 10MB",
     "analyzeButton": "Analyze CV",
     "selectPrompt": "Please select a file to continue",
     "aiRecommendTitle": "AI Recommendation",
@@ -968,7 +974,10 @@
     "newChat": "New Chat",
     "messages": "messages",
     "searchHint": "Search sessions...",
-    "clearHint": "Clear old sessions to keep things tidy."
+    "clearHint": "Clear old sessions to keep things tidy.",
+    "archived": "Archived",
+    "deleteTitle": "Delete chat?",
+    "deleteConfirm": "This chat and its messages will be removed."
   },
   "ragUpload": {
     "title": "Upload RAG Document",

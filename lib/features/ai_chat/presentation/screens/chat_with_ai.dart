@@ -1,12 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../domain/entities/chat_message_entity.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../cubit/chat_cubit.dart';
 import '../cubit/chat_state.dart';
 import '../widgets/ai_mentor_header.dart';
@@ -22,11 +22,8 @@ class ChatWithAiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('🔴 sessionId received: "$sessionId"');
-
     return BlocProvider<ChatCubit>(
-      create: (_) => getIt<ChatCubit>()
-        ..loadMessages(sessionId),
+      create: (_) => getIt<ChatCubit>()..loadMessages(sessionId),
       child: _ChatWithAiView(
         sessionId: sessionId,
       ),
@@ -71,9 +68,9 @@ class _ChatWithAiViewState extends State<_ChatWithAiView> {
     if (text.isEmpty) return;
 
     context.read<ChatCubit>().sendMessage(
-      sessionId: widget.sessionId,
-      message: text,
-    );
+          sessionId: widget.sessionId,
+          message: text,
+        );
 
     _messageController.clear();
     _scrollToBottom();
@@ -98,47 +95,43 @@ class _ChatWithAiViewState extends State<_ChatWithAiView> {
           }
         },
       ),
-      backgroundColor: cs.surface,
-        appBar: AppBar(
-        backgroundColor: cs.surface,
-        elevation: 0,
-          leading: Builder(
-            builder: (ctx) => IconButton(
-              icon: Icon(Icons.menu_rounded, size: 22.sp, color: cs.onSurface),
-              onPressed: () => Scaffold.of(ctx).openDrawer(),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (ctx) => IconButton(
+            icon: Icon(Icons.menu_rounded, size: 22.sp),
+            onPressed: () => Scaffold.of(ctx).openDrawer(),
+          ),
+
+          // onPressed: () => Navigator.push(
+          // context,
+          // MaterialPageRoute(
+          // builder: (context) => ChatSidebarDrawer(
+          // currentSessionId: widget.sessionId,
+          // onNewChat: () => context.read<ChatCubit>().createSession(),
+          // ),
+          // ),
+          // ),
+        ),
+        title: const AiMentorHeader(),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              size: 18.sp,
             ),
-
-      // onPressed: () => Navigator.push(
-      // context,
-      // MaterialPageRoute(
-      // builder: (context) => ChatSidebarDrawer(
-      // currentSessionId: widget.sessionId,
-      // onNewChat: () => context.read<ChatCubit>().createSession(),
-      // ),
-      // ),
-      // ),
-
-    ),
-      title: const AiMentorHeader(),
-      actions: [
-     IconButton(
-      icon: Icon(
-      Icons.arrow_back_ios_new_rounded,
-      size: 18.sp,
-     color: cs.onSurface,
-    ),
-      onPressed: () => Navigator.pop(context),
-    ),
-    ],
-    ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
       body: BlocConsumer<ChatCubit, ChatState>(
         listener: (context, state) {
           if (state is ChatLoaded) {
             _scrollToBottom();
           }
           if (state is ChatError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+            CustomSnackbar.showError(
+              context: context,
+              message: state.message.tr(),
             );
           }
         },
@@ -157,11 +150,9 @@ class _ChatWithAiViewState extends State<_ChatWithAiView> {
                       horizontal: AppSpacing.md.w,
                       vertical: AppSpacing.sm.h,
                     ),
-                    itemCount:
-                    state.messages.length + (state.isTyping ? 1 : 0),
+                    itemCount: state.messages.length + (state.isTyping ? 1 : 0),
                     itemBuilder: (context, index) {
-                      if (state.isTyping &&
-                          index == state.messages.length) {
+                      if (state.isTyping && index == state.messages.length) {
                         return const TypingIndicator();
                       }
                       final msg = state.messages[index];
@@ -194,7 +185,3 @@ class _ChatWithAiViewState extends State<_ChatWithAiView> {
     );
   }
 }
-
-
-
-

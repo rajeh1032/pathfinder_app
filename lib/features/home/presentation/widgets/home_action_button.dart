@@ -2,10 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/di/di.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../ai_chat/domain/repositories/chat_repo.dart';
+import '../../../../core/utils/custom_snackbar.dart';
 import '../../../ai_chat/presentation/cubit/chat_cubit.dart';
 
 class HomeActionButtons extends StatelessWidget {
@@ -30,12 +29,16 @@ class HomeActionButtons extends StatelessWidget {
             icon: Icons.smart_toy_outlined,
             isPrimary: false,
             onTap: () async {
-              try {
-                final session = await getIt<ChatRepository>().createSession();
+              final cubit = getIt<ChatCubit>();
+              final session = await cubit.createSession();
+              await cubit.close();
+              if (!context.mounted) return;
+              if (session != null) {
                 Navigator.pushNamed(context, '/ai-chat', arguments: session.id);
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(e.toString())),
+              } else {
+                CustomSnackbar.showError(
+                  context: context,
+                  message: 'common.error'.tr(),
                 );
               }
             },
@@ -73,17 +76,17 @@ class _ActionButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isPrimary
-              ? AppColors.primary
+              ? colorScheme.primary
               : colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(AppRadius.md.r),
           boxShadow: isPrimary
               ? [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ]
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
               : null,
         ),
         child: Row(
@@ -93,7 +96,7 @@ class _ActionButton extends StatelessWidget {
               icon,
               size: 18.sp,
               color: isPrimary
-                  ? Colors.white
+                  ? colorScheme.onPrimary
                   : colorScheme.onSurfaceVariant,
             ),
             SizedBox(width: 6.w),
@@ -103,9 +106,8 @@ class _ActionButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w700,
-                  color: isPrimary
-                      ? Colors.white
-                      : colorScheme.onSurface,
+                  color:
+                      isPrimary ? colorScheme.onPrimary : colorScheme.onSurface,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

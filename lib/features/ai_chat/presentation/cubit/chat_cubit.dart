@@ -12,68 +12,81 @@ class ChatCubit extends Cubit<ChatState> {
 
   ChatCubit(this._repository) : super(const ChatInitial());
 
+  void _emitIfOpen(ChatState nextState) {
+    if (!isClosed) emit(nextState);
+  }
+
   Future<void> loadSessions() async {
+    if (isClosed) return;
     final currentState = state;
 
     if (currentState is! ChatLoaded) {
-      emit(const ChatSessionsLoading());
+      _emitIfOpen(const ChatSessionsLoading());
     }
 
-    try {
-      final sessions = await _repository.getSessions();
-
-      if (currentState is ChatLoaded) {
-        emit(currentState.copyWith(sessions: sessions));
-      } else {
-        emit(ChatSessionsLoaded(sessions));
-      }
-    } catch (e) {
-      emit(ChatError(e.toString()));
-    }
+    final result = await _repository.getSessions();
+    if (isClosed) return;
+    result.fold(
+      (failure) => _emitIfOpen(ChatError(failure.message)),
+      (sessions) => currentState is ChatLoaded
+          ? _emitIfOpen(currentState.copyWith(sessions: sessions))
+          : _emitIfOpen(ChatSessionsLoaded(sessions)),
+    );
   }
 
   Future<ChatSessionEntity?> createSession({String? title}) async {
-    try {
-      final session = await _repository.createSession(title: title);
-      await loadSessions();
-      return session;
-    } catch (e) {
-      emit(ChatError(e.toString()));
-      return null;
-    }
+    final result = await _repository.createSession(title: title);
+    if (isClosed) return null;
+    return result.fold(
+      (failure) {
+        _emitIfOpen(ChatError(failure.message));
+        return null;
+      },
+      (session) => session,
+    );
   }
 
   Future<void> deleteSession(String sessionId) async {
-    try {
-      await _repository.deleteSession(sessionId);
-      await loadSessions();
-    } catch (e) {
-      emit(ChatError(e.toString()));
-    }
+    final result = await _repository.deleteSession(sessionId);
+    if (isClosed) return;
+    await result.fold(
+      (failure) async => _emitIfOpen(ChatError(failure.message)),
+      (_) => loadSessions(),
+    );
   }
 
   Future<void> loadMessages(String sessionId) async {
+    if (isClosed) return;
     final currentState = state;
     final currentSessions = currentState is ChatLoaded
         ? currentState.sessions
         : <ChatSessionEntity>[];
 
-    emit(const ChatLoading());
+    _emitIfOpen(const ChatLoading());
 
-    try {
-      final messages = await _repository.getMessages(sessionId);
-      final sessions = currentSessions.isNotEmpty
-          ? currentSessions
-          : await _repository.getSessions();
-
-      emit(ChatLoaded(
-        messages: messages,
-        sessionId: sessionId,
-        sessions: sessions,
-      ));
-    } catch (e) {
-      emit(ChatError(e.toString()));
-    }
+    final messagesResult = await _repository.getMessages(sessionId);
+    if (isClosed) return;
+    await messagesResult.fold(
+      (failure) async => _emitIfOpen(ChatError(failure.message)),
+      (messages) async {
+        var sessions = currentSessions;
+        if (sessions.isEmpty) {
+          final sessionsResult = await _repository.getSessions();
+          if (isClosed) return;
+          sessionsResult.fold(
+            (failure) => _emitIfOpen(ChatError(failure.message)),
+            (value) => sessions = value,
+          );
+        }
+        if (!isClosed && state is! ChatError) {
+          _emitIfOpen(ChatLoaded(
+            messages: messages,
+            sessionId: sessionId,
+            sessions: sessions,
+          ));
+        }
+      },
+    );
   }
 
   Future<void> getSessions() async => loadSessions();
@@ -82,6 +95,7 @@ class ChatCubit extends Cubit<ChatState> {
     required String sessionId,
     required String message,
   }) async {
+    if (isClosed) return;
     final currentState = state;
 
     final currentMessages = currentState is ChatLoaded
@@ -101,51 +115,41 @@ class ChatCubit extends Cubit<ChatState> {
       createdAt: DateTime.now(),
     );
 
-    emit(ChatLoaded(
+    _emitIfOpen(ChatLoaded(
       messages: [...currentMessages, optimisticUserMessage],
       sessionId: sessionId,
       sessions: currentSessions,
       isTyping: true,
     ));
 
-    try {
-      final result = await _repository.sendMessage(
-        sessionId: sessionId,
-        message: message,
-      );
-
-      final userMessage = result['userMessage'];
-      final assistantMessage = result['assistantMessage'];
-
-      final updatedMessages = [...currentMessages];
-
-      if (userMessage != null) {
-        updatedMessages.add(userMessage);
-      } else {
-        updatedMessages.add(optimisticUserMessage);
-      }
-
-      if (assistantMessage != null) {
-        updatedMessages.add(assistantMessage);
-      }
-
-      final updatedSessions = await _repository.getSessions();
-
-      emit(ChatLoaded(
-        messages: updatedMessages,
-        sessionId: sessionId,
-        sessions: updatedSessions,
-        isTyping: false,
-      ));
-    } catch (e) {
-      emit(ChatLoaded(
-        messages: [...currentMessages, optimisticUserMessage],
-        sessionId: sessionId,
-        sessions: currentSessions,
-        isTyping: false,
-      ));
-
-      emit(ChatError(e.toString()));
-    }
+    final result = await _repository.sendMessage(
+      sessionId: sessionId,
+      message: message,
+    );
+    if (isClosed) return;
+    await result.fold(
+      (failure) async {
+        _emitIfOpen(ChatLoaded(
+          messages: [...currentMessages, optimisticUserMessage],
+          sessionId: sessionId,
+          sessions: currentSessions,
+        ));
+        _emitIfOpen(ChatError(failure.message));
+      },
+      (reply) async {
+        final sessionsResult = await _repository.getSessions();
+        if (isClosed) return;
+        final sessions = sessionsResult.getOrElse(() => currentSessions);
+        _emitIfOpen(ChatLoaded(
+          messages: [
+            ...currentMessages,
+            reply.userMessage,
+            reply.assistantMessage,
+          ],
+          sessionId: sessionId,
+          sessions: sessions,
+        ));
+      },
+    );
   }
 }

@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:injectable/injectable.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:pathfinder_app/core/di/di.dart';
+import 'package:pathfinder_app/features/home/domain/entites/home_entity.dart';
 
-import '../../../../core/di/injection.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../domain/entities/home_entity.dart';
+import '../../../../core/utils/custom_button.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 import '../widgets/home_action_button.dart';
@@ -37,8 +37,7 @@ class _HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PathFinder AI'),
-        centerTitle: true,
+        title: Text('routes.home'.tr()),
         actions: [
           IconButton(
             onPressed: () => Navigator.pushNamed(context, '/notifications'),
@@ -47,18 +46,13 @@ class _HomeView extends StatelessWidget {
         ],
         leading: IconButton(
           onPressed: () => Navigator.pushNamed(context, '/search'),
-          icon: const Icon(
-            Icons.search,
-            color: AppColors.blueNotificationIcons,
-          ),
+          icon: const Icon(Icons.search),
         ),
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading || state is HomeInitial) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (state is HomeError) {
@@ -88,7 +82,6 @@ class _HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      color: AppColors.primary,
       onRefresh: () => context.read<HomeCubit>().refresh(),
       child: SafeArea(
         child: SingleChildScrollView(
@@ -99,11 +92,8 @@ class _HomeContent extends StatelessWidget {
             children: [
               // 👋 Hello + CV Score circle
               HomeHeader(
-                user: HomeUserModel(
-                  name: summary.user.name,
-                  cvScore: summary.cvScore ?? 0,
-                  targetRole: summary.analyzedRole ?? '',
-                ),
+                user: summary.user,
+                cvScore: summary.cvScore ?? 0,
               ),
               SizedBox(height: 16.h),
 
@@ -114,12 +104,7 @@ class _HomeContent extends StatelessWidget {
               // Top Recommendation
               if (summary.analyzedRole != null)
                 HomeRecommendationCard(
-                  recommendation: HomeRecommendationModel(
-                    title: summary.analyzedRole!,
-                    badge: 'Match',
-                    badgeColor: '#6366F1',
-                    reason: 'home.basedOnYourStack'.tr(),
-                  ),
+                  title: summary.analyzedRole!,
                 ),
               if (summary.analyzedRole != null) SizedBox(height: 16.h),
 
@@ -130,42 +115,21 @@ class _HomeContent extends StatelessWidget {
               // Roadmap
               if (summary.roadmap != null)
                 HomeRoadmapCard(
-                  roadmap: HomeRoadmapModel(
-                    title: summary.roadmap!.title,
-                    progress: summary.roadmap!.progress / 100,
-                    status: '${summary.roadmap!.progress}%',
-                  ),
+                  roadmap: summary.roadmap!,
                 ),
               if (summary.roadmap != null) SizedBox(height: 20.h),
 
               // Skill Gap
               if (summary.missingSkills.isNotEmpty)
                 HomeSkillGapSection(
-                  skills: summary.missingSkills
-                      .take(5)
-                      .map((s) => HomeSkillGapModel(
-                    skill: s,
-                    level: SkillLevel.tailwind,
-                  ))
-                      .toList(),
+                  skills: summary.missingSkills.take(5).toList(),
                 ),
               if (summary.missingSkills.isNotEmpty) SizedBox(height: 20.h),
 
               // Jobs
               if (summary.jobMatches.isNotEmpty)
                 HomeJobsSection(
-                  jobs: summary.jobMatches
-                      .map((j) => HomeJobModel(
-                    company: j.company,
-                    logo: j.company.isNotEmpty
-                        ? j.company[0].toUpperCase()
-                        : 'J',
-                    title: j.jobTitle,
-                    location: j.isRemote ? 'Remote' : '',
-                    salaryRange: j.salaryRange ?? '',
-                    isRemote: j.isRemote,
-                  ))
-                      .toList(),
+                  jobs: summary.jobMatches,
                 ),
               SizedBox(height: 20.h),
             ],
@@ -194,7 +158,7 @@ class _ErrorView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.error_outline_rounded,
-                size: 48.sp, color: AppColors.error),
+                size: 48.sp, color: colorScheme.error),
             SizedBox(height: 16.h),
             Text(
               message,
@@ -205,14 +169,10 @@ class _ErrorView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.h),
-            ElevatedButton.icon(
+            CustomButton(
               onPressed: onRetry,
-              icon: const Icon(Icons.refresh_rounded),
-              label: Text('common.retry'.tr()),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-              ),
+              icon: Icons.refresh_rounded,
+              labelKey: 'common.retry',
             ),
           ],
         ),

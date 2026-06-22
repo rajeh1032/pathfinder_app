@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/api_endpoints.dart';
 import '../../../domain/entities/education_entry.dart';

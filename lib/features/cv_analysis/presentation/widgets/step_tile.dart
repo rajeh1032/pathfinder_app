@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/widgets/step_dummy_model.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -22,16 +20,16 @@ class StepTile extends StatelessWidget {
     final isPending = step.status == StepStatus.pending;
 
     final Color iconBg = isDone
-        ? AppColors.success.withOpacity(0.12)
+        ? Theme.of(context).colorScheme.secondary.withValues(alpha: 0.12)
         : isLoading
-        ? AppColors.primary.withOpacity(0.12)
-        : colorScheme.surfaceContainerHighest;
+            ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.12)
+            : colorScheme.surfaceContainerHighest;
 
     final Color iconColor = isDone
-        ? AppColors.success
+        ? Theme.of(context).colorScheme.secondary
         : isLoading
-        ? AppColors.primary
-        : colorScheme.onSurfaceVariant;
+            ? Theme.of(context).colorScheme.primary
+            : colorScheme.onSurfaceVariant;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -39,13 +37,13 @@ class StepTile extends StatelessWidget {
       padding: EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
         color: isLoading
-            ? AppColors.primary.withOpacity(0.05)
+            ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.05)
             : colorScheme.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg.r),
         border: Border.all(
           color: isLoading
-              ? AppColors.primary.withOpacity(0.3)
-              : colorScheme.outline.withOpacity(0.3),
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
+              : colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
@@ -59,17 +57,18 @@ class StepTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.md.r),
             ),
             child: isDone
-                ? Icon(Icons.check_rounded, size: 20.sp, color: AppColors.success)
+                ? Icon(Icons.check_rounded,
+                    size: 20.sp, color: Theme.of(context).colorScheme.secondary)
                 : isLoading
-                ? Padding(
-              padding: EdgeInsets.all(10.w),
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor:
-                const AlwaysStoppedAnimation(AppColors.primary),
-              ),
-            )
-                : Icon(step.icon, size: 20.sp, color: iconColor),
+                    ? Padding(
+                        padding: EdgeInsets.all(10.w),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation(
+                              Theme.of(context).colorScheme.primary),
+                        ),
+                      )
+                    : Icon(step.icon, size: 20.sp, color: iconColor),
           ),
           SizedBox(width: AppSpacing.sm.w),
           // Text
@@ -97,7 +96,7 @@ class StepTile extends StatelessWidget {
           // Status indicator
           if (isDone)
             Icon(Icons.check_circle_rounded,
-                size: 18.sp, color: AppColors.success)
+                size: 18.sp, color: Theme.of(context).colorScheme.secondary)
           else if (isPending)
             Icon(Icons.circle_outlined,
                 size: 18.sp, color: colorScheme.outline),

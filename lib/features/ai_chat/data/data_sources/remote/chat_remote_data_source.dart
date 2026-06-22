@@ -1,12 +1,12 @@
+import '../../models/chat_models.dart';
 
 abstract class ChatRemoteDataSource {
-  Future<Map<String, dynamic>> createSession({String? title});
-  Future<List<Map<String, dynamic>>> getSessions();
-  Future<List<Map<String, dynamic>>> getMessages(String sessionId);
-  Future<Map<String, dynamic>> sendMessage({
+  Future<ChatSessionModel> createSession({String? title});
+  Future<List<ChatSessionModel>> getSessions();
+  Future<List<ChatMessageModel>> getMessages(String sessionId);
+  Future<ChatReplyModel> sendMessage({
     required String sessionId,
     required String message,
   });
   Future<void> deleteSession(String sessionId);
 }
-

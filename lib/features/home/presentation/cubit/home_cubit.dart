@@ -12,12 +12,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadHome() async {
     emit(const HomeLoading());
-    try {
-      final summary = await repository.getHomeSummary();
-      emit(HomeLoaded(summary));
-    } catch (e) {
-      emit(HomeError(e.toString()));
-    }
+    final result = await repository.getHomeSummary();
+    result.fold(
+      (failure) => emit(HomeError(failure.message)),
+      (summary) => emit(HomeLoaded(summary)),
+    );
   }
 
   Future<void> refresh() => loadHome();

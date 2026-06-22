@@ -1,59 +1,54 @@
-// lib/features/home/data/data_sources/remote/home_remote_data_source.dart
-
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../../core/network/api_client.dart';
+import '../../../../../core/network/api_endpoints.dart';
+
 abstract class HomeRemoteDataSource {
-  Future<Map<String, dynamic>?> getCvLatest();
-  Future<Map<String, dynamic>?> getMyRoadmap();
+  Future<Map<String, dynamic>> getProfile();
+  Future<Map<String, dynamic>> getLatestCvAnalysis();
+  Future<Map<String, dynamic>> getMyRoadmap();
   Future<List<Map<String, dynamic>>> getJobMatches();
 }
 
 @LazySingleton(as: HomeRemoteDataSource)
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  final Dio dio;
+  const HomeRemoteDataSourceImpl(this._apiClient);
 
-  HomeRemoteDataSourceImpl(this.dio);
+  final ApiClient _apiClient;
 
   @override
-  Future<Map<String, dynamic>?> getCvLatest() async {
-    try {
-      final response = await dio.get('/v1/cvs/latest');
-      final data = response.data['data'] as Map<String, dynamic>?;
-      if (data == null) return null;
-      final hasAnalysis = data['hasAnalysis'] as bool? ?? false;
-      if (!hasAnalysis) return null;
-      return data;
-    } on DioException catch (e) {
-      // 404 means no CV yet — return null gracefully
-      if (e.response?.statusCode == 404) return null;
-      rethrow;
-    }
+  Future<Map<String, dynamic>> getProfile() async {
+    final response = await _apiClient.get(ApiEndpoints.profileMe);
+    return _readMap(response.data);
   }
 
   @override
-  Future<Map<String, dynamic>?> getMyRoadmap() async {
-    try {
-      final response = await dio.get('/v1/roadmaps/me');
-      return response.data['data'] as Map<String, dynamic>?;
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 404) return null;
-      rethrow;
-    }
+  Future<Map<String, dynamic>> getLatestCvAnalysis() async {
+    final response = await _apiClient.get(ApiEndpoints.latestCvAnalysis);
+    return _readMap(response.data);
+  }
+
+  @override
+  Future<Map<String, dynamic>> getMyRoadmap() async {
+    final response = await _apiClient.get(ApiEndpoints.myRoadmap);
+    return _readMap(response.data);
   }
 
   @override
   Future<List<Map<String, dynamic>>> getJobMatches() async {
-    try {
-      final response = await dio.get('/jobs/matches');
-      final data = response.data['data'];
-      if (data is List) {
-        return data.cast<Map<String, dynamic>>();
-      }
-      return [];
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 404) return [];
-      rethrow;
-    }
+    final response = await _apiClient.get(
+      ApiEndpoints.jobMatches,
+      queryParameters: const {'page': 1, 'limit': 3},
+    );
+    final envelope = response.data as Map<String, dynamic>;
+    final data = envelope['data'];
+    if (data is! List) return const [];
+    return data.whereType<Map<String, dynamic>>().toList();
+  }
+
+  Map<String, dynamic> _readMap(dynamic responseData) {
+    final envelope = responseData as Map<String, dynamic>;
+    final data = envelope['data'];
+    return data is Map<String, dynamic> ? data : const {};
   }
 }

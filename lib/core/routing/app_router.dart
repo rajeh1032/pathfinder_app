@@ -5,7 +5,6 @@ import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.d
 import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
-import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_analysis.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
@@ -15,8 +14,7 @@ import '../../features/cover_letters/presentation/screens/cover_letter_generator
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
 import '../../features/cv_analysis/presentation/screens/cv_anaylsis_result.dart';
-import '../../features/cv_analysis/presentation/screens/cv_upload_loading.dart';
-import '../../features/cv_analysis/presentation/screens/cv_upload_screen.dart';
+
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
 import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';

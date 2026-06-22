@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../cubit/chat_cubit.dart';
 import '../cubit/chat_state.dart';
+import '../widgets/chat_session_tile.dart';
 
 class ChatSidebarDrawer extends StatelessWidget {
   final String currentSessionId;
@@ -36,9 +35,9 @@ class ChatSidebarDrawer extends StatelessWidget {
               child: BlocBuilder<ChatCubit, ChatState>(
                 builder: (context, state) {
                   if (state is ChatSessionsLoading) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.primary,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     );
                   }
@@ -63,7 +62,7 @@ class ChatSidebarDrawer extends StatelessWidget {
                       final session = sessions[i];
                       final isActive = session.id == currentSessionId;
 
-                      return _SessionTile(
+                      return ChatSessionTile(
                         id: session.id,
                         title: session.title,
                         status: session.status,
@@ -111,7 +110,7 @@ class _DrawerHeader extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: colorScheme.outline.withOpacity(0.2),
+            color: colorScheme.outline.withValues(alpha: 0.2),
           ),
         ),
       ),
@@ -120,10 +119,13 @@ class _DrawerHeader extends StatelessWidget {
           Container(
             width: 36.w,
             height: 36.w,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.tertiary],
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.tertiary
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -131,7 +133,7 @@ class _DrawerHeader extends StatelessWidget {
             child: Icon(
               Icons.psychology_rounded,
               size: 18.sp,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           SizedBox(width: AppSpacing.sm.w),
@@ -147,144 +149,13 @@ class _DrawerHeader extends StatelessWidget {
             icon: Icon(
               Icons.edit_square,
               size: 20.sp,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
             tooltip: 'chatHistory.newChat'.tr(),
           ),
         ],
       ),
     );
-  }
-}
-
-class _SessionTile extends StatelessWidget {
-  final String id;
-  final String title;
-  final String status;
-  final bool isActive;
-  final VoidCallback onTap;
-  final VoidCallback onDelete;
-
-  const _SessionTile({
-    required this.id,
-    required this.title,
-    required this.status,
-    required this.isActive,
-    required this.onTap,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final isArchived = status == 'archived';
-
-    return Dismissible(
-      key: Key(id),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: AppSpacing.md.w),
-        decoration: BoxDecoration(
-          color: AppColors.error.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(AppRadius.md.r),
-        ),
-        child: Icon(
-          Icons.delete_outline_rounded,
-          color: AppColors.error,
-          size: 20.sp,
-        ),
-      ),
-      confirmDismiss: (_) => _showDeleteConfirm(context),
-      onDismissed: (_) => onDelete(),
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          margin: EdgeInsets.only(bottom: 4.h),
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.md.w,
-            vertical: AppSpacing.sm.h,
-          ),
-          decoration: BoxDecoration(
-            color: isActive
-                ? AppColors.primary.withOpacity(0.1)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(AppRadius.md.r),
-            border: isActive
-                ? Border.all(color: AppColors.primary.withOpacity(0.3))
-                : null,
-          ),
-          child: Row(
-            children: [
-              if (isActive)
-                Container(
-                  width: 3.w,
-                  height: 16.h,
-                  margin: EdgeInsets.only(right: AppSpacing.sm.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(AppRadius.pill.r),
-                  ),
-                ),
-              Icon(
-                isArchived
-                    ? Icons.archive_outlined
-                    : Icons.chat_bubble_outline_rounded,
-                size: 16.sp,
-                color: isActive
-                    ? AppColors.primary
-                    : colorScheme.onSurfaceVariant,
-              ),
-              SizedBox(width: AppSpacing.sm.w),
-              Expanded(
-                child: Text(
-                  title,
-                  style: AppTextStyles.bodyMedium(
-                    isActive ? AppColors.primary : colorScheme.onSurface,
-                  ).copyWith(
-                    fontSize: 13.sp,
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-              if (isArchived)
-                Text(
-                  'Archived',
-                  style: AppTextStyles.labelSmall(
-                    colorScheme.onSurfaceVariant,
-                  ).copyWith(fontSize: 10.sp),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<bool> _showDeleteConfirm(BuildContext context) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('chatHistory.deleteTitle'.tr()),
-        content: Text('chatHistory.deleteConfirm'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('common.cancel'.tr()),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: Text('common.delete'.tr()),
-          ),
-        ],
-      ),
-    );
-
-    return result ?? false;
   }
 }
 
@@ -302,7 +173,7 @@ class _EmptySessionsView extends StatelessWidget {
             Icon(
               Icons.chat_bubble_outline_rounded,
               size: 40.sp,
-              color: colorScheme.onSurfaceVariant.withOpacity(0.4),
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
             ),
             SizedBox(height: AppSpacing.sm.h),
             Text(
@@ -327,7 +198,7 @@ class _DrawerFooter extends StatelessWidget {
       padding: EdgeInsets.all(AppSpacing.md.w),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
+          top: BorderSide(color: colorScheme.outline.withValues(alpha: 0.2)),
         ),
       ),
       child: Text(

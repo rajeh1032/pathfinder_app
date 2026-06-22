@@ -1,13 +1,13 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../home_dummy_data.dart';
+import '../../domain/entites/home_entity.dart';
 
 class HomeJobsSection extends StatelessWidget {
-  const HomeJobsSection({super.key});
+  final List<HomeJobMatchEntity> jobs;
+
+  const HomeJobsSection({super.key, required this.jobs});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class HomeJobsSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -43,17 +43,17 @@ class HomeJobsSection extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         // Jobs list
-        ...HomeDummyData.jobs.map((job) => Padding(
-          padding: EdgeInsets.only(bottom: 12.h),
-          child: _JobCard(job: job),
-        )),
+        ...jobs.map((job) => Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: _JobCard(job: job),
+            )),
       ],
     );
   }
 }
 
 class _JobCard extends StatelessWidget {
-  final HomeJobModel job;
+  final HomeJobMatchEntity job;
 
   const _JobCard({required this.job});
 
@@ -82,16 +82,17 @@ class _JobCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
               child: Text(
-                job.logo,
+                job.company.isEmpty ? 'J' : job.company[0].toUpperCase(),
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -112,7 +113,7 @@ class _JobCard extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  job.title,
+                  job.jobTitle,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
@@ -121,11 +122,11 @@ class _JobCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  job.salaryRange,
+                  job.salaryRange ?? '',
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.success,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],
@@ -136,15 +137,18 @@ class _JobCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: AppColors.secondary.withValues(alpha: 0.1),
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondary
+                    .withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(999.r),
               ),
               child: Text(
-                'Remote',
+                'home.remote'.tr(),
                 style: TextStyle(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.secondary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
             ),

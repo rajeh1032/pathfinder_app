@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/repositories/cv_anaylsis_repo.dart';
 import 'cv_anaylsis_state.dart';
+
 @injectable
 class CvAnalysisCubit extends Cubit<CvAnalysisState> {
   final CvAnalysisRepository repository;
@@ -11,31 +12,33 @@ class CvAnalysisCubit extends Cubit<CvAnalysisState> {
 
   Future<void> checkStatus() async {
     emit(const CvStatusLoading());
-    try {
-      final status = await repository.getCvStatus();
-      emit(CvStatusLoaded(status));
-    } catch (e) {
-      emit(CvAnalysisError(e.toString()));
-    }
-  }
-  Future<void> loadAnalysis(String cvId) async {
-    emit(const CvAnalyzing());
-    try {
-      final result = await repository.getAnalysisById(cvId);
-      emit(CvAnalysisLoaded(result));
-    } catch (e) {
-      emit(CvAnalysisError(e.toString()));
-    }
+    final result = await repository.getCvStatus();
+    result.fold(
+      (failure) => emit(CvAnalysisError(failure.message)),
+      (status) => emit(CvStatusLoaded(status)),
+    );
   }
 
+  Future<void> loadAnalysis(String _) => loadLatestAnalysis();
+
   Future<void> loadLatestAnalysis() async {
-    emit(const CvAnalyzing());
-    try {
-      final result = await repository.getLatestAnalysis();
-      emit(CvAnalysisLoaded(result));
-    } catch (e) {
-      emit(CvAnalysisError(e.toString()));
-    }
+    emit(const CvStatusLoading());
+    final statusResult = await repository.getCvStatus();
+    await statusResult.fold(
+      (failure) async => emit(CvAnalysisError(failure.message)),
+      (status) async {
+        if (!status.hasCompletedAnalysis) {
+          emit(CvStatusLoaded(status));
+          return;
+        }
+        emit(const CvAnalyzing());
+        final result = await repository.getLatestAnalysis();
+        result.fold(
+          (failure) => emit(CvAnalysisError(failure.message)),
+          (analysis) => emit(CvAnalysisLoaded(analysis)),
+        );
+      },
+    );
   }
 
   Future<String?> pickCvFile() async {
@@ -50,7 +53,7 @@ class CvAnalysisCubit extends Cubit<CvAnalysisState> {
     final file = result.files.single;
 
     if (file.size > 10 * 1024 * 1024) {
-      emit(const CvAnalysisError('File size must be less than 10MB'));
+      emit(const CvAnalysisError('cvUpload.fileTooLarge'));
       return null;
     }
 
@@ -58,18 +61,12 @@ class CvAnalysisCubit extends Cubit<CvAnalysisState> {
   }
 
   Future<void> uploadAndAnalyze(String filePath) async {
-    try {
-      emit(const CvUploadLoading(progress: 0.1));
-      await Future.delayed(const Duration(milliseconds: 300));
-      emit(const CvUploadLoading(progress: 0.4));
-
-      emit(const CvAnalyzing());
-      final result = await repository.uploadAndAnalyze(filePath);
-
-      emit(CvAnalysisLoaded(result));
-    } catch (e) {
-      emit(CvAnalysisError(e.toString()));
-    }
+    emit(const CvUploadLoading());
+    final result = await repository.uploadAndAnalyze(filePath);
+    result.fold(
+      (failure) => emit(CvAnalysisError(failure.message)),
+      (analysis) => emit(CvAnalysisLoaded(analysis)),
+    );
   }
 
   Future<void> pickAndUpload() async {
