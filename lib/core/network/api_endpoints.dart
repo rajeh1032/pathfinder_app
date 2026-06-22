@@ -5,6 +5,14 @@ class ApiEndpoints {
   static const register = '/v1/auth/register';
   static const careerPaths = '/v1/profiles/me/careerPahts';
 
+  // Profiles module
+  static const profileMe = '/v1/profiles/me';
+  static const profileExperiences = '/v1/profiles/me/experiences';
+  static const profileEducation = '/v1/profiles/me/education';
+  static String profileExperienceById(String id) =>
+      '$profileExperiences/${_segment(id)}';
+  static String profileEducationById(String id) =>
+      '$profileEducation/${_segment(id)}';
   static const forgotPassword = '/auth/forgot-password';
   static const verifyEmail = '/auth/verify-email';
   static const resetPassword = '/auth/reset-password';
@@ -42,8 +50,7 @@ class ApiEndpoints {
   static const jobs = '/jobs';
   static String jobDetails(String id) => '$jobs/${_segment(id)}';
   static const jobMatches = '/jobs/matches';
-  static const savedJobs = '/jobs/saved';
-
+  static const savedJobs = '/v1/jobs/saved';
   static const coverLetters = '/cover-letters';
   static const generateCoverLetter = '/cover-letters/generate';
 
