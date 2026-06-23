@@ -36,6 +36,7 @@ class HomeJobMatchEntity extends Equatable {
     required this.matchPercentage,
     this.salaryRange,
     this.isRemote = false,
+    this.imageUrl,
   });
 
   final String jobId;
@@ -44,6 +45,7 @@ class HomeJobMatchEntity extends Equatable {
   final int matchPercentage;
   final String? salaryRange;
   final bool isRemote;
+  final String? imageUrl;
 
   @override
   List<Object?> get props => [
@@ -53,6 +55,7 @@ class HomeJobMatchEntity extends Equatable {
         matchPercentage,
         salaryRange,
         isRemote,
+        imageUrl,
       ];
 }
 

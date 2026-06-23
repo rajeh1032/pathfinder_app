@@ -5,7 +5,12 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobHeroPreview extends StatelessWidget {
-  const JobHeroPreview({super.key});
+  const JobHeroPreview({
+    super.key,
+    this.showAiBadge = true,
+  });
+
+  final bool showAiBadge;
 
   @override
   Widget build(BuildContext context) {
@@ -67,42 +72,43 @@ class JobHeroPreview extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            left: AppSpacing.md.w,
-            top: AppSpacing.sm.h,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-              decoration: BoxDecoration(
-                color: _pillTint(
-                  context,
-                  Theme.of(context).colorScheme.tertiary,
-                  alpha: .12,
-                ),
-                borderRadius: BorderRadius.circular(AppRadius.pill.r),
-                border: Border.all(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .tertiary
-                      .withValues(alpha: .42),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.auto_awesome,
-                      size: 13.sp,
-                      color: Theme.of(context).colorScheme.tertiary),
-                  SizedBox(width: 4.w),
-                  Text(
-                    'jobs.details.aiRecommended'.tr(),
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          fontWeight: FontWeight.w900,
-                        ),
+          if (showAiBadge)
+            Positioned(
+              left: AppSpacing.md.w,
+              top: AppSpacing.sm.h,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: _pillTint(
+                    context,
+                    Theme.of(context).colorScheme.tertiary,
+                    alpha: .12,
                   ),
-                ],
+                  borderRadius: BorderRadius.circular(AppRadius.pill.r),
+                  border: Border.all(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .tertiary
+                        .withValues(alpha: .42),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.auto_awesome,
+                        size: 13.sp,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    SizedBox(width: 4.w),
+                    Text(
+                      'jobs.details.aiRecommended'.tr(),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontWeight: FontWeight.w900,
+                          ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

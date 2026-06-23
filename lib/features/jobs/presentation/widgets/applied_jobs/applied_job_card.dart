@@ -5,19 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/applied_job.dart';
 
 enum AppliedJobAccent { primary, secondary }
 
 class AppliedJobCard extends StatelessWidget {
   const AppliedJobCard({
     super.key,
-    required this.statusKey,
-    required this.dateKey,
+    required this.appliedJob,
     required this.accent,
   });
 
-  final String statusKey;
-  final String dateKey;
+  final AppliedJob appliedJob;
   final AppliedJobAccent accent;
 
   @override
@@ -36,14 +35,14 @@ class AppliedJobCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _AppliedJobTitle(accentColor: accentColor),
+          _AppliedJobTitle(appliedJob: appliedJob, accentColor: accentColor),
           SizedBox(height: AppSpacing.md.h),
           Row(
             children: [
-              _StatusPill(labelKey: statusKey, color: accentColor),
+              _StatusPill(label: appliedJob.status, color: accentColor),
               const Spacer(),
               Text(
-                dateKey.tr(),
+                _formatDate(appliedJob.updatedAt ?? appliedJob.createdAt),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: colors.onSurfaceVariant,
                       fontWeight: FontWeight.w700,
@@ -52,7 +51,7 @@ class AppliedJobCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: AppSpacing.md.h),
-          _NextStep(color: accentColor),
+          _NextStep(text: appliedJob.nextStep, color: accentColor),
           SizedBox(height: AppSpacing.md.h),
           Row(
             children: [
@@ -69,8 +68,21 @@ class AppliedJobCard extends StatelessWidget {
               SizedBox(width: AppSpacing.sm.w),
               Expanded(
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AppRoutes.coverLetterResult),
+                  onPressed: () {
+                    final coverLetterId = appliedJob.coverLetterId;
+                    if (coverLetterId == null || coverLetterId.isEmpty) {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.coverLetterGenerator,
+                        arguments: appliedJob.job,
+                      );
+                      return;
+                    }
+
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.coverLetterResult,
+                      arguments: coverLetterId,
+                    );
+                  },
                   child: Text('jobs.applied.viewLetter'.tr()),
                 ),
               ),
@@ -83,8 +95,12 @@ class AppliedJobCard extends StatelessWidget {
 }
 
 class _AppliedJobTitle extends StatelessWidget {
-  const _AppliedJobTitle({required this.accentColor});
+  const _AppliedJobTitle({
+    required this.appliedJob,
+    required this.accentColor,
+  });
 
+  final AppliedJob appliedJob;
   final Color accentColor;
 
   @override
@@ -108,7 +124,7 @@ class _AppliedJobTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'coverLetter.selectedRole.title'.tr(),
+                appliedJob.job.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.onSurface,
                       fontWeight: FontWeight.w900,
@@ -117,7 +133,7 @@ class _AppliedJobTitle extends StatelessWidget {
               ),
               SizedBox(height: 4.h),
               Text(
-                'coverLetter.selectedRole.companyLocation'.tr(),
+                '${appliedJob.job.company} • ${appliedJob.job.location}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: colors.onSurfaceVariant,
                       fontWeight: FontWeight.w600,
@@ -132,9 +148,9 @@ class _AppliedJobTitle extends StatelessWidget {
 }
 
 class _StatusPill extends StatelessWidget {
-  const _StatusPill({required this.labelKey, required this.color});
+  const _StatusPill({required this.label, required this.color});
 
-  final String labelKey;
+  final String label;
   final Color color;
 
   @override
@@ -147,7 +163,7 @@ class _StatusPill extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: .38)),
       ),
       child: Text(
-        labelKey.tr(),
+        label,
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
               color: color,
               fontWeight: FontWeight.w900,
@@ -158,8 +174,9 @@ class _StatusPill extends StatelessWidget {
 }
 
 class _NextStep extends StatelessWidget {
-  const _NextStep({required this.color});
+  const _NextStep({required this.text, required this.color});
 
+  final String? text;
   final Color color;
 
   @override
@@ -176,12 +193,14 @@ class _NextStep extends StatelessWidget {
         children: [
           Icon(Icons.event_available_outlined, color: color, size: 18.sp),
           SizedBox(width: AppSpacing.sm.w),
-          Text(
-            'jobs.applied.nextStep'.tr(),
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: colors.onSurface,
-                  fontWeight: FontWeight.w800,
-                ),
+          Expanded(
+            child: Text(
+              text ?? 'jobs.applied.nextStep'.tr(),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: colors.onSurface,
+                    fontWeight: FontWeight.w800,
+                  ),
+            ),
           ),
         ],
       ),
@@ -194,4 +213,9 @@ Color _pillTint(BuildContext context, Color tint, {required double alpha}) {
     tint.withValues(alpha: alpha),
     Theme.of(context).colorScheme.surface,
   );
+}
+
+String _formatDate(DateTime? date) {
+  if (date == null) return '';
+  return DateFormat.yMMMd().format(date);
 }

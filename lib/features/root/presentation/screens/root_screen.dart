@@ -17,26 +17,52 @@ class RootScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => RootCubit(),
-      child: BlocBuilder<RootCubit, RootState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: IndexedStack(
-              index: state.selectedIndex,
-              children: const [
-                HomeScreen(),
-                JobMatchingScreen(),
-                RoadmapsScreen(),
-                InterviewStartScreen(),
-                ProfileScreen(),
-              ],
+      child: const _RootView(),
+    );
+  }
+}
+
+class _RootView extends StatefulWidget {
+  const _RootView();
+
+  @override
+  State<_RootView> createState() => _RootViewState();
+}
+
+class _RootViewState extends State<_RootView> {
+  final Set<int> _visitedTabs = {0};
+
+  static const _pages = [
+    HomeScreen(),
+    JobMatchingScreen(),
+    RoadmapsScreen(),
+    InterviewStartScreen(),
+    ProfileScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RootCubit, RootState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: IndexedStack(
+            index: state.selectedIndex,
+            children: List.generate(
+              _pages.length,
+              (index) => _visitedTabs.contains(index)
+                  ? _pages[index]
+                  : const SizedBox.shrink(),
             ),
-            bottomNavigationBar: AppBottomNavBar(
-              selectedIndex: state.selectedIndex,
-              onChanged: context.read<RootCubit>().changeTab,
-            ),
-          );
-        },
-      ),
+          ),
+          bottomNavigationBar: AppBottomNavBar(
+            selectedIndex: state.selectedIndex,
+            onChanged: (index) {
+              setState(() => _visitedTabs.add(index));
+              context.read<RootCubit>().changeTab(index);
+            },
+          ),
+        );
+      },
     );
   }
 }

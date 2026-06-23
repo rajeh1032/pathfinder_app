@@ -6,7 +6,14 @@ import '../../../../../core/theme/app_spacing.dart';
 import '../cover_letter/shared_widgets.dart';
 
 class ResultScoreCard extends StatelessWidget {
-  const ResultScoreCard({super.key});
+  const ResultScoreCard({
+    super.key,
+    required this.score,
+    required this.description,
+  });
+
+  final int score;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,7 @@ class ResultScoreCard extends StatelessWidget {
               border: Border.all(color: colors.primary, width: 6.w),
             ),
             child: Text(
-              'coverLetter.result.scoreValue'.tr(),
+              '$score%',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: colors.onSurface,
                     fontWeight: FontWeight.w900,
@@ -45,7 +52,7 @@ class ResultScoreCard extends StatelessWidget {
                 ),
                 SizedBox(height: AppSpacing.xs.h),
                 Text(
-                  'coverLetter.match.description'.tr(),
+                  description,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: colors.onSurfaceVariant,
                         height: 1.35,

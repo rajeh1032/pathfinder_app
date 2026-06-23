@@ -5,7 +5,14 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class AiRecommendationCard extends StatelessWidget {
-  const AiRecommendationCard({super.key});
+  const AiRecommendationCard({
+    super.key,
+    this.percentage,
+    this.reason,
+  });
+
+  final int? percentage;
+  final String? reason;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +60,9 @@ class AiRecommendationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'jobs.common.aiMatchLabel'.tr(),
+                  percentage == null
+                      ? 'jobs.common.aiMatchLabel'.tr()
+                      : 'AI MATCH: $percentage%',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontWeight: FontWeight.w900,
@@ -61,7 +70,9 @@ class AiRecommendationCard extends StatelessWidget {
                 ),
                 SizedBox(height: 5.h),
                 Text(
-                  'jobs.details.aiReason'.tr(),
+                  reason == null || reason!.isEmpty
+                      ? 'jobs.details.aiReason'.tr()
+                      : reason!,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                         height: 1.45,

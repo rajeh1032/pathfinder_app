@@ -1,23 +1,29 @@
 import 'package:equatable/equatable.dart';
 
-/// A job the user has saved (from `GET /v1/jobs/saved`).
+import 'job.dart';
+
+/// A saved job row with the full job payload for the Jobs feature, plus
+/// convenience getters used by compact saved-job previews.
 class SavedJob extends Equatable {
   const SavedJob({
     required this.id,
-    required this.title,
-    this.company,
-    this.location,
-    this.jobType,
-    this.logoUrl,
+    required this.job,
+    this.savedId,
+    this.createdAt,
   });
 
+  /// The job id. Use [savedId] when the saved row id is needed.
   final String id;
-  final String title;
-  final String? company;
-  final String? location;
-  final String? jobType;
-  final String? logoUrl;
+  final String? savedId;
+  final Job job;
+  final DateTime? createdAt;
+
+  String get title => job.title;
+  String? get company => job.company;
+  String? get location => job.location;
+  String? get jobType => job.employmentType;
+  String? get logoUrl => job.thumbnailUrl ?? job.companyLogoUrl;
 
   @override
-  List<Object?> get props => [id, title, company, location, jobType, logoUrl];
+  List<Object?> get props => [id, savedId, job, createdAt];
 }

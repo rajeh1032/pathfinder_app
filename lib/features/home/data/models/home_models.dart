@@ -38,6 +38,7 @@ class HomeJobMatchModel {
     required this.matchPercentage,
     this.salaryRange,
     required this.isRemote,
+    this.imageUrl,
   });
 
   final String jobId;
@@ -46,16 +47,26 @@ class HomeJobMatchModel {
   final int matchPercentage;
   final String? salaryRange;
   final bool isRemote;
+  final String? imageUrl;
 
   factory HomeJobMatchModel.fromJson(Map<String, dynamic> json) {
-    final job = json['job'] as Map<String, dynamic>? ?? json;
+    final job = switch (json) {
+      {'jobs': final Map<String, dynamic> jobs} => jobs,
+      {'job': final Map<String, dynamic> job} => job,
+      _ => json,
+    };
+    final location = job['location']?.toString() ?? '';
+
     return HomeJobMatchModel(
-      jobId: json['job_id'] as String? ?? job['id'] as String? ?? '',
-      jobTitle: job['title'] as String? ?? '',
-      company: job['company'] as String? ?? '',
+      jobId: json['job_id']?.toString() ?? job['id']?.toString() ?? '',
+      jobTitle: job['title']?.toString() ?? '',
+      company: job['company']?.toString() ?? '',
       matchPercentage: (json['match_percentage'] as num?)?.round() ?? 0,
-      salaryRange: job['salary_range'] as String?,
-      isRemote: job['is_remote'] as bool? ?? false,
+      salaryRange: job['salary_range']?.toString(),
+      isRemote: job['is_remote'] as bool? ??
+          location.toLowerCase().contains('remote'),
+      imageUrl: job['thumbnail_url']?.toString() ??
+          job['company_logo_url']?.toString(),
     );
   }
 
@@ -66,5 +77,6 @@ class HomeJobMatchModel {
         matchPercentage: matchPercentage,
         salaryRange: salaryRange,
         isRemote: isRemote,
+        imageUrl: imageUrl,
       );
 }

@@ -6,7 +6,18 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
 class TargetGoalCard extends StatelessWidget {
-  const TargetGoalCard({super.key});
+  const TargetGoalCard({
+    super.key,
+    this.title,
+    this.progress = 0,
+    this.selectedSkills = const [],
+    this.remainingSkills = const [],
+  });
+
+  final String? title;
+  final double progress;
+  final List<String> selectedSkills;
+  final List<String> remainingSkills;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +44,9 @@ class TargetGoalCard extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      'coverLetter.goal.title'.tr(),
+                      title?.trim().isNotEmpty == true
+                          ? title!
+                          : 'Selected role',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: colorScheme.onSurface,
                             fontWeight: FontWeight.w900,
@@ -55,7 +68,7 @@ class TargetGoalCard extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'coverLetter.goal.complete'.tr(),
+                  '${(progress.clamp(0.0, 1.0) * 100).round()}%\nReady',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: colorScheme.secondary,
@@ -67,12 +80,12 @@ class TargetGoalCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: AppSpacing.md.h),
-          const ProgressTrack(value: .65),
+          ProgressTrack(value: progress),
           SizedBox(height: 6.h),
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              '65%',
+              '${(progress * 100).round()}%',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w800,
@@ -80,18 +93,17 @@ class TargetGoalCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: AppSpacing.sm.h),
-          Row(
-            children: [
-              const MiniSkillStatus(
-                labelKey: 'coverLetter.goal.advancedPatterns',
-                active: true,
-              ),
-              SizedBox(width: AppSpacing.sm.w),
-              const MiniSkillStatus(
-                labelKey: 'coverLetter.goal.systemDesign',
-              ),
-            ],
-          ),
+          if (selectedSkills.isNotEmpty || remainingSkills.isNotEmpty)
+            Wrap(
+              spacing: AppSpacing.sm.w,
+              runSpacing: AppSpacing.sm.h,
+              children: [
+                for (final skill in selectedSkills.take(4))
+                  MiniSkillStatus(label: skill, active: true),
+                for (final skill in remainingSkills.take(4))
+                  MiniSkillStatus(label: skill),
+              ],
+            ),
         ],
       ),
     );
@@ -127,15 +139,15 @@ class ProgressTrack extends StatelessWidget {
 }
 
 class MiniSkillStatus extends StatelessWidget {
-  const MiniSkillStatus(
-      {super.key, required this.labelKey, this.active = false});
+  const MiniSkillStatus({super.key, required this.label, this.active = false});
 
-  final String labelKey;
+  final String label;
   final bool active;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      width: 138.w,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -149,7 +161,7 @@ class MiniSkillStatus extends StatelessWidget {
           SizedBox(width: 4.w),
           Expanded(
             child: Text(
-              labelKey.tr(),
+              label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     height: 1.15,

@@ -1,10 +1,22 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
 class JobTitleBlock extends StatelessWidget {
-  const JobTitleBlock({super.key});
+  const JobTitleBlock({
+    super.key,
+    required this.title,
+    required this.company,
+    required this.location,
+    this.certificateProvider,
+    this.duration,
+  });
+
+  final String title;
+  final String company;
+  final String location;
+  final String? certificateProvider;
+  final String? duration;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +24,7 @@ class JobTitleBlock extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'jobs.common.seniorUxDesigner'.tr(),
+          title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w900,
@@ -26,7 +38,7 @@ class JobTitleBlock extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurfaceVariant),
             SizedBox(width: 5.w),
             Text(
-              'jobs.details.certificate'.tr(),
+              certificateProvider ?? '$company • $location',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w600,
@@ -37,9 +49,9 @@ class JobTitleBlock extends StatelessWidget {
         SizedBox(height: AppSpacing.md.h),
         Row(
           children: [
-            const JobMetric(icon: Icons.groups_outlined, label: '12k+'),
+            JobMetric(icon: Icons.business_outlined, label: company),
             SizedBox(width: AppSpacing.lg.w),
-            const JobMetric(icon: Icons.schedule, label: '12h'),
+            JobMetric(icon: Icons.schedule, label: duration ?? 'Flexible'),
           ],
         ),
       ],

@@ -10,6 +10,7 @@ import '../cover_letter/shared_widgets.dart';
 class ResultEditorCard extends StatelessWidget {
   const ResultEditorCard({
     super.key,
+    required this.title,
     required this.controller,
     required this.isEditing,
     required this.onEditModeChanged,
@@ -17,6 +18,7 @@ class ResultEditorCard extends StatelessWidget {
     required this.onRegenerate,
   });
 
+  final String title;
   final TextEditingController controller;
   final bool isEditing;
   final ValueChanged<bool> onEditModeChanged;
@@ -35,7 +37,7 @@ class ResultEditorCard extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.md.h),
           Text(
-            'coverLetter.result.letterTitle'.tr(),
+            title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w900,
