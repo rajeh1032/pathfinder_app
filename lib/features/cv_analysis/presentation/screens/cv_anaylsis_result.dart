@@ -45,7 +45,7 @@ class _CvAnalysisResultView extends StatefulWidget {
 
 class _CvAnalysisResultViewState extends State<_CvAnalysisResultView> {
   bool _didRefreshJobMatches = false;
-  bool _jobMatchesRefreshed = false;
+  bool _cvAnalysisCompleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +53,13 @@ class _CvAnalysisResultViewState extends State<_CvAnalysisResultView> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        Navigator.pop(context, _jobMatchesRefreshed);
+        Navigator.pop(context, _cvAnalysisCompleted);
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20.sp),
-            onPressed: () => Navigator.pop(context, _jobMatchesRefreshed),
+            onPressed: () => Navigator.pop(context, _cvAnalysisCompleted),
           ),
           title: Text('cvAnalysis.title'.tr()),
         ),
@@ -87,6 +87,7 @@ class _CvAnalysisResultViewState extends State<_CvAnalysisResultView> {
                 );
               }
               if (state is CvAnalysisLoaded) {
+                _cvAnalysisCompleted = true;
                 _refreshJobMatchesAfterCv();
                 return CvAnalysisResultContent(
                   result: state.result,
@@ -117,9 +118,6 @@ class _CvAnalysisResultViewState extends State<_CvAnalysisResultView> {
             'concurrency': 2,
           },
         );
-        if (mounted) {
-          setState(() => _jobMatchesRefreshed = true);
-        }
       } catch (_) {
         // The CV result should remain visible even if match regeneration fails.
       }

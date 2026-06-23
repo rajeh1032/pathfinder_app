@@ -216,7 +216,7 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
               CustomButton(
                 onPressed: hasFile && _selectedFile!.path != null
                     ? () async {
-                        final refreshed = await Navigator.pushNamed<bool>(
+                        final refreshed = await Navigator.pushNamed(
                           context,
                           AppRoutes.cvAnalysisResult,
                           arguments:

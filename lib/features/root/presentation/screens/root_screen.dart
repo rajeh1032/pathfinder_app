@@ -31,14 +31,15 @@ class _RootView extends StatefulWidget {
 
 class _RootViewState extends State<_RootView> {
   final Set<int> _visitedTabs = {0};
+  int _roadmapsRefreshToken = 0;
 
-  static const _pages = [
-    HomeScreen(),
-    JobMatchingScreen(),
-    RoadmapsScreen(),
-    InterviewStartScreen(),
-    ProfileScreen(),
-  ];
+  List<Widget> get _pages => [
+        const HomeScreen(),
+        const JobMatchingScreen(),
+        RoadmapsScreen(key: ValueKey(_roadmapsRefreshToken)),
+        const InterviewStartScreen(),
+        const ProfileScreen(),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,12 @@ class _RootViewState extends State<_RootView> {
           bottomNavigationBar: AppBottomNavBar(
             selectedIndex: state.selectedIndex,
             onChanged: (index) {
-              setState(() => _visitedTabs.add(index));
+              setState(() {
+                _visitedTabs.add(index);
+                if (index == 2) {
+                  _roadmapsRefreshToken++;
+                }
+              });
               context.read<RootCubit>().changeTab(index);
             },
           ),
