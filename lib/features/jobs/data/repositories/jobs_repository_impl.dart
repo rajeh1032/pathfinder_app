@@ -27,6 +27,11 @@ class JobsRepositoryImpl implements JobsRepository {
   }
 
   @override
+  Future<Either<Failure, List<Job>>> syncJobs({int limit = 20}) {
+    return _guard(() => _remoteDataSource.syncJobs(limit: limit));
+  }
+
+  @override
   Future<Either<Failure, List<JobMatch>>> getMatchedJobs({
     int page = 1,
     int limit = 20,

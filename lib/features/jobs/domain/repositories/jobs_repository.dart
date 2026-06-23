@@ -9,6 +9,8 @@ import '../entities/saved_job.dart';
 abstract class JobsRepository {
   Future<Either<Failure, List<Job>>> getJobs({int page = 1, int limit = 20});
 
+  Future<Either<Failure, List<Job>>> syncJobs({int limit = 20});
+
   Future<Either<Failure, List<JobMatch>>> getMatchedJobs({
     int page = 1,
     int limit = 20,

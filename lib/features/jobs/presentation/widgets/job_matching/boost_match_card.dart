@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 
@@ -107,11 +108,9 @@ class BoostMatchCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppRadius.md.r),
                 ),
               ),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('common.actionReady'.tr())),
-                );
-              },
+              onPressed: () => Navigator.of(context).pushNamed(
+                AppRoutes.roadmaps,
+              ),
               child: Text(
                 'jobs.matching.startLearningPath'.tr(),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(

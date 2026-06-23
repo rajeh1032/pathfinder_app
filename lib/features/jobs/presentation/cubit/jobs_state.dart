@@ -19,6 +19,7 @@ class JobsState extends Equatable {
     this.errorMessage,
     this.isSaving = false,
     this.isApplying = false,
+    this.searchQuery = '',
   });
 
   final JobsStatus status;
@@ -31,8 +32,34 @@ class JobsState extends Equatable {
   final String? errorMessage;
   final bool isSaving;
   final bool isApplying;
+  final String searchQuery;
 
   bool get isLoading => status == JobsStatus.loading;
+
+  List<JobMatch> get visibleMatches {
+    final query = searchQuery.trim().toLowerCase();
+    if (query.isEmpty) return matches;
+
+    return matches.where((match) {
+      final job = match.job;
+      final searchableText = [
+        job.title,
+        job.company,
+        job.location,
+        job.description,
+        job.salaryRange,
+        job.level,
+        job.category,
+        job.employmentType,
+        job.requiredSkills.join(' '),
+        match.matchedSkills.join(' '),
+        match.missingSkills.join(' '),
+        match.reason,
+      ].whereType<String>().join(' ').toLowerCase();
+
+      return searchableText.contains(query);
+    }).toList(growable: false);
+  }
 
   JobsState copyWith({
     JobsStatus? status,
@@ -45,6 +72,7 @@ class JobsState extends Equatable {
     String? errorMessage,
     bool? isSaving,
     bool? isApplying,
+    String? searchQuery,
     bool clearError = false,
   }) {
     return JobsState(
@@ -58,6 +86,7 @@ class JobsState extends Equatable {
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       isSaving: isSaving ?? this.isSaving,
       isApplying: isApplying ?? this.isApplying,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 
@@ -73,5 +102,6 @@ class JobsState extends Equatable {
         errorMessage,
         isSaving,
         isApplying,
+        searchQuery,
       ];
 }

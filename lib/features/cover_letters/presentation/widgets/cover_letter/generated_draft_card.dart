@@ -5,7 +5,22 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
 class GeneratedDraftCard extends StatelessWidget {
-  const GeneratedDraftCard({super.key});
+  const GeneratedDraftCard({
+    super.key,
+    required this.content,
+    required this.wordCount,
+    this.onCopy,
+    this.onEdit,
+    this.onRegenerate,
+    this.onExportPdf,
+  });
+
+  final String content;
+  final int wordCount;
+  final VoidCallback? onCopy;
+  final VoidCallback? onEdit;
+  final VoidCallback? onRegenerate;
+  final VoidCallback? onExportPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +52,7 @@ class GeneratedDraftCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'coverLetter.draft.wordCount'.tr(),
+                  '$wordCount Words',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w700,
@@ -50,7 +65,7 @@ class GeneratedDraftCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(AppSpacing.md.w),
             child: Text(
-              'coverLetter.draft.body'.tr(),
+              content.trim().isEmpty ? 'No draft generated yet.' : content,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                     height: 1.65,
@@ -72,18 +87,22 @@ class GeneratedDraftCard extends StatelessWidget {
                 DraftAction(
                   icon: Icons.copy_outlined,
                   labelKey: 'coverLetter.draft.copy',
+                  onPressed: onCopy,
                 ),
                 DraftAction(
                   icon: Icons.edit_outlined,
                   labelKey: 'coverLetter.draft.edit',
+                  onPressed: onEdit,
                 ),
                 DraftAction(
                   icon: Icons.replay_outlined,
                   labelKey: 'coverLetter.draft.regenerate',
+                  onPressed: onRegenerate,
                 ),
                 DraftAction(
                   icon: Icons.download_outlined,
                   labelKey: 'coverLetter.draft.pdf',
+                  onPressed: onExportPdf,
                 ),
               ],
             ),
@@ -109,12 +128,7 @@ class DraftAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: onPressed ??
-          () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('common.actionReady'.tr())),
-            );
-          },
+      onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 4.w),
         visualDensity: VisualDensity.compact,

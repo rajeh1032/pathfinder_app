@@ -8,6 +8,8 @@ import '../../models/saved_job_model.dart';
 abstract class JobsRemoteDataSource {
   Future<List<JobModel>> getJobs({int page = 1, int limit = 20});
 
+  Future<List<JobModel>> syncJobs({int limit = 20});
+
   Future<List<JobMatchModel>> getMatchedJobs({int page = 1, int limit = 20});
 
   Future<List<JobMatchModel>> generateJobMatches({int limit = 20});
@@ -40,6 +42,18 @@ class JobsRemoteDataSourceImpl implements JobsRemoteDataSource {
   }
 
   @override
+  Future<List<JobModel>> syncJobs({int limit = 20}) async {
+    final response = await _apiClient.post(
+      ApiEndpoints.syncJobs,
+      data: {
+        'maxItems': limit,
+        'allowFallback': false,
+      },
+    );
+    return _parseSyncJobs(response.data);
+  }
+
+  @override
   Future<List<JobMatchModel>> getMatchedJobs({
     int page = 1,
     int limit = 20,
@@ -50,7 +64,8 @@ class JobsRemoteDataSourceImpl implements JobsRemoteDataSource {
         'page': page,
         'limit': limit,
         'includeWeak': true,
-        'includeFallback': true,
+        'includeFallback': false,
+        'autoSync': true,
         'minScore': 0,
       },
     );
@@ -127,4 +142,18 @@ Map<String, dynamic> _parseObject(Object? body) {
     _ => throw const FormatException('Unexpected job response format'),
   };
   return object;
+}
+
+List<JobModel> _parseSyncJobs(Object? body) {
+  final list = switch (body) {
+    {'data': {'jobs': final List<dynamic> jobs}} => jobs,
+    {'data': final List<dynamic> data} => data,
+    final List<dynamic> data => data,
+    _ => throw const FormatException('Unexpected jobs sync response format'),
+  };
+
+  return list
+      .whereType<Map<String, dynamic>>()
+      .map(JobModel.fromJson)
+      .toList(growable: false);
 }

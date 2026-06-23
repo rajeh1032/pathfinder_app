@@ -68,10 +68,21 @@ class AppliedJobCard extends StatelessWidget {
               SizedBox(width: AppSpacing.sm.w),
               Expanded(
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context).pushNamed(
-                    AppRoutes.coverLetterResult,
-                    arguments: appliedJob.coverLetterId,
-                  ),
+                  onPressed: () {
+                    final coverLetterId = appliedJob.coverLetterId;
+                    if (coverLetterId == null || coverLetterId.isEmpty) {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.coverLetterGenerator,
+                        arguments: appliedJob.job,
+                      );
+                      return;
+                    }
+
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.coverLetterResult,
+                      arguments: coverLetterId,
+                    );
+                  },
                   child: Text('jobs.applied.viewLetter'.tr()),
                 ),
               ),

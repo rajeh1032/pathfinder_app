@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../cubit/cv_anaylsis_state.dart';
@@ -34,47 +36,66 @@ class CvAnalysisResult extends StatelessWidget {
   }
 }
 
-class _CvAnalysisResultView extends StatelessWidget {
+class _CvAnalysisResultView extends StatefulWidget {
   const _CvAnalysisResultView();
 
   @override
+  State<_CvAnalysisResultView> createState() => _CvAnalysisResultViewState();
+}
+
+class _CvAnalysisResultViewState extends State<_CvAnalysisResultView> {
+  bool _didRefreshJobMatches = false;
+  bool _jobMatchesRefreshed = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20.sp),
-          onPressed: () => Navigator.pop(context),
+    return PopScope<bool>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pop(context, _jobMatchesRefreshed);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20.sp),
+            onPressed: () => Navigator.pop(context, _jobMatchesRefreshed),
+          ),
+          title: Text('cvAnalysis.title'.tr()),
         ),
-        title: Text('cvAnalysis.title'.tr()),
-      ),
-      body: SafeArea(
-        child: BlocBuilder<CvAnalysisCubit, CvAnalysisState>(
-          builder: (context, state) {
-            if (state is CvAnalysisInitial || state is CvStatusLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (state is CvUploadLoading || state is CvAnalyzing) {
-              return _ProgressView(isUploading: state is CvUploadLoading);
-            }
-            if (state is CvAnalysisError) {
-              return _MessageView(message: state.message.tr(), isError: true);
-            }
-            if (state is CvStatusLoaded) {
-              return _MessageView(
-                message: (state.status.hasCv
-                        ? 'cvAnalysis.analyzingHint'
-                        : 'cvAnalysis.noCvYet')
-                    .tr(),
-              );
-            }
-            if (state is CvAnalysisLoaded) {
-              return CvAnalysisResultContent(
-                result: state.result,
-                onUploadNewCv: () => _upload(context),
-              );
-            }
-            return const SizedBox.shrink();
-          },
+        body: SafeArea(
+          child: BlocBuilder<CvAnalysisCubit, CvAnalysisState>(
+            builder: (context, state) {
+              if (state is CvAnalysisInitial || state is CvStatusLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is CvUploadLoading || state is CvAnalyzing) {
+                return _ProgressView(isUploading: state is CvUploadLoading);
+              }
+              if (state is CvAnalysisError) {
+                return _MessageView(
+                  message: state.message.tr(),
+                  isError: true,
+                );
+              }
+              if (state is CvStatusLoaded) {
+                return _MessageView(
+                  message: (state.status.hasCv
+                          ? 'cvAnalysis.analyzingHint'
+                          : 'cvAnalysis.noCvYet')
+                      .tr(),
+                );
+              }
+              if (state is CvAnalysisLoaded) {
+                _refreshJobMatchesAfterCv();
+                return CvAnalysisResultContent(
+                  result: state.result,
+                  onUploadNewCv: () => _upload(context),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );
@@ -82,6 +103,28 @@ class _CvAnalysisResultView extends StatelessWidget {
 
   Future<void> _upload(BuildContext context) =>
       context.read<CvAnalysisCubit>().pickAndUpload();
+
+  void _refreshJobMatchesAfterCv() {
+    if (_didRefreshJobMatches) return;
+    _didRefreshJobMatches = true;
+
+    Future.microtask(() async {
+      try {
+        await getIt<ApiClient>().post(
+          ApiEndpoints.generateJobMatches,
+          data: const {
+            'limit': 30,
+            'concurrency': 2,
+          },
+        );
+        if (mounted) {
+          setState(() => _jobMatchesRefreshed = true);
+        }
+      } catch (_) {
+        // The CV result should remain visible even if match regeneration fails.
+      }
+    });
+  }
 }
 
 class _ProgressView extends StatelessWidget {

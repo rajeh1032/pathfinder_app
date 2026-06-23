@@ -42,6 +42,7 @@ class ApiEndpoints {
   static String courseEnrollment(String id) =>
       '${courseDetails(id)}/enrollment';
   static const jobs = '/v1/jobs';
+  static const syncJobs = '/v1/jobs/sync';
   static String jobDetails(String id) => '$jobs/${_segment(id)}';
   static const matchedJobs = '/v1/jobs/matched';
   static String saveJob(String id) => '$jobs/${_segment(id)}/save';

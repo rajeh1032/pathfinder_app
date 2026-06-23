@@ -75,9 +75,18 @@ class _JobMatchingBody extends StatelessWidget {
                           );
                         }
 
+                        final visibleMatches = state.visibleMatches;
+                        if (visibleMatches.isEmpty) {
+                          return _JobsMessage(
+                            message: 'No jobs match your search',
+                            onRetry: context.read<JobsCubit>().clearSearch,
+                            buttonText: 'Clear search',
+                          );
+                        }
+
                         return Column(
                           children: [
-                            for (final match in state.matches) ...[
+                            for (final match in visibleMatches) ...[
                               JobMatchCard(match: match),
                               SizedBox(height: AppSpacing.md.h),
                             ],
@@ -103,10 +112,12 @@ class _JobsMessage extends StatelessWidget {
   const _JobsMessage({
     required this.message,
     required this.onRetry,
+    this.buttonText = 'Retry',
   });
 
   final String message;
   final VoidCallback onRetry;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +138,7 @@ class _JobsMessage extends StatelessWidget {
           SizedBox(height: AppSpacing.sm.h),
           OutlinedButton(
             onPressed: onRetry,
-            child: const Text('Retry'),
+            child: Text(buttonText),
           ),
         ],
       ),

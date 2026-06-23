@@ -5,17 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/cover_letter.dart';
 import '../cover_letter/shared_widgets.dart';
 
 class HistoryLetterCard extends StatelessWidget {
   const HistoryLetterCard({
     super.key,
-    required this.statusKey,
-    required this.dateKey,
+    required this.letter,
+    this.onDelete,
   });
 
-  final String statusKey;
-  final String dateKey;
+  final CoverLetter letter;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class HistoryLetterCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'coverLetter.result.letterTitle'.tr(),
+                      letter.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: colors.onSurface,
                             fontWeight: FontWeight.w900,
@@ -42,7 +43,7 @@ class HistoryLetterCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      dateKey.tr(),
+                      _dateLabel(letter.createdAt),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: colors.onSurfaceVariant,
                             fontWeight: FontWeight.w700,
@@ -51,12 +52,20 @@ class HistoryLetterCard extends StatelessWidget {
                   ],
                 ),
               ),
-              _StatusPill(statusKey),
+              _StatusPill(letter.status),
+              if (onDelete != null) ...[
+                SizedBox(width: AppSpacing.xs.w),
+                IconButton(
+                  onPressed: onDelete,
+                  icon: Icon(Icons.close, color: colors.error),
+                  tooltip: 'common.delete'.tr(),
+                ),
+              ],
             ],
           ),
           SizedBox(height: AppSpacing.md.h),
           Text(
-            'coverLetter.draft.body'.tr(),
+            letter.content,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -70,16 +79,21 @@ class HistoryLetterCard extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AppRoutes.coverLetterResult),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                      AppRoutes.coverLetterResult,
+                      arguments: letter.id),
                   child: Text('coverLetter.history.open'.tr()),
                 ),
               ),
               SizedBox(width: AppSpacing.sm.w),
               Expanded(
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AppRoutes.coverLetterGenerator),
+                  onPressed: letter.job == null
+                      ? null
+                      : () => Navigator.of(context).pushNamed(
+                            AppRoutes.coverLetterGenerator,
+                            arguments: letter.job,
+                          ),
                   child: Text('coverLetter.history.duplicate'.tr()),
                 ),
               ),
@@ -89,6 +103,11 @@ class HistoryLetterCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String _dateLabel(DateTime? date) {
+  if (date == null) return '';
+  return DateFormat.yMMMd().format(date.toLocal());
 }
 
 class _LetterIcon extends StatelessWidget {
@@ -131,7 +150,7 @@ class _StatusPill extends StatelessWidget {
         border: Border.all(color: colors.secondary.withValues(alpha: .38)),
       ),
       child: Text(
-        labelKey.tr(),
+        labelKey,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
               color: colors.secondary,
               fontWeight: FontWeight.w900,

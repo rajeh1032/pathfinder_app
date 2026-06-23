@@ -5,10 +5,16 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
 class InputBlock extends StatelessWidget {
-  const InputBlock({super.key, required this.label, required this.hint});
+  const InputBlock({
+    super.key,
+    required this.label,
+    required this.hint,
+    this.controller,
+  });
 
   final String label;
   final String hint;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +23,34 @@ class InputBlock extends StatelessWidget {
       children: [
         FieldLabel(label),
         SizedBox(height: AppSpacing.xs.h),
-        Container(
-          width: double.infinity,
-          constraints: BoxConstraints(minHeight: 72.h),
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(AppRadius.sm.r),
-            border: Border.all(color: Theme.of(context).colorScheme.outline),
+        TextFormField(
+          controller: controller,
+          minLines: 3,
+          maxLines: 5,
+          decoration: InputDecoration(
+            hintText: hint,
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surface,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm.r),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.outline),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm.r),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.outline),
+            ),
+            contentPadding: EdgeInsets.all(10.w),
           ),
-          child: Text(
-            hint,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  height: 1.35,
-                  fontWeight: FontWeight.w500,
-                ),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+                height: 1.35,
+                fontWeight: FontWeight.w500,
+              ),
+          strutStyle: const StrutStyle(
+            forceStrutHeight: true,
+            height: 1.35,
           ),
         ),
       ],

@@ -215,12 +215,17 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
             children: [
               CustomButton(
                 onPressed: hasFile && _selectedFile!.path != null
-                    ? () => Navigator.pushNamed(
+                    ? () async {
+                        final refreshed = await Navigator.pushNamed<bool>(
                           context,
                           AppRoutes.cvAnalysisResult,
                           arguments:
                               RouteArguments(payload: _selectedFile!.path),
-                        )
+                        );
+                        if (context.mounted && refreshed == true) {
+                          Navigator.pop(context, true);
+                        }
+                      }
                     : null,
                 icon: Icons.analytics_outlined,
                 labelKey: 'cvUpload.analyzeButton',

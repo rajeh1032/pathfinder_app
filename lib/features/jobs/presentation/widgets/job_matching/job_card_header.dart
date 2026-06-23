@@ -8,46 +8,19 @@ class JobCardHeader extends StatelessWidget {
     super.key,
     required this.title,
     required this.companyLocation,
+    this.imageUrl,
   });
 
   final String title;
   final String companyLocation;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 58.w,
-          height: 58.h,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppRadius.md.r),
-          ),
-          child: Center(
-            child: Container(
-              width: 40.w,
-              height: 40.h,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.inverseSurface,
-                    Theme.of(context).colorScheme.primary,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(AppRadius.sm.r),
-              ),
-              child: Icon(
-                Icons.design_services_outlined,
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                size: 20.sp,
-              ),
-            ),
-          ),
-        ),
+        _CompanyImage(imageUrl: imageUrl),
         SizedBox(width: AppSpacing.md.w),
         Expanded(
           child: Column(
@@ -72,6 +45,67 @@ class JobCardHeader extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _CompanyImage extends StatelessWidget {
+  const _CompanyImage({this.imageUrl});
+
+  final String? imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final hasImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
+
+    return Container(
+      width: 58.w,
+      height: 58.h,
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(AppRadius.md.r),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: hasImage
+          ? Image.network(
+              imageUrl!,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => _FallbackCompanyIcon(colors),
+            )
+          : _FallbackCompanyIcon(colors),
+    );
+  }
+}
+
+class _FallbackCompanyIcon extends StatelessWidget {
+  const _FallbackCompanyIcon(this.colors);
+
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 40.w,
+        height: 40.h,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              colors.inverseSurface,
+              colors.primary,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppRadius.sm.r),
+        ),
+        child: Icon(
+          Icons.design_services_outlined,
+          color: colors.secondaryContainer,
+          size: 20.sp,
+        ),
+      ),
     );
   }
 }

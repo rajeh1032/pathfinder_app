@@ -122,7 +122,8 @@ class _JobDetailsBody extends StatelessWidget {
 
           final job = state.selectedJob;
           final match = initialMatch;
-          final hasCvAnalysis = match?.cvId != null;
+          final hasMatchData = match?.cvId != null;
+          final activeMatch = hasMatchData ? match : null;
           if (state.status == JobsStatus.failure || job == null) {
             return Center(
               child: OutlinedButton(
@@ -144,7 +145,7 @@ class _JobDetailsBody extends StatelessWidget {
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: JobHeroPreview(showAiBadge: hasCvAnalysis),
+                  child: JobHeroPreview(showAiBadge: hasMatchData),
                 ),
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(
@@ -165,10 +166,10 @@ class _JobDetailsBody extends StatelessWidget {
                         duration: job.duration,
                       ),
                       SizedBox(height: AppSpacing.lg.h),
-                      if (hasCvAnalysis) ...[
+                      if (hasMatchData) ...[
                         AiRecommendationCard(
-                          percentage: match!.matchPercentage,
-                          reason: match.reason,
+                          percentage: activeMatch!.matchPercentage,
+                          reason: activeMatch.reason,
                         ),
                         SizedBox(height: AppSpacing.xxl.h),
                       ],
@@ -185,10 +186,11 @@ class _JobDetailsBody extends StatelessWidget {
                         textColor: colorScheme.secondary,
                       ),
                       SizedBox(height: AppSpacing.lg.h),
-                      if (hasCvAnalysis)
+                      if (activeMatch != null &&
+                          activeMatch.missingSkills.isNotEmpty)
                         DetailsSkillSection(
                           title: 'jobs.common.missingSkills'.tr(),
-                          skills: match!.missingSkills,
+                          skills: activeMatch.missingSkills,
                           color: missingSkillColor,
                           textColor: colorScheme.error,
                         ),
@@ -212,7 +214,7 @@ class _JobDetailsBody extends StatelessWidget {
               if (context.mounted) {
                 Navigator.of(context).pushNamed(
                   AppRoutes.coverLetterGenerator,
-                  arguments: jobId,
+                  arguments: state.selectedJob ?? jobId,
                 );
               }
             },

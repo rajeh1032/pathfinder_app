@@ -5,7 +5,14 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
 class MatchScoreCard extends StatelessWidget {
-  const MatchScoreCard({super.key});
+  const MatchScoreCard({
+    super.key,
+    required this.score,
+    required this.description,
+  });
+
+  final int score;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +22,11 @@ class MatchScoreCard extends StatelessWidget {
           SizedBox(
             width: 86.w,
             height: 86.h,
-            child: ScoreRing(score: 87),
+            child: ScoreRing(score: score),
           ),
           SizedBox(height: AppSpacing.sm.h),
           Text(
-            'coverLetter.match.strong'.tr(),
+            score >= 80 ? 'coverLetter.match.strong'.tr() : 'AI review',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w900,
@@ -27,7 +34,7 @@ class MatchScoreCard extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
           Text(
-            'coverLetter.match.description'.tr(),
+            description,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -52,7 +59,7 @@ class ScoreRing extends StatelessWidget {
 
     return CustomPaint(
       painter: ScoreRingPainter(
-        value: score / 100,
+        value: (score / 100).clamp(0.0, 1.0),
         backgroundColor: colorScheme.primaryContainer,
         foregroundStart: colorScheme.primary,
         foregroundEnd: colorScheme.tertiary,

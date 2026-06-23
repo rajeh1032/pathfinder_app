@@ -52,17 +52,36 @@ class HomeRepositoryImpl implements HomeRepository {
     required Map<String, dynamic> roadmap,
     required List<Map<String, dynamic>> matches,
   }) {
-    final user = profile['user'] as Map<String, dynamic>? ?? profile;
+    final profileData = _nestedMap(profile, ['profile']) ?? profile;
+    final user = _nestedMap(profile, ['user', 'users']) ?? profileData;
     final analysis = cv['analysis'] as Map<String, dynamic>?;
     final extracted =
         analysis?['extracted'] as Map<String, dynamic>? ?? const {};
     final roadmapJson = roadmap['roadmap'] as Map<String, dynamic>?;
     final roles = extracted['recommended_roles'] as List? ?? const [];
+    final userName = _firstString([
+      user['name'],
+      profile['name'],
+      profileData['name'],
+      user['full_name'],
+      profile['full_name'],
+      profileData['full_name'],
+      user['fullName'],
+      profile['fullName'],
+      profileData['fullName'],
+    ]);
 
     return HomeSummaryEntity(
       user: HomeUserEntity(
-        name: user['name'] as String? ?? '',
-        avatarUrl: profile['avatar_url'] as String?,
+        name: userName ?? '',
+        avatarUrl: _firstString([
+          profile['avatar_url'],
+          profileData['avatar_url'],
+          user['avatar_url'],
+          profile['avatarUrl'],
+          profileData['avatarUrl'],
+          user['avatarUrl'],
+        ]),
       ),
       cvScore: (analysis?['score'] as num?)?.round(),
       analyzedRole: roles.isEmpty ? null : roles.first.toString(),
@@ -78,4 +97,20 @@ class HomeRepositoryImpl implements HomeRepository {
           .toList(),
     );
   }
+}
+
+Map<String, dynamic>? _nestedMap(Map<String, dynamic> json, List<String> keys) {
+  for (final key in keys) {
+    final value = json[key];
+    if (value is Map<String, dynamic>) return value;
+  }
+  return null;
+}
+
+String? _firstString(List<Object?> values) {
+  for (final value in values) {
+    final text = value?.toString().trim();
+    if (text != null && text.isNotEmpty) return text;
+  }
+  return null;
 }

@@ -22,7 +22,7 @@ class SavedJob extends Equatable {
   String? get company => job.company;
   String? get location => job.location;
   String? get jobType => job.employmentType;
-  String? get logoUrl => job.companyLogoUrl;
+  String? get logoUrl => job.thumbnailUrl ?? job.companyLogoUrl;
 
   @override
   List<Object?> get props => [id, savedId, job, createdAt];

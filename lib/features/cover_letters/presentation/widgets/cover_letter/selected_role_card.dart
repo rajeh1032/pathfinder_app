@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_radius.dart';
@@ -6,11 +5,28 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'shared_widgets.dart';
 
 class SelectedRoleCard extends StatelessWidget {
-  const SelectedRoleCard({super.key});
+  const SelectedRoleCard({
+    super.key,
+    this.title,
+    this.company,
+    this.location,
+    this.onChangeRole,
+  });
+
+  final String? title;
+  final String? company;
+  final String? location;
+  final VoidCallback? onChangeRole;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final roleTitle =
+        title?.trim().isNotEmpty == true ? title!.trim() : 'Selected job';
+    final companyLocation = [
+      if (company?.trim().isNotEmpty == true) company!.trim(),
+      if (location?.trim().isNotEmpty == true) location!.trim(),
+    ].join(' - ');
 
     return SurfaceCard(
       padding: EdgeInsets.all(AppSpacing.md.w),
@@ -36,7 +52,7 @@ class SelectedRoleCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'coverLetter.selectedRole.title'.tr(),
+                  roleTitle,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: colorScheme.onSurface,
                         fontWeight: FontWeight.w900,
@@ -47,7 +63,7 @@ class SelectedRoleCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'coverLetter.selectedRole.companyLocation'.tr(),
+                  companyLocation.isNotEmpty ? companyLocation : 'No company',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
@@ -60,11 +76,7 @@ class SelectedRoleCard extends StatelessWidget {
           ),
           SizedBox(width: AppSpacing.xs.w),
           IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('common.actionReady'.tr())),
-              );
-            },
+            onPressed: onChangeRole,
             constraints: BoxConstraints.tight(Size(36.w, 36.h)),
             padding: EdgeInsets.zero,
             icon: Icon(

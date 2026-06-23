@@ -1,11 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 
 class GenerateCoverLetterButton extends StatelessWidget {
-  const GenerateCoverLetterButton({super.key});
+  const GenerateCoverLetterButton({
+    super.key,
+    required this.onPressed,
+    this.isLoading = false,
+  });
+
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +37,18 @@ class GenerateCoverLetterButton extends StatelessWidget {
       child: SizedBox(
         height: 52.h,
         child: TextButton.icon(
-          onPressed: () =>
-              Navigator.of(context).pushNamed(AppRoutes.coverLetterResult),
-          icon: Icon(Icons.auto_awesome,
-              color: Theme.of(context).colorScheme.onPrimary, size: 18.sp),
+          onPressed: isLoading ? null : onPressed,
+          icon: isLoading
+              ? SizedBox(
+                  width: 18.sp,
+                  height: 18.sp,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                )
+              : Icon(Icons.auto_awesome,
+                  color: Theme.of(context).colorScheme.onPrimary, size: 18.sp),
           label: Text(
             'coverLetter.generate'.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(

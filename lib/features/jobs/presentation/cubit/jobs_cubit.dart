@@ -1,30 +1,54 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cv_analysis/domain/repositories/cv_anaylsis_repo.dart';
+import '../../domain/entities/job_match.dart';
 import '../../domain/repositories/jobs_repository.dart';
 import 'jobs_state.dart';
 
 class JobsCubit extends Cubit<JobsState> {
-  JobsCubit(this._repository) : super(const JobsState());
+  JobsCubit(
+    this._repository, {
+    CvAnalysisRepository? cvAnalysisRepository,
+  })  : _cvAnalysisRepository = cvAnalysisRepository,
+        super(const JobsState());
+
+  static const _jobsLimit = 30;
 
   final JobsRepository _repository;
+  final CvAnalysisRepository? _cvAnalysisRepository;
+
+  void updateSearch(String query) {
+    if (query == state.searchQuery) return;
+    emit(state.copyWith(searchQuery: query));
+  }
+
+  void clearSearch() {
+    if (state.searchQuery.isEmpty) return;
+    emit(state.copyWith(searchQuery: ''));
+  }
 
   Future<void> loadMatching() async {
     emit(state.copyWith(status: JobsStatus.loading, clearError: true));
 
     final savedResult = await _repository.getSavedJobs();
+    final hasCompletedCv = await _hasCompletedCvAnalysis();
     final savedIds = savedResult.fold<Set<String>>(
       (_) => state.savedJobIds,
       (saved) => saved.map((item) => item.job.id).toSet(),
     );
 
-    var result = await _repository.getMatchedJobs(limit: 20);
-    final shouldGenerate = result.fold(
+    var result = (await _repository.getMatchedJobs(limit: _jobsLimit))
+        .map(_filterAlignedMatches);
+    final shouldRegenerateMatches = result.fold(
       (_) => false,
-      (matches) => matches.isEmpty,
+      (matches) =>
+          matches.isEmpty || matches.every((match) => match.cvId == null),
     );
 
-    if (shouldGenerate) {
-      result = await _repository.generateJobMatches(limit: 20);
+    if (hasCompletedCv && shouldRegenerateMatches) {
+      result = (await _repository.generateJobMatches(limit: _jobsLimit)).map(
+        _filterAlignedMatches,
+      );
     }
 
     result.fold(
@@ -132,6 +156,28 @@ class JobsCubit extends Cubit<JobsState> {
         errorMessage: failure.message,
       )),
       (_) => emit(state.copyWith(isApplying: false, clearError: true)),
+    );
+  }
+
+  List<JobMatch> _filterAlignedMatches(List<JobMatch> matches) {
+    return matches.where((match) {
+      final reason = match.reason.toLowerCase();
+      return !reason.contains('does not align') &&
+          !reason.contains('do not align') &&
+          !reason.contains('not align with') &&
+          !reason.contains('not aligned with') &&
+          !reason.contains('doesn\'t align');
+    }).toList(growable: false);
+  }
+
+  Future<bool> _hasCompletedCvAnalysis() async {
+    final repository = _cvAnalysisRepository;
+    if (repository == null) return false;
+
+    final result = await repository.getCvStatus();
+    return result.fold(
+      (_) => false,
+      (status) => status.hasCompletedAnalysis,
     );
   }
 }

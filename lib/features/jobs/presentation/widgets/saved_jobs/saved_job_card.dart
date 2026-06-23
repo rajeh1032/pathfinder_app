@@ -57,7 +57,7 @@ class SavedJobCard extends StatelessWidget {
                 child: FilledButton(
                   onPressed: () => Navigator.of(context).pushNamed(
                     AppRoutes.coverLetterGenerator,
-                    arguments: savedJob.job.id,
+                    arguments: savedJob.job,
                   ),
                   child: Text('jobs.saved.secondaryAction'.tr()),
                 ),
@@ -85,15 +85,7 @@ class _SavedJobHeader extends StatelessWidget {
 
     return Row(
       children: [
-        Container(
-          width: 48.w,
-          height: 48.w,
-          decoration: BoxDecoration(
-            color: _pillTint(context, colors.primary, alpha: .12),
-            borderRadius: BorderRadius.circular(AppRadius.sm.r),
-          ),
-          child: Icon(Icons.work_outline, color: colors.primary),
-        ),
+        _SavedJobLogo(imageUrl: savedJob.logoUrl),
         SizedBox(width: AppSpacing.md.w),
         Expanded(
           child: Column(
@@ -123,6 +115,36 @@ class _SavedJobHeader extends StatelessWidget {
           tooltip: 'common.cancel'.tr(),
         ),
       ],
+    );
+  }
+}
+
+class _SavedJobLogo extends StatelessWidget {
+  const _SavedJobLogo({this.imageUrl});
+
+  final String? imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final hasImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
+
+    return Container(
+      width: 48.w,
+      height: 48.w,
+      decoration: BoxDecoration(
+        color: _pillTint(context, colors.primary, alpha: .12),
+        borderRadius: BorderRadius.circular(AppRadius.sm.r),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: hasImage
+          ? Image.network(
+              imageUrl!,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) =>
+                  Icon(Icons.work_outline, color: colors.primary),
+            )
+          : Icon(Icons.work_outline, color: colors.primary),
     );
   }
 }

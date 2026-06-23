@@ -77,32 +77,22 @@ class _JobCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Company logo placeholder
-          Container(
-            width: 44.w,
-            height: 44.w,
-            decoration: BoxDecoration(
-              color:
-                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Center(
-              child: Text(
-                job.company.isEmpty ? 'J' : job.company[0].toUpperCase(),
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-          ),
+          _CompanyLogo(job: job),
           SizedBox(width: 12.w),
           // Job info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  job.jobTitle.isEmpty ? 'Job opportunity' : job.jobTitle,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                SizedBox(height: 2.h),
                 Text(
                   job.company,
                   style: TextStyle(
@@ -111,24 +101,17 @@ class _JobCard extends StatelessWidget {
                     color: colorScheme.onSurfaceVariant,
                   ),
                 ),
-                SizedBox(height: 2.h),
-                Text(
-                  job.jobTitle,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: colorScheme.onSurface,
+                if (job.salaryRange?.isNotEmpty == true) ...[
+                  SizedBox(height: 4.h),
+                  Text(
+                    job.salaryRange!,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  job.salaryRange ?? '',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
+                ],
               ],
             ),
           ),
@@ -153,6 +136,56 @@ class _JobCard extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _CompanyLogo extends StatelessWidget {
+  const _CompanyLogo({required this.job});
+
+  final HomeJobMatchEntity job;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final imageUrl = job.imageUrl;
+    final hasImage = imageUrl != null && imageUrl.trim().isNotEmpty;
+
+    return Container(
+      width: 44.w,
+      height: 44.w,
+      decoration: BoxDecoration(
+        color: colorScheme.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: hasImage
+          ? Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => _FallbackLogo(job: job),
+            )
+          : _FallbackLogo(job: job),
+    );
+  }
+}
+
+class _FallbackLogo extends StatelessWidget {
+  const _FallbackLogo({required this.job});
+
+  final HomeJobMatchEntity job;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        job.company.isEmpty ? 'J' : job.company[0].toUpperCase(),
+        style: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w800,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

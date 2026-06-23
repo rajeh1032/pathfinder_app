@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../cubit/jobs_cubit.dart';
 import '../../../domain/entities/job_match.dart';
 import 'ai_match_pill.dart';
 import 'insight_box.dart';
@@ -21,7 +23,7 @@ class JobMatchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final hasCvAnalysis = match.cvId != null;
+    final hasMatchData = match.cvId != null;
     final requiredSkillColor = _softTint(
       context,
       colorScheme.secondary,
@@ -55,9 +57,10 @@ class JobMatchCard extends StatelessWidget {
           JobCardHeader(
             title: match.job.title,
             companyLocation: '${match.job.company} • ${match.job.location}',
+            imageUrl: match.job.thumbnailUrl ?? match.job.companyLogoUrl,
           ),
           SizedBox(height: AppSpacing.md.h),
-          if (hasCvAnalysis) ...[
+          if (hasMatchData) ...[
             AiMatchPill(percentage: match.matchPercentage),
             SizedBox(height: AppSpacing.md.h),
           ],
@@ -76,7 +79,7 @@ class JobMatchCard extends StatelessWidget {
             textColor: colorScheme.secondary,
           ),
           SizedBox(height: AppSpacing.md.h),
-          if (hasCvAnalysis)
+          if (hasMatchData && match.missingSkills.isNotEmpty)
             MatchingSkillSection(
               title: 'jobs.common.missingSkillsUpper'.tr(),
               skills: match.missingSkills,
@@ -85,9 +88,17 @@ class JobMatchCard extends StatelessWidget {
             ),
           SizedBox(height: AppSpacing.lg.h),
           JobInsightBox(
-            message: hasCvAnalysis
+            message: hasMatchData
                 ? match.reason
                 : 'Upload your CV to unlock AI match score and missing skills.',
+            onTap: hasMatchData
+                ? null
+                : () async {
+                    await Navigator.of(context).pushNamed(AppRoutes.cvUpload);
+                    if (context.mounted) {
+                      await context.read<JobsCubit>().loadMatching();
+                    }
+                  },
           ),
           SizedBox(height: AppSpacing.md.h),
           SizedBox(

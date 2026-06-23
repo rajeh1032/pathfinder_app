@@ -31,9 +31,10 @@ class JobMatchModel extends JobMatch {
       cvId: _nullableString(json['cv_id'] ?? match['cv_id']),
       matchPercentage: _int(match['match_percentage']),
       matchedSkills: matchedSkills,
-      missingSkills: _withoutMatchedSkills(
+      missingSkills: _onlyRequiredMissingSkills(
         _stringList(match['missing_skills']),
         matchedSkills,
+        job.requiredSkills,
       ),
       reason: _string(match['ai_reason']),
       job: job,
@@ -41,14 +42,17 @@ class JobMatchModel extends JobMatch {
   }
 }
 
-List<String> _withoutMatchedSkills(
+List<String> _onlyRequiredMissingSkills(
   List<String> missingSkills,
   List<String> matchedSkills,
+  List<String> requiredSkills,
 ) {
   final matched = matchedSkills.map((skill) => skill.toLowerCase()).toSet();
-  return missingSkills
-      .where((skill) => !matched.contains(skill.toLowerCase()))
-      .toList(growable: false);
+  final required = requiredSkills.map((skill) => skill.toLowerCase()).toSet();
+  return missingSkills.where((skill) {
+    final key = skill.toLowerCase();
+    return required.contains(key) && !matched.contains(key);
+  }).toList(growable: false);
 }
 
 String _string(Object? value, {String fallback = ''}) {
