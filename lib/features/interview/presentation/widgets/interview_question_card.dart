@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,6 +13,7 @@ class InterviewQuestionCard extends StatelessWidget {
     required this.options,
     required this.selectedOptionIndex,
     required this.onOptionSelected,
+    this.onSkip,
     this.isEnabled = true,
     super.key,
   });
@@ -21,6 +23,7 @@ class InterviewQuestionCard extends StatelessWidget {
   final List<String> options;
   final int? selectedOptionIndex;
   final ValueChanged<int> onOptionSelected;
+  final VoidCallback? onSkip;
   final bool isEnabled;
 
   @override
@@ -43,6 +46,37 @@ class InterviewQuestionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (onSkip != null)
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: InkWell(
+                onTap: isEnabled ? onSkip : null,
+                borderRadius: BorderRadius.circular(AppRadius.pill),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm.w,
+                    vertical: AppSpacing.xs.h,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'interview.skipQuestion'.tr(),
+                        style: AppTextStyles.labelLarge(colorScheme.primary)
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(width: 4.w),
+                      Icon(
+                        Icons.skip_next_rounded,
+                        size: 18.sp,
+                        color: colorScheme.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          if (onSkip != null) SizedBox(height: AppSpacing.sm.h),
           Text(
             question,
             style: AppTextStyles.titleLarge(colorScheme.onSurface).copyWith(

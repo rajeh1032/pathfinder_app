@@ -43,6 +43,15 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
     super.dispose();
   }
 
+  String? _selectedCareerPathName(InterviewStartState state) {
+    final selectedId = state.selectedCareerPathId;
+    if (selectedId == null) return null;
+    for (final path in state.careerPaths) {
+      if (path.id == selectedId) return path.name;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -168,7 +177,10 @@ class _InterviewStartScreenState extends State<InterviewStartScreen> {
                             ),
                             SizedBox(height: AppSpacing.xl.h),
                             InterviewPersonalizationCard(
-                                colorScheme: colorScheme),
+                              colorScheme: colorScheme,
+                              interviewType: state.selectedInterviewType,
+                              careerPathName: _selectedCareerPathName(state),
+                            ),
                             SizedBox(height: AppSpacing.xl.h),
                             SizedBox(
                               width: double.infinity,

@@ -31,6 +31,7 @@ class InterviewHistorySessionCard extends StatelessWidget {
     final accentColor = _accentColor(colorScheme);
     final score = item.overallScore?.round() ?? 0;
     final insight = item.quickAiInsight;
+    final subtitle = _subtitleLabel();
 
     return Container(
       width: double.infinity,
@@ -78,12 +79,13 @@ class InterviewHistorySessionCard extends StatelessWidget {
                               colorScheme.onSurface),
                         ),
                         SizedBox(height: AppSpacing.xs.h),
-                        Text(
-                          _completedLabel(),
-                          style: AppTextStyles.bodyMedium(
-                            colorScheme.onSurfaceVariant,
+                        if (subtitle.isNotEmpty)
+                          Text(
+                            subtitle,
+                            style: AppTextStyles.bodyMedium(
+                              colorScheme.onSurfaceVariant,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -93,6 +95,9 @@ class InterviewHistorySessionCard extends StatelessWidget {
                       score: score,
                       accentColor: accentColor,
                     ),
+                  ] else ...[
+                    SizedBox(width: AppSpacing.md.w),
+                    _StatusBadge(status: item.status),
                   ],
                 ],
               ),
@@ -140,14 +145,17 @@ class InterviewHistorySessionCard extends StatelessWidget {
     }
   }
 
-  String _completedLabel() {
-    final raw = item.completedAt;
-    if (raw == null || raw.isEmpty) return '';
-    final parsed = DateTime.tryParse(raw);
-    if (parsed == null) return '';
-    return 'interview.completedOn'.tr(
-      namedArgs: {'date': DateFormatter.format(parsed.toLocal())},
-    );
+  String _subtitleLabel() {
+    if (item.isCompleted) {
+      final raw = item.completedAt;
+      if (raw == null || raw.isEmpty) return '';
+      final parsed = DateTime.tryParse(raw);
+      if (parsed == null) return '';
+      return 'interview.completedOn'.tr(
+        namedArgs: {'date': DateFormatter.format(parsed.toLocal())},
+      );
+    }
+    return InterviewResultLabels.sessionStatusLabel(item.status);
   }
 
   Widget _buildActions(BuildContext context, bool isWide) {
@@ -176,6 +184,54 @@ class InterviewHistorySessionCard extends StatelessWidget {
         SizedBox(height: AppSpacing.sm.h),
         SizedBox(width: double.infinity, child: retakeButton),
       ],
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({required this.status});
+
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final Color color;
+    final IconData icon;
+    switch (status) {
+      case 'cancelled':
+        color = colorScheme.error;
+        icon = Icons.cancel_rounded;
+        break;
+      case 'in_progress':
+        color = colorScheme.tertiary;
+        icon = Icons.hourglass_top_rounded;
+        break;
+      default:
+        color = colorScheme.secondary;
+        icon = Icons.play_circle_outline_rounded;
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16.sp, color: color),
+          SizedBox(width: 6.w),
+          Text(
+            InterviewResultLabels.sessionStatusLabel(status),
+            style: AppTextStyles.labelMedium(color).copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -23,7 +23,12 @@ class InterviewHistoryCubit extends Cubit<InterviewHistoryState> {
   static const int _pageSize = 20;
 
   /// Maps a filter chip index to a backend `interview_type` value.
-  static const List<String?> _filterTypes = [null, 'technical', 'behavioral'];
+  static const List<String?> _filterTypes = [
+    null,
+    'technical',
+    'behavioral',
+    'mock_hr',
+  ];
 
   Future<void> loadHistory() async {
     emit(state.copyWith(isLoading: true, errorMessage: null));
