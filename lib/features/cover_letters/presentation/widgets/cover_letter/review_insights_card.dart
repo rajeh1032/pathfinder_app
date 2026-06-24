@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/cover_letter.dart';
 import 'shared_widgets.dart';
 
 class ReviewInsightsCard extends StatelessWidget {
-  const ReviewInsightsCard({super.key});
+  const ReviewInsightsCard({
+    super.key,
+    required this.insights,
+  });
+
+  final List<CoverLetterInsight> insights;
 
   @override
   Widget build(BuildContext context) {
@@ -36,34 +42,42 @@ class ReviewInsightsCard extends StatelessWidget {
         children: [
           CardTitle('coverLetter.insights.title'.tr()),
           SizedBox(height: AppSpacing.sm.h),
-          InsightItem(
-            icon: Icons.check_circle_outline,
-            text: 'coverLetter.insights.alignment'.tr(),
-            color: successBackground,
-            foregroundColor: colorScheme.secondary,
-          ),
-          InsightItem(
-            icon: Icons.check_circle_outline,
-            text: 'coverLetter.insights.leadership'.tr(),
-            color: successBackground,
-            foregroundColor: colorScheme.secondary,
-          ),
-          InsightItem(
-            icon: Icons.warning_amber_rounded,
-            text: 'coverLetter.insights.achievements'.tr(),
-            color: warningBackground,
-            foregroundColor: colorScheme.error,
-          ),
-          InsightItem(
-            icon: Icons.info_outline,
-            text: 'coverLetter.insights.reactNative'.tr(),
-            color: infoBackground,
-            foregroundColor: colorScheme.primary,
-          ),
+          if (insights.isEmpty)
+            Text(
+              'No AI insights returned yet.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+            )
+          else
+            for (final insight in insights)
+              InsightItem(
+                icon: _iconForType(insight.type),
+                text: insight.message,
+                color: switch (insight.type) {
+                  'success' => successBackground,
+                  'warning' => warningBackground,
+                  _ => infoBackground,
+                },
+                foregroundColor: switch (insight.type) {
+                  'success' => colorScheme.secondary,
+                  'warning' => colorScheme.error,
+                  _ => colorScheme.primary,
+                },
+              ),
         ],
       ),
     );
   }
+}
+
+IconData _iconForType(String type) {
+  return switch (type) {
+    'success' => Icons.check_circle_outline,
+    'warning' => Icons.warning_amber_rounded,
+    _ => Icons.info_outline,
+  };
 }
 
 Color _softTint(

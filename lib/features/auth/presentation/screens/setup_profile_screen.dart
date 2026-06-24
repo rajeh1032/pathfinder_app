@@ -10,11 +10,13 @@ import 'package:pathfinder_app/features/auth/presentation/widgets/step_indicator
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../features/auth/domain/use_cases/register_use_case.dart';
+import '../../../../features/career_paths/presentation/cubit/career_paths_cubit.dart';
 import '../cubit/setup_profile_cubit.dart';
 import '../cubit/setup_profile_state.dart';
 import 'steps/step1_basic_info.dart';
 import 'steps/step2_education.dart';
 import 'steps/step3_career_goal.dart';
+
 class SetupProfileScreen extends StatefulWidget {
   /// Credentials collected on the register screen. They are forwarded to
   /// [SetupProfileCubit] so the final API call has everything it needs.
@@ -79,13 +81,20 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SetupProfileCubit>(
-      create: (_) => SetupProfileCubit(
-        getIt<RegisterUseCase>(),
-        email: widget.email,
-        password: widget.password,
-        confirmPassword: widget.confirmPassword,
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SetupProfileCubit>(
+          create: (_) => SetupProfileCubit(
+            getIt<RegisterUseCase>(),
+            email: widget.email,
+            password: widget.password,
+            confirmPassword: widget.confirmPassword,
+          ),
+        ),
+        BlocProvider<CareerPathsCubit>(
+          create: (_) => getIt<CareerPathsCubit>()..load(),
+        ),
+      ],
       child: BlocListener<SetupProfileCubit, SetupProfileState>(
         listener: (context, state) {
           if (state.status == SetupProfileStatus.success) {
@@ -94,6 +103,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
               AppRoutes.root,
               (_) => false,
             );
+            return;
           }
 
           if (state.status == SetupProfileStatus.failure &&
@@ -103,6 +113,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen>
               message: state.errorMessage!,
             );
             context.read<SetupProfileCubit>().resetError();
+            return;
           }
 
           _animateToPage(state.currentStep);

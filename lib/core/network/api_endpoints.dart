@@ -41,20 +41,34 @@ class ApiEndpoints {
   static String courseEnroll(String id) => '${courseDetails(id)}/enroll';
   static String courseEnrollment(String id) =>
       '${courseDetails(id)}/enrollment';
-
   static const jobs = '/v1/jobs';
+  static const syncJobs = '/v1/jobs/sync';
   static String jobDetails(String id) => '$jobs/${_segment(id)}';
+  static const matchedJobs = '/v1/jobs/matched';
+  static String saveJob(String id) => '$jobs/${_segment(id)}/save';
+  static String applyToJob(String id) => '$jobs/${_segment(id)}/apply';
   static const jobMatches = '/v1/job-matches';
+  static const generateJobMatches = '/v1/job-matches/generate';
+  static String generateJobMatch(String id) =>
+      '$jobMatches/jobs/${_segment(id)}';
+  static String jobMatchDetails(String id) => '$jobMatches/${_segment(id)}';
   static const savedJobs = '/v1/jobs/saved';
-
-  static const coverLetters = '/cover-letters';
-  static const generateCoverLetter = '/cover-letters/generate';
-
+  static const appliedJobs = '/v1/jobs/applied';
+  static String appliedJobStatus(String id) =>
+      '$appliedJobs/${_segment(id)}/status';
+  static const coverLetters = '/v1/cover-letters';
+  static const generateCoverLetter = '/v1/cover-letters/generate';
   static const chatBase = '/v1/chat';
   static const chatSessions = '$chatBase/sessions';
   static String chatMessages(String id) => '$chatBase/${_segment(id)}/messages';
   static String sendChatMessage(String id) => '$chatBase/${_segment(id)}';
   static String deleteSession(String id) => '$chatSessions/${_segment(id)}';
+  static String coverLetterDetails(String id) =>
+      '$coverLetters/${_segment(id)}';
+  static String coverLetterVersions(String id) =>
+      '${coverLetterDetails(id)}/versions';
+  static String coverLetterExport(String id) =>
+      '${coverLetterDetails(id)}/export';
   static const sendMessage = '/chat/messages';
 
   static const interviewCareerPaths = '/v1/interviews/career-paths';

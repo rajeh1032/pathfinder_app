@@ -5,18 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/saved_job.dart';
 import '../job_matching/skill_section.dart';
 
 class SavedJobCard extends StatelessWidget {
   const SavedJobCard({
     super.key,
-    required this.companyKey,
-    required this.savedAtKey,
+    required this.savedJob,
     required this.onRemove,
   });
 
-  final String companyKey;
-  final String savedAtKey;
+  final SavedJob savedJob;
   final VoidCallback onRemove;
 
   @override
@@ -33,21 +32,11 @@ class SavedJobCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SavedJobHeader(
-            companyKey: companyKey,
-            savedAtKey: savedAtKey,
-            onRemove: onRemove,
-          ),
-          SizedBox(height: AppSpacing.md.h),
-          _MatchPill(),
+          _SavedJobHeader(savedJob: savedJob, onRemove: onRemove),
           SizedBox(height: AppSpacing.md.h),
           MatchingSkillSection(
             title: 'jobs.common.requiredSkillsUpper'.tr(),
-            skills: [
-              'jobs.skills.systemDesign'.tr(),
-              'jobs.skills.figma'.tr(),
-              'jobs.skills.react'.tr(),
-            ],
+            skills: savedJob.job.requiredSkills,
             color: _pillTint(context, colors.secondary, alpha: .14),
             textColor: colors.secondary,
           ),
@@ -56,16 +45,20 @@ class SavedJobCard extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(AppRoutes.jobDetails),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.jobDetails,
+                    arguments: savedJob.job.id,
+                  ),
                   child: Text('jobs.saved.primaryAction'.tr()),
                 ),
               ),
               SizedBox(width: AppSpacing.sm.w),
               Expanded(
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AppRoutes.coverLetterGenerator),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.coverLetterGenerator,
+                    arguments: savedJob.job,
+                  ),
                   child: Text('jobs.saved.secondaryAction'.tr()),
                 ),
               ),
@@ -79,13 +72,11 @@ class SavedJobCard extends StatelessWidget {
 
 class _SavedJobHeader extends StatelessWidget {
   const _SavedJobHeader({
-    required this.companyKey,
-    required this.savedAtKey,
+    required this.savedJob,
     required this.onRemove,
   });
 
-  final String companyKey;
-  final String savedAtKey;
+  final SavedJob savedJob;
   final VoidCallback onRemove;
 
   @override
@@ -94,22 +85,14 @@ class _SavedJobHeader extends StatelessWidget {
 
     return Row(
       children: [
-        Container(
-          width: 48.w,
-          height: 48.w,
-          decoration: BoxDecoration(
-            color: _pillTint(context, colors.primary, alpha: .12),
-            borderRadius: BorderRadius.circular(AppRadius.sm.r),
-          ),
-          child: Icon(Icons.work_outline, color: colors.primary),
-        ),
+        _SavedJobLogo(imageUrl: savedJob.logoUrl),
         SizedBox(width: AppSpacing.md.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'jobs.common.seniorUxDesigner'.tr(),
+                savedJob.job.title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: colors.onSurface,
                       fontWeight: FontWeight.w900,
@@ -117,7 +100,7 @@ class _SavedJobHeader extends StatelessWidget {
               ),
               SizedBox(height: 4.h),
               Text(
-                '${companyKey.tr()} • ${savedAtKey.tr()}',
+                '${savedJob.job.company} • ${savedJob.job.location}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: colors.onSurfaceVariant,
                       fontWeight: FontWeight.w600,
@@ -136,25 +119,32 @@ class _SavedJobHeader extends StatelessWidget {
   }
 }
 
-class _MatchPill extends StatelessWidget {
+class _SavedJobLogo extends StatelessWidget {
+  const _SavedJobLogo({this.imageUrl});
+
+  final String? imageUrl;
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final hasImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+      width: 48.w,
+      height: 48.w,
       decoration: BoxDecoration(
         color: _pillTint(context, colors.primary, alpha: .12),
-        borderRadius: BorderRadius.circular(AppRadius.pill.r),
-        border: Border.all(color: colors.primary.withValues(alpha: .38)),
+        borderRadius: BorderRadius.circular(AppRadius.sm.r),
       ),
-      child: Text(
-        'jobs.saved.match'.tr(),
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: colors.primary,
-              fontWeight: FontWeight.w900,
-            ),
-      ),
+      clipBehavior: Clip.antiAlias,
+      child: hasImage
+          ? Image.network(
+              imageUrl!,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) =>
+                  Icon(Icons.work_outline, color: colors.primary),
+            )
+          : Icon(Icons.work_outline, color: colors.primary),
     );
   }
 }

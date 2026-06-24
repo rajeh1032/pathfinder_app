@@ -14,10 +14,11 @@ import '../../features/cover_letters/presentation/screens/cover_letter_generator
 import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
 import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
 import '../../features/cv_analysis/presentation/screens/cv_anaylsis_result.dart';
-
 import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
 import '../../features/jobs/presentation/screens/job_details_screen.dart';
+import '../../features/jobs/presentation/screens/job_matching_screen.dart';
 import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';
+import '../../features/jobs/domain/entities/job_match.dart';
 import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
 import '../../features/interview/presentation/screens/active_interview_screen.dart';
 import '../../features/interview/presentation/screens/interview_history_screen.dart';
@@ -99,19 +100,22 @@ class AppRouter {
       AppRoutes.courseDetails => CourseDetailsScreen(courseId: routeId),
 
       // CV
-
       AppRoutes.cvAnalysisResult => CvAnalysisResult(
-        cvId: routeId,
-        filePath: settings.arguments is RouteArguments &&
-            (settings.arguments as RouteArguments).payload is String
-            ? (settings.arguments as RouteArguments).payload as String
-            : null,
-      ),      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
+          cvId: routeId,
+          filePath: settings.arguments is RouteArguments &&
+                  (settings.arguments as RouteArguments).payload is String
+              ? (settings.arguments as RouteArguments).payload as String
+              : null,
+        ),
+      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
       AppRoutes.cvUpload => const CvUploadScreen(),
 
       // Jobs
-      AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
-      AppRoutes.jobDetails => const JobDetailsScreen(),
+      AppRoutes.jobs => const JobMatchingScreen(),
+      AppRoutes.jobDetails => JobDetailsScreen(
+          jobId: routeId,
+          initialMatch: _jobMatchFrom(settings.arguments),
+        ),
       AppRoutes.savedJobs => const SavedJobsScreen(),
       AppRoutes.appliedJobs => const AppliedJobsScreen(),
 
@@ -122,7 +126,7 @@ class AppRouter {
 
       // AI Chat
       AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
-      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: '',),
+      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: ''),
 
       // Interview
       AppRoutes.interviewStart => const InterviewStartScreen(),
@@ -137,8 +141,13 @@ class AppRouter {
     return switch (arguments) {
       final RouteArguments args => args.id,
       final String id => id,
+      final JobMatch match => match.jobId,
       _ => null,
     };
+  }
+
+  static JobMatch? _jobMatchFrom(Object? arguments) {
+    return arguments is JobMatch ? arguments : null;
   }
 
   static Widget _setupProfileScreen(Object? arguments) {

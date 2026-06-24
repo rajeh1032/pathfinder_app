@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
+import '../../../domain/entities/cover_letter.dart';
 import '../cover_letter/shared_widgets.dart';
 
 class ResultActions extends StatelessWidget {
@@ -11,10 +12,12 @@ class ResultActions extends StatelessWidget {
     super.key,
     required this.onSaveDraft,
     required this.onExportPdf,
+    this.insights = const [],
   });
 
   final VoidCallback onSaveDraft;
   final VoidCallback onExportPdf;
+  final List<CoverLetterInsight> insights;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,20 @@ class ResultActions extends StatelessWidget {
         children: [
           CardTitle('coverLetter.result.improvement'.tr()),
           SizedBox(height: AppSpacing.sm.h),
-          _ImprovementItem('coverLetter.result.noteImpact'),
-          _ImprovementItem('coverLetter.result.noteCompany'),
+          if (insights.isEmpty) ...[
+            Text(
+              'No AI review insights returned yet.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ] else
+            for (final insight in insights)
+              _ImprovementItem(
+                insight.message,
+                type: insight.type,
+              ),
           SizedBox(height: AppSpacing.md.h),
           Row(
             children: [
@@ -53,9 +68,13 @@ class ResultActions extends StatelessWidget {
 }
 
 class _ImprovementItem extends StatelessWidget {
-  const _ImprovementItem(this.labelKey);
+  const _ImprovementItem(
+    this.text, {
+    this.type = 'info',
+  });
 
-  final String labelKey;
+  final String text;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +89,11 @@ class _ImprovementItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.tips_and_updates_outlined,
-              color: colors.primary, size: 18.sp),
+          Icon(_iconForType(type), color: colors.primary, size: 18.sp),
           SizedBox(width: AppSpacing.sm.w),
           Expanded(
             child: Text(
-              labelKey.tr(),
+              text,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: colors.onSurface,
                     fontWeight: FontWeight.w700,
@@ -85,5 +103,13 @@ class _ImprovementItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  IconData _iconForType(String value) {
+    return switch (value) {
+      'success' => Icons.check_circle_outline,
+      'warning' => Icons.warning_amber_rounded,
+      _ => Icons.tips_and_updates_outlined,
+    };
   }
 }

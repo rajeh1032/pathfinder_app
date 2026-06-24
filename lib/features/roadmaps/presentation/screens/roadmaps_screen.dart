@@ -64,7 +64,7 @@ class _RoadmapsView extends StatelessWidget {
           bodyKey: 'roadmaps.noCvBody',
           buttonKey: 'roadmaps.uploadCvAction',
           icon: Icons.description_outlined,
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.cvUpload),
+          onPressed: () => _openCvUpload(context),
         );
       case RoadmapsStatus.generationRequired:
       case RoadmapsStatus.generating:
@@ -112,6 +112,16 @@ class _RoadmapsView extends StatelessWidget {
       arguments: RouteArguments(id: roadmapId),
     );
     if (changed == true && context.mounted) {
+      await context.read<RoadmapsCubit>().loadMyRoadmap();
+    }
+  }
+
+  Future<void> _openCvUpload(BuildContext context) async {
+    final refreshed = await Navigator.pushNamed(
+      context,
+      AppRoutes.cvUpload,
+    );
+    if (context.mounted && refreshed == true) {
       await context.read<RoadmapsCubit>().loadMyRoadmap();
     }
   }

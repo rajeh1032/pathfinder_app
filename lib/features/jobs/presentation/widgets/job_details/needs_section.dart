@@ -5,22 +5,19 @@ import '../../../../../core/theme/app_spacing.dart';
 import 'section.dart';
 
 class NeedsSection extends StatelessWidget {
-  const NeedsSection({super.key});
+  const NeedsSection({
+    super.key,
+    required this.items,
+  });
+
+  final List<String> items;
 
   @override
   Widget build(BuildContext context) {
     return DetailsSection(
       title: 'jobs.details.needsTitle'.tr(),
       child: Column(
-        children: [
-          NeedItem(text: 'jobs.details.needArchitecture'.tr()),
-          NeedItem(
-            text: 'jobs.details.needPerformance'.tr(),
-          ),
-          NeedItem(
-            text: 'jobs.details.needHooks'.tr(),
-          ),
-        ],
+        children: items.map((item) => NeedItem(text: item)).toList(),
       ),
     );
   }

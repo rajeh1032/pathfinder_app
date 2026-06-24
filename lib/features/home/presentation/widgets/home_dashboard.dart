@@ -16,6 +16,11 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final name = user.name.trim().split(RegExp(r'\s+')).firstOrNull ?? '';
+    final wave = String.fromCharCode(0x1F44B);
+    final greeting = name.isEmpty
+        ? '${'home.hello'.tr()} $wave'
+        : '${'home.hello'.tr()}, $name $wave';
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,10 +29,7 @@ class HomeHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${'home.hello'.tr()}, ${user.name} 👋',
-                style: theme.textTheme.headlineMedium,
-              ),
+              Text(greeting, style: theme.textTheme.headlineMedium),
               SizedBox(height: 4.h),
               Text(
                 'home.readyToLevelUp'.tr(),
@@ -39,7 +41,6 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-        // CV Score circle
         _CvScoreCircle(score: cvScore),
       ],
     );
@@ -61,7 +62,7 @@ class _CvScoreCircle extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: SweepGradient(
           colors: [colors.primary, colors.secondary, colors.primary],
-          stops: [0.0, 0.75, 1.0],
+          stops: const [0.0, 0.75, 1.0],
         ),
         boxShadow: [
           BoxShadow(

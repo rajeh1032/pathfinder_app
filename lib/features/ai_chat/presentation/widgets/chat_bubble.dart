@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -36,12 +37,59 @@ class ChatBubble extends StatelessWidget {
             bottomRight: Radius.circular(isFromUser ? 4.r : AppRadius.md.r),
           ),
         ),
-        child: Text(
-          message,
-          style: AppTextStyles.bodyMedium(
-            isFromUser ? cs.onPrimary : cs.onSurface,
-          ),
-        ),
+        child: isFromUser
+            ? Text(
+                message,
+                style: AppTextStyles.bodyMedium(cs.onPrimary),
+              )
+            : MarkdownBody(
+                data: message,
+                softLineBreak: true,
+                styleSheet: _markdownStyleSheet(context),
+              ),
+      ),
+    );
+  }
+
+  MarkdownStyleSheet _markdownStyleSheet(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final bodyStyle = AppTextStyles.bodyMedium(cs.onSurface).copyWith(
+      height: 1.55,
+    );
+    final blockquoteBorder = BorderSide(
+      color: cs.primary.withValues(alpha: 0.45),
+      width: 3.w,
+    );
+
+    return MarkdownStyleSheet.fromTheme(theme).copyWith(
+      p: bodyStyle,
+      strong: bodyStyle.copyWith(fontWeight: FontWeight.w700),
+      em: bodyStyle.copyWith(fontStyle: FontStyle.italic),
+      listBullet: bodyStyle,
+      blockSpacing: AppSpacing.sm.h,
+      listIndent: AppSpacing.lg.w,
+      code: bodyStyle.copyWith(
+        color: cs.primary,
+        backgroundColor: cs.surface.withValues(alpha: 0.85),
+        fontFamily: 'monospace',
+      ),
+      codeblockPadding: EdgeInsets.all(AppSpacing.sm.r),
+      codeblockDecoration: BoxDecoration(
+        color: cs.surface.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(AppRadius.sm.r),
+      ),
+      blockquote: bodyStyle.copyWith(color: cs.onSurfaceVariant),
+      blockquotePadding: EdgeInsetsDirectional.only(
+        start: AppSpacing.sm.w,
+        top: AppSpacing.xs.h,
+        bottom: AppSpacing.xs.h,
+      ).resolve(Directionality.of(context)),
+      blockquoteDecoration: BoxDecoration(
+        border: isRtl
+            ? Border(right: blockquoteBorder)
+            : Border(left: blockquoteBorder),
       ),
     );
   }

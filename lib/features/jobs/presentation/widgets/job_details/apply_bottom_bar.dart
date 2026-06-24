@@ -4,10 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routing/app_routes.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
-import '../saved_jobs/saved_jobs_state.dart';
 
 class ApplyBottomBar extends StatelessWidget {
-  const ApplyBottomBar({super.key});
+  const ApplyBottomBar({
+    super.key,
+    required this.isSaved,
+    required this.isSaving,
+    required this.isApplying,
+    required this.onToggleSave,
+    required this.onApply,
+  });
+
+  final bool isSaved;
+  final bool isSaving;
+  final bool isApplying;
+  final VoidCallback onToggleSave;
+  final VoidCallback onApply;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +42,15 @@ class ApplyBottomBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ValueListenableBuilder<Set<String>>(
-            valueListenable: SavedJobsState.savedIds,
-            builder: (context, savedIds, _) {
+          Builder(
+            builder: (context) {
               final colors = Theme.of(context).colorScheme;
-              final isSaved = savedIds.contains(SavedJobsState.primaryJobId);
 
               return InkWell(
-                onTap: () => SavedJobsState.toggle(SavedJobsState.primaryJobId),
-                onLongPress: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.savedJobs),
+                onTap: isSaving ? null : onToggleSave,
+                onLongPress: () => Navigator.of(context).pushNamed(
+                  AppRoutes.savedJobs,
+                ),
                 borderRadius: BorderRadius.circular(AppRadius.md.r),
                 child: Container(
                   width: 48.w,
@@ -51,10 +62,18 @@ class ApplyBottomBar extends StatelessWidget {
                       color: isSaved ? colors.primary : colors.primaryContainer,
                     ),
                   ),
-                  child: Icon(
-                    isSaved ? Icons.bookmark : Icons.bookmark_border,
-                    color: isSaved ? colors.onPrimary : colors.primary,
-                  ),
+                  child: isSaving
+                      ? Padding(
+                          padding: EdgeInsets.all(12.w),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: isSaved ? colors.onPrimary : colors.primary,
+                          ),
+                        )
+                      : Icon(
+                          isSaved ? Icons.bookmark : Icons.bookmark_border,
+                          color: isSaved ? colors.onPrimary : colors.primary,
+                        ),
                 ),
               );
             },
@@ -86,15 +105,26 @@ class ApplyBottomBar extends StatelessWidget {
               child: SizedBox(
                 height: 50.h,
                 child: TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(AppRoutes.coverLetterGenerator),
-                  child: Text(
-                    'jobs.common.applyNow'.tr(),
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontWeight: FontWeight.w900,
+                  onPressed: isApplying ? null : onApply,
+                  child: isApplying
+                      ? SizedBox(
+                          width: 22.w,
+                          height: 22.w,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        )
+                      : Text(
+                          'jobs.common.applyNow'.tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.w900,
+                              ),
                         ),
-                  ),
                 ),
               ),
             ),
