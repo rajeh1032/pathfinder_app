@@ -50,4 +50,34 @@ class InterviewResultLabels {
             : interviewType;
     }
   }
+
+  /// Short format name (without the word "Interview"), e.g. `Technical`.
+  static String interviewFormatLabel(String interviewType) {
+    switch (interviewType) {
+      case 'behavioral':
+        return 'interview.behavioral'.tr();
+      case 'mock_hr':
+        return 'interview.mockHr'.tr();
+      case 'technical':
+        return 'interview.technical'.tr();
+      default:
+        return interviewType.isEmpty ? 'interview.technical'.tr() : interviewType;
+    }
+  }
+
+  /// Session lifecycle status label used in the history list.
+  static String sessionStatusLabel(String status) {
+    switch (status) {
+      case 'completed':
+        return 'interview.statusCompleted'.tr();
+      case 'cancelled':
+        return 'interview.statusCancelled'.tr();
+      case 'in_progress':
+        return 'interview.statusInProgress'.tr();
+      case 'started':
+        return 'interview.statusStarted'.tr();
+      default:
+        return status.isEmpty ? 'interview.statusStarted'.tr() : status;
+    }
+  }
 }

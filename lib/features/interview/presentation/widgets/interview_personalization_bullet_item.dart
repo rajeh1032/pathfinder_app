@@ -5,9 +5,14 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class InterviewPersonalizationBulletItem extends StatelessWidget {
-  const InterviewPersonalizationBulletItem(this.titleKey, {super.key});
+  const InterviewPersonalizationBulletItem(
+    this.titleKey, {
+    this.namedArgs,
+    super.key,
+  });
 
   final String titleKey;
+  final Map<String, String>? namedArgs;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class InterviewPersonalizationBulletItem extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              titleKey.tr(),
+              titleKey.tr(namedArgs: namedArgs),
               style: AppTextStyles.bodyMedium(colorScheme.onSurfaceVariant)
                   .copyWith(height: 1.5),
             ),

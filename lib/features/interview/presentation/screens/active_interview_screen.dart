@@ -133,6 +133,9 @@ class _ActiveInterviewScreenState extends State<ActiveInterviewScreen> {
                                   selectedOptionIndex:
                                       currentQuestion.selectedOptionIndex,
                                   isEnabled: !state.isActionLoading,
+                                  onSkip: () async {
+                                    await _cubit.skipCurrentQuestion();
+                                  },
                                   onOptionSelected: (index) async {
                                     await _cubit.selectOption(index);
                                   },
@@ -153,50 +156,35 @@ class _ActiveInterviewScreenState extends State<ActiveInterviewScreen> {
                                     SizedBox(width: AppSpacing.md.w),
                                     Expanded(
                                       child: CustomButton(
-                                        labelKey: 'interview.skipQuestion',
-                                        variant: CustomButtonVariant
-                                            .destructiveOutline,
+                                        labelKey: state.isLastQuestion
+                                            ? 'interview.submitInterview'
+                                            : 'interview.nextQuestion',
+                                        isLoading: state.isActionLoading,
                                         onPressed: state.isActionLoading
                                             ? null
                                             : () async {
-                                                await _cubit
-                                                    .skipCurrentQuestion();
+                                                if (state.isLastQuestion) {
+                                                  final failure = await _cubit
+                                                      .finishSession();
+                                                  if (!context.mounted ||
+                                                      failure != null) {
+                                                    return;
+                                                  }
+                                                  Navigator.of(context)
+                                                      .pushReplacementNamed(
+                                                    AppRoutes.interviewResult,
+                                                    arguments: RouteArguments(
+                                                      id: state.sessionId,
+                                                    ),
+                                                  );
+                                                  return;
+                                                }
+
+                                                await _cubit.goNext();
                                               },
                                       ),
                                     ),
                                   ],
-                                ),
-                                SizedBox(height: AppSpacing.md.h),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: CustomButton(
-                                    labelKey: state.isLastQuestion
-                                        ? 'interview.submitInterview'
-                                        : 'interview.nextQuestion',
-                                    isLoading: state.isActionLoading,
-                                    onPressed: state.isActionLoading
-                                        ? null
-                                        : () async {
-                                            if (state.isLastQuestion) {
-                                              final failure =
-                                                  await _cubit.finishSession();
-                                              if (!context.mounted ||
-                                                  failure != null) {
-                                                return;
-                                              }
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                AppRoutes.interviewResult,
-                                                arguments: RouteArguments(
-                                                  id: state.sessionId,
-                                                ),
-                                              );
-                                              return;
-                                            }
-
-                                            await _cubit.goNext();
-                                          },
-                                  ),
                                 ),
                               ],
                             ),

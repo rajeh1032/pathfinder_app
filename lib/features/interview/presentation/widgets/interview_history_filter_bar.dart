@@ -41,6 +41,12 @@ class InterviewHistoryFilterBar extends StatelessWidget {
           onSelected: () => onChanged(2),
           colorScheme: colorScheme,
         ),
+        _HistoryFilterChip(
+          label: 'interview.mockHrFilter'.tr(),
+          selected: selectedIndex == 3,
+          onSelected: () => onChanged(3),
+          colorScheme: colorScheme,
+        ),
       ],
     );
   }
