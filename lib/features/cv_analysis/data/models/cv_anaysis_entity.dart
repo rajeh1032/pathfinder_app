@@ -129,3 +129,68 @@ class CvStatusModel {
         requiredAction: json['requiredAction'] as String?,
       );
 }
+
+class CvHistoryAnalysisModel {
+  const CvHistoryAnalysisModel(this.json);
+  final Map<String, dynamic> json;
+
+  CvHistoryAnalysisEntity toEntity() => CvHistoryAnalysisEntity(
+        id: json['id'] as String? ?? '',
+        score: (json['score'] as num?)?.round() ?? 0,
+        status: json['status'] as String? ?? '',
+        createdAt: _date(json['created_at']),
+      );
+}
+
+class CvHistoryItemModel {
+  const CvHistoryItemModel(this.json);
+  final Map<String, dynamic> json;
+
+  CvHistoryItemEntity toEntity() {
+    final analysisJson = json['analysis'];
+    return CvHistoryItemEntity(
+      id: json['id'] as String? ?? '',
+      originalName: json['original_name'] as String? ?? '',
+      mimeType: json['mime_type'] as String? ?? '',
+      sizeBytes: (json['size_bytes'] as num?)?.round() ?? 0,
+      status: json['status'] as String? ?? '',
+      uploadedAt: _date(json['uploaded_at'] ?? json['created_at']),
+      hasFile: json['has_file'] as bool? ?? false,
+      hasAnalysis: json['has_analysis'] as bool? ?? false,
+      analysis: analysisJson is Map<String, dynamic>
+          ? CvHistoryAnalysisModel(analysisJson).toEntity()
+          : null,
+    );
+  }
+}
+
+class CvHistoryResultModel {
+  const CvHistoryResultModel(this.items);
+  final List<CvHistoryItemModel> items;
+
+  factory CvHistoryResultModel.fromJson(Map<String, dynamic> json) =>
+      CvHistoryResultModel(
+        (json['cvs'] as List? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(CvHistoryItemModel.new)
+            .toList(),
+      );
+
+  CvHistoryResultEntity toEntity() => CvHistoryResultEntity(
+      items: items.map((model) => model.toEntity()).toList());
+}
+
+class CvFileUrlModel {
+  const CvFileUrlModel(this.json);
+  final Map<String, dynamic> json;
+
+  CvFileUrlEntity toEntity() => CvFileUrlEntity(
+        cv: CvHistoryItemModel(
+          json['cv'] as Map<String, dynamic>? ?? const {},
+        ).toEntity(),
+        url: json['url'] as String? ?? '',
+        source: json['source'] as String? ?? '',
+        expiresIn: (json['expiresIn'] as num?)?.round(),
+        expiresAt: json['expiresAt'] == null ? null : _date(json['expiresAt']),
+      );
+}

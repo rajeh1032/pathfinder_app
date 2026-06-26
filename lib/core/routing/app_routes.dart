@@ -27,6 +27,8 @@ class AppRoutes {
   static const termsOfService = '/settings/terms-of-service';
   static const notifications = '/notifications';
   static const cvUpload = '/cv-upload';
+  static const cvHistory = '/cv-history';
+  static const cvPdfViewer = '/cv-pdf-viewer';
   static const cvAnalysisResult = '/cv-analysis-result';
   static const roadmapDetails = '/roadmap-details';
   static const courseDetails = '/course-details';
@@ -44,5 +46,4 @@ class AppRoutes {
   static const interviewHistory = '/interview-history';
   static const interviewResult = '/interview-result';
   static const chatAiHistory = '/chat-ai-history';
-
 }

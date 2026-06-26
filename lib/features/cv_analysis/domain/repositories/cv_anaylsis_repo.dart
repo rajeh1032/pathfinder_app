@@ -9,4 +9,6 @@ abstract class CvAnalysisRepository {
     String filePath,
   );
   Future<Either<Failure, CvWithAnalysisEntity>> getLatestAnalysis();
+  Future<Either<Failure, CvHistoryResultEntity>> getHistory();
+  Future<Either<Failure, CvFileUrlEntity>> getFileUrl(String cvId);
 }

@@ -35,6 +35,16 @@ class CvAnalysisRepositoryImpl implements CvAnalysisRepository {
         () async => (await _remoteDataSource.getLatestAnalysis()).toEntity(),
       );
 
+  @override
+  Future<Either<Failure, CvHistoryResultEntity>> getHistory() => _request(
+        () async => (await _remoteDataSource.getHistory()).toEntity(),
+      );
+
+  @override
+  Future<Either<Failure, CvFileUrlEntity>> getFileUrl(String cvId) => _request(
+        () async => (await _remoteDataSource.getFileUrl(cvId)).toEntity(),
+      );
+
   Future<Either<Failure, T>> _request<T>(Future<T> Function() request) async {
     if (!await _networkInfo.isConnected) {
       return const Left(NetworkFailure(ErrorMessages.network));

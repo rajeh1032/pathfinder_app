@@ -164,3 +164,85 @@ class CvStatusEntity extends Equatable {
         requiredAction,
       ];
 }
+
+class CvHistoryAnalysisEntity extends Equatable {
+  const CvHistoryAnalysisEntity({
+    required this.id,
+    required this.score,
+    required this.status,
+    required this.createdAt,
+  });
+
+  final String id;
+  final int score;
+  final String status;
+  final DateTime createdAt;
+
+  @override
+  List<Object?> get props => [id, score, status, createdAt];
+}
+
+class CvHistoryItemEntity extends Equatable {
+  const CvHistoryItemEntity({
+    required this.id,
+    required this.originalName,
+    required this.mimeType,
+    required this.sizeBytes,
+    required this.status,
+    required this.uploadedAt,
+    required this.hasFile,
+    required this.hasAnalysis,
+    this.analysis,
+  });
+
+  final String id;
+  final String originalName;
+  final String mimeType;
+  final int sizeBytes;
+  final String status;
+  final DateTime uploadedAt;
+  final bool hasFile;
+  final bool hasAnalysis;
+  final CvHistoryAnalysisEntity? analysis;
+
+  @override
+  List<Object?> get props => [
+        id,
+        originalName,
+        mimeType,
+        sizeBytes,
+        status,
+        uploadedAt,
+        hasFile,
+        hasAnalysis,
+        analysis,
+      ];
+}
+
+class CvHistoryResultEntity extends Equatable {
+  const CvHistoryResultEntity({required this.items});
+
+  final List<CvHistoryItemEntity> items;
+
+  @override
+  List<Object?> get props => [items];
+}
+
+class CvFileUrlEntity extends Equatable {
+  const CvFileUrlEntity({
+    required this.cv,
+    required this.url,
+    required this.source,
+    this.expiresIn,
+    this.expiresAt,
+  });
+
+  final CvHistoryItemEntity cv;
+  final String url;
+  final String source;
+  final int? expiresIn;
+  final DateTime? expiresAt;
+
+  @override
+  List<Object?> get props => [cv, url, source, expiresIn, expiresAt];
+}

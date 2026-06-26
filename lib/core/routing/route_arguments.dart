@@ -17,3 +17,10 @@ class SetupProfileArgs {
   final String password;
   final String confirmPassword;
 }
+
+class CvPdfViewerArgs {
+  const CvPdfViewerArgs({required this.url, required this.title});
+
+  final String url;
+  final String title;
+}

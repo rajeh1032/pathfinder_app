@@ -20,6 +20,18 @@ class CvAnalysisRemoteDataSourceImpl implements CvAnalysisRemoteDataSource {
   }
 
   @override
+  Future<CvHistoryResultModel> getHistory() async {
+    final response = await _apiClient.get(ApiEndpoints.cvHistory);
+    return CvHistoryResultModel.fromJson(_payload(response.data));
+  }
+
+  @override
+  Future<CvFileUrlModel> getFileUrl(String cvId) async {
+    final response = await _apiClient.get(ApiEndpoints.cvFileUrl(cvId));
+    return CvFileUrlModel(_payload(response.data));
+  }
+
+  @override
   Future<CvWithAnalysisModel> uploadAndAnalyze(String filePath) async {
     final response = await _apiClient.uploadFile(
       ApiEndpoints.analyzeCv,

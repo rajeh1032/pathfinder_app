@@ -60,10 +60,12 @@ class _CvUploadScreenState extends State<CvUploadScreen> {
         title: Text('routes.cvUpload'.tr()),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.notifications_outlined,
-              size: 24.sp,
-            ),
+            tooltip: 'routes.cvHistory'.tr(),
+            icon: Icon(Icons.history_rounded, size: 24.sp),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.cvHistory),
+          ),
+          IconButton(
+            icon: Icon(Icons.notifications_outlined, size: 24.sp),
             onPressed: () => Navigator.pushNamed(context, '/notifications'),
           ),
         ],

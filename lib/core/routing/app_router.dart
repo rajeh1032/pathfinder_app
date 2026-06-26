@@ -5,6 +5,8 @@ import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.d
 import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
 import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_history_screen.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_pdf_viewer_screen.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
 import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
 import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
@@ -100,6 +102,8 @@ class AppRouter {
       AppRoutes.courseDetails => CourseDetailsScreen(courseId: routeId),
 
       // CV
+      AppRoutes.cvHistory => const CvHistoryScreen(),
+      AppRoutes.cvPdfViewer => _cvPdfViewerScreen(settings.arguments),
       AppRoutes.cvAnalysisResult => CvAnalysisResult(
           cvId: routeId,
           filePath: settings.arguments is RouteArguments &&
@@ -148,6 +152,16 @@ class AppRouter {
 
   static JobMatch? _jobMatchFrom(Object? arguments) {
     return arguments is JobMatch ? arguments : null;
+  }
+
+  static Widget _cvPdfViewerScreen(Object? arguments) {
+    if (arguments is CvPdfViewerArgs) {
+      return CvPdfViewerScreen(
+        url: arguments.url,
+        title: arguments.title,
+      );
+    }
+    return const PlaceholderScreen(titleKey: 'common.error');
   }
 
   static Widget _setupProfileScreen(Object? arguments) {

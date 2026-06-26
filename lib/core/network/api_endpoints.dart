@@ -18,9 +18,11 @@ class ApiEndpoints {
   static const analyzeCv = '/v1/cvs/analyze';
   static const latestCvAnalysis = '/v1/cvs/me/latest-analysis';
   static const cvStatus = '/v1/cvs/me/status';
+  static const cvHistory = '/v1/cvs/me/history';
   static const cvAnalyses = '/v1/cvs';
   static String cvAnalysisDetails(String id) => '$cvAnalyses/${_segment(id)}';
   static String cvDetails(String id) => '$cvAnalyses/${_segment(id)}';
+  static String cvFileUrl(String id) => '/v1/cvs/me/${_segment(id)}/file-url';
   static String profileExperienceById(String id) =>
       '$profileExperiences/${_segment(id)}';
   static String profileEducationById(String id) =>

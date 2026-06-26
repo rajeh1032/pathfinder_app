@@ -5,6 +5,8 @@ void main() {
   group('ApiEndpoints', () {
     test('builds reusable resource endpoints from IDs', () {
       expect(ApiEndpoints.cvAnalysisDetails('12'), '/v1/cvs/12');
+      expect(ApiEndpoints.cvHistory, '/v1/cvs/me/history');
+      expect(ApiEndpoints.cvFileUrl('12'), '/v1/cvs/me/12/file-url');
       expect(ApiEndpoints.myRoadmap, '/v1/roadmaps/me');
       expect(ApiEndpoints.generateRoadmap, '/v1/roadmaps/generate');
       expect(ApiEndpoints.roadmapDetails('12'), '/v1/roadmaps/12');
@@ -41,6 +43,10 @@ void main() {
 
     test('encodes IDs as safe URL path segments', () {
       expect(ApiEndpoints.jobDetails('job/12'), '/v1/jobs/job%2F12');
+      expect(
+        ApiEndpoints.cvFileUrl('cv/12'),
+        '/v1/cvs/me/cv%2F12/file-url',
+      );
       expect(
         ApiEndpoints.courseDetails('course/12'),
         '/v1/courses/course%2F12',
