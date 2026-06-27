@@ -49,8 +49,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     final result = await _markAsReadUseCase(id);
     result.fold(
       (failure) => emit(NotificationsError(messageKey: failure.message)),
-      (notifications) {
-        _allNotifications = notifications;
+      (updated) {
+        _allNotifications = _allNotifications
+            .map((item) => item.id == updated.id ? updated : item)
+            .toList();
         _emitFiltered();
       },
     );
@@ -60,8 +62,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     final result = await _markAllAsReadUseCase();
     result.fold(
       (failure) => emit(NotificationsError(messageKey: failure.message)),
-      (notifications) {
-        _allNotifications = notifications;
+      (_) {
+        _allNotifications = _allNotifications
+            .map((item) => item.copyWith(isRead: true))
+            .toList();
         _emitFiltered();
       },
     );
@@ -71,8 +75,9 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     final result = await _dismissNotificationUseCase(id);
     result.fold(
       (failure) => emit(NotificationsError(messageKey: failure.message)),
-      (notifications) {
-        _allNotifications = notifications;
+      (_) {
+        _allNotifications =
+            _allNotifications.where((item) => item.id != id).toList();
         _emitFiltered();
       },
     );

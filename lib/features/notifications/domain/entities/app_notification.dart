@@ -1,66 +1,78 @@
 import 'package:equatable/equatable.dart';
 
-enum NotificationCategory { job, interview, insight, learning, document }
+/// Notification categories supported by the backend.
+/// Keep in sync with `NOTIFICATION_CATEGORIES` in the backend schema.
+enum NotificationCategory { job, interview, insight, learning, document, other }
 
 class AppNotification extends Equatable {
   const AppNotification({
     required this.id,
+    required this.type,
     required this.category,
-    required this.labelKey,
-    required this.titleKey,
-    required this.bodyKey,
-    required this.timeKey,
+    required this.title,
+    required this.createdAt,
     required this.isRead,
-    this.actionLabelKey,
+    this.body,
+    this.actionLabel,
+    this.actionUrl,
+    this.metadata = const {},
+    this.readAt,
     this.progress,
-    this.progressLabelKey,
-    this.scoreKey,
-    this.sectionKey,
+    this.score,
   });
 
   final String id;
+  final String type;
   final NotificationCategory category;
-  final String labelKey;
-  final String titleKey;
-  final String bodyKey;
-  final String timeKey;
+  final String title;
+  final DateTime createdAt;
   final bool isRead;
-  final String? actionLabelKey;
-  final double? progress;
-  final String? progressLabelKey;
-  final String? scoreKey;
-  final String? sectionKey;
+  final String? body;
+  final String? actionLabel;
+  final String? actionUrl;
+  final Map<String, dynamic> metadata;
+  final DateTime? readAt;
 
-  AppNotification copyWith({bool? isRead}) {
+  /// Optional learning progress (0.0 - 1.0), derived from metadata.
+  final double? progress;
+
+  /// Optional score badge text (e.g. "82/100"), derived from metadata.
+  final String? score;
+
+  bool get hasAction => actionLabel != null && actionLabel!.trim().isNotEmpty;
+
+  AppNotification copyWith({bool? isRead, DateTime? readAt}) {
     return AppNotification(
       id: id,
+      type: type,
       category: category,
-      labelKey: labelKey,
-      titleKey: titleKey,
-      bodyKey: bodyKey,
-      timeKey: timeKey,
+      title: title,
+      createdAt: createdAt,
       isRead: isRead ?? this.isRead,
-      actionLabelKey: actionLabelKey,
+      body: body,
+      actionLabel: actionLabel,
+      actionUrl: actionUrl,
+      metadata: metadata,
+      readAt: readAt ?? this.readAt,
       progress: progress,
-      progressLabelKey: progressLabelKey,
-      scoreKey: scoreKey,
-      sectionKey: sectionKey,
+      score: score,
     );
   }
 
   @override
   List<Object?> get props => [
         id,
+        type,
         category,
-        labelKey,
-        titleKey,
-        bodyKey,
-        timeKey,
+        title,
+        createdAt,
         isRead,
-        actionLabelKey,
+        body,
+        actionLabel,
+        actionUrl,
+        metadata,
+        readAt,
         progress,
-        progressLabelKey,
-        scoreKey,
-        sectionKey,
+        score,
       ];
 }

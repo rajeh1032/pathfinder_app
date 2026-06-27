@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/storage/token_storage.dart';
+import '../../../notifications/data/services/push_messaging_service_factory.dart';
 import '../../domain/entities/settings_preferences.dart';
 import '../../domain/repositories/settings_repository.dart';
 
@@ -65,6 +66,14 @@ class DemoSettingsRepository implements SettingsRepository {
   @override
   Future<Either<Failure, Unit>> signOut() async {
     try {
+      // Best-effort: drop this device's push token before clearing the
+      // session, so the backend stops targeting it.
+      try {
+        await createPushMessagingService().unregisterDevice();
+      } catch (_) {
+        // Ignore push cleanup failures during sign-out.
+      }
+
       await _tokenStorage.clearTokens();
       return const Right(unit);
     } catch (e) {

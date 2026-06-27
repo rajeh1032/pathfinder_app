@@ -9,7 +9,7 @@ class MarkNotificationAsReadUseCase {
 
   final NotificationsRepository _repository;
 
-  Future<Either<Failure, List<AppNotification>>> call(String id) {
+  Future<Either<Failure, AppNotification>> call(String id) {
     return _repository.markAsRead(id);
   }
 }

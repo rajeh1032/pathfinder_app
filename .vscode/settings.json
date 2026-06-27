@@ -1,0 +1,6 @@
+{
+    "kiroAgent.trustedCommands": [
+        "cmd /c \"dir /b /s F:\\labs\\PathFinder-Backend\\src\\modules\\interviews\"",
+        ""
+    ]
+}

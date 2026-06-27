@@ -4,6 +4,7 @@ import 'package:pathfinder_app/features/home/presentation/screens/home_screen.da
 
 import '../../../interview/presentation/screens/interview_start_screen.dart';
 import '../../../jobs/presentation/screens/job_matching_screen.dart';
+import '../../../notifications/data/services/push_messaging_service_factory.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
@@ -32,6 +33,23 @@ class _RootView extends StatefulWidget {
 class _RootViewState extends State<_RootView> {
   final Set<int> _visitedTabs = {0};
   int _roadmapsRefreshToken = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initPushNotifications();
+  }
+
+  Future<void> _initPushNotifications() async {
+    // Best-effort: push setup should never block or crash the UI.
+    try {
+      final push = createPushMessagingService();
+      await push.bootstrap();
+      await push.registerDevice();
+    } catch (_) {
+      // Ignore push setup failures (e.g. no Firebase config on this build).
+    }
+  }
 
   List<Widget> get _pages => [
         const HomeScreen(),
