@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../entities/app_notification.dart';
 import '../repositories/notifications_repository.dart';
 
 class MarkAllNotificationsAsReadUseCase {
@@ -9,7 +8,7 @@ class MarkAllNotificationsAsReadUseCase {
 
   final NotificationsRepository _repository;
 
-  Future<Either<Failure, List<AppNotification>>> call() {
+  Future<Either<Failure, Unit>> call() {
     return _repository.markAllAsRead();
   }
 }

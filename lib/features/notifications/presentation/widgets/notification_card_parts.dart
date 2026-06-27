@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
@@ -31,7 +30,7 @@ class NotificationActionRow extends StatelessWidget {
           child: filled
               ? FilledButton(
                   onPressed: onPrimaryAction,
-                  child: Text(notification.actionLabelKey!.tr()),
+                  child: Text(notification.actionLabel ?? ''),
                 )
               : OutlinedButton(
                   onPressed: onPrimaryAction,
@@ -44,7 +43,7 @@ class NotificationActionRow extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppRadius.sm),
                     ),
                   ),
-                  child: Text(notification.actionLabelKey!.tr()),
+                  child: Text(notification.actionLabel ?? ''),
                 ),
         ),
         if (notification.category == NotificationCategory.job) ...[
@@ -109,14 +108,15 @@ class NotificationIconBubble extends StatelessWidget {
       NotificationCategory.insight => Icons.psychology_outlined,
       NotificationCategory.learning => Icons.menu_book_outlined,
       NotificationCategory.document => Icons.description_outlined,
+      NotificationCategory.other => Icons.notifications_outlined,
     };
   }
 }
 
 class NotificationScoreBadge extends StatelessWidget {
-  const NotificationScoreBadge(this.scoreKey, {super.key});
+  const NotificationScoreBadge(this.score, {super.key});
 
-  final String scoreKey;
+  final String score;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class NotificationScoreBadge extends StatelessWidget {
           vertical: AppSpacing.xs,
         ),
         child: Text(
-          scoreKey.tr(),
+          score,
           style: AppTextStyles.labelSmall(colors.tertiary),
         ),
       ),

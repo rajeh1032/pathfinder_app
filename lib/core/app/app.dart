@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_config.dart';
+import 'app_keys.dart';
 import '../di/di.dart';
 import '../routing/app_router.dart';
 import '../routing/app_routes.dart';
@@ -28,6 +29,7 @@ class PathFinderApp extends StatelessWidget {
             return MaterialApp(
               title: AppConfig.appName,
               debugShowCheckedModeBanner: false,
+              navigatorKey: appNavigatorKey,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
               themeMode: themeMode,

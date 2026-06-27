@@ -8,6 +8,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../domain/entities/app_notification.dart';
 import 'notification_card_parts.dart';
+import 'notification_formatting.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -76,7 +77,7 @@ class _NotificationContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final body = notification.bodyKey.tr();
+    final body = notification.body ?? '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,14 +89,14 @@ class _NotificationContent extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                notification.titleKey.tr(),
+                notification.title,
                 style: notification.category == NotificationCategory.insight
                     ? AppTextStyles.bodyMedium(colors.onSurface)
                     : AppTextStyles.titleSmall(colors.onSurface),
               ),
             ),
-            if (notification.scoreKey != null)
-              NotificationScoreBadge(notification.scoreKey!),
+            if (notification.score != null)
+              NotificationScoreBadge(notification.score!),
           ],
         ),
         if (body.isNotEmpty) ...[
@@ -115,11 +116,11 @@ class _NotificationContent extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            notification.progressLabelKey!.tr(),
+            NotificationFormatting.progressLabel(notification.progress!),
             style: AppTextStyles.labelSmall(colors.onSurfaceVariant),
           ),
         ],
-        if (notification.actionLabelKey != null) ...[
+        if (notification.hasAction) ...[
           const SizedBox(height: AppSpacing.md),
           NotificationActionRow(
             notification: notification,
@@ -146,12 +147,14 @@ class _NotificationMetaRow extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            notification.labelKey.tr().toUpperCase(),
+            NotificationFormatting.categoryLabelKey(notification.category)
+                .tr()
+                .toUpperCase(),
             style: AppTextStyles.labelSmall(_accentColor(context)),
           ),
         ),
         Text(
-          notification.timeKey.tr(),
+          NotificationFormatting.relativeTime(notification.createdAt),
           style: AppTextStyles.labelSmall(colors.onSurfaceVariant),
         ),
         if (!notification.isRead) ...[
@@ -176,6 +179,7 @@ class _NotificationMetaRow extends StatelessWidget {
       NotificationCategory.insight => colors.tertiary,
       NotificationCategory.learning => colors.tertiary,
       NotificationCategory.document => colors.primary,
+      NotificationCategory.other => colors.onSurfaceVariant,
     };
   }
 }

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../entities/app_notification.dart';
 import '../repositories/notifications_repository.dart';
 
 class DismissNotificationUseCase {
@@ -9,7 +8,7 @@ class DismissNotificationUseCase {
 
   final NotificationsRepository _repository;
 
-  Future<Either<Failure, List<AppNotification>>> call(String id) {
+  Future<Either<Failure, Unit>> call(String id) {
     return _repository.dismissNotification(id);
   }
 }

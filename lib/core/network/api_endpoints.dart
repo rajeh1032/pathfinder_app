@@ -93,9 +93,15 @@ class ApiEndpoints {
       '$legacyInterviewSessions/${_segment(id)}/result';
   static String submitInterviewAnswer(String id) =>
       '$legacyInterviewSessions/${_segment(id)}/answers';
-  static const notifications = '/notifications';
+  static const notifications = '/v1/notifications';
+  static const notificationSettings = '$notifications/settings';
+  static const notificationsUnreadCount = '$notifications/unread-count';
+  static const notificationsReadAll = '$notifications/read-all';
+  static const notificationDevices = '$notifications/devices';
   static String markNotificationAsRead(String id) =>
       '$notifications/${_segment(id)}/read';
+  static String dismissNotification(String id) =>
+      '$notifications/${_segment(id)}';
 
   static String _segment(String value) => Uri.encodeComponent(value);
 }

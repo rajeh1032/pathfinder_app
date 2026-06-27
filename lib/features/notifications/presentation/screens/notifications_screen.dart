@@ -7,16 +7,13 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_error_view.dart';
 import '../../../../core/widgets/app_gradient_back_button.dart';
-import '../../data/repositories/demo_notifications_repository.dart';
 import '../../domain/entities/app_notification.dart';
-import '../../domain/use_cases/dismiss_notification_use_case.dart';
-import '../../domain/use_cases/get_notifications_use_case.dart';
-import '../../domain/use_cases/mark_all_notifications_as_read_use_case.dart';
-import '../../domain/use_cases/mark_notification_as_read_use_case.dart';
 import '../cubit/notifications_cubit.dart';
+import '../cubit/notifications_cubit_factory.dart';
 import '../cubit/notifications_state.dart';
 import '../widgets/notification_card.dart';
 import '../widgets/notification_filter_tabs.dart';
+import '../widgets/notification_navigator.dart';
 import '../widgets/notifications_header.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -25,15 +22,7 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) {
-        final repository = DemoNotificationsRepository();
-        return NotificationsCubit(
-          getNotificationsUseCase: GetNotificationsUseCase(repository),
-          markAsReadUseCase: MarkNotificationAsReadUseCase(repository),
-          markAllAsReadUseCase: MarkAllNotificationsAsReadUseCase(repository),
-          dismissNotificationUseCase: DismissNotificationUseCase(repository),
-        )..loadNotifications();
-      },
+      create: (_) => createNotificationsCubit()..loadNotifications(),
       child: const _NotificationsView(),
     );
   }
@@ -109,15 +98,8 @@ class _NotificationsContent extends StatelessWidget {
     List<AppNotification> notifications,
   ) {
     final widgets = <Widget>[];
-    String? currentSection;
 
     for (final notification in notifications) {
-      if (notification.sectionKey != null &&
-          notification.sectionKey != currentSection) {
-        currentSection = notification.sectionKey;
-        widgets.add(NotificationsSectionHeader(titleKey: currentSection!));
-      }
-
       widgets
         ..add(
           Dismissible(
@@ -146,8 +128,11 @@ class _NotificationsContent extends StatelessWidget {
     AppNotification notification,
   ) async {
     await context.read<NotificationsCubit>().markAsRead(notification.id);
-    if (context.mounted) {
-      showNotificationsMessage(context, 'notifications.actionReady');
+    if (!context.mounted) return;
+
+    final navigated = NotificationNavigator.open(context, notification);
+    if (!navigated) {
+      showNotificationsMessage(context, 'notifications.actionUnavailable');
     }
   }
 
