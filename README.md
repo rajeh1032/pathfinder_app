@@ -1,6 +1,10 @@
-# PathFinder AI
-
-PathFinder AI is a Flutter mobile app scaffold for an AI-powered career guidance platform.
+# PathFinder 🧭
+ 
+PathFinder is an AI-powered career companion app built with Flutter. It helps users analyze their CVs, chat with an AI career mentor, and get personalized guidance on their professional journey — all wrapped in a clean, modern mobile experience.
+ 
+> 🎥 **Project Demo:** [https://drive.google.com/file/d/1lw7xzfWpeiv10KtIc34rqYJ1LLnXbLrZ/view?usp=drive_link](#)
+ 
+---
 
 ## Architecture
 
