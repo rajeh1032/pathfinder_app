@@ -109,7 +109,13 @@ class _HomeContent extends StatelessWidget {
               if (summary.analyzedRole != null) SizedBox(height: 16.h),
 
               // CV Score + AI Insight
-              HomeScoreInsightRow(cvScore: summary.cvScore ?? 0),
+              HomeScoreInsightRow(
+                cvScore: summary.cvScore ?? 0,
+                analyzedRole: summary.analyzedRole,
+                topSkill: summary.missingSkills.isEmpty
+                    ? null
+                    : summary.missingSkills.first,
+              ),
               SizedBox(height: 20.h),
 
               // Roadmap

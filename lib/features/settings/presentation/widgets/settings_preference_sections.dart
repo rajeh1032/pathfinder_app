@@ -35,14 +35,8 @@ class AccountDetails extends StatelessWidget {
             SettingsTile(
               titleKey: 'settings.emailLabel',
               subtitleKey: preferences.emailKey,
-              subtitle: (email?.trim().isNotEmpty ?? false) ? email!.trim() : null,
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.pushNamed(context, AppRoutes.editProfile),
-            ),
-            const SettingsDivider(),
-            SettingsTile(
-              titleKey: 'settings.phoneLabel',
-              subtitleKey: preferences.phoneKey,
+              subtitle:
+                  (email?.trim().isNotEmpty ?? false) ? email!.trim() : null,
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.pushNamed(context, AppRoutes.editProfile),
             ),

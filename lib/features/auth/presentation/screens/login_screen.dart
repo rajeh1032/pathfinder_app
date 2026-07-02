@@ -8,10 +8,8 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/custom_snackbar.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../cubit/login_cubit.dart';
-import '../widgets/google_sign_in_button.dart';
 import '../widgets/login_form.dart';
 import '../widgets/login_header.dart';
-import '../widgets/login_or_divider.dart';
 import '../widgets/trusted_intelligence_badge.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,16 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 28.h),
-                        BlocBuilder<LoginCubit, LoginState>(
-                          builder: (context, state) => GoogleSignInButton(
-                            isLoading: state.isLoading,
-                            onPressed: () =>
-                                context.read<LoginCubit>().loginWithGoogle(),
-                          ),
-                        ),
-                        SizedBox(height: 20.h),
-                        const LoginOrDivider(),
-                        SizedBox(height: 20.h),
                         LoginForm(
                           formKey: _formKey,
                           emailController: _emailController,

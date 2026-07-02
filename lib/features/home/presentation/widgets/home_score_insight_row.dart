@@ -5,8 +5,15 @@ import 'cv_score_card.dart';
 
 class HomeScoreInsightRow extends StatelessWidget {
   final int cvScore;
+  final String? analyzedRole;
+  final String? topSkill;
 
-  const HomeScoreInsightRow({super.key, required this.cvScore});
+  const HomeScoreInsightRow({
+    super.key,
+    required this.cvScore,
+    this.analyzedRole,
+    this.topSkill,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,12 @@ class HomeScoreInsightRow extends StatelessWidget {
         CvScoreCard(score: cvScore),
         SizedBox(width: 12.w),
         // AI Career Insight card (expanded)
-        Expanded(child: const AiInsightCard()),
+        Expanded(
+          child: AiInsightCard(
+            role: analyzedRole,
+            topSkill: topSkill,
+          ),
+        ),
       ],
     );
   }

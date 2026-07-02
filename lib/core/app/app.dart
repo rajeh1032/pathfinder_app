@@ -11,6 +11,7 @@ import '../routing/app_router.dart';
 import '../routing/app_routes.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_theme_cubit.dart';
+import '../widgets/keyboard_dismisser.dart';
 
 class PathFinderApp extends StatelessWidget {
   const PathFinderApp({super.key});
@@ -37,7 +38,10 @@ class PathFinderApp extends StatelessWidget {
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
               initialRoute: AppRoutes.splash,
-              builder: DevicePreview.appBuilder,
+              builder: (context, child) => DevicePreview.appBuilder(
+                context,
+                KeyboardDismisser(child: child ?? const SizedBox.shrink()),
+              ),
               onGenerateRoute: AppRouter.onGenerateRoute,
             );
           },

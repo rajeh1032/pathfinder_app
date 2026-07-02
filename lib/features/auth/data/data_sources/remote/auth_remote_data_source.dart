@@ -3,16 +3,20 @@ import 'package:injectable/injectable.dart';
 import '../../../../../core/network/api_client.dart';
 import '../../../../../core/network/api_endpoints.dart';
 import '../../models/auth_session_model.dart';
-import '../../models/register_model.dart'; 
+import '../../models/register_model.dart';
+
 abstract class AuthRemoteDataSource {
   Future<AuthSessionModel> login({
     required String email,
     required String password,
+    String? fcmToken,
+    String? platform,
   });
 
-  // إضافة ميثود الـ register في الـ Interface
   Future<AuthSessionModel> register({
     required RegisterRegistrationModel registrationModel,
+    String? fcmToken,
+    String? platform,
   });
 }
 
@@ -26,12 +30,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AuthSessionModel> login({
     required String email,
     required String password,
+    String? fcmToken,
+    String? platform,
   }) async {
     final response = await _apiClient.post(
       ApiEndpoints.login,
       data: {
         'email': email,
         'password': password,
+        if (fcmToken != null && platform != null) ...{
+          'fcmToken': fcmToken,
+          'platform': platform,
+        },
       },
     );
 
@@ -46,16 +56,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AuthSessionModel> register({
     required RegisterRegistrationModel registrationModel,
+    String? fcmToken,
+    String? platform,
   }) async {
-    // 1. إرسال الـ Request للـ Endpoint الخاص بالـ Register الممرر من الـ ApiEndpoints
     final response = await _apiClient.post(
-      ApiEndpoints.register, // تأكد من إضافة الـ path ده جوه الـ ApiEndpoints عندك
-      data: registrationModel.toJson(), // تحويل الموديل لـ Map
+      ApiEndpoints.register,
+      data: {
+        ...registrationModel.toJson(),
+        if (fcmToken != null && platform != null) ...{
+          'fcmToken': fcmToken,
+          'platform': platform,
+        },
+      },
     );
 
     final data = response.data;
     if (data is Map<String, dynamic>) {
-      // 2. عمل parse للـ AuthSessionModel عشان نستخرج الـ tokens (AccessToken / RefreshToken)
       return AuthSessionModel.fromJson(data);
     }
 

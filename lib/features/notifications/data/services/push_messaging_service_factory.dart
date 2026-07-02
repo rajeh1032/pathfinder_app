@@ -10,6 +10,12 @@ import 'push_messaging_service.dart';
 
 /// Builds a [PushMessagingService] wired to the notifications backend.
 PushMessagingService createPushMessagingService() {
+  return _instance ??= _createPushMessagingService();
+}
+
+PushMessagingService? _instance;
+
+PushMessagingService _createPushMessagingService() {
   final remoteDataSource =
       NotificationsRemoteDataSourceImpl(getIt<ApiClient>());
   final repository = NotificationsRepositoryImpl(

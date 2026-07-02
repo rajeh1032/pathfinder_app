@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/app_routes.dart';
 import '../../domain/entites/home_entity.dart';
 
 class HomeJobsSection extends StatelessWidget {
@@ -29,7 +30,7 @@ class HomeJobsSection extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () => Navigator.pushNamed(context, AppRoutes.jobs),
               child: Text(
                 'home.viewAll'.tr(),
                 style: TextStyle(
@@ -61,81 +62,93 @@ class _JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: EdgeInsets.all(14.w),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+        onTap: () => Navigator.pushNamed(
+          context,
+          AppRoutes.jobDetails,
+          arguments: job.jobId,
+        ),
+        child: Ink(
+          padding: EdgeInsets.all(14.w),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(16.r),
+            border:
+                Border.all(color: colorScheme.outline.withValues(alpha: 0.4)),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          _CompanyLogo(job: job),
-          SizedBox(width: 12.w),
-          // Job info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  job.jobTitle.isEmpty ? 'Job opportunity' : job.jobTitle,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w800,
-                    color: colorScheme.onSurface,
-                  ),
+          child: Row(
+            children: [
+              _CompanyLogo(job: job),
+              SizedBox(width: 12.w),
+              // Job info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      job.jobTitle.isEmpty ? 'Job opportunity' : job.jobTitle,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w800,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      job.company,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    if (job.salaryRange?.isNotEmpty == true) ...[
+                      SizedBox(height: 4.h),
+                      Text(
+                        job.salaryRange!,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
-                SizedBox(height: 2.h),
-                Text(
-                  job.company,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurfaceVariant,
+              ),
+              // Remote badge
+              if (job.isRemote)
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(999.r),
                   ),
-                ),
-                if (job.salaryRange?.isNotEmpty == true) ...[
-                  SizedBox(height: 4.h),
-                  Text(
-                    job.salaryRange!,
+                  child: Text(
+                    'home.remote'.tr(),
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                ],
-              ],
-            ),
-          ),
-          // Remote badge
-          if (job.isRemote)
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondary
-                    .withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(999.r),
-              ),
-              child: Text(
-                'home.remote'.tr(),
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.secondary,
                 ),
-              ),
-            ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -12,6 +12,7 @@ import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../data_sources/local/auth_local_data_source.dart';
 import '../data_sources/remote/auth_remote_data_source.dart';
+import '../../../notifications/data/services/push_messaging_service_factory.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -35,9 +36,12 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     try {
+      final device = await createPushMessagingService().getDeviceRegistration();
       final session = await _remoteDataSource.login(
         email: email,
         password: password,
+        fcmToken: device?.token,
+        platform: device?.platform,
       );
       await _localDataSource.cacheSession(session);
       return Right(session.toEntity());
@@ -59,6 +63,7 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     try {
+      final device = await createPushMessagingService().getDeviceRegistration();
       final model = RegisterRegistrationModel(
         email: registrationData.email,
         password: registrationData.password,
@@ -74,11 +79,15 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // 3. استدعاء الـ API وحفظ الـ Session
-      final session = await _remoteDataSource.register(registrationModel: model);
-      
+      final session = await _remoteDataSource.register(
+        registrationModel: model,
+        fcmToken: device?.token,
+        platform: device?.platform,
+      );
+
       // كاش للـ session محلياً لعمل auto-login مباشرة للمستخدم
       await _localDataSource.cacheSession(session);
-      
+
       // 4. إرجاع الـ Entity للـ UI / Cubit تماشياً مع قاعدة Layering
       return Right(session.toEntity());
     } on DioException catch (error) {

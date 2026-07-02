@@ -65,7 +65,9 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.10.4
   freezed: ^3.2.3
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.7
   injectable_generator: ^2.9.0
   json_serializable: ^6.11.2
 
@@ -96,3 +98,20 @@ flutter:
           weight: 800
         - asset: assets/fonts/cairo/Cairo.ttf
           weight: 900
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/images/APP-ICON.png
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  color: "#FFFFFF"
+  fullscreen: false
+  android_12:
+    color: "#FFFFFF"
+    icon_background_color: "#FFFFFF"

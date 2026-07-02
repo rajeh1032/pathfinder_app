@@ -3,8 +3,6 @@ import 'package:pathfinder_app/core/storage/token_storage.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/storage/cache_keys.dart';
-import '../../../../core/storage/local_storage.dart';
 import '../widgets/splash_content.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -69,19 +67,10 @@ class _SplashScreenState extends State<SplashScreen>
     _progressController.forward();
     await Future.delayed(const Duration(milliseconds: 2400));
 
-    final hasSeenOnboarding = LocalStorage.getBool(CacheKeys.onboardingSeen);
     final tokenStorage = getIt<TokenStorage>();
     final accessToken = await tokenStorage.getAccessToken();
-    final isLoggedIn = accessToken != null && accessToken.isNotEmpty;
-
-    final String nextRoute;
-    if (isLoggedIn) {
-      nextRoute = AppRoutes.root; // wherever your logged-in landing screen is
-    } else if (hasSeenOnboarding) {
-      nextRoute = AppRoutes.login;
-    } else {
-      nextRoute = AppRoutes.onboarding;
-    }
+    final hasAccessToken = accessToken?.trim().isNotEmpty ?? false;
+    final nextRoute = hasAccessToken ? AppRoutes.root : AppRoutes.login;
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, nextRoute);

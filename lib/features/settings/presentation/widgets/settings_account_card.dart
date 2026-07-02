@@ -45,15 +45,6 @@ class SettingsAccountCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Row(
           children: [
-            ClipOval(
-              child: Image.asset(
-                preferences.avatarAsset,
-                width: 56,
-                height: 56,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

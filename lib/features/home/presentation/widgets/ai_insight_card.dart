@@ -5,7 +5,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class AiInsightCard extends StatelessWidget {
-  const AiInsightCard({super.key});
+  const AiInsightCard({super.key, this.role, this.topSkill});
+
+  /// Recommended/analyzed role from the user's latest CV analysis.
+  final String? role;
+
+  /// Top missing skill from the user's skill gap analysis.
+  final String? topSkill;
+
+  String _insightText() {
+    final roleText = role?.trim() ?? '';
+    final skillText = topSkill?.trim() ?? '';
+    final hasRole = roleText.isNotEmpty;
+    final hasSkill = skillText.isNotEmpty;
+
+    if (hasRole && hasSkill) {
+      return 'home.aiInsightWithSkill'
+          .tr(namedArgs: {'role': roleText, 'skill': skillText});
+    }
+    if (hasRole) {
+      return 'home.aiInsightRoleOnly'.tr(namedArgs: {'role': roleText});
+    }
+    if (hasSkill) {
+      return 'home.aiInsightSkillOnly'.tr(namedArgs: {'skill': skillText});
+    }
+    return 'home.aiInsightDefault'.tr();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +87,7 @@ class AiInsightCard extends StatelessWidget {
           SizedBox(height: 10.h),
           // Insight text
           Text(
-            'home.aiInsightBody'.tr(),
+            _insightText(),
             style:
                 AppTextStyles.bodySmall(colorScheme.onSurfaceVariant).copyWith(
               fontSize: 12.sp,

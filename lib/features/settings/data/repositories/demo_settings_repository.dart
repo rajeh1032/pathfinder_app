@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/storage/token_storage.dart';
 import '../../../notifications/data/services/push_messaging_service_factory.dart';
@@ -15,9 +14,7 @@ class DemoSettingsRepository implements SettingsRepository {
   static SettingsPreferences _preferences = const SettingsPreferences(
     displayNameKey: 'settings.accountName',
     headlineKey: 'settings.accountHeadline',
-    avatarAsset: AppAssets.profileAlexRivera,
     emailKey: 'settings.emailValue',
-    phoneKey: 'settings.phoneValue',
     mentorToneKey: 'settings.mentorToneProfessionalValue',
     careerGoalKey: 'settings.careerGoalFrontendValue',
     aiTrainingData: true,

@@ -10,9 +10,7 @@ class SettingsPreferences extends Equatable {
   const SettingsPreferences({
     required this.displayNameKey,
     required this.headlineKey,
-    required this.avatarAsset,
     required this.emailKey,
-    required this.phoneKey,
     required this.mentorToneKey,
     required this.careerGoalKey,
     required this.aiTrainingData,
@@ -22,9 +20,7 @@ class SettingsPreferences extends Equatable {
 
   final String displayNameKey;
   final String headlineKey;
-  final String avatarAsset;
   final String emailKey;
-  final String phoneKey;
   final String mentorToneKey;
   final String careerGoalKey;
   final bool aiTrainingData;
@@ -41,9 +37,7 @@ class SettingsPreferences extends Equatable {
     return SettingsPreferences(
       displayNameKey: displayNameKey,
       headlineKey: headlineKey,
-      avatarAsset: avatarAsset,
       emailKey: emailKey,
-      phoneKey: phoneKey,
       mentorToneKey: mentorToneKey ?? this.mentorToneKey,
       careerGoalKey: careerGoalKey ?? this.careerGoalKey,
       aiTrainingData: aiTrainingData ?? this.aiTrainingData,
@@ -56,9 +50,7 @@ class SettingsPreferences extends Equatable {
   List<Object?> get props => [
         displayNameKey,
         headlineKey,
-        avatarAsset,
         emailKey,
-        phoneKey,
         mentorToneKey,
         careerGoalKey,
         aiTrainingData,

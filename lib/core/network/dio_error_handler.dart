@@ -15,7 +15,9 @@ class DioErrorHandler {
       return ValidationFailure(validationMessage);
     }
     if (statusCode == 401) {
-      return const UnauthorizedFailure(ErrorMessages.unauthorized);
+      return UnauthorizedFailure(
+        _message(responseData) ?? ErrorMessages.unauthorized,
+      );
     }
     if (statusCode == 400 || statusCode == 422) {
       return const ValidationFailure('courses.validationError');

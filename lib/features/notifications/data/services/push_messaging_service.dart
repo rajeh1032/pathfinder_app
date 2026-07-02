@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -23,6 +24,9 @@ class PushMessagingService {
   final NotificationsRepository _repository;
 
   bool _listenersReady = false;
+
+  static const _androidNotificationIcon = 'ic_stat_group_31_1';
+  static const _androidNotificationColor = Color(0xFF4648D4);
 
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
     'pathfinder_default',
@@ -56,9 +60,24 @@ class PushMessagingService {
 
   /// Fetches the FCM token and registers it with the backend (auth required).
   Future<void> registerDevice() async {
-    final token = await _messaging.getToken();
-    if (token == null || token.isEmpty) return;
-    await _repository.registerDevice(token: token, platform: _platform());
+    final device = await getDeviceRegistration();
+    if (device == null) return;
+    await _repository.registerDevice(
+      token: device.token,
+      platform: device.platform,
+    );
+  }
+
+  /// Returns token metadata for login/register without making auth depend on
+  /// Firebase availability.
+  Future<PushDeviceRegistration?> getDeviceRegistration() async {
+    try {
+      final token = await _messaging.getToken();
+      if (token == null || token.isEmpty) return null;
+      return PushDeviceRegistration(token: token, platform: _platform());
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Removes the current device token from the backend (call on logout).
@@ -75,7 +94,7 @@ class PushMessagingService {
 
   Future<void> _initLocalNotifications() async {
     const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings(_androidNotificationIcon);
     const iosSettings = DarwinInitializationSettings();
 
     await _localNotifications.initialize(
@@ -105,6 +124,8 @@ class PushMessagingService {
           _channel.id,
           _channel.name,
           channelDescription: _channel.description,
+          icon: _androidNotificationIcon,
+          color: _androidNotificationColor,
           importance: Importance.high,
           priority: Priority.high,
         ),
@@ -134,4 +155,11 @@ class PushMessagingService {
     if (Platform.isIOS) return 'ios';
     return 'web';
   }
+}
+
+class PushDeviceRegistration {
+  const PushDeviceRegistration({required this.token, required this.platform});
+
+  final String token;
+  final String platform;
 }

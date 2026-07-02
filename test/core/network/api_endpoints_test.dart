@@ -37,7 +37,7 @@ void main() {
       expect(ApiEndpoints.interviewResult('12'), '/interviews/12/result');
       expect(
         ApiEndpoints.markNotificationAsRead('12'),
-        '/notifications/12/read',
+        '/v1/notifications/12/read',
       );
     });
 
