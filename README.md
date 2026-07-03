@@ -2,24 +2,14 @@
   <img src="assets/PathFinderAI.png" alt="PathFinder AI Banner" width="100%">
 </p>
 
-<h1 align="center">
-🚀 PathFinder AI
-</h1>
-
-<p align="center">
-<b>AI-Powered Career Guidance Mobile Application</b>
-</p>
-
 <p align="center">
 Helping students, fresh graduates, and career changers navigate their professional journey using Artificial Intelligence.
 </p>
 
 <p align="center">
 
-[🎥 Demo](YOUR_VIDEO_LINK) •
-[📱 APK](YOUR_APK_LINK) •
-[🌐 Backend](YOUR_BACKEND_REPO) •
-[💻 Admin Dashboard](YOUR_ADMIN_REPO)
+[🎥 Demo](https://drive.google.com/file/d/1lw7xzfWpeiv10KtIc34rqYJ1LLnXbLrZ/view?usp=drive_link) •
+[📱 APK](https://drive.google.com/file/d/1TSB8Lvpzc6ffc0kYRlk6FFKDTmHQDuRY/view?usp=drive_link) •
 
 </p>
 
