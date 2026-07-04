@@ -20,27 +20,27 @@ class AppBottomNavBar extends StatelessWidget {
         NavigationDestination(
           icon: const Icon(Icons.home_outlined),
           selectedIcon: const Icon(Icons.home),
-          label: 'root.home'.tr(),
+          label: context.tr('root.home'),
         ),
         NavigationDestination(
           icon: const Icon(Icons.work_outline),
           selectedIcon: const Icon(Icons.work),
-          label: 'root.jobs'.tr(),
+          label: context.tr('root.jobs'),
         ),
         NavigationDestination(
           icon: const Icon(Icons.route_outlined),
           selectedIcon: const Icon(Icons.route),
-          label: 'root.roadmaps'.tr(),
+          label: context.tr('root.roadmaps'),
         ),
         NavigationDestination(
           icon: const Icon(Icons.psychology_outlined),
           selectedIcon: const Icon(Icons.psychology),
-          label: 'root.aiMentor'.tr(),
+          label: context.tr('root.aiMentor'),
         ),
         NavigationDestination(
           icon: const Icon(Icons.person_outline),
           selectedIcon: const Icon(Icons.person),
-          label: 'root.profile'.tr(),
+          label: context.tr('root.profileShort'),
         ),
       ],
     );

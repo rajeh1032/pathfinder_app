@@ -8,7 +8,7 @@ class AppColors {
   static const primaryDark = Color(0xFF4F46E5);
   static const primarySoft = Color(0xFFE0E7FF);
   static const primaryContainer = Color(0xFFC7D2FE);
-
+  static const blueNotificationIcons = Color(0xFF4648D4);
   static const secondary = Color(0xFF2DD4BF);
   static const secondaryDark = Color(0xFF0F766E);
   static const secondarySoft = Color(0xFFCCFBF1);
@@ -49,5 +49,18 @@ class AppColors {
   static const success = Color(0xFF10B981);
   static const warning = Color(0xFFF59E0B);
   static const error = Color(0xFFEF4444);
+
+
   static const info = secondary;
+  static List<Color> avatarGradient(String id) {
+    final gradients = [
+      [primary, tertiary],
+      [secondary, primary],
+      [tertiary, const Color(0xFFEC4899)],
+      [success, secondary],
+      [warning, error],
+    ];
+    final index = int.tryParse(id) ?? 0;
+    return gradients[index % gradients.length];
+  }
 }

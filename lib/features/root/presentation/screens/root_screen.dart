@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../../interview/presentation/screens/interview_start_screen.dart';
+import '../../../jobs/presentation/screens/job_matching_screen.dart';
+import '../../../notifications/data/services/push_messaging_service_factory.dart';
+import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../cubit/root_cubit.dart';
 import '../cubit/root_state.dart';
 import '../widgets/app_bottom_nav_bar.dart';
@@ -12,45 +18,75 @@ class RootScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => RootCubit(),
-      child: BlocBuilder<RootCubit, RootState>(
-        builder: (context, state) {
-          return Scaffold(
-            body: IndexedStack(
-              index: state.selectedIndex,
-              children: const [
-                _TabName(title: 'Home'),
-                _TabName(title: 'Jobs'),
-                _TabName(title: 'Roadmaps'),
-                _TabName(title: 'AI Mentor'),
-                _TabName(title: 'Profile'),
-              ],
-            ),
-            bottomNavigationBar: AppBottomNavBar(
-              selectedIndex: state.selectedIndex,
-              onChanged: context.read<RootCubit>().changeTab,
-            ),
-          );
-        },
-      ),
+      child: const _RootView(),
     );
   }
 }
 
-class _TabName extends StatelessWidget {
-  const _TabName({required this.title});
+class _RootView extends StatefulWidget {
+  const _RootView();
 
-  final String title;
+  @override
+  State<_RootView> createState() => _RootViewState();
+}
+
+class _RootViewState extends State<_RootView> {
+  final Set<int> _visitedTabs = {0};
+  int _roadmapsRefreshToken = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initPushNotifications();
+  }
+
+  Future<void> _initPushNotifications() async {
+    // Best-effort: push setup should never block or crash the UI.
+    try {
+      final push = createPushMessagingService();
+      await push.bootstrap();
+      await push.registerDevice();
+    } catch (_) {
+      // Ignore push setup failures (e.g. no Firebase config on this build).
+    }
+  }
+
+  List<Widget> get _pages => [
+        const HomeScreen(),
+        const JobMatchingScreen(),
+        RoadmapsScreen(key: ValueKey(_roadmapsRefreshToken)),
+        const InterviewStartScreen(),
+        const ProfileScreen(),
+      ];
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: Theme.of(context).colorScheme.primary,
+    return BlocBuilder<RootCubit, RootState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: IndexedStack(
+            index: state.selectedIndex,
+            children: List.generate(
+              _pages.length,
+              (index) => _visitedTabs.contains(index)
+                  ? _pages[index]
+                  : const SizedBox.shrink(),
             ),
-      ),
+          ),
+          bottomNavigationBar: AppBottomNavBar(
+            selectedIndex: state.selectedIndex,
+            onChanged: (index) {
+              setState(() {
+                _visitedTabs.add(index);
+                if (index == 2) {
+                  _roadmapsRefreshToken++;
+                }
+              });
+              context.read<RootCubit>().changeTab(index);
+            },
+          ),
+        );
+      },
     );
   }
 }

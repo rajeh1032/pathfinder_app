@@ -27,6 +27,188 @@ import 'package:pathfinder_app/core/network/network_info.dart' as _i874;
 import 'package:pathfinder_app/core/storage/secure_storage.dart' as _i213;
 import 'package:pathfinder_app/core/storage/token_storage.dart' as _i203;
 import 'package:pathfinder_app/core/theme/app_theme_cubit.dart' as _i337;
+import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_data_source.dart'
+    as _i570;
+import 'package:pathfinder_app/features/ai_chat/data/data_sources/remote/chat_remote_impl.dart'
+    as _i479;
+import 'package:pathfinder_app/features/ai_chat/data/repositories/chat_repository_impl.dart'
+    as _i943;
+import 'package:pathfinder_app/features/ai_chat/domain/repositories/chat_repo.dart'
+    as _i262;
+import 'package:pathfinder_app/features/ai_chat/presentation/cubit/chat_cubit.dart'
+    as _i356;
+import 'package:pathfinder_app/features/auth/data/data_sources/local/auth_local_data_source.dart'
+    as _i120;
+import 'package:pathfinder_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart'
+    as _i310;
+import 'package:pathfinder_app/features/auth/data/repositories/auth_repository_impl.dart'
+    as _i570;
+import 'package:pathfinder_app/features/auth/domain/repositories/auth_repository.dart'
+    as _i405;
+import 'package:pathfinder_app/features/auth/domain/use_cases/login_use_case.dart'
+    as _i203;
+import 'package:pathfinder_app/features/auth/domain/use_cases/register_use_case.dart'
+    as _i338;
+import 'package:pathfinder_app/features/auth/presentation/cubit/login_cubit.dart'
+    as _i753;
+import 'package:pathfinder_app/features/auth/presentation/cubit/register_cubit.dart'
+    as _i73;
+import 'package:pathfinder_app/features/career_paths/data/data_sources/remote/career_paths_remote_data_source.dart'
+    as _i714;
+import 'package:pathfinder_app/features/career_paths/data/repositories/career_paths_repository_impl.dart'
+    as _i387;
+import 'package:pathfinder_app/features/career_paths/domain/repositories/career_paths_repository.dart'
+    as _i631;
+import 'package:pathfinder_app/features/career_paths/domain/use_cases/get_career_paths_use_case.dart'
+    as _i123;
+import 'package:pathfinder_app/features/career_paths/presentation/cubit/career_paths_cubit.dart'
+    as _i926;
+import 'package:pathfinder_app/features/courses/data/data_sources/remote/courses_remote_data_source.dart'
+    as _i501;
+import 'package:pathfinder_app/features/courses/data/repositories/courses_repository_impl.dart'
+    as _i773;
+import 'package:pathfinder_app/features/courses/domain/repositories/courses_repository.dart'
+    as _i893;
+import 'package:pathfinder_app/features/courses/domain/use_cases/enroll_course_use_case.dart'
+    as _i373;
+import 'package:pathfinder_app/features/courses/domain/use_cases/get_course_details_use_case.dart'
+    as _i769;
+import 'package:pathfinder_app/features/courses/domain/use_cases/get_courses_use_case.dart'
+    as _i582;
+import 'package:pathfinder_app/features/courses/domain/use_cases/get_enrollments_use_case.dart'
+    as _i841;
+import 'package:pathfinder_app/features/courses/domain/use_cases/get_recommended_courses_use_case.dart'
+    as _i661;
+import 'package:pathfinder_app/features/courses/domain/use_cases/get_saved_courses_use_case.dart'
+    as _i296;
+import 'package:pathfinder_app/features/courses/domain/use_cases/save_course_use_case.dart'
+    as _i655;
+import 'package:pathfinder_app/features/courses/domain/use_cases/update_enrollment_use_case.dart'
+    as _i355;
+import 'package:pathfinder_app/features/courses/presentation/cubit/course_details_cubit.dart'
+    as _i1063;
+import 'package:pathfinder_app/features/courses/presentation/cubit/courses_catalog_cubit.dart'
+    as _i284;
+import 'package:pathfinder_app/features/courses/presentation/cubit/saved_courses_cubit.dart'
+    as _i976;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_data_source.dart'
+    as _i752;
+import 'package:pathfinder_app/features/cv_analysis/data/data_sources/remote/cv_anaylsis_remote_impl.dart'
+    as _i183;
+import 'package:pathfinder_app/features/cv_analysis/data/repositories/cv_anaylsis_repo_impl.dart'
+    as _i564;
+import 'package:pathfinder_app/features/cv_analysis/domain/repositories/cv_anaylsis_repo.dart'
+    as _i166;
+import 'package:pathfinder_app/features/cv_analysis/presentation/cubit/cv_anaysis_cubit.dart'
+    as _i186;
+import 'package:pathfinder_app/features/home/data/data_sources/remote/home_remote_data_source.dart'
+    as _i815;
+import 'package:pathfinder_app/features/home/data/repositories/home_repo_impl.dart'
+    as _i856;
+import 'package:pathfinder_app/features/home/domain/repo/home_repo.dart'
+    as _i888;
+import 'package:pathfinder_app/features/home/presentation/cubit/home_cubit.dart'
+    as _i618;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_history_remote_data_source.dart'
+    as _i642;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_remote_data_source.dart'
+    as _i981;
+import 'package:pathfinder_app/features/interview/data/data_sources/remote/interview_session_remote_data_source.dart'
+    as _i400;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_history_repository_impl.dart'
+    as _i877;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_repository_impl.dart'
+    as _i283;
+import 'package:pathfinder_app/features/interview/data/repositories/interview_session_repository_impl.dart'
+    as _i406;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_history_repository.dart'
+    as _i370;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_repository.dart'
+    as _i213;
+import 'package:pathfinder_app/features/interview/domain/repositories/interview_session_repository.dart'
+    as _i883;
+import 'package:pathfinder_app/features/interview/domain/use_cases/cancel_interview_session_use_case.dart'
+    as _i760;
+import 'package:pathfinder_app/features/interview/domain/use_cases/create_interview_session_use_case.dart'
+    as _i713;
+import 'package:pathfinder_app/features/interview/domain/use_cases/finish_interview_session_use_case.dart'
+    as _i223;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_career_paths_use_case.dart'
+    as _i580;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_history_use_case.dart'
+    as _i1051;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_session_questions_use_case.dart'
+    as _i394;
+import 'package:pathfinder_app/features/interview/domain/use_cases/get_interview_session_result_use_case.dart'
+    as _i672;
+import 'package:pathfinder_app/features/interview/domain/use_cases/save_interview_answer_use_case.dart'
+    as _i253;
+import 'package:pathfinder_app/features/interview/domain/use_cases/skip_interview_question_use_case.dart'
+    as _i278;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_active_cubit.dart'
+    as _i454;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_history_cubit.dart'
+    as _i1;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_result_cubit.dart'
+    as _i669;
+import 'package:pathfinder_app/features/interview/presentation/cubit/interview_start_cubit.dart'
+    as _i422;
+import 'package:pathfinder_app/features/jobs/data/data_sources/remote/saved_jobs_remote_data_source.dart'
+    as _i733;
+import 'package:pathfinder_app/features/jobs/data/repositories/saved_jobs_repository_impl.dart'
+    as _i535;
+import 'package:pathfinder_app/features/jobs/domain/repositories/saved_jobs_repository.dart'
+    as _i1071;
+import 'package:pathfinder_app/features/jobs/domain/use_cases/get_saved_jobs_use_case.dart'
+    as _i344;
+import 'package:pathfinder_app/features/jobs/presentation/cubit/saved_jobs_cubit.dart'
+    as _i506;
+import 'package:pathfinder_app/features/profile/data/data_sources/remote/profile_remote_data_source.dart'
+    as _i977;
+import 'package:pathfinder_app/features/profile/data/repositories/user_profile_repository_impl.dart'
+    as _i891;
+import 'package:pathfinder_app/features/profile/domain/repositories/user_profile_repository.dart'
+    as _i617;
+import 'package:pathfinder_app/features/profile/domain/use_cases/create_education_use_case.dart'
+    as _i587;
+import 'package:pathfinder_app/features/profile/domain/use_cases/create_experience_use_case.dart'
+    as _i896;
+import 'package:pathfinder_app/features/profile/domain/use_cases/delete_education_use_case.dart'
+    as _i995;
+import 'package:pathfinder_app/features/profile/domain/use_cases/delete_experience_use_case.dart'
+    as _i495;
+import 'package:pathfinder_app/features/profile/domain/use_cases/get_education_use_case.dart'
+    as _i300;
+import 'package:pathfinder_app/features/profile/domain/use_cases/get_experiences_use_case.dart'
+    as _i377;
+import 'package:pathfinder_app/features/profile/domain/use_cases/get_my_profile_use_case.dart'
+    as _i612;
+import 'package:pathfinder_app/features/profile/domain/use_cases/update_education_use_case.dart'
+    as _i788;
+import 'package:pathfinder_app/features/profile/domain/use_cases/update_experience_use_case.dart'
+    as _i560;
+import 'package:pathfinder_app/features/profile/domain/use_cases/update_my_profile_use_case.dart'
+    as _i925;
+import 'package:pathfinder_app/features/profile/presentation/cubit/my_profile_cubit.dart'
+    as _i694;
+import 'package:pathfinder_app/features/roadmaps/data/data_sources/remote/roadmaps_remote_data_source.dart'
+    as _i991;
+import 'package:pathfinder_app/features/roadmaps/data/repositories/roadmaps_repository_impl.dart'
+    as _i736;
+import 'package:pathfinder_app/features/roadmaps/domain/repositories/roadmaps_repository.dart'
+    as _i445;
+import 'package:pathfinder_app/features/roadmaps/domain/use_cases/generate_roadmap_use_case.dart'
+    as _i741;
+import 'package:pathfinder_app/features/roadmaps/domain/use_cases/get_my_roadmap_use_case.dart'
+    as _i844;
+import 'package:pathfinder_app/features/roadmaps/domain/use_cases/get_roadmap_details_use_case.dart'
+    as _i1033;
+import 'package:pathfinder_app/features/roadmaps/domain/use_cases/update_roadmap_step_progress_use_case.dart'
+    as _i315;
+import 'package:pathfinder_app/features/roadmaps/presentation/cubit/roadmaps_cubit.dart'
+    as _i1070;
+import 'package:pathfinder_app/features/settings/presentation/cubit/account_identity_cubit.dart'
+    as _i751;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -48,6 +230,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => storageModule.sharedPreferences,
       preResolve: true,
     );
+    gh.factory<_i73.RegisterCubit>(() => _i73.RegisterCubit());
     gh.lazySingleton<_i895.Connectivity>(() => coreModule.connectivity);
     gh.lazySingleton<_i892.FirebaseMessaging>(
         () => firebaseModule.firebaseMessaging);
@@ -64,9 +247,243 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i203.TokenStorage(gh<_i213.SecureStorage>()));
     gh.lazySingleton<_i834.ApiInterceptor>(
         () => _i834.ApiInterceptor(gh<_i203.TokenStorage>()));
+    gh.lazySingleton<_i120.AuthLocalDataSource>(
+        () => _i120.AuthLocalDataSourceImpl(gh<_i203.TokenStorage>()));
     gh.lazySingleton<_i361.Dio>(
         () => dioModule.dio(gh<_i834.ApiInterceptor>()));
     gh.lazySingleton<_i429.ApiClient>(() => _i429.ApiClient(gh<_i361.Dio>()));
+    gh.lazySingleton<_i733.SavedJobsRemoteDataSource>(
+        () => _i733.SavedJobsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i310.AuthRemoteDataSource>(
+        () => _i310.AuthRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i752.CvAnalysisRemoteDataSource>(
+        () => _i183.CvAnalysisRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i501.CoursesRemoteDataSource>(
+        () => _i501.CoursesRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i893.CoursesRepository>(() => _i773.CoursesRepositoryImpl(
+          gh<_i501.CoursesRemoteDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
+    gh.lazySingleton<_i400.InterviewSessionRemoteDataSource>(() =>
+        _i400.InterviewSessionRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i981.InterviewRemoteDataSource>(
+        () => _i981.InterviewRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i570.ChatRemoteDataSource>(
+        () => _i479.ChatRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i991.RoadmapsRemoteDataSource>(
+        () => _i991.RoadmapsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i714.CareerPathsRemoteDataSource>(
+        () => _i714.CareerPathsRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i977.ProfileRemoteDataSource>(
+        () => _i977.ProfileRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i642.InterviewHistoryRemoteDataSource>(() =>
+        _i642.InterviewHistoryRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i815.HomeRemoteDataSource>(
+        () => _i815.HomeRemoteDataSourceImpl(gh<_i429.ApiClient>()));
+    gh.lazySingleton<_i617.UserProfileRepository>(
+        () => _i891.UserProfileRepositoryImpl(
+              gh<_i977.ProfileRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i213.InterviewRepository>(
+        () => _i283.InterviewRepositoryImpl(
+              gh<_i981.InterviewRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i262.ChatRepository>(() => _i943.ChatRepositoryImpl(
+          gh<_i570.ChatRemoteDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
+    gh.lazySingleton<_i713.CreateInterviewSessionUseCase>(() =>
+        _i713.CreateInterviewSessionUseCase(gh<_i213.InterviewRepository>()));
+    gh.lazySingleton<_i580.GetInterviewCareerPathsUseCase>(() =>
+        _i580.GetInterviewCareerPathsUseCase(gh<_i213.InterviewRepository>()));
+    gh.lazySingleton<_i405.AuthRepository>(() => _i570.AuthRepositoryImpl(
+          gh<_i310.AuthRemoteDataSource>(),
+          gh<_i120.AuthLocalDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
+    gh.lazySingleton<_i631.CareerPathsRepository>(
+        () => _i387.CareerPathsRepositoryImpl(
+              gh<_i714.CareerPathsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i883.InterviewSessionRepository>(
+        () => _i406.InterviewSessionRepositoryImpl(
+              gh<_i400.InterviewSessionRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i373.EnrollCourseUseCase>(
+        () => _i373.EnrollCourseUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i769.GetCourseDetailsUseCase>(
+        () => _i769.GetCourseDetailsUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i582.GetCoursesUseCase>(
+        () => _i582.GetCoursesUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i841.GetEnrollmentsUseCase>(
+        () => _i841.GetEnrollmentsUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i661.GetRecommendedCoursesUseCase>(() =>
+        _i661.GetRecommendedCoursesUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i296.GetSavedCoursesUseCase>(
+        () => _i296.GetSavedCoursesUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i655.SaveCourseUseCase>(
+        () => _i655.SaveCourseUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i655.UnsaveCourseUseCase>(
+        () => _i655.UnsaveCourseUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i355.UpdateEnrollmentUseCase>(
+        () => _i355.UpdateEnrollmentUseCase(gh<_i893.CoursesRepository>()));
+    gh.lazySingleton<_i123.GetCareerPathsUseCase>(
+        () => _i123.GetCareerPathsUseCase(gh<_i631.CareerPathsRepository>()));
+    gh.lazySingleton<_i1071.SavedJobsRepository>(
+        () => _i535.SavedJobsRepositoryImpl(
+              gh<_i733.SavedJobsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i445.RoadmapsRepository>(
+        () => _i736.RoadmapsRepositoryImpl(
+              gh<_i991.RoadmapsRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i166.CvAnalysisRepository>(
+        () => _i564.CvAnalysisRepositoryImpl(
+              gh<_i752.CvAnalysisRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i587.CreateEducationUseCase>(
+        () => _i587.CreateEducationUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i896.CreateExperienceUseCase>(
+        () => _i896.CreateExperienceUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i995.DeleteEducationUseCase>(
+        () => _i995.DeleteEducationUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i495.DeleteExperienceUseCase>(
+        () => _i495.DeleteExperienceUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i300.GetEducationUseCase>(
+        () => _i300.GetEducationUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i377.GetExperiencesUseCase>(
+        () => _i377.GetExperiencesUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i612.GetMyProfileUseCase>(
+        () => _i612.GetMyProfileUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i788.UpdateEducationUseCase>(
+        () => _i788.UpdateEducationUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i560.UpdateExperienceUseCase>(
+        () => _i560.UpdateExperienceUseCase(gh<_i617.UserProfileRepository>()));
+    gh.lazySingleton<_i925.UpdateMyProfileUseCase>(
+        () => _i925.UpdateMyProfileUseCase(gh<_i617.UserProfileRepository>()));
+    gh.factory<_i926.CareerPathsCubit>(
+        () => _i926.CareerPathsCubit(gh<_i123.GetCareerPathsUseCase>()));
+    gh.lazySingleton<_i370.InterviewHistoryRepository>(
+        () => _i877.InterviewHistoryRepositoryImpl(
+              gh<_i642.InterviewHistoryRemoteDataSource>(),
+              gh<_i874.NetworkInfo>(),
+            ));
+    gh.lazySingleton<_i888.HomeRepository>(() => _i856.HomeRepositoryImpl(
+          gh<_i815.HomeRemoteDataSource>(),
+          gh<_i874.NetworkInfo>(),
+        ));
+    gh.factory<_i422.InterviewStartCubit>(() => _i422.InterviewStartCubit(
+          getCareerPathsUseCase: gh<_i580.GetInterviewCareerPathsUseCase>(),
+          createInterviewSessionUseCase:
+              gh<_i713.CreateInterviewSessionUseCase>(),
+        ));
+    gh.factory<_i284.CoursesCatalogCubit>(() => _i284.CoursesCatalogCubit(
+          gh<_i582.GetCoursesUseCase>(),
+          gh<_i661.GetRecommendedCoursesUseCase>(),
+          gh<_i296.GetSavedCoursesUseCase>(),
+          gh<_i841.GetEnrollmentsUseCase>(),
+          gh<_i655.SaveCourseUseCase>(),
+          gh<_i655.UnsaveCourseUseCase>(),
+        ));
+    gh.factory<_i1063.CourseDetailsCubit>(() => _i1063.CourseDetailsCubit(
+          gh<_i769.GetCourseDetailsUseCase>(),
+          gh<_i655.SaveCourseUseCase>(),
+          gh<_i655.UnsaveCourseUseCase>(),
+          gh<_i373.EnrollCourseUseCase>(),
+          gh<_i355.UpdateEnrollmentUseCase>(),
+        ));
+    gh.lazySingleton<_i344.GetSavedJobsUseCase>(
+        () => _i344.GetSavedJobsUseCase(gh<_i1071.SavedJobsRepository>()));
+    gh.lazySingleton<_i741.GenerateRoadmapUseCase>(
+        () => _i741.GenerateRoadmapUseCase(gh<_i445.RoadmapsRepository>()));
+    gh.lazySingleton<_i844.GetMyRoadmapUseCase>(
+        () => _i844.GetMyRoadmapUseCase(gh<_i445.RoadmapsRepository>()));
+    gh.lazySingleton<_i1033.GetRoadmapDetailsUseCase>(
+        () => _i1033.GetRoadmapDetailsUseCase(gh<_i445.RoadmapsRepository>()));
+    gh.lazySingleton<_i315.UpdateRoadmapStepProgressUseCase>(() =>
+        _i315.UpdateRoadmapStepProgressUseCase(gh<_i445.RoadmapsRepository>()));
+    gh.factory<_i618.HomeCubit>(
+        () => _i618.HomeCubit(gh<_i888.HomeRepository>()));
+    gh.lazySingleton<_i203.LoginUseCase>(
+        () => _i203.LoginUseCase(gh<_i405.AuthRepository>()));
+    gh.lazySingleton<_i338.RegisterUseCase>(
+        () => _i338.RegisterUseCase(gh<_i405.AuthRepository>()));
+    gh.factory<_i506.SavedJobsCubit>(
+        () => _i506.SavedJobsCubit(gh<_i344.GetSavedJobsUseCase>()));
+    gh.factory<_i976.SavedCoursesCubit>(
+        () => _i976.SavedCoursesCubit(gh<_i296.GetSavedCoursesUseCase>()));
+    gh.factory<_i356.ChatCubit>(
+        () => _i356.ChatCubit(gh<_i262.ChatRepository>()));
+    gh.factory<_i1070.RoadmapsCubit>(() => _i1070.RoadmapsCubit(
+          gh<_i844.GetMyRoadmapUseCase>(),
+          gh<_i741.GenerateRoadmapUseCase>(),
+          gh<_i1033.GetRoadmapDetailsUseCase>(),
+          gh<_i315.UpdateRoadmapStepProgressUseCase>(),
+        ));
+    gh.factory<_i186.CvAnalysisCubit>(
+        () => _i186.CvAnalysisCubit(gh<_i166.CvAnalysisRepository>()));
+    gh.lazySingleton<_i760.CancelInterviewSessionUseCase>(() =>
+        _i760.CancelInterviewSessionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i223.FinishInterviewSessionUseCase>(() =>
+        _i223.FinishInterviewSessionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i394.GetInterviewSessionQuestionsUseCase>(() =>
+        _i394.GetInterviewSessionQuestionsUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i672.GetInterviewSessionResultUseCase>(() =>
+        _i672.GetInterviewSessionResultUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i253.SaveInterviewAnswerUseCase>(() =>
+        _i253.SaveInterviewAnswerUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.lazySingleton<_i278.SkipInterviewQuestionUseCase>(() =>
+        _i278.SkipInterviewQuestionUseCase(
+            gh<_i883.InterviewSessionRepository>()));
+    gh.factory<_i669.InterviewResultCubit>(() => _i669.InterviewResultCubit(
+        getSessionResultUseCase: gh<_i672.GetInterviewSessionResultUseCase>()));
+    gh.factory<_i751.AccountIdentityCubit>(() => _i751.AccountIdentityCubit(
+          gh<_i612.GetMyProfileUseCase>(),
+          gh<_i123.GetCareerPathsUseCase>(),
+          gh<_i203.TokenStorage>(),
+        ));
+    gh.lazySingleton<_i1051.GetInterviewHistoryUseCase>(() =>
+        _i1051.GetInterviewHistoryUseCase(
+            gh<_i370.InterviewHistoryRepository>()));
+    gh.factory<_i694.MyProfileCubit>(() => _i694.MyProfileCubit(
+          gh<_i612.GetMyProfileUseCase>(),
+          gh<_i925.UpdateMyProfileUseCase>(),
+          gh<_i377.GetExperiencesUseCase>(),
+          gh<_i896.CreateExperienceUseCase>(),
+          gh<_i560.UpdateExperienceUseCase>(),
+          gh<_i495.DeleteExperienceUseCase>(),
+          gh<_i300.GetEducationUseCase>(),
+          gh<_i587.CreateEducationUseCase>(),
+          gh<_i788.UpdateEducationUseCase>(),
+          gh<_i995.DeleteEducationUseCase>(),
+        ));
+    gh.factory<_i454.InterviewActiveCubit>(() => _i454.InterviewActiveCubit(
+          getSessionQuestionsUseCase:
+              gh<_i394.GetInterviewSessionQuestionsUseCase>(),
+          saveInterviewAnswerUseCase: gh<_i253.SaveInterviewAnswerUseCase>(),
+          skipInterviewQuestionUseCase:
+              gh<_i278.SkipInterviewQuestionUseCase>(),
+          finishInterviewSessionUseCase:
+              gh<_i223.FinishInterviewSessionUseCase>(),
+          cancelInterviewSessionUseCase:
+              gh<_i760.CancelInterviewSessionUseCase>(),
+        ));
+    gh.factory<_i753.LoginCubit>(
+        () => _i753.LoginCubit(gh<_i203.LoginUseCase>()));
+    gh.factory<_i1.InterviewHistoryCubit>(() => _i1.InterviewHistoryCubit(
+        getHistoryUseCase: gh<_i1051.GetInterviewHistoryUseCase>()));
     return this;
   }
 }

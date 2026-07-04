@@ -1,8 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/change_password_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/register_screen_test.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/setup_profile_screen.dart';
+import 'package:pathfinder_app/features/auth/presentation/screens/verfiy_email_sreen.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_history_screen.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_pdf_viewer_screen.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_loading.dart';
+import 'package:pathfinder_app/features/cv_analysis/presentation/screens/cv_upload_screen.dart';
+import 'package:pathfinder_app/features/home/presentation/screens/home_screen.dart';
 
+import '../../features/ai_chat/presentation/screens/chat_history_screen.dart';
+import '../../features/cover_letters/presentation/screens/cover_letter_generator_screen.dart';
+import '../../features/cover_letters/presentation/screens/cover_letter_history_screen.dart';
+import '../../features/cover_letters/presentation/screens/cover_letter_result_screen.dart';
+import '../../features/cv_analysis/presentation/screens/cv_anaylsis_result.dart';
+import '../../features/jobs/presentation/screens/applied_jobs_screen.dart';
+import '../../features/jobs/presentation/screens/job_details_screen.dart';
+import '../../features/jobs/presentation/screens/job_matching_screen.dart';
+import '../../features/jobs/presentation/screens/saved_jobs_screen.dart';
+import '../../features/jobs/domain/entities/job_match.dart';
+import '../../features/ai_chat/presentation/screens/chat_with_ai.dart';
+import '../../features/interview/presentation/screens/active_interview_screen.dart';
+import '../../features/interview/presentation/screens/interview_history_screen.dart';
+import '../../features/interview/presentation/screens/interview_result_screen.dart';
+import '../../features/interview/presentation/screens/interview_start_screen.dart';
+import '../../features/courses/presentation/screens/course_details_screen.dart';
+import '../../features/courses/presentation/screens/courses_screen.dart';
+import '../../features/notifications/presentation/screens/notifications_screen.dart';
+import '../../features/profile/presentation/screens/edit_profile_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/profile/presentation/screens/reset_password_screen.dart';
+import '../../features/roadmaps/presentation/screens/roadmap_details_screen.dart';
+import '../../features/roadmaps/presentation/screens/roadmaps_screen.dart';
 import '../../features/root/presentation/screens/root_screen.dart';
+import '../../features/search/presentation/screens/search_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../../features/settings/presentation/screens/language_settings_screen.dart';
+import '../../features/settings/presentation/screens/ai_personalization_settings_screens.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../../features/settings/presentation/screens/support_legal_screens.dart';
+import '../../features/settings/presentation/screens/theme_settings_screen.dart';
 import '../widgets/placeholder_screen.dart';
 import 'app_routes.dart';
+import 'route_arguments.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -10,50 +53,131 @@ class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     return MaterialPageRoute<dynamic>(
       settings: settings,
-      builder: (_) => _screenFor(settings.name),
+      builder: (_) => _screenFor(settings),
     );
   }
 
-  static Widget _screenFor(String? routeName) {
-    return switch (routeName) {
+  static Widget _screenFor(RouteSettings settings) {
+    final routeId = _routeIdFrom(settings.arguments);
+
+    return switch (settings.name) {
       AppRoutes.root => const RootScreen(),
-      AppRoutes.login => const PlaceholderScreen(titleKey: 'routes.login'),
-      AppRoutes.splash => const PlaceholderScreen(titleKey: 'routes.splash'),
-      AppRoutes.onboarding =>
-        const PlaceholderScreen(titleKey: 'routes.onboarding'),
-      AppRoutes.register => const PlaceholderScreen(titleKey: 'routes.register'),
-      AppRoutes.forgotPassword =>
-        const PlaceholderScreen(titleKey: 'routes.forgotPassword'),
-      AppRoutes.verifyEmail =>
-        const PlaceholderScreen(titleKey: 'routes.verifyEmail'),
-      AppRoutes.home => const PlaceholderScreen(titleKey: 'routes.home'),
-      AppRoutes.search => const PlaceholderScreen(titleKey: 'routes.search'),
-      AppRoutes.profile => const PlaceholderScreen(titleKey: 'routes.profile'),
-      AppRoutes.settings => const PlaceholderScreen(titleKey: 'routes.settings'),
-      AppRoutes.notifications =>
-        const PlaceholderScreen(titleKey: 'routes.notifications'),
-      AppRoutes.cvUpload => const PlaceholderScreen(titleKey: 'routes.cvUpload'),
-      AppRoutes.cvAnalysisResult =>
-        const PlaceholderScreen(titleKey: 'routes.cvAnalysisResult'),
-      AppRoutes.roadmapDetails =>
-        const PlaceholderScreen(titleKey: 'routes.roadmapDetails'),
-      AppRoutes.courseDetails =>
-        const PlaceholderScreen(titleKey: 'routes.courseDetails'),
-      AppRoutes.jobs => const PlaceholderScreen(titleKey: 'routes.jobs'),
-      AppRoutes.jobDetails =>
-        const PlaceholderScreen(titleKey: 'routes.jobDetails'),
-      AppRoutes.coverLetterGenerator =>
-        const PlaceholderScreen(titleKey: 'routes.coverLetterGenerator'),
-      AppRoutes.coverLetterResult =>
-        const PlaceholderScreen(titleKey: 'routes.coverLetterResult'),
-      AppRoutes.aiChat => const PlaceholderScreen(titleKey: 'routes.aiChat'),
-      AppRoutes.interviewStart =>
-        const PlaceholderScreen(titleKey: 'routes.interviewStart'),
-      AppRoutes.activeInterview =>
-        const PlaceholderScreen(titleKey: 'routes.activeInterview'),
-      AppRoutes.interviewResult =>
-        const PlaceholderScreen(titleKey: 'routes.interviewResult'),
+      AppRoutes.splash => const SplashScreen(),
+      AppRoutes.onboarding => const OnboardingScreen(),
+
+      // Auth
+      AppRoutes.login => const LoginScreen(),
+      AppRoutes.register => const RegisterScreenTest(),
+      AppRoutes.forgotPassword => const ForgotPasswordScreen(),
+      AppRoutes.verifyEmail => const VerifyEmailScreen(),
+      AppRoutes.changePassword => const ChangePasswordScreen(),
+      AppRoutes.setupProfile => _setupProfileScreen(settings.arguments),
+
+      // Home / Search
+      AppRoutes.home => const HomeScreen(),
+      AppRoutes.search => const SearchScreen(),
+
+      // Profile
+      AppRoutes.profile => const ProfileScreen(),
+      AppRoutes.editProfile => const EditProfileScreen(),
+      AppRoutes.profileResetPassword => const ResetPasswordScreen(),
+
+      // Settings
+      AppRoutes.settings => const SettingsScreen(),
+      AppRoutes.themeSettings => const ThemeSettingsScreen(),
+      AppRoutes.languageSettings => const LanguageSettingsScreen(),
+      AppRoutes.mentorToneSettings => const MentorToneSettingsScreen(),
+      AppRoutes.careerGoalSettings => const CareerGoalSettingsScreen(),
+      AppRoutes.helpCenter => const HelpCenterScreen(),
+      AppRoutes.privacyPolicy => const PrivacyPolicyScreen(),
+      AppRoutes.termsOfService => const TermsOfServiceScreen(),
+
+      // Notifications
+      AppRoutes.notifications => const NotificationsScreen(),
+
+      // Courses & Roadmaps
+      AppRoutes.courses => const CoursesScreen(),
+      AppRoutes.roadmaps => const RoadmapsScreen(),
+      AppRoutes.roadmapDetails => RoadmapDetailsScreen(roadmapId: routeId),
+      AppRoutes.courseDetails => CourseDetailsScreen(courseId: routeId),
+
+      // CV
+      AppRoutes.cvHistory => const CvHistoryScreen(),
+      AppRoutes.cvPdfViewer => _cvPdfViewerScreen(settings.arguments),
+      AppRoutes.cvAnalysisResult => CvAnalysisResult(
+          cvId: routeId,
+          filePath: settings.arguments is RouteArguments &&
+                  (settings.arguments as RouteArguments).payload is String
+              ? (settings.arguments as RouteArguments).payload as String
+              : null,
+        ),
+      AppRoutes.cvUploadLoading => const CvUploadLoadingScreen(),
+      AppRoutes.cvUpload => const CvUploadScreen(),
+
+      // Jobs
+      AppRoutes.jobs => const JobMatchingScreen(),
+      AppRoutes.jobDetails => JobDetailsScreen(
+          jobId: routeId,
+          initialMatch: _jobMatchFrom(settings.arguments),
+        ),
+      AppRoutes.savedJobs => const SavedJobsScreen(),
+      AppRoutes.appliedJobs => const AppliedJobsScreen(),
+
+      // Cover Letter
+      AppRoutes.coverLetterGenerator => const CoverLetterGeneratorScreen(),
+      AppRoutes.coverLetterResult => const CoverLetterResultScreen(),
+      AppRoutes.coverLetterHistory => const CoverLetterHistoryScreen(),
+
+      // AI Chat
+      AppRoutes.aiChat => ChatWithAiScreen(sessionId: routeId ?? ''),
+      AppRoutes.chatAiHistory => const ChatSidebarDrawer(currentSessionId: ''),
+
+      // Interview
+      AppRoutes.interviewStart => const InterviewStartScreen(),
+      AppRoutes.activeInterview => ActiveInterviewScreen(sessionId: routeId),
+      AppRoutes.interviewHistory => const InterviewHistoryScreen(),
+      AppRoutes.interviewResult => InterviewResultScreen(sessionId: routeId),
       _ => const PlaceholderScreen(titleKey: 'common.error'),
     };
+  }
+
+  static String? _routeIdFrom(Object? arguments) {
+    return switch (arguments) {
+      final RouteArguments args => args.id,
+      final String id => id,
+      final JobMatch match => match.jobId,
+      _ => null,
+    };
+  }
+
+  static JobMatch? _jobMatchFrom(Object? arguments) {
+    return arguments is JobMatch ? arguments : null;
+  }
+
+  static Widget _cvPdfViewerScreen(Object? arguments) {
+    if (arguments is CvPdfViewerArgs) {
+      return CvPdfViewerScreen(
+        url: arguments.url,
+        title: arguments.title,
+      );
+    }
+    return const PlaceholderScreen(titleKey: 'common.error');
+  }
+
+  static Widget _setupProfileScreen(Object? arguments) {
+    if (arguments is SetupProfileArgs) {
+      return SetupProfileScreen(
+        email: arguments.email,
+        password: arguments.password,
+        confirmPassword: arguments.confirmPassword,
+      );
+    }
+    // Fallback with empty credentials — guards against direct/deep-link
+    // navigation outside the normal register flow.
+    return const SetupProfileScreen(
+      email: '',
+      password: '',
+      confirmPassword: '',
+    );
   }
 }
