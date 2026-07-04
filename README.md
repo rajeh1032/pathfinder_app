@@ -86,75 +86,6 @@ Receive updates about:
 
 ---
 
-# 📸 Screenshots
-
-<table>
-<tr>
-<td align="center">
-<b>Overview</b><br>
-<img src="src/overView.png" width="430"/>
-</td>
-<td align="center">
-<b>Interview Session</b><br>
-<img src="src/interviewSession.png" width="430"/>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<b>AI Logs</b><br>
-<img src="src/aiLogs.png" width="430"/>
-</td>
-<td align="center">
-<b>Skills</b><br>
-<img src="src/skills.png" width="430"/>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<b>CV Analysis</b><br>
-<img src="src/cvAnaylsis.png" width="430"/>
-</td>
-<td align="center">
-<b>Job Matches</b><br>
-<img src="src/jobMatchs.png" width="430"/>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<b>Jobs</b><br>
-<img src="src/jobs.png" width="430"/>
-</td>
-<td align="center">
-<b>Courses</b><br>
-<img src="src/courses.png" width="430"/>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<b>Career Path</b><br>
-<img src="src/careerPath.png" width="430"/>
-</td>
-<td align="center">
-<b>RAG Document</b><br>
-<img src="src/RagDoc.png" width="430"/>
-</td>
-</tr>
-
-<tr>
-<td align="center">
-<b>Users</b><br>
-<img src="src/users.png" width="430"/>
-</td>
-<td></td>
-</tr>
-</table>
-
----
-
 # 🏗️ Architecture
 
 ```
@@ -282,14 +213,6 @@ flutter run
 This project was built as part of the **Information Technology Institute (ITI)** Mobile Application Development Track.
 
 A special thanks to every team member whose dedication and collaboration made **PathFinder AI** possible.
-
----
-
-# 🎥 Demo
-
-🔗 **Project Walkthrough**
-
-YOUR_VIDEO_LINK
 
 ---
 
