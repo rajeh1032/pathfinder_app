@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "PathFinder AI"
+    "name": "PathFinder"
   },
   "common": {
     "email": "Email",
@@ -46,7 +46,7 @@
   },
   "auth": {
     "loginTitle": "Welcome back",
-    "loginSubtitle": "Continue your career path with PathFinder AI.",
+    "loginSubtitle": "Continue your career path with PathFinder.",
     "loginSuccess": "Logged in successfully"
   }
 }

@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "PathFinder AI"
+    "name": "PathFinder"
   },
   "common": {
     "email": "البريد الإلكتروني",
@@ -46,7 +46,7 @@
   },
   "auth": {
     "loginTitle": "مرحبًا بعودتك",
-    "loginSubtitle": "تابع مسارك المهني مع PathFinder AI.",
+    "loginSubtitle": "تابع مسارك المهني مع PathFinder.",
     "loginSuccess": "تم تسجيل الدخول بنجاح"
   }
 }
